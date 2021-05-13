@@ -13,7 +13,7 @@ namespace DamdiServer.Models
 
         public string Email { get; set; }
 
-        private string Pass { get; set; }
+        public string Pass { get; set; }//כאן שיניתי לפבליק כדי לשלוח את הסיסמא לדאטאבייס דרך הדאל
 
         public User(int user_number, string personal_id, string email, string pass)
         {

@@ -7,27 +7,27 @@ namespace DamdiServer.Models
 {
     public class DonorsInfo
     {
-        private string first_name { get; set; }
-        private string last_name { get; set; }
-        private string phone { get; set; }
-        private string gender { get; set; }
-        private string birthdate { get; set; }
-        private string prev_first_name { get; set; }
-        private string prev_last_name { get; set; }
-        private string city { get; set; }
-        private string address { get; set; }
-        private string postal_code { get; set; }
-        private string mail_box { get; set; }
-        private string telephone { get; set; }
-        private string work_telephone { get; set; }
-        private bool blood_group_member { get; set; }
-        private bool personal_insurance { get; set; }
-        private bool confirm_examination { get; set; }
-        private bool agree_future_don { get; set; }
-        private string birth_land { get; set; }
-        private string aliya_year { get; set; }
-        private string father_birth_land { get; set; }
-        private string mother_birth_land { get; set; }
+        public string first_name { get; set; }
+        public string last_name { get; set; }
+        public string phone { get; set; }
+        public string gender { get; set; }
+        public string birthdate { get; set; }
+        public string prev_first_name { get; set; }
+        public string prev_last_name { get; set; }
+        public string city { get; set; }
+        public string address { get; set; }
+        public string postal_code { get; set; }
+        public string mail_box { get; set; }
+        public string telephone { get; set; }
+        public string work_telephone { get; set; }
+        public bool blood_group_member { get; set; }
+        public bool personal_insurance { get; set; }
+        public bool confirm_examination { get; set; }
+        public bool agree_future_don { get; set; }
+        public string birth_land { get; set; }
+        public string aliya_year { get; set; }
+        public string father_birth_land { get; set; }
+        public string mother_birth_land { get; set; }
 
         public DonorsInfo(
             string first_name,

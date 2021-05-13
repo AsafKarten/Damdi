@@ -16,6 +16,7 @@ namespace DamdiServer.DAL
             return con;
         }
 
+        /*Get user from database*/
         public User GetUser(int user_number)
         {
             User u = null;
@@ -30,5 +31,26 @@ namespace DamdiServer.DAL
             }
             return u;
         }
+
+        /*Save new user in database*/
+        public User SetNewUser(User u)
+        {
+            
+            SqlConnection con = connect();
+            string query = $"INSERT INTO Users (Personal_id, Email, Pass) Values ('@Personal_id, @Email, @Pass')";
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@Personal_id", u.Personal_id);
+            cmd.Parameters.AddWithValue("@Email", u.Email);
+            cmd.Parameters.AddWithValue("@Pass", u.Pass);
+            int i = cmd.ExecuteNonQuery();
+            con.Close();
+            if (i == 0)
+            {
+                throw new Exception("No row effected");
+            }
+            return u;
+        }
+
+
     }
 }
