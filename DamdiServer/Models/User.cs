@@ -7,27 +7,40 @@ namespace DamdiServer.Models
 {
     public class User
     {
-        public int User_number { get; set; }
+        public string personal_id;
 
-        public string Personal_id { get; set; }
+        public string email;
 
-        public string Email { get; set; }
-
-        public string Pass { get; set; }//כאן שיניתי לפבליק כדי לשלוח את הסיסמא לדאטאבייס דרך הדאל
-
-        public User(int user_number, string personal_id, string email, string pass)
+        public string pass;
+        public User(string personal_id,string pass)
         {
-            User_number = user_number;
-            Personal_id = personal_id;
-            Email = email;
-            Pass = pass;
+            this.personal_id = personal_id;
+            this.pass = pass;
         }
 
-        public User(int user_number, string personal_id, string email)
+        public User(string personal_id, string email, string pass)
         {
-            User_number = user_number;
-            Personal_id = personal_id;
-            Email = email;
+            this.personal_id = personal_id;
+            this.email = email;
+            this.pass = pass;
+        }
+
+        //public User(string personal_id, string email)
+        //{
+        //    this.personal_id = personal_id;
+        //    this.email = email;
+        //}
+        public string GetPersonalId()
+        {
+            return this.personal_id;
+        }
+        public string GetEmail()
+        {
+            return this.email;
+        }
+        public string GetPass()
+        {
+            return this.pass;
         }
     }
 }

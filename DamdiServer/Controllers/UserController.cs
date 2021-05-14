@@ -8,23 +8,39 @@ namespace DamdiServer.Controllers
 {
     public class UserController : ApiController
     {
-        private static UserDAL userDAL = new UserDAL();
-
+        UserDAL userDAL = new UserDAL();
         //Get One User
-        [Route("api/user/{id}")]
-        public IHttpActionResult Get(int id)
+
+        [HttpPost]
+        [Route("api/user")]
+        public IHttpActionResult Post([FromBody] User u)
         {
             try
             {
-                User U = userDAL.GetUser(id);
-                if (U == null)
-                    return Content(HttpStatusCode.NotFound, $"User with id = {id} was not found :(");
-                return Ok(U);
+                u = userDAL.GetUser(u.GetPersonalId(), u.GetPass());
+                if (u == null)
+                    return Content(HttpStatusCode.NotFound, $"User {u.GetPersonalId()} or pass is incorrect");
+                return Ok(u);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+
+        //[HttpPost]
+        //[Route("api/user/post")]
+        //public IHttpActionResult AddUser([FromBody] User user)
+        //{
+        //    try
+        //    {
+        //        return Created(new Uri(Request.RequestUri.AbsoluteUri + user.GetPersonalId()),userDAL.SetNewUser(user));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
     }
 }

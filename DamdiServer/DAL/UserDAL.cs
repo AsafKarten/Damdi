@@ -1,56 +1,63 @@
 ﻿using DamdiServer.Models;
 using System;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace DamdiServer.DAL
 {
     public class UserDAL
     {
-        public SqlConnection connect()
-        {
-            //from Web.Config
-            string ConStr = ConfigurationManager.ConnectionStrings["localDB"].ConnectionString;
-            SqlConnection con = new SqlConnection(ConStr);
-            con.Open();
-            return con;
-        }
+        private readonly string conStr = ConfigurationManager.ConnectionStrings["localDB"].ConnectionString;
 
         /*Get user from database*/
-        public User GetUser(int user_number)
+        public User GetUser(string personal_id, string pass)
         {
-            User u = null;
-            SqlConnection con = connect();
-            string query = $"select * from dbo.Users where user_number = @user_number";
-            SqlCommand cmd = new SqlCommand(query, con);
-            cmd.Parameters.AddWithValue("@user_number", user_number);
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                u = new User(Convert.ToInt16(reader["user_number"]), Convert.ToString(reader["personal_id"]), Convert.ToString(reader["email"]));
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    User u = null;
+                    string query = $"SELECT * FROM dbo.Users where personal_id = @personal_id AND pass = @pass";
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@personal_id", personal_id);
+                    cmd.Parameters.AddWithValue("@pass", pass);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        u = new User(Convert.ToString(reader["personal_id"]), Convert.ToString(reader["email"]));
+                    }
+                    return u;
+                }
             }
-            return u;
+            catch (Exception)
+            {
+                throw new Exception("User was not found in the table");
+            }
+          
         }
 
         /*Save new user in database*/
-        public User SetNewUser(User u)
+        public void SetNewUser(User u)
         {
-            
-            SqlConnection con = connect();
-            string query = $"INSERT INTO Users (Personal_id, Email, Pass) Values ('@Personal_id, @Email, @Pass')";
-            SqlCommand cmd = new SqlCommand(query, con);
-            cmd.Parameters.AddWithValue("@Personal_id", u.Personal_id);
-            cmd.Parameters.AddWithValue("@Email", u.Email);
-            cmd.Parameters.AddWithValue("@Pass", u.Pass);
-            int i = cmd.ExecuteNonQuery();
-            con.Close();
-            if (i == 0)
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    string query = $"INSERT INTO Users (Personal_id, Email, Pass) Values ('@Personal_id, @Email, @Pass')";
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@Personal_id", SqlDbType.NVarChar).Value = u.GetPersonalId(); //u.Personal_id
+                    cmd.Parameters.AddWithValue("@Email", SqlDbType.NVarChar).Value = u.GetEmail(); //u.Email
+                    cmd.Parameters.AddWithValue("@Pass", SqlDbType.NVarChar).Value = u.GetPass();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception)
             {
                 throw new Exception("No row effected");
             }
-            return u;
         }
-
-
     }
 }
