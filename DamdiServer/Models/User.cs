@@ -7,40 +7,30 @@ namespace DamdiServer.Models
 {
     public class User
     {
-        public string personal_id;
+        private string personal_id;
+        private string email;
+        private string pass;
 
-        public string email;
+        public string Personal_id { get => personal_id; set => personal_id = value; }
+        public string Email { get => email; set => email = value; }
+        public string Pass { get => pass; set => pass = value; }
 
-        public string pass;
-        public User(string personal_id,string pass)
+        public User()
         {
-            this.personal_id = personal_id;
-            this.pass = pass;
+
         }
 
         public User(string personal_id, string email, string pass)
         {
-            this.personal_id = personal_id;
-            this.email = email;
-            this.pass = pass;
+            Personal_id = personal_id;
+            Email = email;
+            Pass = pass;
         }
 
-        //public User(string personal_id, string email)
-        //{
-        //    this.personal_id = personal_id;
-        //    this.email = email;
-        //}
-        public string GetPersonalId()
+        public User(string personal_id, string email)
         {
-            return this.personal_id;
-        }
-        public string GetEmail()
-        {
-            return this.email;
-        }
-        public string GetPass()
-        {
-            return this.pass;
+            Personal_id = personal_id;
+            Email = email;
         }
     }
 }

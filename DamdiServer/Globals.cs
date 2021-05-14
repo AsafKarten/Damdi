@@ -9,26 +9,29 @@ using System.Web;
 
 namespace DamdiServer
 {
-    //public static class Globals
-    //{
-    //    //static Globals()
-    //    //{
-    //    //    var conStr = ConfigurationManager.ConnectionStrings["localDB"].ConnectionString;//from App.config);
-    //    //    Globals.UserDAL = new DAL.UserDAL(conStr);
-    //    //}
+    public static class Globals
+    {
+        //initializing data access layer with sql server before start the work between client side and backnd side.
+        #region ctor
+        static Globals()
+        {
+            var conStr = ConfigurationManager.ConnectionStrings["localDB"].ConnectionString;//get connection string from Web.config;
+            Globals.UserDAL = new DAL.UserDAL(conStr);
+        }
+        #endregion
 
-    //    //#region Controllers
-    //    //public static UserController UserController { get; set; }
-    //    //#endregion
+        #region Controllers
+        public static UserController UserController { get; set; }
+        #endregion
 
-    //    //#region DAL
-    //    //public static UserDAL UserDAL { get; set; }
-    //    //#endregion
+        #region DAL
+        public static UserDAL UserDAL { get; set; }
+        #endregion
 
-    //    //#region Models
-    //    //public static User User { get; set; }
-    //    //public static DonorsInfo DonorsInfo { get; set; }
-    //    //#endregion
+        #region Models
+        public static User User { get; set; }
+        public static DonorsInfo DonorsInfo { get; set; }
+        #endregion
 
-    //}
+    }
 }

@@ -1,6 +1,4 @@
-﻿using DamdiServer.DAL;
-using DamdiServer.Models;
-using System;
+﻿using System;
 using System.Net;
 using System.Web.Http;
 
@@ -8,18 +6,16 @@ namespace DamdiServer.Controllers
 {
     public class UserController : ApiController
     {
-        UserDAL userDAL = new UserDAL();
-        //Get One User
-
+        //Get One User from users table.
         [HttpPost]
         [Route("api/user")]
-        public IHttpActionResult Post([FromBody] User u)
+        public IHttpActionResult GetUserFromDB([FromBody] Models.User u)
         {
             try
             {
-                u = userDAL.GetUser(u.GetPersonalId(), u.GetPass());
+                u = Globals.UserDAL.GetUser(u.Personal_id, u.Pass);
                 if (u == null)
-                    return Content(HttpStatusCode.NotFound, $"User {u.GetPersonalId()} or pass is incorrect");
+                    return Content(HttpStatusCode.NotFound, $"User {u.Personal_id} or pass is incorrect");
                 return Ok(u);
             }
             catch (Exception ex)
@@ -28,19 +24,25 @@ namespace DamdiServer.Controllers
             }
         }
 
-
-        //[HttpPost]
-        //[Route("api/user/post")]
-        //public IHttpActionResult AddUser([FromBody] User user)
-        //{
-        //    try
-        //    {
-        //        return Created(new Uri(Request.RequestUri.AbsoluteUri + user.GetPersonalId()),userDAL.SetNewUser(user));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+        //Add new user to users table.
+        [HttpPost]
+        [Route("api/user/post")]
+        public IHttpActionResult AddNewUser([FromBody] Models.User user)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid data.");
+                }
+                Created(new Uri(Request.RequestUri.AbsoluteUri + user.Personal_id), Globals.UserDAL.SetNewUser(user));
+                return Ok("User created successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
+

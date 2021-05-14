@@ -1,6 +1,5 @@
 ﻿using DamdiServer.Models;
 using System;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -8,7 +7,11 @@ namespace DamdiServer.DAL
 {
     public class UserDAL
     {
-        private readonly string conStr = ConfigurationManager.ConnectionStrings["localDB"].ConnectionString;
+        private readonly string conStr;
+        public UserDAL(string conStr)
+        {
+            this.conStr = conStr;
+        }
 
         /*Get user from database*/
         public User GetUser(string personal_id, string pass)
@@ -35,23 +38,24 @@ namespace DamdiServer.DAL
             {
                 throw new Exception("User was not found in the table");
             }
-          
+
         }
 
-        /*Save new user in database*/
-        public void SetNewUser(User u)
+        /*Create a new user in users table*/
+        public int SetNewUser(User user)
         {
             try
             {
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
-                    string query = $"INSERT INTO Users (Personal_id, Email, Pass) Values ('@Personal_id, @Email, @Pass')";
+                    string query = "INSERT INTO dbo.Users (personal_id,email,pass) VALUES (@Personal_id,@Email,@Pass)";
                     SqlCommand cmd = new SqlCommand(query, con);
-                    cmd.Parameters.AddWithValue("@Personal_id", SqlDbType.NVarChar).Value = u.GetPersonalId(); //u.Personal_id
-                    cmd.Parameters.AddWithValue("@Email", SqlDbType.NVarChar).Value = u.GetEmail(); //u.Email
-                    cmd.Parameters.AddWithValue("@Pass", SqlDbType.NVarChar).Value = u.GetPass();
-                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.AddWithValue("@Personal_id", SqlDbType.NVarChar).Value = user.Personal_id; //u.Personal_id
+                    cmd.Parameters.AddWithValue("@Email", SqlDbType.NVarChar).Value = user.Email; //u.Email
+                    cmd.Parameters.AddWithValue("@Pass", SqlDbType.NVarChar).Value = user.Pass;
+                    int res = cmd.ExecuteNonQuery();
+                    return res;
                 }
             }
             catch (Exception)
