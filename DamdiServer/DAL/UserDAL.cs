@@ -63,5 +63,54 @@ namespace DamdiServer.DAL
                 throw new Exception("No row effected");
             }
         }
+
+        /*Get user info from database*/
+        public UserInfo GetUserInfo(string personal_id)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    UserInfo ui = null;
+                    string query = $"SELECT * FROM dbo.DonorsInfo where personal_id = @personal_id";
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@personal_id", personal_id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        ui = new UserInfo(Convert.ToString(reader["personal_id"]), 
+                            Convert.ToString(reader["first_name"]),
+                            Convert.ToString(reader["last_name"]),
+                            Convert.ToString(reader["phone"]),
+                            Convert.ToString(reader["gender"]),
+                            Convert.ToString(reader["birthdate"]),
+                            Convert.ToString(reader["prev_first_name"]),
+                            Convert.ToString(reader["prev_last_name"]),
+                            Convert.ToString(reader["city"]),
+                            Convert.ToString(reader["address"]),
+                            Convert.ToString(reader["postal_code"]),
+                            Convert.ToString(reader["mail_box"]),
+                            Convert.ToString(reader["telephone"]),
+                            Convert.ToString(reader["work_telephone"]),
+                            Convert.ToBoolean(reader["blood_group_member"]),
+                            Convert.ToBoolean(reader["personal_insurance"]),
+                            Convert.ToBoolean(reader["confirm_examination"]),
+                            Convert.ToBoolean(reader["agree_future_don"]),
+                            Convert.ToString(reader["birth_land"]),
+                            Convert.ToString(reader["aliya_year"]),
+                            Convert.ToString(reader["father_birth_land"]),
+                            Convert.ToString(reader["mother_birth_land"])
+                            );
+                    }
+                    return ui;
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("User info was not found in the table");
+            }
+
+        }
     }
 }

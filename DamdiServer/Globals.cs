@@ -22,6 +22,8 @@ namespace DamdiServer
 
         #region Controllers
         public static UserController UserController { get; set; }
+        
+
         #endregion
 
         #region DAL
@@ -30,7 +32,7 @@ namespace DamdiServer
 
         #region Models
         public static User User { get; set; }
-        public static DonorsInfo DonorsInfo { get; set; }
+        public static UserInfo DonorsInfo { get; set; }
         #endregion
 
     }

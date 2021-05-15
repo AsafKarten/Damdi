@@ -1,6 +1,6 @@
 ﻿namespace DamdiServer.Models
 {
-    public class DonorsInfo
+    public class UserInfo
     {
         private string personal_id;
         private string first_name;
@@ -47,11 +47,17 @@
         public string Aliya_year { get => aliya_year; set => aliya_year = value; }
         public string Father_birth_land { get => father_birth_land; set => father_birth_land = value; }
         public string Mother_birth_land { get => mother_birth_land; set => mother_birth_land = value; }
-        public DonorsInfo()
-        {
 
+        public UserInfo()
+        {
+            
         }
-        public DonorsInfo(
+        public UserInfo(string personal_id)
+        {
+            Personal_id = personal_id;
+        }
+
+        public UserInfo(
             string personal_id,
             string first_name,
             string last_name,
@@ -99,5 +105,6 @@
             Father_birth_land = father_birth_land;
             Mother_birth_land = mother_birth_land;
         }
+
     }
 }

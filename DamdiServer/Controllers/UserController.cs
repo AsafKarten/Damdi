@@ -43,6 +43,24 @@ namespace DamdiServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        //Get User info from users table.
+        [HttpPost]
+        [Route("api/user/info")]
+        public IHttpActionResult GetUserInfoFromDB([FromBody] Models.UserInfo ui)
+        {
+            try
+            {
+                 ui = Globals.UserDAL.GetUserInfo(ui.Personal_id);
+                if (ui == null)
+                    return Content(HttpStatusCode.NotFound, $"User info {ui.Personal_id} was not found");
+                return Ok(ui);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
 
