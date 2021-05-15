@@ -73,7 +73,7 @@ namespace DamdiServer.DAL
                 {
                     con.Open();
                     UserInfo ui = null;
-                    string query = $"SELECT * FROM dbo.DonorsInfo where personal_id = @personal_id";
+                    string query = $"SELECT * FROM dbo.DonorsInfo where personal_id=@personal_id";
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@personal_id", personal_id);
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -106,11 +106,10 @@ namespace DamdiServer.DAL
                     return ui;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("User info was not found in the table");
+                throw new Exception(ex.Message);
             }
-
         }
     }
 }
