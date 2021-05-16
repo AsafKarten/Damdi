@@ -1,4 +1,7 @@
-﻿namespace DamdiServer.Models
+﻿using Microsoft.OData.Edm;
+using System;
+
+namespace DamdiServer.Models
 {
     public class UserInfo
     {
@@ -100,7 +103,7 @@
             Personal_insurance = personal_insurance;
             Confirm_examination = confirm_examination;
             Agree_future_don = agree_future_don;
-            Birthdate = birth_land;
+            Birth_land = birth_land;
             Aliya_year = aliya_year;
             Father_birth_land = father_birth_land;
             Mother_birth_land = mother_birth_land;
