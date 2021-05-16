@@ -61,6 +61,27 @@ namespace DamdiServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        //Post new User info into users table.
+        [HttpPost]
+        [Route("api/info/new")]
+        public IHttpActionResult PostUserInfoIntoDB([FromBody] Models.UserInfo ui)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid data.");
+                }
+                Created(new Uri(Request.RequestUri.AbsoluteUri + ui.Personal_id), Globals.UserDAL.SetNewUserInfo(ui));
+                return Ok("User info created successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
+
 
