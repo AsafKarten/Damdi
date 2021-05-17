@@ -1,5 +1,6 @@
 ﻿using DamdiServer.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -194,6 +195,46 @@ namespace DamdiServer.DAL
                     cmd.Parameters.AddWithValue("@Mother_birth_land", SqlDbType.NVarChar).Value = ui.Mother_birth_land;
                     int res = cmd.ExecuteNonQuery();
                     return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /*Get medical user info from database - Not working well object */
+        public List<MedicalInfoDonation> GetMedicalInfo(string personal_id)
+        {
+            
+            try
+            {
+                
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    List<MedicalInfoDonation> medicalInfos = new List<MedicalInfoDonation>();
+                    MedicalInfoDonation mid = null;
+                    string query = $"SELECT * FROM dbo.MedicalInfoDonation where personal_id=@personal_id";
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@personal_id", personal_id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (!reader.Read())
+                    {
+                        return null;
+                    }
+
+                    while (reader.Read())
+                    {
+                        mid = new MedicalInfoDonation(
+                            Convert.ToString(reader["personal_id"]),
+                            Convert.ToInt32(reader["client_qus_code"]),
+                            Convert.ToInt32(reader["client_ans_code"]),
+                            Convert.ToString(reader["answer_date"])
+                            );
+                        medicalInfos.Add(mid);
+                    }
+                    return medicalInfos;
                 }
             }
             catch (Exception ex)
