@@ -121,7 +121,8 @@ namespace DamdiServer.DAL
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
-                    string query = "Update dbo.Users SET " +
+                    string query = 
+                        "Update dbo.Users SET " +
                         "first_name=@First_name," +
                         "last_name=@Last_name," +
                         "phone=@Phone," +
@@ -183,7 +184,6 @@ namespace DamdiServer.DAL
 
             try
             {
-
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
