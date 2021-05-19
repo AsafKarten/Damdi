@@ -17,10 +17,6 @@ namespace DamdiServer.Models
         public int Client_ans_code { get => client_ans_code; set => client_ans_code = value; }
         public string Answer_date { get => answer_date; set => answer_date = value; }
 
-        //public MedicalInfoDonation(string personal_id)
-        //{
-        //    Personal_id = personal_id;
-        //}
         public MedicalInfoDonation()
         {
 

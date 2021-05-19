@@ -43,21 +43,21 @@ namespace DamdiServer.DAL
         }
 
         /*Get user info from database*/
-        public UserInfo GetUserInfo(string personal_id)
+        public User GetUserInfo(string personal_id)
         {
             try
             {
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
-                    UserInfo ui = null;
-                    string query = $"SELECT * FROM dbo.DonorsInfo where personal_id=@personal_id";
+                    User ui = null;
+                    string query = $"SELECT * FROM dbo.Users where personal_id=@personal_id";
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@personal_id", personal_id);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        ui = new UserInfo(Convert.ToString(reader["personal_id"]),
+                        ui = new User(Convert.ToString(reader["personal_id"]),
                             Convert.ToString(reader["first_name"]),
                             Convert.ToString(reader["last_name"]),
                             Convert.ToString(reader["phone"]),
@@ -107,69 +107,43 @@ namespace DamdiServer.DAL
                     return res;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("No row effected");
+                throw new Exception(ex.Message);
             }
         }
 
         /*Create a new user info in donorsinfo table*/
-        public int SetNewUserInfo(UserInfo ui)
+        public int SetNewUserInfo(User ui)
         {
             try
             {
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
-                    string query = "INSERT INTO dbo.DonorsInfo " +
-                        "(" +
-                        "personal_id," +
-                        "first_name," +
-                        "last_name," +
-                        "phone," +
-                        "gender," +
-                        "birthdate," +
-                        "prev_first_name," +
-                        "prev_last_name," +
-                        "city," +
-                        "address," +
-                        "postal_code," +
-                        "mail_box," +
-                        "telephone," +
-                        "work_telephone," +
-                        "blood_group_member," +
-                        "personal_insurance," +
-                        "confirm_examination," +
-                        "agree_future_don," +
-                        "birth_land," +
-                        "aliya_year," +
-                        "father_birth_land," +
-                        "mother_birth_land" +
-                        ")" +
-                        " VALUES (" +
-                        "@Personal_id," +
-                        "@First_name," +
-                        "@Last_name," +
-                        "@Phone," +
-                        "@Gender," +
-                        "@Birthdate," +
-                        "@Prev_first_name," +
-                        "@Prev_last_name," +
-                        "@City," +
-                        "@Address," +
-                        "@Postal_code," +
-                        "@Mail_box," +
-                        "@Telephone," +
-                        "@Work_telephone," +
-                        "@Blood_group_member," +
-                        "@Personal_insurance," +
-                        "@Confirm_examination," +
-                        "@Agree_future_don," +
-                        "@Birth_land," +
-                        "@Aliya_year," +
-                        "@Father_birth_land," +
-                        "@Mother_birth_land" +
-                        ")";
+                    string query = "Update dbo.Users SET " +
+                        "first_name=@First_name," +
+                        "last_name=@Last_name," +
+                        "phone=@Phone," +
+                        "gender=@Gender," +
+                        "birthdate=@Birthdate," +
+                        "prev_first_name=@Prev_first_name," +
+                        "prev_last_name=@Prev_last_name," +
+                        "city=@City," +
+                        "address=@Address," +
+                        "postal_code=@Postal_code," +
+                        "mail_box=@Mail_box," +
+                        "telephone=@Telephone," +
+                        "work_telephone=@Work_telephone," +
+                        "blood_group_member=@Blood_group_member," +
+                        "personal_insurance=@Personal_insurance," +
+                        "confirm_examination=@Confirm_examination," +
+                        "agree_future_don=@Agree_future_don," +
+                        "birth_land=@Birth_land," +
+                        "aliya_year=@Aliya_year," +
+                        "father_birth_land=@Father_birth_land," +
+                        "mother_birth_land=@Mother_birth_land " +
+                        "WHERE personal_id=@Personal_id";
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@Personal_id", SqlDbType.NVarChar).Value = ui.Personal_id;
                     cmd.Parameters.AddWithValue("@First_name", SqlDbType.NVarChar).Value = ui.First_name;
@@ -206,10 +180,10 @@ namespace DamdiServer.DAL
         /*Get medical user info from database - Not working well object */
         public List<MedicalInfoDonation> GetMedicalInfo(string personal_id)
         {
-            
+
             try
             {
-                
+
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();

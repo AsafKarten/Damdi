@@ -31,7 +31,6 @@ namespace DamdiServer
 
         #region Models
         public static User User { get; set; }
-        public static UserInfo DonorsInfo { get; set; }
         public static MedicalInfoDonation MedicalInfoDonation { get; set; }
         #endregion
 

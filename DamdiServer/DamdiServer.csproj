@@ -255,7 +255,6 @@
     <Compile Include="Globals.cs" />
     <Compile Include="Models\MedicalInfoDonation.cs" />
     <Compile Include="Models\MedicalQuestionsDonor.cs" />
-    <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

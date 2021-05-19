@@ -47,7 +47,7 @@ namespace DamdiServer.Controllers
         //Get User info from users table.
         [HttpPost]
         [Route("api/user/info")]
-        public IHttpActionResult GetUserInfoFromDB([FromBody] Models.UserInfo ui)
+        public IHttpActionResult GetUserInfoFromDB([FromBody] Models.User ui)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace DamdiServer.Controllers
         //Post new User info into users table.
         [HttpPost]
         [Route("api/info/new")]
-        public IHttpActionResult PostUserInfoIntoDB([FromBody] Models.UserInfo ui)
+        public IHttpActionResult PostUserInfoIntoDB([FromBody] Models.User ui)
         {
             try
             {
