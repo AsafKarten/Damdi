@@ -3,39 +3,55 @@ import { View, Text, SafeAreaView, StyleSheet, TextInput, Button } from 'react-n
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-    </View>
-  );
+const uri = "http://localhost:62586/"
+
+
+function Login(Email, Pass, id) {
+  fetch(uri + "api/user/post", {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      Personal_id: id,
+      Email: Email,
+      Pass: Pass
+    })
+  });
+  alert("success");
 }
-function Login(Email, Pass) {
-  alert("Succsessseddd aaaaaaa" + Email + Pass);
-}
+
+
 function LoginScreen() {
+  const [PersonalId, onChangeId] = React.useState("Id")
   const [Email, onCangeEmail] = React.useState("Email");
   const [Pass, onCangePass] = React.useState("Pass");
   return (
-    
-      <SafeAreaView style={styles.container}>
-        <TextInput
-          style={styles.input}
-          onChangeText={onCangeEmail}
-          value={Email}
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={onCangePass}
-          value={Pass}
-        />
-        <Button
 
-          title="Press me"
-          onPress={() => Login(Email, Pass)}
-        />
-      </SafeAreaView>
-   
+    <SafeAreaView style={styles.container}>
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeId}
+        value={PersonalId}
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={onCangeEmail}
+        value={Email}
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={onCangePass}
+        value={Pass}
+      />
+      <Button
+        title="Press me"
+        onPress={() => Login(Email, Pass, PersonalId)}
+      />
+    </SafeAreaView>
+
   );
 }
 
@@ -51,12 +67,12 @@ function App() {
   );
 }
 const styles = StyleSheet.create({
-    container: {
+  container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-    input: {
+  input: {
     height: 40,
     margin: 12,
     borderWidth: 1,
