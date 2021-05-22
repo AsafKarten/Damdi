@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
+import { SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-const uri = "http://localhost:62586/" 
+const uri = "http://localhost:62586/"
 function Login(id, Pass) {
+
   fetch(uri + "api/user", {
     method: 'POST',
     headers: {
@@ -23,10 +24,10 @@ function Login(id, Pass) {
     })
     .then(
       (result) => {
+
         console.log(result);
         console.log(result.Personal_id);
         console.log(result.Email);
-        alert("Natkes King")
       },
       (error) => {
         console.log(error);
@@ -38,6 +39,7 @@ function Login(id, Pass) {
 function LoginScreen() {
   const [PersonalId, onChangeId] = React.useState()
   const [Pass, onCangePass] = React.useState();
+
   return (
 
     <SafeAreaView style={styles.container}>
@@ -59,13 +61,13 @@ function LoginScreen() {
 
       />
     </SafeAreaView>
-
   );
 }
 
 const Stack = createStackNavigator();
 
 function App() {
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -87,6 +89,5 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     textAlign: 'center',
   },
-
 });
 export default App;
