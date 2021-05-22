@@ -3,11 +3,8 @@ import { View, Text, SafeAreaView, StyleSheet, TextInput, Button } from 'react-n
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-const uri = "http://localhost:62586/"
-
-
+const uri = "http://localhost:62586/" 
 function Login(id, Pass) {
- 
   fetch(uri + "api/user", {
     method: 'POST',
     headers: {
@@ -20,20 +17,20 @@ function Login(id, Pass) {
       Pass: Pass
     })
   })
-  .then(res=>{
-    console.log('res=', res);
-    return res.json()
-  })
-  .then(
-    (result)=> {
-      console.log(result);
-      console.log(result.Personal_id);
-      console.log(result.Pass);
-    },
-  (error)=>{
-    console.log(error);
-  });
- 
+    .then(res => {
+      console.log('res=', res);
+      return res.json()
+    })
+    .then(
+      (result) => {
+        console.log(result);
+        console.log(result.Personal_id);
+        console.log(result.Email);
+      },
+      (error) => {
+        console.log(error);
+      });
+
 }
 
 
@@ -86,8 +83,8 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 12,
     borderWidth: 1,
-    borderRadius:8,
-    textAlign:'center',
+    borderRadius: 8,
+    textAlign: 'center',
   },
 
 });
