@@ -90,7 +90,7 @@ namespace DamdiServer.DAL
             }
         }
 
-        /*Create a new user in users table*/
+        /*Create a new user in users table fgfg*/
         public int SetNewUser(User user)
         {
             try
@@ -98,7 +98,7 @@ namespace DamdiServer.DAL
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
-                    string query = "INSERT INTO dbo.Users (personal_id,email,pass) VALUES (@Personal_id,@Email,@Pass)";
+                    string query = "INSERT INTO Users (personal_id,email,pass) VALUES (@Personal_id,@Email,@Pass)";
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@Personal_id", SqlDbType.NVarChar).Value = user.Personal_id; //u.Personal_id
                     cmd.Parameters.AddWithValue("@Email", SqlDbType.NVarChar).Value = user.Email; //u.Email
