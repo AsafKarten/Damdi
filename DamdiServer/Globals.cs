@@ -15,7 +15,7 @@ namespace DamdiServer
         #region ctor
         static Globals()
         {
-            var conStr = ConfigurationManager.ConnectionStrings["localDB"].ConnectionString;//get connection string from Web.config;
+            var conStr = ConfigurationManager.ConnectionStrings["LIVEDNSfromLocal"].ConnectionString;//get connection string from Web.config;
             Globals.UserDAL = new DAL.UserDAL(conStr);
         }
         #endregion
