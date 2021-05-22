@@ -23,10 +23,10 @@ namespace DamdiServer.DAL
                 {
                     con.Open();
                     User u = null;
-                    string query = $"SELECT COUNT(*) FROM Users where personal_id = @Personal_id AND pass = @Pass";
+                    string query = $"SELECT * FROM Users where personal_id = @personal_id AND pass = @pass";
                     SqlCommand cmd = new SqlCommand(query, con);
-                    cmd.Parameters.AddWithValue("@Personal_id", personal_id);
-                    cmd.Parameters.AddWithValue("@Pass", pass);
+                    cmd.Parameters.AddWithValue("@personal_id", personal_id);
+                    cmd.Parameters.AddWithValue("@pass", pass);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
@@ -35,9 +35,9 @@ namespace DamdiServer.DAL
                     return u;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("User was not found in the table");
+                throw new Exception(ex.Message);
             }
 
         }
