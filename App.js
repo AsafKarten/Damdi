@@ -26,6 +26,7 @@ function Login(id, Pass) {
         console.log(result);
         console.log(result.Personal_id);
         console.log(result.Email);
+        alert("Natkes King")
       },
       (error) => {
         console.log(error);
