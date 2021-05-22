@@ -6,28 +6,40 @@ import { createStackNavigator } from '@react-navigation/stack';
 const uri = "http://localhost:62586/"
 
 
-function Login(Email, Pass, id) {
-  fetch(uri + "api/user/post", {
+function Login(id, Pass) {
+ 
+  fetch(uri + "api/user", {
     method: 'POST',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json'
     },
     body: JSON.stringify({
       Personal_id: id,
-      Email: Email,
-      Pass:   
+      Pass: Pass
     })
+  })
+  .then(res=>{
+    console.log('res=', res);
+    return res.json()
+  })
+  .then(
+    (result)=> {
+      console.log(result);
+      console.log(result.Personal_id);
+      console.log(result.Pass);
+    },
+  (error)=>{
+    console.log(error);
   });
-  alert("success");
+ 
 }
 
 
 function LoginScreen() {
-  const [PersonalId, onChangeId] = React.useState("Id")
-  const [Email, onCangeEmail] = React.useState("Email");
-  const [Pass, onCangePass] = React.useState("Pass");
+  const [PersonalId, onChangeId] = React.useState()
+  const [Pass, onCangePass] = React.useState();
   return (
 
     <SafeAreaView style={styles.container}>
@@ -35,20 +47,18 @@ function LoginScreen() {
         style={styles.input}
         onChangeText={onChangeId}
         value={PersonalId}
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={onCangeEmail}
-        value={Email}
+        placeholder="I.D"
       />
       <TextInput
         style={styles.input}
         onChangeText={onCangePass}
         value={Pass}
+        placeholder="Password"
       />
       <Button
-        title="Press me"
-        onPress={() => Login(Email, Pass, PersonalId)}
+        title="Login"
+        onPress={() => Login(PersonalId, Pass)}
+
       />
     </SafeAreaView>
 
@@ -76,6 +86,8 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 12,
     borderWidth: 1,
+    borderRadius:8,
+    textAlign:'center',
   },
 
 });
