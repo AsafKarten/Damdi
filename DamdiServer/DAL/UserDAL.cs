@@ -23,10 +23,10 @@ namespace DamdiServer.DAL
                 {
                     con.Open();
                     User u = null;
-                    string query = $"SELECT * FROM dbo.Users where personal_id = @personal_id AND pass = @pass";
+                    string query = $"SELECT COUNT(*) FROM Users where personal_id = @Personal_id AND pass = @Pass";
                     SqlCommand cmd = new SqlCommand(query, con);
-                    cmd.Parameters.AddWithValue("@personal_id", personal_id);
-                    cmd.Parameters.AddWithValue("@pass", pass);
+                    cmd.Parameters.AddWithValue("@Personal_id", personal_id);
+                    cmd.Parameters.AddWithValue("@Pass", pass);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
@@ -51,9 +51,9 @@ namespace DamdiServer.DAL
                 {
                     con.Open();
                     User ui = null;
-                    string query = $"SELECT * FROM dbo.Users where personal_id=@personal_id";
+                    string query = $"SELECT * FROM Users where personal_id=@Personal_id";
                     SqlCommand cmd = new SqlCommand(query, con);
-                    cmd.Parameters.AddWithValue("@personal_id", personal_id);
+                    cmd.Parameters.AddWithValue("@Personal_id", personal_id);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
@@ -122,7 +122,7 @@ namespace DamdiServer.DAL
                 {
                     con.Open();
                     string query = 
-                        "Update dbo.Users SET " +
+                        "Update Users SET " +
                         "first_name=@First_name," +
                         "last_name=@Last_name," +
                         "phone=@Phone," +
@@ -189,7 +189,7 @@ namespace DamdiServer.DAL
                     con.Open();
                     List<MedicalInfoDonation> medicalInfos = new List<MedicalInfoDonation>();
                     MedicalInfoDonation mid = null;
-                    string query = $"SELECT * FROM dbo.MedicalInfoDonation where personal_id=@personal_id";
+                    string query = $"SELECT * FROM MedicalInfoDonation where personal_id=@personal_id";
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@personal_id", personal_id);
                     SqlDataReader reader = cmd.ExecuteReader();
