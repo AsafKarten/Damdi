@@ -17,7 +17,7 @@ function Login(Email, Pass, id) {
     body: JSON.stringify({
       Personal_id: id,
       Email: Email,
-      Pass: Pass
+      Pass:   
     })
   });
   alert("success");
