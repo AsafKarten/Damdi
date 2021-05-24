@@ -1,11 +1,8 @@
 ﻿using DamdiServer.Controllers;
 using DamdiServer.DAL;
 using DamdiServer.Models;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Web;
+
 
 namespace DamdiServer
 {
@@ -15,7 +12,10 @@ namespace DamdiServer
         #region ctor
         static Globals()
         {
-            var conStr = ConfigurationManager.ConnectionStrings["LIVEDNSfromLocal"].ConnectionString;//get connection string from Web.config;
+            //get connection string from Web.config;
+            //var conStr = ConfigurationManager.ConnectionStrings["LocalDB"].ConnectionString;
+            //var conStr = ConfigurationManager.ConnectionStrings["LIVEDNSfromLocal"].ConnectionString;
+            var conStr = ConfigurationManager.ConnectionStrings["LIVEDNSfromLivedns"].ConnectionString;
             Globals.UserDAL = new DAL.UserDAL(conStr);
         }
         #endregion
