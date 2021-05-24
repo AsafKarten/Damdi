@@ -16,7 +16,6 @@ function SignUp(id, Email, Pass, CPass) {
     fetch(url + "api/user/post", {
         method: 'POST',
         headers: {
-            Accept: 'application/json',
             'Content-Type': 'application/json; charset=UTF-8',
             'Accept': 'application/json'
         },
@@ -35,7 +34,7 @@ function SignUp(id, Email, Pass, CPass) {
                 console.log(result);
                 console.log(result.Personal_id);
                 console.log(result.Email);
-                alert("Natkes King")
+                alert("User created successfully.")
             },
             (error) => {
                 console.log(error);

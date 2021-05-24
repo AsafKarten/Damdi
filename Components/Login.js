@@ -11,7 +11,6 @@ function Login(id, Pass) {
   fetch(uri + "api/user", {
     method: 'POST',
     headers: {
-      Accept: 'application/json',
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json'
     },
@@ -29,7 +28,7 @@ function Login(id, Pass) {
         console.log(result);
         console.log(result.Personal_id);
         console.log(result.Email);
-        alert("Natkes King")
+        alert("connection succesfully")
       },
       (error) => {
         console.log(error);
