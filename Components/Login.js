@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
+import { SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
 
 
-const uri = "http://localhost:62586/"
+const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
 function Login(id, Pass) {
   if (id === null || id === "" || Pass === null || Pass === "") {
     alert("id and password can not be empty!")

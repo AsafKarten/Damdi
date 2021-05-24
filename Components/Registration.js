@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
+import { SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
 
 
-const uri = "http://localhost:62586/"
-function SignUp(id, Email, Pass, CPass, navi) {
+const url = "http://ruppinmobile.tempdomain.co.il/site15/"
+function SignUp(id, Email, Pass, CPass) {
     if (Pass !== CPass) {
         alert("Password dos not match confirm password!");
         return
@@ -13,7 +13,7 @@ function SignUp(id, Email, Pass, CPass, navi) {
         return
     }
 
-    fetch(uri + "api/user/post", {
+    fetch(url + "api/user/post", {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -49,7 +49,7 @@ function SignUpScreen() {
     const [Email, onChangeEmail] = React.useState();
     const [Pass, onChangePass] = React.useState();
     const [CPass, onChangeCPass] = React.useState();
-    
+
     return (
 
         <SafeAreaView style={styles.container}>
@@ -85,7 +85,7 @@ function SignUpScreen() {
         </SafeAreaView>
 
     );
-   
+
 }
 const styles = StyleSheet.create({
     container: {
