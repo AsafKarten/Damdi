@@ -50,6 +50,10 @@ const PersonalFormScreen = ({ navigation }) => {
         }
     }
 
+<<<<<<< HEAD
+=======
+export default function PersonalForm({navigation}) {
+>>>>>>> bd188d8678bb01cb41aed0356988ecd6a75fa360
     return (
 
         <SafeAreaView style={styles.container}>

@@ -34,10 +34,11 @@ const LoginScreen = ({ navigation }) => {
             console.log(result);
             console.log(result.Personal_id);
             console.log(result.Email);
-            if(result.FirstName == null || result.LastName == null) {
-              navigation.navigate("")
+            if (result.first_name == null || result.last_name == null) {
+              navigation.navigate("PersonalForm")
+            } else {
+              navigation.navigate("Welcome", { userid: result.Personal_id })
             }
-            navigation.navigate("Welcome",{userid: result.Personal_id})
           },
           (error) => {
             console.log(error);
