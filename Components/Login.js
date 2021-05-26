@@ -14,7 +14,7 @@ const LoginScreen = ({ navigation }) => {
       return
     }
     else {
-      fetch(uri + "api/user/info", {
+      fetch(uri + "api/user", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
@@ -34,15 +34,10 @@ const LoginScreen = ({ navigation }) => {
             console.log(result);
             console.log(result.Personal_id);
             console.log(result.Email);
-<<<<<<< HEAD
             console.log(result.First_name);
             if (!(result.First_name == "" || result.Last_name == "")) {
               navigation.navigate("Welcome", { userid: result.First_name })
               
-=======
-            if (result.first_name == null || result.last_name == null) {
-              navigation.navigate("PersonalForm", { userid: result.Personal_id })
->>>>>>> 3b5bf130667ca2106c8df9e3dff5fc3d78b02152
             } else {
               navigation.navigate("PersonalForm")
             }
