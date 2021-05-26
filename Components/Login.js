@@ -38,9 +38,8 @@ const LoginScreen = ({ navigation }) => {
               alert("Please sign up, user not exist in the system")
               return;
             }
-            else if (!(result.First_name == "" || result.Last_name == "")) {
+            else if (!(result.First_name == null || result.Last_name == null)) {
               navigation.navigate("Welcome", { userid: result.First_name })
-
             } else {
               navigation.navigate("PersonalForm")
             }
