@@ -3,43 +3,48 @@ import { SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
 
 
 const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
-function Login(id, Pass) {
-  if (id === null || id === "" || Pass === null || Pass === "") {
-    alert("id and password can not be empty!")
-    return
-  }
-  fetch(uri + "api/user", {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': 'application/json'
-    },
-    body: JSON.stringify({
-      Personal_id: id,
-      Pass: Pass
-    })
-  })
-    .then(res => {
-      console.log('res=', res);
-      return res.json()
-    })
-    .then(
-      (result) => {
-        console.log(result);
-        console.log(result.Personal_id);
-        console.log(result.Email);
-        alert("connection succesfully")
-      },
-      (error) => {
-        console.log(error);
-      });
 
-}
-
-
-function LoginScreen({ navigation }) {
+const LoginScreen = ({ navigation }) => {
   const [PersonalId, onChangeId] = React.useState()
   const [Pass, onChangePass] = React.useState();
+
+  const Login = (id, Pass) => {
+    if (id == null || id == "" || Pass == null || Pass == "") {
+      alert("id and password can not be empty!")
+      return
+    }
+    else {
+      fetch(uri + "api/user", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: id,
+          Pass: Pass
+        })
+      })
+        .then(res => {
+          console.log('res=', res);
+          return res.json()
+        })
+        .then(
+          (result) => {
+            console.log(result);
+            console.log(result.Personal_id);
+            console.log(result.Email);
+            if(result.FirstName == null || result.LastName == null) {
+              navigation.navigate("")
+            }
+            navigation.navigate("Welcome",{userid: result.Personal_id})
+          },
+          (error) => {
+            console.log(error);
+          });
+    }
+  }
+
   return (
 
     <SafeAreaView style={styles.container}>
