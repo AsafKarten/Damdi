@@ -6,8 +6,7 @@ export default function Welcome({ navigation, route }) {
 
     return (
         <View>
-            <Text>  ברוך הבא לדאמדי </Text>
-            <Text>{route.params != undefined ? route.params.userid : ""}</Text>
+            <Text> ברוך הבא לדאמדי {route.params != undefined ? route.params.userid : ""} </Text>
         </View>
     )
 }
