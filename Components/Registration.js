@@ -69,11 +69,13 @@ const SignUpScreen = ({ navigation }) => {
                 style={styles.input}
                 onChangeText={onChangePass}
                 value={Pass}
+                secureTextEntry={true}
                 placeholder="Password"
             />
             <TextInput
                 style={styles.input}
                 onChangeText={onChangeCPass}
+                secureTextEntry={true}
                 value={CPass}
                 placeholder="Confirm Pass"
             />

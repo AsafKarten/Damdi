@@ -1,10 +1,10 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
 
-
 const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
 
 const LoginScreen = ({ navigation }) => {
+
   const [PersonalId, onChangeId] = React.useState()
   const [Pass, onChangePass] = React.useState();
 
@@ -34,10 +34,13 @@ const LoginScreen = ({ navigation }) => {
             console.log(result);
             console.log(result.Personal_id);
             console.log(result.Email);
-            console.log(result.First_name);
-            if (!(result.First_name == "" || result.Last_name == "")) {
+            if (result.Email === undefined & result.Personal_id === undefined) {
+              alert("Please sign up, user not exist in the system")
+              return;
+            }
+            else if (!(result.First_name == "" || result.Last_name == "")) {
               navigation.navigate("Welcome", { userid: result.First_name })
-              
+
             } else {
               navigation.navigate("PersonalForm")
             }
@@ -61,6 +64,7 @@ const LoginScreen = ({ navigation }) => {
         style={styles.input}
         onChangeText={onChangePass}
         value={Pass}
+        secureTextEntry={true}
         placeholder="Password"
       />
       <Button
