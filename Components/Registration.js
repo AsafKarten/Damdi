@@ -1,55 +1,55 @@
 import React from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
+import { SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
 
 
-const uri = "http://localhost:62586/"
-function SignUp(id, Email, Pass, CPass, navi) {
-    if (Pass !== CPass) {
-        alert("Password dos not match confirm password!");
-        return
-    }
-    if (id === null || id === "" || Email === null || Email === "" || Pass === null || Pass === "" || CPass === null || CPass === "") {
-        alert("Please fill all the fildes");
-        return
-    }
-
-    fetch(uri + "api/user/post", {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-            Personal_id: id,
-            Email: Email,
-            Pass: Pass
-        })
-    })
-        .then(res => {
-            console.log('res=', res);
-            return res.json()
-        })
-        .then(
-            (result) => {
-                console.log(result);
-                console.log(result.Personal_id);
-                console.log(result.Email);
-                alert("Natkes King")
-            },
-            (error) => {
-                console.log(error);
-            });
-
-}
+const url = "http://ruppinmobile.tempdomain.co.il/site15/"
 
 
-function SignUpScreen() {
+const SignUpScreen = ({ navigation }) => {
     const [PersonalId, onChangeId] = React.useState();
     const [Email, onChangeEmail] = React.useState();
     const [Pass, onChangePass] = React.useState();
     const [CPass, onChangeCPass] = React.useState();
-    
+
+    const SignUp = (id, Email, Pass, CPass) => {
+        if (Pass != CPass) {
+            alert("Password dos not match confirm password!");
+            return
+        }
+        else if (id == null || id == "" || Email == null || Email == "" || Pass == null || Pass == "" || CPass == null || CPass == "") {
+            alert("Please fill all the fildes");
+            return
+        }
+        else {
+            fetch(url + "api/user/post", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    Personal_id: id,
+                    Email: Email,
+                    Pass: Pass
+                })
+            })
+                .then(res => {
+                    console.log('res=', res);
+                    return res.json()
+                })
+                .then(
+                    (result) => {
+                        console.log(result);
+                        console.log(result.Personal_id);
+                        console.log(result.Email);
+                        navigation.navigate("Login");
+                    },
+                    (error) => {
+                        console.log(error);
+                    });
+        }
+    }
+
     return (
 
         <SafeAreaView style={styles.container}>
@@ -85,7 +85,7 @@ function SignUpScreen() {
         </SafeAreaView>
 
     );
-   
+
 }
 const styles = StyleSheet.create({
     container: {
