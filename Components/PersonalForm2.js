@@ -5,7 +5,7 @@ import { SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
 const url = "http://ruppinmobile.tempdomain.co.il/site15/"
 
 
-const PersonalFormScreen = ({ navigation , route }) => {
+const PersonalFormScreen2 = ({ navigation , route }) => {
     const [First_name, onChangeFirst_name] = React.useState();
     const [Last_name, onChangeLast_name] = React.useState();
     const [Phone, onChangePhone] = React.useState();
@@ -29,7 +29,7 @@ const PersonalFormScreen = ({ navigation , route }) => {
     const [Mother_birth_land, onChangeMother_birth_land] = React.useState();
     
 
-    const PostPersonalForm = (
+    const PostPersonalForm2 = (
          First_name,
          Last_name,
          Phone, 
@@ -261,4 +261,4 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 });
-export default PersonalFormScreen;
+export default PersonalFormScreen2;
