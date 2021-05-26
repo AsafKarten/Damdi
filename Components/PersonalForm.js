@@ -5,13 +5,51 @@ import { SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
 const url = "http://ruppinmobile.tempdomain.co.il/site15/"
 
 
-const PersonalFormScreen = ({ navigation }) => {
-    const [PersonalId, onChangeId] = React.useState();
-    const [Email, onChangeEmail] = React.useState();
-    const [Pass, onChangePass] = React.useState();
-    const [CPass, onChangeCPass] = React.useState();
+const PersonalFormScreen = ({ navigation , route }) => {
+    const [First_name, onChangeFirst_name] = React.useState();
+    const [Last_name, onChangeLast_name] = React.useState();
+    const [Phone, onChangePhone] = React.useState();
+    const [Gender, onChangeGender] = React.useState();
+    const [Birthdate, onChangeBirthdate] = React.useState();
+    const [Prev_first_name, onChangePrev_first_name] = React.useState();
+    const [Prev_last_name, onChangePrev_last_name] = React.useState();
+    const [City, onChangeCity] = React.useState();
+    const [Address, onChangeAddress] = React.useState();
+    const [Postal_code, onChangePostal_code] = React.useState();
+    const [Mail_box, onChangeMail_box] = React.useState();
+    const [Telephone, onChangeTelephone] = React.useState();
+    const [Work_telephone, onChangeWork_telephone] = React.useState();
+    const [Blood_group_member, onChangeBlood_group_member] = React.useState();
+    const [Personal_insurance, onChangePersonal_insurance] = React.useState();
+    const [Confirm_examination, onChangeConfirm_examination] = React.useState();
+    const [Agree_future_don, onChangeAgree_future_don] = React.useState();
+    const [Birth_land, onChangeBirth_land] = React.useState();
+    const [Aliya_year, onChangeAliya_year] = React.useState();
+    const [Father_birth_land, onChangeFather_birth_land] = React.useState();
+    const [Mother_birth_land, onChangeMother_birth_land] = React.useState();
+    
 
-    const SignUp = (id, Email, Pass, CPass) => {
+    const PostPersonalForm = (
+         First_name,
+         Last_name,
+         Phone, 
+         Gender,
+         Birthdate,
+         Prev_first_name,
+         Prev_last_name,
+         City,Address,
+         Postal_code,
+         Mail_box,
+         Telephone,
+         Work_telephone,
+         Blood_group_member,
+         Personal_insurance,
+         Confirm_examination,
+         Agree_future_don,
+         Birth_land,Aliya_year,
+         Father_birth_land,
+         Mother_birth_land,
+         ) => {
         if (Pass != CPass) {
             alert("Password dos not match confirm password!");
             return
@@ -55,32 +93,154 @@ const PersonalFormScreen = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             <TextInput
                 style={styles.input}
-                onChangeText={onChangeId}
-                value={PersonalId}
-                placeholder="I.D"
+                onChangeText={onChangeFirst_name}
+                value={First_name}
+                placeholder="First name"
             />
             <TextInput
                 style={styles.input}
-                onChangeText={onChangeEmail}
-                value={Email}
-                placeholder="Email"
+                onChangeText={onChangeLast_name}
+                value={Last_name}
+                placeholder="Last name"
             />
             <TextInput
                 style={styles.input}
-                onChangeText={onChangePass}
-                value={Pass}
-                placeholder="Password"
+                onChangeText={onChangePhone}
+                value={Phone}
+                placeholder="Phone"
             />
             <TextInput
                 style={styles.input}
-                onChangeText={onChangeCPass}
-                value={CPass}
-                placeholder="Confirm Pass"
+                onChangeText={onChangeGender}
+                value={Gender}
+                placeholder="Gender"
             />
+            <TextInput
+                style={styles.input}
+                onChangeText={onChangeBirthdate}
+                value={Birthdate}
+                placeholder="Birthdate"
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={onChangePrev_first_name}
+                value={Prev_first_name}
+                placeholder="Prev first name"
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={onChangePrev_last_name}
+                value={Prev_last_name}
+                placeholder="Prev last name"
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={onChangeCity}
+                value={City}
+                placeholder="City"
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={onChangeAddress}
+                value={Address}
+                placeholder="Address"
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={onChangePostal_code}
+                value={Postal_code}
+                placeholder="Postal code"
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={onChangeMail_box}
+                value={Mail_box}
+                placeholder="Mail box"
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={onChangeTelephone}
+                value={Telephone}
+                placeholder="Telephone"
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={onChangeWork_telephone}
+                value={Work_telephone}
+                placeholder="Work telephone"
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={onChangeBlood_group_member}
+                value={Blood_group_member}
+                placeholder="Blood group member"
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={onChangePersonal_insurance}
+                value={Personal_insurance}
+                placeholder="Personal insurance"
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={onChangeConfirm_examination}
+                value={GendeConfirm_examinationr}
+                placeholder="Confirm examination"
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={onChangeAgree_future_don}
+                value={Agree_future_don}
+                placeholder="Agree future don"
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={onChangeBirth_land}
+                value={Birth_land}
+                placeholder="Birth land"
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={onChangeAliya_year}
+                value={Aliya_year}
+                placeholder="Aliya year"
+            />
+             <TextInput
+                style={styles.input}
+                onChangeText={onChangeFather_birth_land}
+                value={Father_birth_land}
+                placeholder="Father birth land"
+            />
+             <TextInput
+                style={styles.input}
+                onChangeText={onChangeMother_birth_land}
+                value={Mother_birth_land}
+                placeholder="Mother_birth_land"
+            />
+           
             <Button
                 title="SignUp"
-                onPress={() => SignUp(PersonalId, Email, Pass, CPass)}
-
+                onPress={() => PostPersonalForm(
+                    First_name,
+                    Last_name,
+                    Phone, 
+                    Gender,
+                    Birthdate,
+                    Prev_first_name,
+                    Prev_last_name,
+                    City,Address,
+                    Postal_code,
+                    Mail_box,
+                    Telephone,
+                    Work_telephone,
+                    Blood_group_member,
+                    Personal_insurance,
+                    Confirm_examination,
+                    Agree_future_don,
+                    Birth_land,Aliya_year,
+                    Father_birth_land,
+                    Mother_birth_land,
+                    )}
             />
         </SafeAreaView>
 

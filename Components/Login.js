@@ -35,7 +35,7 @@ const LoginScreen = ({ navigation }) => {
             console.log(result.Personal_id);
             console.log(result.Email);
             if (result.first_name == null || result.last_name == null) {
-              navigation.navigate("PersonalForm")
+              navigation.navigate("PersonalForm", { userid: result.Personal_id })
             } else {
               navigation.navigate("Welcome", { userid: result.Personal_id })
             }
