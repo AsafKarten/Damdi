@@ -5,7 +5,7 @@ import { SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
 const url = "http://ruppinmobile.tempdomain.co.il/site15/"
 
 
-const PersonalFormScreen = ({ navigation , route }) => {
+const PersonalFormScreen = ({ navigation , personal_id }) => {
     const [First_name, onChangeFirst_name] = React.useState();
     const [Last_name, onChangeLast_name] = React.useState();
     const [Phone, onChangePhone] = React.useState();
@@ -15,6 +15,25 @@ const PersonalFormScreen = ({ navigation , route }) => {
     const [Prev_last_name, onChangePrev_last_name] = React.useState();
  
 
+    
+    const PostPersonalForm=(
+        First_name,
+        Last_name,
+        Phone, 
+        Gender,
+        Birthdate,
+        Prev_first_name,
+        Prev_last_name,
+        ) =>{
+            const user = {personal_id,First_name,Last_name,Phone, 
+                Gender,
+                Birthdate,
+                Prev_first_name,
+                Prev_last_name}
+
+            console.log(user)
+            navigation.navigate('PersonalForm2', user )
+        }
     // const PostPersonalForm = (
     //      First_name,
     //      Last_name,
@@ -109,9 +128,9 @@ const PersonalFormScreen = ({ navigation , route }) => {
                 placeholder="Prev last name"
             />
            
-           <Button onPress={()=> navigation.navigate('PersonalForm2')}/>
            
-            {/* <Button
+           
+            <Button
                 title="next"
                 onPress={() => PostPersonalForm(
                     First_name,
@@ -122,7 +141,7 @@ const PersonalFormScreen = ({ navigation , route }) => {
                     Prev_first_name,
                     Prev_last_name,
                     )}
-            /> */}
+            />
            
         </SafeAreaView>
 
