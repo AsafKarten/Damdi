@@ -14,7 +14,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator  initialRouteName="PersonalForm">
+      <Stack.Navigator  initialRouteName="Login">
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Registration" component={SignUpScreen} />
         <Stack.Screen name="PersonalForm" component={PersonalFormScreen} />
