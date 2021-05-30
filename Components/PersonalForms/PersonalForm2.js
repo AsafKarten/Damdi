@@ -89,7 +89,7 @@ const PersonalFormScreen2 = ({ navigation, userInfo }) => {
                 Telephone,
                 Work_telephone
             )}
-            />
+           />
             <Button title="חזרה" onPress={() => navigation.navigate('PersonalForm')} />
 
         </SafeAreaView>

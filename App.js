@@ -3,9 +3,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import SignUpScreen from './Components/Registration.js'
 import LoginScreen from './Components/Login.js'
-import PersonalFormScreen from './Components/PersonalForm.js';
-import PersonalFormScreen2 from './Components/PersonalForm2.js';
-import PersonalFormScreen3 from './Components/PersonalForm3.js';
+import PersonalFormScreen from './Components/PersonalForms/PersonalForm';
+import PersonalFormScreen2 from './Components/PersonalForms/PersonalForm2';
+import PersonalFormScreen3 from './Components/PersonalForms/PersonalForm3';
 import Welcome from './Components/Welcome.js';
 
 const Stack = createStackNavigator();
