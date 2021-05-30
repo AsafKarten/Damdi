@@ -17,6 +17,7 @@ const PersonalFormScreen = ({ navigation , personal_id }) => {
 
     
     const PostPersonalForm=(
+        personal_id,
         First_name,
         Last_name,
         Phone, 
@@ -133,6 +134,7 @@ const PersonalFormScreen = ({ navigation , personal_id }) => {
             <Button
                 title="next"
                 onPress={() => PostPersonalForm(
+                    personal_id,
                     First_name,
                     Last_name,
                     Phone, 
