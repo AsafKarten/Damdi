@@ -5,7 +5,7 @@ import { SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
 const url = "http://ruppinmobile.tempdomain.co.il/site15/"
 
 
-const SignUpScreen = ({ navigation }) => {
+const RegistrationNewUser = ({ navigation }) => {
     const [PersonalId, onChangeId] = React.useState();
     const [Email, onChangeEmail] = React.useState();
     const [Pass, onChangePass] = React.useState();
@@ -17,7 +17,7 @@ const SignUpScreen = ({ navigation }) => {
             return
         }
         else if (id == null || id == "" || Email == null || Email == "" || Pass == null || Pass == "" || CPass == null || CPass == "") {
-            alert("Please fill all the fildes");
+            alert("אנא מלא/י את כל השדות");
             return
         }
         else {
@@ -36,13 +36,22 @@ const SignUpScreen = ({ navigation }) => {
                 .then(res => {
                     console.log('res=', res);
                     return res.json()
+
                 })
                 .then(
                     (result) => {
+                        debugger
+                        console.log(id);
                         console.log(result);
                         console.log(result.Personal_id);
                         console.log(result.Email);
-                        navigation.navigate("Login");
+                        if (result === 'User created successfully.') {
+                            navigation.navigate("Login");
+
+                        } else {
+                            alert("משתמש קיים")
+                            return;
+                        }
                     },
                     (error) => {
                         console.log(error);
@@ -103,4 +112,4 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 });
-export default SignUpScreen;
+export default RegistrationNewUser;

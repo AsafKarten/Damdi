@@ -76,7 +76,7 @@ const LoginScreen = ({ navigation }) => {
       <br />
       <Button
         title="עוד לא נרשמת? הירשם !"
-        onPress={() => navigation.navigate('Registration')}
+        onPress={() => navigation.navigate('RegistrationNewUser')}
       />
     </SafeAreaView>
 
