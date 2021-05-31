@@ -13,7 +13,7 @@ const SignUpScreen = ({ navigation }) => {
 
     const SignUp = (id, Email, Pass, CPass) => {
         if (Pass != CPass) {
-            alert("Password dos not match confirm password!");
+            alert("סיסמא אינה תואמת, אנא בדוק פרטיך!");
             return
         }
         else if (id == null || id == "" || Email == null || Email == "" || Pass == null || Pass == "" || CPass == null || CPass == "") {
@@ -57,30 +57,30 @@ const SignUpScreen = ({ navigation }) => {
                 style={styles.input}
                 onChangeText={onChangeId}
                 value={PersonalId}
-                placeholder="I.D"
+                placeholder="תעודת זהות"
             />
             <TextInput
                 style={styles.input}
                 onChangeText={onChangeEmail}
                 value={Email}
-                placeholder="Email"
+                placeholder="אימייל"
             />
             <TextInput
                 style={styles.input}
                 onChangeText={onChangePass}
                 value={Pass}
                 secureTextEntry={true}
-                placeholder="Password"
+                placeholder="סיסמה"
             />
             <TextInput
                 style={styles.input}
                 onChangeText={onChangeCPass}
                 secureTextEntry={true}
                 value={CPass}
-                placeholder="Confirm Pass"
+                placeholder="אשר סיסמה"
             />
             <Button
-                title="SignUp"
+                title="סיים הרשמה"
                 onPress={() => SignUp(PersonalId, Email, Pass, CPass)}
 
             />

@@ -10,7 +10,7 @@ const LoginScreen = ({ navigation }) => {
 
   const Login = (id, Pass) => {
     if (id == null || id == "" || Pass == null || Pass == "") {
-      alert("id and password can not be empty!")
+      alert("אנא מלא\י את כל פרטים !")
       return
     }
     else {
@@ -36,11 +36,11 @@ const LoginScreen = ({ navigation }) => {
             console.log(result.Email);
             
             if (result.Email === undefined & result.Personal_id === undefined) {
-              alert("Please sign up, user not exist in the system")
+              alert("הירשם בבקשה, משתמש אינו קיים")
               return;
             }
             else if (!(result.First_name == null || result.Last_name == null)) {
-              navigation.navigate("Welcome", { userid: result.First_name })
+              navigation.navigate("ברוך הבא", { userid: result.First_name })
             } else {
               
             navigation.navigate("PersonalForm", result.Personal_id )
@@ -59,23 +59,23 @@ const LoginScreen = ({ navigation }) => {
         style={styles.input}
         onChangeText={onChangeId}
         value={PersonalId}
-        placeholder="I.D"
+        placeholder="תעודת זהות"
       />
       <TextInput
         style={styles.input}
         onChangeText={onChangePass}
         value={Pass}
         secureTextEntry={true}
-        placeholder="Password"
+        placeholder="סיסמה"
       />
       <Button
-        title="Login"
+        title="התחבר"
         onPress={() => Login(PersonalId, Pass)}
 
       />
       <br />
       <Button
-        title="SignUp"
+        title="עוד לא נרשמת? הירשם !"
         onPress={() => navigation.navigate('Registration')}
       />
     </SafeAreaView>
