@@ -14,9 +14,8 @@ const PersonalFormScreen = ({ navigation , personal_id }) => {
     const [Prev_first_name, onChangePrev_first_name] = React.useState();
     const [Prev_last_name, onChangePrev_last_name] = React.useState();
  
-
-    
     const PostPersonalForm=(
+        personal_id,
         First_name,
         Last_name,
         Phone, 
@@ -24,63 +23,21 @@ const PersonalFormScreen = ({ navigation , personal_id }) => {
         Birthdate,
         Prev_first_name,
         Prev_last_name,
-        ) =>{
-            const user = {personal_id,First_name,Last_name,Phone, 
+        )=>{
+            const userInfo={
+                personal_id,
+                First_name,
+                Last_name,
+                Phone, 
                 Gender,
                 Birthdate,
                 Prev_first_name,
-                Prev_last_name}
+                Prev_last_name,
+            }
+            console.log(userInfo)
+            navigation.navigate('PersonalForm2', userInfo )
 
-            console.log(user)
-            navigation.navigate('PersonalForm2', user )
-        }
-    // const PostPersonalForm = (
-    //      First_name,
-    //      Last_name,
-    //      Phone, 
-    //      Gender,
-    //      Birthdate,
-    //      Prev_first_name,
-    //      Prev_last_name
-         
-    //      ) => {
-    //     if (Pass != CPass) {
-    //         alert("Password dos not match confirm password!");
-    //         return
-    //     }
-    //     else if (id == null || id == "" || Email == null || Email == "" || Pass == null || Pass == "" || CPass == null || CPass == "") {
-    //         alert("Please fill all the fildes");
-    //         return
-    //     }
-    //     else {
-    //         fetch(url + "api/user/post", {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json; charset=UTF-8',
-    //                 'Accept': 'application/json'
-    //             },
-    //             body: JSON.stringify({
-    //                 Personal_id: id,
-    //                 Email: Email,
-    //                 Pass: Pass
-    //             })
-    //         })
-    //             .then(res => {
-    //                 console.log('res=', res);
-    //                 return res.json()
-    //             })
-    //             .then(
-    //                 (result) => {
-    //                     console.log(result);
-    //                     console.log(result.Personal_id);
-    //                     console.log(result.Email);
-    //                     navigation.navigate("Login");
-    //                 },
-    //                 (error) => {
-    //                     console.log(error);
-    //                 });
-    //     }
-    // }
+    }
 
     return (
 
@@ -89,50 +46,51 @@ const PersonalFormScreen = ({ navigation , personal_id }) => {
                 style={styles.input}
                 onChangeText={onChangeFirst_name}
                 value={First_name}
-                placeholder="First name"
+                placeholder="שם פרטי"
             />
             <TextInput
                 style={styles.input}
                 onChangeText={onChangeLast_name}
                 value={Last_name}
-                placeholder="Last name"
+                placeholder="שם משפחה"
             />
             <TextInput
                 style={styles.input}
                 onChangeText={onChangePhone}
                 value={Phone}
-                placeholder="Phone"
+                placeholder="מס פלאפון"
             />
             <TextInput
                 style={styles.input}
                 onChangeText={onChangeGender}
                 value={Gender}
-                placeholder="Gender"
+                placeholder="מין"
             />
             <TextInput
                 style={styles.input}
                 onChangeText={onChangeBirthdate}
                 value={Birthdate}
-                placeholder="Birthdate"
+                placeholder="תאריך לידה"
             />
             <TextInput
                 style={styles.input}
                 onChangeText={onChangePrev_first_name}
                 value={Prev_first_name}
-                placeholder="Prev first name"
+                placeholder="שם קודם: פרטי"
             />
             <TextInput
                 style={styles.input}
                 onChangeText={onChangePrev_last_name}
                 value={Prev_last_name}
-                placeholder="Prev last name"
+                placeholder="שם קודם: משפחה"
             />
            
            
            
             <Button
-                title="next"
+                title="הבא"
                 onPress={() => PostPersonalForm(
+                    personal_id,
                     First_name,
                     Last_name,
                     Phone, 

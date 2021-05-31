@@ -34,6 +34,7 @@ const LoginScreen = ({ navigation }) => {
             console.log(result);
             console.log(result.Personal_id);
             console.log(result.Email);
+            
             if (result.Email === undefined & result.Personal_id === undefined) {
               alert("Please sign up, user not exist in the system")
               return;
@@ -41,7 +42,8 @@ const LoginScreen = ({ navigation }) => {
             else if (!(result.First_name == null || result.Last_name == null)) {
               navigation.navigate("Welcome", { userid: result.First_name })
             } else {
-              navigation.navigate("PersonalForm", result.Personal_id)
+              
+            navigation.navigate("PersonalForm", result.Personal_id )
             }
           },
           (error) => {
