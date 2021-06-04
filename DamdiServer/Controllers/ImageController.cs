@@ -40,8 +40,13 @@ namespace DamdiServer.Controllers
                 //update the resposne object    
                 res.path = $"{Server.GetServerUrl()}/{image.folder}/{imageName}";
                 res.isOk = true;
-
-                return Ok(res);
+                //send path to user id
+                int rows = Globals.UserDAL.UpdateUserImage(res.path, image.folder.Split('_')[1]);
+                if (rows >= 1)
+                {
+                    return Ok(res);
+                }
+                return BadRequest("error while update the users table");
             }
             catch (Exception e)
             {

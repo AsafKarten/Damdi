@@ -89,6 +89,27 @@ namespace DamdiServer.DAL
                 throw new Exception(ex.Message);
             }
         }
+        public int UpdateUserImage(string image, string user_id)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    string query = "Update Users SET profile_img = @profile_img where personal_id=@personal_id";
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = user_id; //u.Personal_id
+                    cmd.Parameters.AddWithValue("@profile_img", SqlDbType.NVarChar).Value = image; //u.Email
+                    int res = cmd.ExecuteNonQuery();
+                    return res;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        } 
 
         /*Create a new user in users table fgfg*/
         public int SetNewUser(User user)
