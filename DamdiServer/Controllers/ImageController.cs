@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using DamdiServer.Models;
 using System.Web.Http;
 using static DamdiServer.Models.Image;

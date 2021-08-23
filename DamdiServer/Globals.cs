@@ -10,13 +10,19 @@ namespace DamdiServer
     {
         //initializing data access layer with sql server before start the work between client side and backnd side.
         #region ctor
+        static string conStr;
         static Globals()
         {
-            //get connection string from Web.config;
-            //var conStr = ConfigurationManager.ConnectionStrings["LocalDB"].ConnectionString;
-            //var conStr = ConfigurationManager.ConnectionStrings["LIVEDNSfromLocal"].ConnectionString;
-            var conStr = ConfigurationManager.ConnectionStrings["LIVEDNSfromLivedns"].ConnectionString;
-            Globals.UserDAL = new DAL.UserDAL(conStr);
+
+            bool localWebAPI = false;//before doing publish need to be false
+            bool SqlLocal = false;//before doing publish need to be false
+            if (localWebAPI && SqlLocal)
+                conStr = ConfigurationManager.ConnectionStrings["LocalDB"].ConnectionString;
+            else if (localWebAPI && !SqlLocal)
+                conStr = ConfigurationManager.ConnectionStrings["LIVEDNSfromLocal"].ConnectionString;
+            else
+                conStr = ConfigurationManager.ConnectionStrings["LIVEDNSfromLivedns"].ConnectionString;
+            UserDAL = new UserDAL(conStr);
         }
         #endregion
 
