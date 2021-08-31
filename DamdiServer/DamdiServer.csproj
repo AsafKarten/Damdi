@@ -239,7 +239,6 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
-    <Compile Include="Controllers\MedicalDonorInfoController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DAL\UserDAL.cs" />
@@ -247,10 +246,15 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Globals.cs" />
+    <Compile Include="Models\Appointments.cs" />
+    <Compile Include="Models\Donations.cs" />
+    <Compile Include="Models\Donators.cs" />
     <Compile Include="Models\Image.cs" />
+    <Compile Include="Models\Manager.cs" />
     <Compile Include="Models\MedicalInfoDonation.cs" />
-    <Compile Include="Models\MedicalQuestionsDonor.cs" />
+    <Compile Include="Models\MedicalInfoDonator.cs" />
     <Compile Include="Models\Server.cs" />
+    <Compile Include="Models\Stations.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

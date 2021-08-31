@@ -9,7 +9,8 @@ namespace DamdiServer.Models
     {
         private string personal_id;
         private string email;
-        private string pass;
+        private string salted_hash;
+        private string profile_img;
         private string first_name;
         private string last_name;
         private string phone;
@@ -31,9 +32,11 @@ namespace DamdiServer.Models
         private string mother_birth_land;
         private string aliya_year;
         private string birth_land;
+
         public string Personal_id { get => personal_id; set => personal_id = value; }
         public string Email { get => email; set => email = value; }
-        public string Pass { get => pass; set => pass = value; }
+        public string Salted_hash { get => salted_hash; set => salted_hash = value; }
+        public string Profile_img { get => profile_img; set => profile_img = value; }
         public string First_name { get => first_name; set => first_name = value; }
         public string Last_name { get => last_name; set => last_name = value; }
         public string Phone { get => phone; set => phone = value; }
@@ -50,23 +53,22 @@ namespace DamdiServer.Models
         public bool Blood_group_member { get => blood_group_member; set => blood_group_member = value; }
         public bool Personal_insurance { get => personal_insurance; set => personal_insurance = value; }
         public bool Confirm_examination { get => confirm_examination; set => confirm_examination = value; }
-        public string Birth_land { get => birth_land; set => birth_land = value; }
         public bool Agree_future_don { get => agree_future_don; set => agree_future_don = value; }
-        public string Aliya_year { get => aliya_year; set => aliya_year = value; }
         public string Father_birth_land { get => father_birth_land; set => father_birth_land = value; }
         public string Mother_birth_land { get => mother_birth_land; set => mother_birth_land = value; }
-
+        public string Aliya_year { get => aliya_year; set => aliya_year = value; }
+        public string Birth_land { get => birth_land; set => birth_land = value; }
 
         public User()
         {
 
         }
 
-        public User(string personal_id, string email, string pass)
+        public User(string personal_id, string email, string salted_hash)
         {
             Personal_id = personal_id;
             Email = email;
-            Pass = pass;
+            Salted_hash = salted_hash;
         }
 
         public User(string personal_id, string email)
@@ -74,6 +76,7 @@ namespace DamdiServer.Models
             Personal_id = personal_id;
             Email = email;
         }
+
         public User(
             string personal_id,
             string first_name,

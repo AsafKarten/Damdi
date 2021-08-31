@@ -28,7 +28,6 @@ namespace DamdiServer
 
         #region Controllers
         public static UserController UserController { get; set; }
-        public static MedicalDonorInfoController MedicalDonorInfoController { get; set; }
         #endregion
 
         #region DAL
@@ -38,6 +37,13 @@ namespace DamdiServer
         #region Models
         public static User User { get; set; }
         public static MedicalInfoDonation MedicalInfoDonation { get; set; }
+        public static MedicalInfoDonator medicalInfoDonator { get; set; }
+        public static Donations Donations { get; set; }
+        public static Donators Donators { get; set; }
+        public static Manager Manager { get; set; }
+        public static Stations Stations { get; set; }
+        public static Appointments Appointments { get; set; }
+
         #endregion
 
     }

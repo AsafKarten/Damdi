@@ -15,7 +15,7 @@ namespace DamdiServer.DAL
         }
 
         /*Get user from database*/
-        public User GetUser(string personal_id, string pass)
+        public User GetUser(string personal_id, string salted_hash)
         {
             try
             {
@@ -23,10 +23,10 @@ namespace DamdiServer.DAL
                 {
                     con.Open();
                     User u = null;
-                    string query = $"SELECT * FROM Users where personal_id = @personal_id AND pass = @pass";
-                    SqlCommand cmd = new SqlCommand(query, con);
-                    cmd.Parameters.AddWithValue("@personal_id", personal_id);
-                    cmd.Parameters.AddWithValue("@pass", pass);
+                    SqlCommand cmd = new SqlCommand("GetUser", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id", personal_id);
+                    cmd.Parameters.AddWithValue("@salted_hash", salted_hash);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
@@ -35,6 +35,7 @@ namespace DamdiServer.DAL
                     return u;
                 }
             }
+
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
@@ -109,9 +110,9 @@ namespace DamdiServer.DAL
 
                 throw;
             }
-        } 
+        }
 
-        /*Create a new user in users table fgfg*/
+        /*Create a new user in users table*/
         public int SetNewUser(User user)
         {
             try
@@ -119,11 +120,11 @@ namespace DamdiServer.DAL
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
-                    string query = "INSERT INTO Users (personal_id,email,pass) VALUES (@Personal_id,@Email,@Pass)";
-                    SqlCommand cmd = new SqlCommand(query, con);
+                    SqlCommand cmd = new SqlCommand("InsertNewUser", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Personal_id", SqlDbType.NVarChar).Value = user.Personal_id; //u.Personal_id
                     cmd.Parameters.AddWithValue("@Email", SqlDbType.NVarChar).Value = user.Email; //u.Email
-                    cmd.Parameters.AddWithValue("@Pass", SqlDbType.NVarChar).Value = user.Pass;
+                    cmd.Parameters.AddWithValue("@Salted_hash", SqlDbType.NVarChar).Value = user.Salted_hash;
                     int res = cmd.ExecuteNonQuery();
                     return res;
                 }
@@ -142,7 +143,7 @@ namespace DamdiServer.DAL
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
-                    string query = 
+                    string query =
                         "Update Users SET " +
                         "first_name=@First_name," +
                         "last_name=@Last_name," +
@@ -222,11 +223,32 @@ namespace DamdiServer.DAL
                     while (reader.Read())
                     {
                         mid = new MedicalInfoDonation(
+                            Convert.ToInt32(reader["mi_donation_from"]),
                             Convert.ToString(reader["personal_id"]),
-                            Convert.ToInt32(reader["client_qus_code"]),
-                            Convert.ToInt32(reader["client_ans_code"]),
-                            Convert.ToString(reader["answer_date"])
-                            );
+                            Convert.ToDateTime(reader["answer_date"]),
+                            Convert.ToBoolean(reader["Q3_1"]),
+                            Convert.ToBoolean(reader["Q3_2"]),
+                            Convert.ToBoolean(reader["Q3_3"]),
+                            Convert.ToBoolean(reader["Q3_4"]),
+                            Convert.ToBoolean(reader["Q3_5"]),
+                            Convert.ToBoolean(reader["Q3_6"]),
+                            Convert.ToBoolean(reader["Q3_7"]),
+                            Convert.ToBoolean(reader["Q3_8"]),
+                            Convert.ToBoolean(reader["Q3_9"]),
+                            Convert.ToBoolean(reader["Q3_10"]),
+                            Convert.ToBoolean(reader["Q3_11"]),
+                            Convert.ToBoolean(reader["Q3_12"]),
+                            Convert.ToBoolean(reader["Q3_13"]),
+                            Convert.ToBoolean(reader["Q3_14"]),
+                            Convert.ToBoolean(reader["Q3_15"]),
+                            Convert.ToBoolean(reader["Q3_16"]),
+                            Convert.ToBoolean(reader["Q3_17"]),
+                            Convert.ToBoolean(reader["Q3_18"]),
+                            Convert.ToBoolean(reader["Q3_19"]),
+                            Convert.ToBoolean(reader["Q3_20"]),
+                            Convert.ToBoolean(reader["Q3_21"]),
+                            Convert.ToString(reader["notes"])
+                            );;
                         medicalInfos.Add(mid);
                     }
                     return medicalInfos;

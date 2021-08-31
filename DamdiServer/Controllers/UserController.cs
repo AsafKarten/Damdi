@@ -13,7 +13,7 @@ namespace DamdiServer.Controllers
         {
             try
             {
-                u = Globals.UserDAL.GetUser(u.Personal_id, u.Pass);
+                u = Globals.UserDAL.GetUser(u.Personal_id, u.Salted_hash);
                 if (u == null)
                     return Content(HttpStatusCode.NotFound, $"User {u.Personal_id} or pass is incorrect");
                 return Ok(u);
@@ -31,10 +31,6 @@ namespace DamdiServer.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest("Invalid data.");
-                }
                 Created(new Uri(Request.RequestUri.AbsoluteUri + user.Personal_id), Globals.UserDAL.SetNewUser(user));
                 return Ok("User created successfully.");
             }
@@ -69,10 +65,6 @@ namespace DamdiServer.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest("Invalid data.");
-                }
                 Created(new Uri(Request.RequestUri.AbsoluteUri + ui.Personal_id), Globals.UserDAL.SetNewUserInfo(ui));
                 return Ok("User info created successfully.");
             }
