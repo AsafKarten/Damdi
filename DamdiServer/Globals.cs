@@ -28,10 +28,12 @@ namespace DamdiServer
 
         #region Controllers
         public static UserController UserController { get; set; }
+        public static ManagerController ManagerController { get; set; }
         #endregion
 
         #region DAL
         public static UserDAL UserDAL { get; set; }
+        public static ManagerDAL ManagerDAL { get; set; }
         #endregion
 
         #region Models
