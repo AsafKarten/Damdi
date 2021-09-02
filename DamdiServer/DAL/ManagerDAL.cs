@@ -28,7 +28,14 @@ namespace DamdiServer.DAL
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        m = new Manager(Convert.ToInt32(reader["auto_worker_id"]), Convert.ToString(reader["personal_id"]), Convert.ToString(reader["first_name"]),  Convert.ToString(reader["last_name"]), Convert.ToString(reader["salted_hash"]), Convert.ToInt32(reader["Access_level"]));
+                        m = new Manager(
+                            Convert.ToInt32(reader["auto_worker_id"]),
+                            Convert.ToString(reader["personal_id"]),
+                            Convert.ToString(reader["first_name"]),
+                            Convert.ToString(reader["last_name"]),
+                            Convert.ToString(reader["salted_hash"]),
+                            Convert.ToInt32(reader["Access_level"])
+                            );
                     }
                     return m;
                 }
