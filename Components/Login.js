@@ -73,7 +73,6 @@ const LoginScreen = ({ navigation }) => {
         onPress={() => Login(PersonalId, Pass)}
 
       />
-      <br />
       <Button
         title="עוד לא נרשמת? הירשם !"
         onPress={() => navigation.navigate('RegistrationNewUser')}
