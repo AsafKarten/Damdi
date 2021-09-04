@@ -2,7 +2,6 @@ import React from 'react';
 import { SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
 
 const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
-
 const LoginScreen = ({ navigation }) => {
 
   const [PersonalId, onChangeId] = React.useState()
