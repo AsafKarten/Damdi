@@ -31,7 +31,7 @@ namespace DamdiServer
         public static ManagerController ManagerController { get; set; }
         public static DonatorsController DonatorsController { get; set; }
         public static StationsController StationsController { get; set; }
-
+        public static AppointmentsController AppointmentsController { get; set; }
         #endregion
 
         #region DAL
@@ -39,6 +39,7 @@ namespace DamdiServer
         public static ManagerDAL ManagerDAL { get; set; }
         public static DonatorsDAL DonatorsDAL { get; set; }
         public static StationsDAL StationsDAL { get; set; }
+        public static AppointmentsDAL AppointmentsDAL { get; set; }
         #endregion
 
         #region Models
