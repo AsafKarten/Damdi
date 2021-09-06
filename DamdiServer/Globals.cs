@@ -29,11 +29,16 @@ namespace DamdiServer
         #region Controllers
         public static UserController UserController { get; set; }
         public static ManagerController ManagerController { get; set; }
+        public static DonatorsController DonatorsController { get; set; }
+        public static StationsController StationsController { get; set; }
+
         #endregion
 
         #region DAL
         public static UserDAL UserDAL { get; set; }
         public static ManagerDAL ManagerDAL { get; set; }
+        public static DonatorsDAL DonatorsDAL { get; set; }
+        public static StationsDAL StationsDAL { get; set; }
         #endregion
 
         #region Models
