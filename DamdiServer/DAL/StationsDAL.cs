@@ -21,15 +21,15 @@ namespace DamdiServer.DAL
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
-                    SqlCommand cmd = new SqlCommand("InsertNewStation", con);//need to create proc!!!
+                    SqlCommand cmd = new SqlCommand("InsertNewStation", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Station_code", SqlDbType.Int).Value = station.Station_code;
-                    cmd.Parameters.AddWithValue("@City", SqlDbType.NVarChar).Value = station.City;
-                    cmd.Parameters.AddWithValue("@Address", SqlDbType.NVarChar).Value = station.Address;
-                    cmd.Parameters.AddWithValue("@Start_time", SqlDbType.DateTime).Value = station.Start_time;
-                    cmd.Parameters.AddWithValue("@End_time", SqlDbType.DateTime).Value = station.End_time;
-                    cmd.Parameters.AddWithValue("@Lat", SqlDbType.Float).Value = station.Lat;
-                    cmd.Parameters.AddWithValue("@Lng", SqlDbType.Float).Value = station.Lng;
+                    cmd.Parameters.AddWithValue("@station_code", SqlDbType.Int).Value = station.Station_code;
+                    cmd.Parameters.AddWithValue("@city", SqlDbType.NVarChar).Value = station.City;
+                    cmd.Parameters.AddWithValue("@f_address", SqlDbType.NVarChar).Value = station.F_address;
+                    cmd.Parameters.AddWithValue("@start_time", SqlDbType.DateTime).Value = station.Start_time;
+                    cmd.Parameters.AddWithValue("@end_time", SqlDbType.DateTime).Value = station.End_time;
+                    cmd.Parameters.AddWithValue("@lat", SqlDbType.Float).Value = station.Lat;
+                    cmd.Parameters.AddWithValue("@lng", SqlDbType.Float).Value = station.Lng;
                     int res = cmd.ExecuteNonQuery();
                     return res;
                 }

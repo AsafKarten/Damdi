@@ -21,12 +21,12 @@ namespace DamdiServer.DAL
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
-                    SqlCommand cmd = new SqlCommand("InsertNewDonator", con);//Create proc!!!
+                    SqlCommand cmd = new SqlCommand("InsertNewDonator", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Personal_id_worker", SqlDbType.NVarChar).Value = donator.Personal_id_worker;
-                    cmd.Parameters.AddWithValue("@First_name", SqlDbType.NVarChar).Value = donator.First_name; 
-                    cmd.Parameters.AddWithValue("@Last_name", SqlDbType.NVarChar).Value = donator.Last_name;
-                    cmd.Parameters.AddWithValue("@Salted_hash", SqlDbType.NVarChar).Value = donator.Salted_hash;
+                    cmd.Parameters.AddWithValue("@personal_id_worker", SqlDbType.NVarChar).Value = donator.Personal_id_worker;
+                    cmd.Parameters.AddWithValue("@first_name", SqlDbType.NVarChar).Value = donator.First_name; 
+                    cmd.Parameters.AddWithValue("@last_name", SqlDbType.NVarChar).Value = donator.Last_name;
+                    cmd.Parameters.AddWithValue("@salted_hash", SqlDbType.NVarChar).Value = donator.Salted_hash;
                     int res = cmd.ExecuteNonQuery();
                     return res;
                 }

@@ -21,11 +21,11 @@ namespace DamdiServer.DAL
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
-                    SqlCommand cmd = new SqlCommand("InsertNewAppointment", con);//Create proc!!!
+                    SqlCommand cmd = new SqlCommand("InsertNewAppointment", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Station_code", SqlDbType.Int).Value = app.Station_code;
-                    cmd.Parameters.AddWithValue("@Personal_id", SqlDbType.NVarChar).Value = app.Personal_id;
-                    cmd.Parameters.AddWithValue("@App_time", SqlDbType.DateTime).Value = app.App_time;
+                    cmd.Parameters.AddWithValue("@station_code", SqlDbType.Int).Value = app.Station_code;
+                    cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = app.Personal_id;
+                    cmd.Parameters.AddWithValue("@app_time", SqlDbType.DateTime).Value = app.App_time;
                     int res = cmd.ExecuteNonQuery();
                     return res;
                 }
