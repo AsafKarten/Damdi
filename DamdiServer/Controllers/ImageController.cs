@@ -2,7 +2,7 @@
 using System.Net;
 using DamdiServer.Models;
 using System.Web.Http;
-using static DamdiServer.Models.Image;
+using static DamdiServer.Models.ProfileImage;
 using System.Web;
 using System.IO;
 
@@ -10,39 +10,34 @@ namespace DamdiServer.Controllers
 {
     public class ImageController : ApiController
     {
+        [Route("api/uploadpicture")]
         [HttpPost]
         public IHttpActionResult UploadImage([FromBody] Img image)
         {
             //create the response object
             ImgRes res = new ImgRes();
-
             try
             {
                 //path
-                string path = HttpContext.Current.Server.MapPath(@"~/uploads/" + image.folder);
+                string path = HttpContext.Current.Server.MapPath(@"~/Users/" + image.folder);
 
                 //create directory if not exists
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
 
                 //create the image data
-                string imageName = image.name + ".jpg";
+                string imageName = image.name + "." + image.type;
                 string imagePath = Path.Combine(path, imageName);
-                byte[] imageBytes = Convert.FromBase64String(image.base64);
+                byte[] imageBytes = Convert.FromBase64String(image.uri);
 
                 //write the image and save it
                 File.WriteAllBytes(imagePath, imageBytes);
 
-                //update the resposne object    
-                res.path = $"{Server.GetServerUrl()}/{image.folder}/{imageName}";
+                //update the resposne object
+                res.path = $"{Server.GetServerUrl()}/Upload_users/{image.folder}/{imageName}";
                 res.isOk = true;
-                //send path to user id
-                int rows = Globals.UserDAL.UpdateUserImage(res.path, image.folder.Split('_')[1]);
-                if (rows >= 1)
-                {
-                    return Ok(res);
-                }
-                return BadRequest("error while update the users table");
+                Globals.UserDAL.SaveNewProfilePhotoToDB(res.path, int.Parse(image.folder));
+                return Ok(res);
             }
             catch (Exception e)
             {
