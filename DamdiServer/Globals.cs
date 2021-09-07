@@ -11,7 +11,7 @@ namespace DamdiServer
         //initializing data access layer with sql server before start the work between client side and backnd side.
         #region ctor
         static string conStr;
-        public static Globals()
+        static Globals()
         {
 
             bool localWebAPI = false;//before doing publish need to be false
