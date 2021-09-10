@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
+import { View, SafeAreaView, StyleSheet,Text, TextInput, Button, TouchableOpacity } from 'react-native';
 
 const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
 const LoginScreen = ({ navigation }) => {
@@ -33,7 +33,7 @@ const LoginScreen = ({ navigation }) => {
             console.log(result);
             console.log(result.Personal_id);
             console.log(result.Email);
-            
+
             if (result.Email === undefined & result.Personal_id === undefined) {
               alert("הירשם בבקשה, משתמש אינו קיים")
               return;
@@ -41,8 +41,8 @@ const LoginScreen = ({ navigation }) => {
             else if (!(result.First_name == null || result.Last_name == null)) {
               navigation.navigate("ברוך הבא", { userid: result.First_name })
             } else {
-              
-            navigation.navigate("PersonalForm", result.Personal_id )
+
+              navigation.navigate("PersonalForm", result.Personal_id)
             }
           },
           (error) => {
@@ -67,15 +67,17 @@ const LoginScreen = ({ navigation }) => {
         secureTextEntry={true}
         placeholder="סיסמה"
       />
-      <Button
-        title="התחבר"
-        onPress={() => Login(PersonalId, Pass)}
-
-      />
-      <Button
-        title="עוד לא נרשמת? הירשם !"
-        onPress={() => navigation.navigate('RegistrationNewUser')}
-      />
+      <TouchableOpacity onPress={() => Login(PersonalId, Pass)}>
+        <View style={styles.button_normal}>
+          <Text >התחברות</Text>
+        </View>
+      </TouchableOpacity>
+      
+      <TouchableOpacity onPress={() => navigation.navigate('RegistrationNewUser')}>
+        <View style={styles.button_normal}>
+          <Text >הרשמה</Text>
+        </View>
+      </TouchableOpacity>
     </SafeAreaView>
 
   );
@@ -88,10 +90,19 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
+    width: 160,
     margin: 12,
     borderWidth: 1,
     borderRadius: 8,
     textAlign: 'center',
+  },
+  button_normal: {
+
+    alignItems: 'center',
+    margin: 15,
+    borderRadius: 8,
+    padding: 10,
+    backgroundColor: "#633689"
   },
 });
 export default LoginScreen;
