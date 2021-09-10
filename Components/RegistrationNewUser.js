@@ -5,13 +5,13 @@ import { View, SafeAreaView, StyleSheet,Text, TextInput, Button, TouchableOpacit
 const url = "http://ruppinmobile.tempdomain.co.il/site15/"
 var bcrypt = require('bcryptjs');
 
-const RegistrationNewUser = ({ navigation }) => {
+const RegistrationNewUser =  ({ navigation }) => {
     const [PersonalId, onChangeId] = React.useState();
     const [Email, onChangeEmail] = React.useState();
     const [Pass, onChangePass] = React.useState();
     const [CPass, onChangeCPass] = React.useState();
 
-    const SignUp = (id, Email, Pass, CPass) => {
+    const SignUp = async (id, Email, Pass, CPass) => {
         if (Pass != CPass) {
             alert("סיסמא אינה תואמת, אנא בדוק פרטיך!");
             return
@@ -21,10 +21,10 @@ const RegistrationNewUser = ({ navigation }) => {
             return
         }
         else {
-            var salt = bcrypt.genSaltSync(10);
-            var saltedHash =  bcrypt.hashSync(Pass, salt);
+            var salt = await bcrypt.genSaltSync(10);
+            var saltedHash = await  bcrypt.hashSync(Pass, salt);
 
-            fetch(url + "api/user/post", {
+            let result = await fetch(url + "api/user/post", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8',
@@ -37,29 +37,9 @@ const RegistrationNewUser = ({ navigation }) => {
                     
                 })
             })
-                .then(res => {
-                    console.log('res=', res);
-                    return res.json()
-
-                })
-                .then(
-                    (result) => {
-                        debugger
-                        console.log(id);
-                        console.log(result);
-                        console.log(result.Personal_id);
-                        console.log(result.Email);
-                        if (result === 'User created successfully.') {
-                            navigation.navigate("Login");
-
-                        } else {
-                            alert("משתמש קיים")
-                            return;
-                        }
-                    },
-                    (error) => {
-                        console.log(error);
-                    });
+            let data = await result.JSON
+            console.log(data)
+            navigation.navigate('Login')
         }
     }
 
