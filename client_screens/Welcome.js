@@ -2,7 +2,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-export default function Welcome({ navigation, route }) {
+export default function Welcome({ route }) {
 
     return (
         <View>
