@@ -10,7 +10,7 @@ import Welcome from './client_screens/Welcome.js';
 
 const Stack = createStackNavigator();
 
-function App() {
+export default function App() {
 
   return (
     <NavigationContainer>
@@ -25,5 +25,3 @@ function App() {
     </NavigationContainer>
   );
 }
-
-export default App;

@@ -1,13 +1,12 @@
-import React from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, Button, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 
 const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
 var bcrypt = require('bcryptjs');
-const LoginScreen = ({ navigation }) => {
-
-  const [PersonalId, onChangeId] = React.useState()
-  const [Email, onChangeEmail] = React.useState();
-  const [Pass, onChangePass] = React.useState();
+export default function Login({ navigation }) {
+  const [PersonalId, onChangeId] = useState()
+  const [Email, onChangeEmail] = useState();
+  const [Pass, onChangePass] = useState();
 
   const Login = async (id, email, Pass) => {
     if (id == "" || email == "" || Pass == "") {
@@ -65,7 +64,7 @@ const LoginScreen = ({ navigation }) => {
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('RegistrationNewUser')}>
+      <TouchableOpacity onPress={() => navigation.navigate('Registration')}>
         <View style={styles.button_normal}>
           <Text >הרשמה</Text>
         </View>
@@ -97,4 +96,3 @@ const styles = StyleSheet.create({
     backgroundColor: "#633689"
   },
 });
-export default LoginScreen;

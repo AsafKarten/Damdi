@@ -1,15 +1,16 @@
-import React from 'react';
-import { View, SafeAreaView, StyleSheet,Text, TextInput, Button, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, Button, TouchableOpacity } from 'react-native';
 
 
 const url = "http://ruppinmobile.tempdomain.co.il/site15/"
 var bcrypt = require('bcryptjs');
 
-const RegistrationNewUser =  ({ navigation }) => {
-    const [PersonalId, onChangeId] = React.useState();
-    const [Email, onChangeEmail] = React.useState();
-    const [Pass, onChangePass] = React.useState();
-    const [CPass, onChangeCPass] = React.useState();
+export default function Registration({ navigation }) {
+
+    const [PersonalId, onChangeId] = useState();
+    const [Email, onChangeEmail] = useState();
+    const [Pass, onChangePass] = useState();
+    const [CPass, onChangeCPass] = useState();
 
     const SignUp = async (id, Email, Pass, CPass) => {
         if (Pass != CPass) {
@@ -22,7 +23,7 @@ const RegistrationNewUser =  ({ navigation }) => {
         }
         else {
             var salt = await bcrypt.genSaltSync(10);
-            var saltedHash = await  bcrypt.hashSync(Pass, salt);
+            var saltedHash = await bcrypt.hashSync(Pass, salt);
 
             let result = await fetch(url + "api/user/post", {
                 method: 'POST',
@@ -34,7 +35,7 @@ const RegistrationNewUser =  ({ navigation }) => {
                     Personal_id: id,
                     Email: Email,
                     Salted_hash: saltedHash,
-                    
+
                 })
             })
             let data = await result.JSON
@@ -73,10 +74,10 @@ const RegistrationNewUser =  ({ navigation }) => {
                 placeholder="אשר סיסמה"
             />
             <TouchableOpacity onPress={() => SignUp(PersonalId, Email, Pass, CPass)}>
-        <View style={styles.button_normal}>
-          <Text >סיים הרשמה</Text>
-        </View>
-      </TouchableOpacity>
+                <View style={styles.button_normal}>
+                    <Text >סיים הרשמה</Text>
+                </View>
+            </TouchableOpacity>
         </SafeAreaView>
 
     );
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 40,
-        width:160,
+        width: 160,
         margin: 12,
         borderWidth: 1,
         borderRadius: 8,
@@ -103,6 +104,5 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         padding: 10,
         backgroundColor: "#633689"
-      },
+    },
 });
-export default RegistrationNewUser;
