@@ -13,7 +13,7 @@ namespace DamdiServer.Controllers
         {
             try
             {
-                u = Globals.UserDAL.GetUser(u.Personal_id, u.Salted_hash);
+                u = Globals.UserDAL.GetUser(u.Personal_id, u.Email);
                 if (u == null)
                     return Content(HttpStatusCode.NotFound, $"User {u.Personal_id} or pass is incorrect");
                 return Ok(u);

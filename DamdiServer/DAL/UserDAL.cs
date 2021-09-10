@@ -15,7 +15,7 @@ namespace DamdiServer.DAL
         }
 
         /*Get user from database*/
-        public User GetUser(string personal_id, string salted_hash)
+        public User GetUser(string personal_id, string email)
         {
             try
             {
@@ -26,11 +26,11 @@ namespace DamdiServer.DAL
                     SqlCommand cmd = new SqlCommand("GetUser", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id", personal_id);
-                    cmd.Parameters.AddWithValue("@salted_hash", salted_hash);
+                    cmd.Parameters.AddWithValue("@email", email);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        u = new User(Convert.ToString(reader["personal_id"]), Convert.ToString(reader["email"]));
+                        u = new User(Convert.ToString(reader["personal_id"]), Convert.ToString(reader["email"]),Convert.ToString(reader["salted_hash"]));
                     }
                     return u;
                 }
