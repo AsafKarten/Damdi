@@ -1,12 +1,12 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import RegistrationNewUser from './Components/RegistrationNewUser.js'
-import LoginScreen from './Components/Login.js'
-import PersonalFormScreen from './Components/PersonalForms/PersonalForm';
-import PersonalFormScreen2 from './Components/PersonalForms/PersonalForm2';
-import PersonalFormScreen3 from './Components/PersonalForms/PersonalForm3';
-import Welcome from './Components/Welcome.js';
+import Registration from './client_screens/Registration'
+import Login from './client_screens/Login.js'
+import PersonalFormScreen from './client_screens/PersonalForm';
+import PersonalFormScreen2 from './client_screens/PersonalForm2';
+import PersonalFormScreen3 from './client_screens/PersonalForm3';
+import Welcome from './client_screens/Welcome.js';
 
 const Stack = createStackNavigator();
 
@@ -15,8 +15,8 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="RegistrationNewUser" component={RegistrationNewUser} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Registration" component={Registration} />
         <Stack.Screen name="PersonalForm" component={PersonalFormScreen} />
         <Stack.Screen name="PersonalForm2" component={PersonalFormScreen2} />
         <Stack.Screen name="PersonalForm3" component={PersonalFormScreen3} />

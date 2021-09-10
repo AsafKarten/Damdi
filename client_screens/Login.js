@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, SafeAreaView, StyleSheet,Text, TextInput, Button, TouchableOpacity } from 'react-native';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, Button, TouchableOpacity } from 'react-native';
 
 const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
 var bcrypt = require('bcryptjs');
@@ -9,14 +9,12 @@ const LoginScreen = ({ navigation }) => {
   const [Email, onChangeEmail] = React.useState();
   const [Pass, onChangePass] = React.useState();
 
-  const Login = async (id,email, Pass) => {
-    if ( id == ""|| email=="" || Pass == "") {
+  const Login = async (id, email, Pass) => {
+    if (id == "" || email == "" || Pass == "") {
       alert("אנא מלא\י את כל פרטים !")
       return
     }
     else {
-      var correct = bcrypt.compareSync(Pass, data.Hash)
-      console.log(saltedHash)
       let result = await fetch(uri + "api/user", {
         method: 'POST',
         headers: {
@@ -25,17 +23,22 @@ const LoginScreen = ({ navigation }) => {
         },
         body: JSON.stringify({
           Personal_id: id,
-          Email:email,
-          Salted_hash: saltedHash
+          Email: email,
         })
       })
       let data = await result.JSON
-      console.log(data)
+      console.log(data);
+      var correct = bcrypt.compareSync(Pass, data.Salted_hash)
+      if (!correct) {
+        Alert.alert("Wrong details,check your details");
+        return;
+      }
+      console.log(data);
+      navigation.navigate("Welcome")
     }
   }
 
   return (
-
     <SafeAreaView style={styles.container}>
       <TextInput
         style={styles.input}
@@ -43,7 +46,7 @@ const LoginScreen = ({ navigation }) => {
         value={PersonalId}
         placeholder="תעודת זהות"
       />
-          <TextInput
+      <TextInput
         style={styles.input}
         onChangeText={onChangeEmail}
         value={Email}
@@ -61,7 +64,7 @@ const LoginScreen = ({ navigation }) => {
           <Text >התחברות</Text>
         </View>
       </TouchableOpacity>
-      
+
       <TouchableOpacity onPress={() => navigation.navigate('RegistrationNewUser')}>
         <View style={styles.button_normal}>
           <Text >הרשמה</Text>
