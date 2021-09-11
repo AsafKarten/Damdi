@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Button } from 'react-native';
 
 
 const url = "http://ruppinmobile.tempdomain.co.il/site15/"
 
+//Personal_id:"204610620",First_name:"אסף",Last_name:"קרטן",Phone:"0549214258",Gender:"ז" ,Birthdate:"03.03.1993" ,Prev_first_name:"" ,Prev_last_name:"",City:"ranana", Address:"hertzel 101", Postal_code:"3355", Mail_box:"3", Telephone:"0549214258", Work_telephone:"",Blood_group_member:False, Personal_insurance:False, Confirm_examination:True, Agree_future_don:True, Birth_land:"ישראל", Aliya_year:"", Father_birth_land:"ישראל", Mother_birth_land:"ישראל"
+//Blood_group_member:False, Personal_insurance:False, Confirm_examination:True, Agree_future_don:True, Birth_land:"ישראל", Aliya_year:"", Father_birth_land:"ישראל", Mother_birth_land:"ישראל"
 
 const PersonalFormScreen3 = ({ navigation, route}) => {
 
@@ -38,7 +40,7 @@ const PersonalFormScreen3 = ({ navigation, route}) => {
                 Father_birth_land,
                 Mother_birth_land
         )
-        navigation.navigate('New_Page', userInfo, userInfo2, userInfo3)
+        navigation.navigate('Welcome')
     }
 
     return (
@@ -96,8 +98,6 @@ const PersonalFormScreen3 = ({ navigation, route}) => {
             />
 
             <Button title="סיום" onPress={() => PostPersonalForm3(
-                userInfo,
-                userInfo2,
                 Blood_group_member,
                 Personal_insurance,
                 Confirm_examination,

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert,Button } from 'react-native';
 
 
 const url = "http://ruppinmobile.tempdomain.co.il/site15/"
 
+//Personal_id:"204610620",First_name:"אסף",Last_name:"קרטן",Phone:"0549214258",Gender:"ז" ,Birthdate:"03.03.1993" ,Prev_first_name:"" ,Prev_last_name:""
 
 const PersonalFormScreen = ({ navigation , route }) => {
     const Personal_id = route.params.route.Personal_id
