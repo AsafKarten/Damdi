@@ -64,6 +64,7 @@ namespace DamdiServer.Models
 
         }
 
+
         public User(string personal_id, string email, string salted_hash)
         {
             Personal_id = personal_id;

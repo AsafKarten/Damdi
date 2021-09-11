@@ -1,7 +1,6 @@
 /*
 Use Master
 GO
-
 Use site15
 GO
 */
@@ -62,7 +61,7 @@ Create TABLE Stations
 (
 	[station_code] [int] NOT NULL,
 	[city] [nvarchar](50) NOT NULL,
-	[address] [nvarchar](70) NOT NULL,
+	[f_address] [nvarchar](70) NOT NULL,
 	[start_time] [time](0) null,
 	[end_time] [time](0) null,
 	lat decimal null,
@@ -237,12 +236,58 @@ CONSTRAINT FK_autonumber_BD FOREIGN KEY (blood_donation_id) REFERENCES [Donation
 GO
 
 
-CREATE PROCEDURE GetUser(@id nvarchar(9) , @salted_hash nvarchar(max))
+Create procedure GetUser(
+@id nvarchar(9),
+@salted_hash nvarchar(max))
 AS
 SELECT * FROM Users
 where personal_id=@id and salted_hash=@salted_hash
 
+Create procedure GetUserInfo(@personal_id nvarchar(10))
+as
+SELECT * FROM Users where personal_id=@personal_id
 
-CREATE PROCEDURE InsertNewUser(@personal_id nvarchar(9) , @email nvarchar(50) , @salted_hash nvarchar(max))
+Create procedure InsertNewUser(
+@personal_id nvarchar(9),
+@email nvarchar(50),
+@salted_hash nvarchar(max))
 as 
 INSERT INTO Users (personal_id,email,salted_hash) VALUES (@personal_id,@email,@salted_hash)
+
+Create procedure InsertNewAppointment(@station_code int , @personal_id nvarchar(10) , @app_time datetime)
+as 
+INSERT INTO Appointments(station_code,personal_id,app_time) VALUES (@station_code,@personal_id,@app_time)
+
+Create procedure UpdateProfileImage(
+@user_img nvarchar(max),
+@id int)
+as
+Update Users Set profile_img=@user_img where personal_id=@id
+
+
+
+
+Create procedure InsertNewDonator(
+@personal_id_worker nvarchar (10),
+@first_name nvarchar(50),
+@last_name nvarchar(50),
+@salted_hash nvarchar(max))
+as 
+INSERT INTO Donators(personal_id_worker,first_name,last_name,salted_hash) VALUES (@personal_id_worker,@first_name,@last_name,@salted_hash)
+
+
+Create procedure InsertNewStation(
+@station_code int,
+@city nvarchar(50),
+@f_address nvarchar(70),
+@start_time time(0),
+@end_time time(0),
+@lat decimal,
+@lng decimal)
+as
+insert into Stations (station_code,city,f_address,start_time,end_time,lat,lng) VALUES (@station_code,@city,@f_address,@start_time,@end_time,@lat,@lng)
+
+
+Create procedure MedicalInfoUser(@personal_id nvarchar(10))
+as
+SELECT * FROM MedicalInfoDonation where personal_id=@personal_id

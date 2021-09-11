@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Net;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace DamdiServer.Controllers
 {
+    [EnableCors("*", "*", "*")]
     public class UserController : ApiController
     {
         //Get One User from users table.
@@ -13,7 +15,7 @@ namespace DamdiServer.Controllers
         {
             try
             {
-                u = Globals.UserDAL.GetUser(u.Personal_id, u.Salted_hash);
+                u = Globals.UserDAL.GetUser(u.Personal_id, u.Email);
                 if (u == null)
                     return Content(HttpStatusCode.NotFound, $"User {u.Personal_id} or pass is incorrect");
                 return Ok(u);
@@ -47,7 +49,7 @@ namespace DamdiServer.Controllers
         {
             try
             {
-                ui=Globals.UserDAL.GetUserInfo(ui.Personal_id);
+                ui = Globals.UserDAL.GetUserInfo(ui.Personal_id);
                 if (ui == null)
                     return Content(HttpStatusCode.NotFound, $"User info {ui.Personal_id} was not found");
                 return Ok(ui);
