@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert,Button } from 'react-native';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Button } from 'react-native';
 
 
 const url = "http://ruppinmobile.tempdomain.co.il/site15/"
 
 //Personal_id:"204610620",First_name:"אסף",Last_name:"קרטן",Phone:"0549214258",Gender:"ז" ,Birthdate:"03.03.1993" ,Prev_first_name:"" ,Prev_last_name:""
 
-const PersonalFormScreen = ({ navigation , route }) => {
+export default function PersonalFormScreen({ navigation, route }) {
     const Personal_id = route.params.route.Personal_id
     const [First_name, onChangeFirst_name] = useState(route.params.route.First_name);
     const [Last_name, onChangeLast_name] = useState(route.params.route.Last_name);
@@ -15,31 +15,24 @@ const PersonalFormScreen = ({ navigation , route }) => {
     const [Birthdate, onChangeBirthdate] = useState(route.params.route.Birthdate);
     const [Prev_first_name, onChangePrev_first_name] = useState(route.params.route.Prev_first_name);
     const [Prev_last_name, onChangePrev_last_name] = useState(route.params.route.Prev_last_name);
- 
-    const PostPersonalForm=(
-        Personal_id,
-        First_name,
-        Last_name,
-        Phone, 
-        Gender,
-        Birthdate,
-        Prev_first_name,
-        Prev_last_name,
-        )=>{
-            const userInfo={
-                Personal_id,
-                First_name,
-                Last_name,
-                Phone, 
-                Gender,
-                Birthdate,
-                Prev_first_name,
-                Prev_last_name,
-            }
-            console.log(userInfo)
-            navigation.navigate('PersonalForm2', userInfo )
 
+    const PostPersonalForm = () => {
+        const new_route = route.params.route
+        route.First_name = First_name
+        route.Last_name = Last_name
+        route.Phone = Phone
+        route.Gender = Gender
+        route.Birthdate = Birthdate
+        route.Prev_first_name = Prev_first_name
+        route.Prev_last_name = Prev_last_name
+
+
+        console.log()
+        navigation.navigate('PersonalForm2', { route: new_route })
     }
+
+
+
 
     return (
 
@@ -86,23 +79,14 @@ const PersonalFormScreen = ({ navigation , route }) => {
                 value={Prev_last_name}
                 placeholder="שם קודם: משפחה"
             />
-           
-           
-           
+
+
+
             <Button
                 title="הבא"
-                onPress={() => PostPersonalForm(
-                    Personal_id,
-                    First_name,
-                    Last_name,
-                    Phone, 
-                    Gender,
-                    Birthdate,
-                    Prev_first_name,
-                    Prev_last_name,
-                    )}
+                onPress={() => PostPersonalForm()}
             />
-           
+
         </SafeAreaView>
 
     );
@@ -122,4 +106,4 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 });
-export default PersonalFormScreen;
+

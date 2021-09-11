@@ -10,36 +10,27 @@ const url = "http://ruppinmobile.tempdomain.co.il/site15/"
 const PersonalFormScreen3 = ({ navigation, route}) => {
 
     
-    const [Blood_group_member, onChangeBlood_group_member] = useState();
-    const [Personal_insurance, onChangePersonal_insurance] = useState();
-    const [Confirm_examination, onChangeConfirm_examination] = useState();
-    const [Agree_future_don, onChangeAgree_future_don] = useState();
-    const [Birth_land, onChangeBirth_land] = useState();
-    const [Aliya_year, onChangeAliya_year] = useState();
-    const [Father_birth_land, onChangeFather_birth_land] = useState();
-    const [Mother_birth_land, onChangeMother_birth_land] = useState();
+    const [Blood_group_member, onChangeBlood_group_member] = useState(route.params.route.Blood_group_member);
+    const [Personal_insurance, onChangePersonal_insurance] = useState(route.params.route.Personal_insurance);
+    const [Confirm_examination, onChangeConfirm_examination] = useState(route.params.route.Agree_future_don);
+    const [Agree_future_don, onChangeAgree_future_don] = useState(route.params.route.Agree_future_don);
+    const [Birth_land, onChangeBirth_land] = useState(route.params.route.Birth_land);
+    const [Aliya_year, onChangeAliya_year] = useState(route.params.route.Aliya_year);
+    const [Father_birth_land, onChangeFather_birth_land] = useState(route.params.route.Father_birth_land);
+    const [Mother_birth_land, onChangeMother_birth_land] = useState(route.params.route.Mother_birth_land);
 
 
-    const PostPersonalForm3 = (
-        Blood_group_member,
-        Personal_insurance,
-        Confirm_examination,
-        Agree_future_don,
-        Birth_land,
-        Aliya_year,
-        Father_birth_land,
-        Mother_birth_land
-    ) => {
-        const userInfo3 = (
-                Blood_group_member,
-                Personal_insurance,
-                Confirm_examination,
-                Agree_future_don,
-                Birth_land,
-                Aliya_year,
-                Father_birth_land,
-                Mother_birth_land
-        )
+    const PostPersonalForm3 = () => {
+        const new_route = route.params.route
+        new_route.Blood_group_member=Blood_group_member
+        new_route.Personal_insurance=Personal_insurance
+        new_route.Confirm_examination=Confirm_examination
+        new_route.Agree_future_don=Agree_future_don
+        new_route.Birth_land=Birth_land
+        new_route.Aliya_year=Aliya_year
+        new_route.Father_birth_land=Father_birth_land
+        new_route.Mother_birth_land=Mother_birth_land
+
         navigation.navigate('Welcome')
     }
 

@@ -9,35 +9,24 @@ const url = "http://ruppinmobile.tempdomain.co.il/site15/"
 
 const PersonalFormScreen2 = ({ navigation, route }) => {
 
-    const [City, onChangeCity] = useState();
-    const [Address, onChangeAddress] = useState();
-    const [Postal_code, onChangePostal_code] = useState();
-    const [Mail_box, onChangeMail_box] = useState();
-    const [Telephone, onChangeTelephone] = useState();
-    const [Work_telephone, onChangeWork_telephone] = useState();
+    const [City, onChangeCity] = useState(route.params.route.City);
+    const [Address, onChangeAddress] = useState(route.params.route.Address);
+    const [Postal_code, onChangePostal_code] = useState(route.params.route.Postal_code);
+    const [Mail_box, onChangeMail_box] = useState(route.params.route.Mail_box);
+    const [Telephone, onChangeTelephone] = useState(route.params.route.Telephone);
+    const [Work_telephone, onChangeWork_telephone] = useState(route.params.route.Work_telephone);
 
 
 
-    const PostPersonalForm2 = (
-        userInfo,
-        City,
-        Address,
-        Postal_code,
-        Mail_box,
-        Telephone,
-        Work_telephone
-    ) => {
-        const userInfo2 = (
-            City,
-            Address,
-            Postal_code,
-            Mail_box,
-            Telephone,
-            Work_telephone
-        )
-        console.log(userInfo)
-        console.log(userInfo2)
-        navigation.navigate('PersonalForm3', userInfo, userInfo2)
+    const PostPersonalForm2 = () => {
+        const new_route = route.params.route
+        new_route.City = City
+        new_route.Address = Address
+        new_route.Postal_code = Postal_code
+        new_route.Mail_box = Mail_box
+        new_route.Telephone = Telephone
+        new_route.Work_telephone = Work_telephone
+        navigation.navigate('PersonalForm3', {route: new_route})
     }
 
 
@@ -82,15 +71,7 @@ const PersonalFormScreen2 = ({ navigation, route }) => {
                 placeholder="מס טלפון בעבודה"
             />
 
-            <Button title="הבא" onPress={() => PostPersonalForm2(
-               
-                City,
-                Address,
-                Postal_code,
-                Mail_box,
-                Telephone,
-                Work_telephone
-            )}
+            <Button title="הבא" onPress={() => PostPersonalForm2()}
            />
             <Button title="חזרה" onPress={() => navigation.navigate('PersonalForm')} />
 
