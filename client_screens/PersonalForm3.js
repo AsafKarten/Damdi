@@ -30,6 +30,7 @@ const PersonalFormScreen3 = ({ navigation, route}) => {
         new_route.Aliya_year=Aliya_year
         new_route.Father_birth_land=Father_birth_land
         new_route.Mother_birth_land=Mother_birth_land
+        console.log(new_route)
 
         navigation.navigate('Welcome')
     }

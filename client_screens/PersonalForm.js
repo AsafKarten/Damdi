@@ -18,13 +18,13 @@ export default function PersonalFormScreen({ navigation, route }) {
 
     const PostPersonalForm = () => {
         const new_route = route.params.route
-        route.First_name = First_name
-        route.Last_name = Last_name
-        route.Phone = Phone
-        route.Gender = Gender
-        route.Birthdate = Birthdate
-        route.Prev_first_name = Prev_first_name
-        route.Prev_last_name = Prev_last_name
+        new_route.First_name = First_name
+        new_route.Last_name = Last_name
+        new_route.Phone = Phone
+        new_route.Gender = Gender
+        new_route.Birthdate = Birthdate
+        new_route.Prev_first_name = Prev_first_name
+        new_route.Prev_last_name = Prev_last_name
 
 
         console.log()
