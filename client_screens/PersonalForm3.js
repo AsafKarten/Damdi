@@ -1,26 +1,24 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
+import React, { useState } from 'react';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 
 
 const url = "http://ruppinmobile.tempdomain.co.il/site15/"
 
 
-const PersonalFormScreen3 = ({ navigation,  userInfo, userInfo2,}) => {
+const PersonalFormScreen3 = ({ navigation, route}) => {
 
     
-    const [Blood_group_member, onChangeBlood_group_member] = React.useState();
-    const [Personal_insurance, onChangePersonal_insurance] = React.useState();
-    const [Confirm_examination, onChangeConfirm_examination] = React.useState();
-    const [Agree_future_don, onChangeAgree_future_don] = React.useState();
-    const [Birth_land, onChangeBirth_land] = React.useState();
-    const [Aliya_year, onChangeAliya_year] = React.useState();
-    const [Father_birth_land, onChangeFather_birth_land] = React.useState();
-    const [Mother_birth_land, onChangeMother_birth_land] = React.useState();
+    const [Blood_group_member, onChangeBlood_group_member] = useState();
+    const [Personal_insurance, onChangePersonal_insurance] = useState();
+    const [Confirm_examination, onChangeConfirm_examination] = useState();
+    const [Agree_future_don, onChangeAgree_future_don] = useState();
+    const [Birth_land, onChangeBirth_land] = useState();
+    const [Aliya_year, onChangeAliya_year] = useState();
+    const [Father_birth_land, onChangeFather_birth_land] = useState();
+    const [Mother_birth_land, onChangeMother_birth_land] = useState();
 
 
     const PostPersonalForm3 = (
-        userInfo,
-        userInfo2,
         Blood_group_member,
         Personal_insurance,
         Confirm_examination,

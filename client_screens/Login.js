@@ -36,8 +36,19 @@ export default function Login({ navigation }) {
                 return;
             }
             else {
-               
-                navigation.navigate("Welcome");
+              let user_result = await fetch(uri + "api/user/info", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    Personal_id: PersonalId,
+                })
+            });
+            let user = await user_result.json();
+            console.log(user);
+                navigation.navigate( "PersonalForm" , { route : user } );
             }
         // }
 

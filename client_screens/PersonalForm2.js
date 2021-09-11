@@ -1,18 +1,18 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
+import React, { useState } from 'react';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 
 
 const url = "http://ruppinmobile.tempdomain.co.il/site15/"
 
 
-const PersonalFormScreen2 = ({ navigation, userInfo }) => {
+const PersonalFormScreen2 = ({ navigation, route }) => {
 
-    const [City, onChangeCity] = React.useState();
-    const [Address, onChangeAddress] = React.useState();
-    const [Postal_code, onChangePostal_code] = React.useState();
-    const [Mail_box, onChangeMail_box] = React.useState();
-    const [Telephone, onChangeTelephone] = React.useState();
-    const [Work_telephone, onChangeWork_telephone] = React.useState();
+    const [City, onChangeCity] = useState();
+    const [Address, onChangeAddress] = useState();
+    const [Postal_code, onChangePostal_code] = useState();
+    const [Mail_box, onChangeMail_box] = useState();
+    const [Telephone, onChangeTelephone] = useState();
+    const [Work_telephone, onChangeWork_telephone] = useState();
 
 
 

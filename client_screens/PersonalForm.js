@@ -1,21 +1,22 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet, TextInput, Button } from 'react-native';
+import React, { useState } from 'react';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 
 
 const url = "http://ruppinmobile.tempdomain.co.il/site15/"
 
 
-const PersonalFormScreen = ({ navigation , personal_id }) => {
-    const [First_name, onChangeFirst_name] = React.useState();
-    const [Last_name, onChangeLast_name] = React.useState();
-    const [Phone, onChangePhone] = React.useState();
-    const [Gender, onChangeGender] = React.useState();
-    const [Birthdate, onChangeBirthdate] = React.useState();
-    const [Prev_first_name, onChangePrev_first_name] = React.useState();
-    const [Prev_last_name, onChangePrev_last_name] = React.useState();
+const PersonalFormScreen = ({ navigation , route }) => {
+    const Personal_id = route.params.route.Personal_id
+    const [First_name, onChangeFirst_name] = useState(route.params.route.First_name);
+    const [Last_name, onChangeLast_name] = useState(route.params.route.Last_name);
+    const [Phone, onChangePhone] = useState(route.params.route.Phone);
+    const [Gender, onChangeGender] = useState(route.params.route.Gender);
+    const [Birthdate, onChangeBirthdate] = useState(route.params.route.Birthdate);
+    const [Prev_first_name, onChangePrev_first_name] = useState(route.params.route.Prev_first_name);
+    const [Prev_last_name, onChangePrev_last_name] = useState(route.params.route.Prev_last_name);
  
     const PostPersonalForm=(
-        personal_id,
+        Personal_id,
         First_name,
         Last_name,
         Phone, 
@@ -25,7 +26,7 @@ const PersonalFormScreen = ({ navigation , personal_id }) => {
         Prev_last_name,
         )=>{
             const userInfo={
-                personal_id,
+                Personal_id,
                 First_name,
                 Last_name,
                 Phone, 
@@ -90,7 +91,7 @@ const PersonalFormScreen = ({ navigation , personal_id }) => {
             <Button
                 title="הבא"
                 onPress={() => PostPersonalForm(
-                    personal_id,
+                    Personal_id,
                     First_name,
                     Last_name,
                     Phone, 
