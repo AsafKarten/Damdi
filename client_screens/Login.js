@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 
 const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
 var bcrypt = require('bcryptjs');
@@ -8,7 +8,45 @@ export default function Login({ navigation }) {
   const [Email, onChangeEmail] = useState();
   const [Pass, onChangePass] = useState();
 
-  const Login = async (id, email, Pass) => {
+
+  const LoginNew = async () => {
+    try {
+        // if (PersonalId == null || PersonalId == "" || Email == null || Email == ""|| Pass == null || Pass == "") {
+        //     Alert.alert("אנא מלא\י את כל פרטים !")
+        //     return
+        // }
+        // else {
+           
+            let result = await fetch(uri + "api/user", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    Personal_id: PersonalId,
+                    Email: Email
+                })
+            });
+            let data = await result.json();
+            console.log(data);
+            var correct = bcrypt.compareSync(Pass, data.Solted_hash)
+            if (!correct) {
+                Alert.alert("הפרטים שגוים או שהסיסמה אינה נכונה!");
+                return;
+            }
+            else {
+               
+                navigation.navigate("Welcome");
+            }
+        // }
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+    const Login = async () => {
     if (id == "" || email == "" || Pass == "") {
       alert("אנא מלא\י את כל פרטים !")
       return
@@ -21,8 +59,8 @@ export default function Login({ navigation }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id: id,
-          Email: email,
+          Personal_id: PersonalId,
+          Email: Email,
         })
       })
       let data = await result.JSON
@@ -41,24 +79,24 @@ export default function Login({ navigation }) {
     <SafeAreaView style={styles.container}>
       <TextInput
         style={styles.input}
-        onChangeText={onChangeId}
+        onChangeText={()=>onChangeId}
         value={PersonalId}
         placeholder="תעודת זהות"
       />
       <TextInput
         style={styles.input}
-        onChangeText={onChangeEmail}
+        onChangeText={()=>onChangeEmail}
         value={Email}
         placeholder="אימייל"
       />
       <TextInput
         style={styles.input}
-        onChangeText={onChangePass}
+        onChangeText={()=>onChangePass}
         value={Pass}
         secureTextEntry={true}
         placeholder="סיסמה"
       />
-      <TouchableOpacity onPress={() => Login(PersonalId, Email, Pass)}>
+      <TouchableOpacity onPress={() => LoginNew()}>
         <View style={styles.button_normal}>
           <Text >התחברות</Text>
         </View>

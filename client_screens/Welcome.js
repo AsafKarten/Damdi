@@ -2,11 +2,11 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-export default function Welcome({ route }) {
+export default function Welcome() {
 
     return (
         <View>
-            <Text> ברוך הבא לדאמדי {route.params != undefined ? route.params.userid : ""} </Text>
+            <Text> ברוך הבא לדאמדי </Text>
         </View>
     )
 }
