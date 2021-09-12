@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Image } from 'react-native';
+import BG from '../assets/DAMDI_White_BG.jpg'
 
 
 const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
 export default function Home({ navigation, route }) {
   const [User, onChangeId] = useState(route.params.route)
 
-
-
-
-
+  
   return (
     <SafeAreaView style={styles.container}>
+      <Image source={BG} style={styles.header_img}></Image>
 
       <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
         <View style={styles.button_normal}>
@@ -51,7 +50,7 @@ export default function Home({ navigation, route }) {
         </TouchableOpacity>
 
       </View>
-    </SafeAreaView>
+    </SafeAreaView >
 
   );
 }
@@ -89,4 +88,11 @@ const styles = StyleSheet.create({
   button_text: {
     color: 'white'
   },
+  header_img: {
+    marginBottom: 40,
+    width: 260,
+    height: 75,
+    alignSelf: 'center',
+    resizeMode: 'stretch'
+  }
 });
