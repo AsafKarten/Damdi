@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button_normal: {
-
     alignItems: 'center',
     width: 90,
     height: 90,
@@ -83,7 +82,6 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     shadowColor: 'black',
     shadowRadius: 5,
-
   },
   button_text: {
     color: 'white'

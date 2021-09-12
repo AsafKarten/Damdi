@@ -154,7 +154,7 @@ export default function App({ navigation }) {
           }} />
         <Stack.Screen name="Profile" component={Profile}
           options={{
-            title: 'הפרופיל שלי',
+            title: 'פרופיל אישי',
             headerStyle: {
               backgroundColor: '#4d5b70',
             },
