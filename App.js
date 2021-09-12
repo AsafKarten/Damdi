@@ -13,6 +13,7 @@ import Profile from './client_screens/Profile.js';
 import Appointments from './client_screens/Appointments.js';
 import Friends from './client_screens/Friends.js';
 import BloodInfo from './client_screens/BloodInfo.js';
+import DonatorsLogin from './donator_screens/DonatorsLogin.js';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -32,6 +33,7 @@ export default function App() {
         <Stack.Screen name="Appointments" component={Appointments} />
         <Stack.Screen name="Friends" component={Friends} />
         <Stack.Screen name="BloodInfo" component={BloodInfo} />
+        <Stack.Screen name="DonatorsLogin" component={DonatorsLogin} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -3,7 +3,7 @@ import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Aler
 
 const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
 var bcrypt = require('bcryptjs');
-export default function Login({ navigation }) {
+export default function DonatorsLogin({ navigation }) {
   const [PersonalId, onChangeId] = useState()
   const [Email, onChangeEmail] = useState();
   const [Pass, onChangePass] = useState();
