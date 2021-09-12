@@ -14,8 +14,6 @@ export default function Stations({ navigation, route }) {
     var time = today.getHours() + ":" + today.getMinutes();
     const dateTime = date + ' ' + time;
 
-
-
     return (
         <SafeAreaView style={styles.container}>
             <TextInput
@@ -37,10 +35,6 @@ export default function Stations({ navigation, route }) {
             </TouchableOpacity>
 
         </SafeAreaView>
-
-
-
-
     );
 }
 const styles = StyleSheet.create({

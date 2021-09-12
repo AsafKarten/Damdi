@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Registration from './client_screens/Registration'
@@ -13,26 +14,194 @@ import Profile from './client_screens/Profile.js';
 import Appointments from './client_screens/Appointments.js';
 import Friends from './client_screens/Friends.js';
 import BloodInfo from './client_screens/BloodInfo.js';
+import { Feather } from '@expo/vector-icons';
+
 const Stack = createStackNavigator();
 
-export default function App() {
+export default function App({ navigation }) {
+
+  const backPage = (page) => {
+    switch (page) {
+      case 'Home':
+        navigation.navigate('Home')
+        break;
+      case 'Home':
+        navigation.navigate('Home')
+        break;
+      case 'Home':
+        navigation.navigate('Home')
+        break;
+      case 'Home':
+        navigation.navigate('Home')
+        break;
+      case 'Home':
+        navigation.navigate('Home')
+        break;
+      case 'Home':
+        navigation.navigate('Home')
+        break;
+      case 'Home':
+        navigation.navigate('Home')
+        break;
+      case 'Home':
+        navigation.navigate('Home')
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Registration" component={Registration} />
-        <Stack.Screen name="PersonalForm" component={PersonalFormScreen} />
-        <Stack.Screen name="PersonalForm2" component={PersonalFormScreen2} />
-        <Stack.Screen name="PersonalForm3" component={PersonalFormScreen3} />
-        <Stack.Screen name="Welcome" component={Welcome} />
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Stations" component={Stations} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Appointments" component={Appointments} />
-        <Stack.Screen name="Friends" component={Friends} />
-        <Stack.Screen name="BloodInfo" component={BloodInfo} />
+        <Stack.Screen name="Login" component={Login}
+          options={{
+            title: 'התחברות',
+            headerStyle: {
+              backgroundColor: '#4d5b70',
+            },
+            headerTintColor: '#fff',
+            headerLeft: () => {
+              return null;
+            },
+          }} />
+        <Stack.Screen name="Registration" component={Registration}
+          options={{
+            title: 'הרשמה',
+            headerStyle: {
+              backgroundColor: '#4d5b70',
+            },
+            headerTintColor: '#fff',
+            headerRight: () => <Feather onPress={() => backPage('Registration')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            headerLeft: () => {
+              return null;
+            },
+          }} />
+        <Stack.Screen name="PersonalForm" component={PersonalFormScreen}
+          options={{
+            title: 'טופס הרשמה חלק א',
+            headerStyle: {
+              backgroundColor: '#4d5b70',
+            },
+            headerTintColor: '#fff',
+            headerRight: () => <Feather onPress={() => backPage('PersonalForm')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            headerLeft: () => {
+              return null;
+            },
+          }} />
+        <Stack.Screen name="PersonalForm2" component={PersonalFormScreen2}
+          options={{
+            title: 'טופס הרשמה חלק ב',
+            headerStyle: {
+              backgroundColor: '#4d5b70',
+            },
+            headerTintColor: '#fff',
+            headerRight: () => <Feather onPress={() => backPage('PersonalForm2')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            headerLeft: () => {
+              return null;
+            },
+          }} />
+        <Stack.Screen name="PersonalForm3" component={PersonalFormScreen3}
+          options={{
+            title: 'טופס הרשמה חלק ג',
+            headerStyle: {
+              backgroundColor: '#4d5b70',
+            },
+            headerTintColor: '#fff',
+            headerRight: () => <Feather onPress={() => backPage('PersonalForm3')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            headerLeft: () => {
+              return null;
+            },
+          }} />
+        <Stack.Screen name="Welcome" component={Welcome}
+          options={{
+            headerStyle: {
+              backgroundColor: '#4d5b70',
+            },
+            headerTintColor: '#fff',
+            headerRight: () => <Feather onPress={() => backPage('Welcome')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            headerLeft: () => {
+              return null;
+            },
+          }} />
+        <Stack.Screen name="Home" component={Home}
+          options={{
+            title: 'Damdi',
+            headerStyle: {
+              backgroundColor: '#4d5b70',
+            },
+            headerTintColor: 'red',
+            headerRight: () => <Feather onPress={() => backPage('Home')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            headerLeft: () => {
+              return null;
+            },
+          }} />
+        <Stack.Screen name="Stations" component={Stations}
+          options={{
+            title: 'תחנות התרמה',
+            headerStyle: {
+              backgroundColor: '#4d5b70',
+            },
+            headerTintColor: '#fff',
+            headerRight: () => <Feather onPress={() => backPage('Stations')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            headerLeft: () => {
+              return null;
+            },
+          }} />
+        <Stack.Screen name="Profile" component={Profile}
+          options={{
+            title: 'הפרופיל שלי',
+            headerStyle: {
+              backgroundColor: '#4d5b70',
+            },
+            headerTintColor: '#fff',
+            headerRight: () => <Feather onPress={() => backPage('Profile')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            headerLeft: () => {
+              return null;
+            },
+          }} />
+        <Stack.Screen name="Appointments" component={Appointments}
+          options={{
+            title: 'התורים שלי',
+            headerStyle: {
+              backgroundColor: '#4d5b70',
+            },
+            headerTintColor: '#fff',
+            headerRight: () => <Feather onPress={() => backPage('Appointments')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            headerLeft: () => {
+              return null;
+            },
+          }} />
+        <Stack.Screen name="Friends" component={Friends}
+          options={{
+            title: 'החברים שלי',
+            headerStyle: {
+              backgroundColor: '#4d5b70',
+            },
+            headerTintColor: '#fff',
+            headerRight: () => <Feather onPress={() => backPage('Friends')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            headerLeft: () => {
+              return null;
+            },
+          }} />
+        <Stack.Screen name="BloodInfo" component={BloodInfo}
+          options={{
+            title: 'פרטי הדם שלי',
+            headerStyle: {
+              backgroundColor: '#4d5b70',
+            },
+            headerTintColor: '#fff',
+            headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            headerLeft: () => {
+              return null;
+            },
+          }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+const styles = StyleSheet.create({
+  arrow: {
+    margin: 10
+  }
+})

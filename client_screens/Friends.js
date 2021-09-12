@@ -1,84 +1,112 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
+import { Share, View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 
 const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
-var bcrypt = require('bcryptjs');
-export default function Friends({ navigation , route }) {
+export default function Friends({ navigation, route }) {
   const [User, onChangeId] = useState(route.params.route)
- 
 
+  const inviteViaWhatsApp = async () => {
+    alert('WhatsApp')
+  };
+  const inviteViaSMS = async () => {
+    alert('SMS')
+  };
 
-  
+  const inviteViaEmail = async () => {
+    alert('Email')
+  };
+
+  const inviteViaFacebook = async () => {
+    alert('Facebook')
+  };
 
   return (
     <SafeAreaView style={styles.container}>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Profile',{route:User})}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >הפרופיל שלי</Text>
+      <TouchableOpacity onPress={inviteViaWhatsApp}>
+        <View style={styles.btn_whatsApp}>
+          <Text style={styles.button_text}>הזמן חבר דרך ה- WhatsApp</Text>
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Stations',{route:User})}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >חיפוש תחנה קרובה</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Appointments',{route:User})}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >התורים שלי</Text>
+      <TouchableOpacity onPress={inviteViaSMS}>
+        <View style={styles.btn_sms}>
+          <Text style={styles.button_text}>הזמן חבר דרך ה- SMS</Text>
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Friends',{route:User})}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >החברים שלי</Text>
+      <TouchableOpacity onPress={inviteViaFacebook}>
+        <View style={styles.btn_facebook}>
+          <Text style={styles.button_text}>הזמן חבר דרך ה- Facebook</Text>
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('BloodInfo',{route:User})}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >מידע על תרומות הדם</Text>
+      <TouchableOpacity onPress={inviteViaEmail}>
+        <View style={styles.btn_email}>
+          <Text style={styles.button_text}>הזמן חבר דרך ה- Email</Text>
         </View>
       </TouchableOpacity>
 
     </SafeAreaView>
-
-    
-    
-
   );
 }
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  input: {
-    height: 40,
-    width: 160,
-    margin: 12,
-    borderWidth: 1,
-    borderRadius: 8,
-    textAlign: 'center',
-  },
-  button_normal: {
 
+  btn_whatsApp: {
     alignItems: 'center',
-    width:160,
+    width: 200,
     margin: 15,
     borderRadius: 8,
     padding: 10,
-    backgroundColor: "#757c94",
-    opacity:0.8,
-    shadowColor:'black',
-    shadowRadius:5,
-
-  
-    
+    backgroundColor: "green",
+    opacity: 0.8,
+    shadowColor: 'black',
+    shadowRadius: 5,
   },
+
+  btn_sms: {
+    alignItems: 'center',
+    width: 200,
+    margin: 15,
+    borderRadius: 8,
+    padding: 10,
+    backgroundColor: "grey",
+    opacity: 0.8,
+    shadowColor: 'black',
+    shadowRadius: 5,
+  },
+
+  btn_facebook: {
+    alignItems: 'center',
+    width: 200,
+    margin: 15,
+    borderRadius: 8,
+    padding: 10,
+    backgroundColor: "blue",
+    opacity: 0.8,
+    shadowColor: 'black',
+    shadowRadius: 5,
+  },
+
+  btn_email: {
+    alignItems: 'center',
+    width: 200,
+    margin: 15,
+    borderRadius: 8,
+    padding: 10,
+    backgroundColor: "red",
+    opacity: 0.8,
+    shadowColor: 'black',
+    shadowRadius: 5,
+  },
+
   button_text: {
-    color:'white'
+    color: 'white',
   },
 });
