@@ -18,7 +18,7 @@ export default function Home({ navigation , route }) {
           <Text style={styles.button_text} >הפרופיל שלי</Text>
         </View>
       </TouchableOpacity>
-
+<View style={styles.ButtonContainer}>
       <TouchableOpacity onPress={() => navigation.navigate('Stations',{route:User})}>
         <View style={styles.button_normal}>
           <Text style={styles.button_text} >חיפוש תחנה קרובה</Text>
@@ -29,7 +29,9 @@ export default function Home({ navigation , route }) {
           <Text style={styles.button_text} >התורים שלי</Text>
         </View>
       </TouchableOpacity>
-
+</View>
+<View style={styles.ButtonContainer}>
+    
       <TouchableOpacity onPress={() => navigation.navigate('Friends',{route:User})}>
         <View style={styles.button_normal}>
           <Text style={styles.button_text} >החברים שלי</Text>
@@ -42,6 +44,7 @@ export default function Home({ navigation , route }) {
         </View>
       </TouchableOpacity>
 
+</View>
     </SafeAreaView>
 
     
@@ -55,6 +58,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  ButtonContainer:{
+      flexDirection:'row'
+  },
   input: {
     height: 40,
     width: 160,
@@ -66,7 +72,8 @@ const styles = StyleSheet.create({
   button_normal: {
 
     alignItems: 'center',
-    width:160,
+    width:90,
+    height:90,
     margin: 15,
     borderRadius: 8,
     padding: 10,
