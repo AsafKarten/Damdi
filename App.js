@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+
+
+
 import Registration from './client_screens/Registration'
 import Login from './client_screens/Login.js'
 import PersonalFormScreen from './client_screens/PersonalForm';
@@ -14,7 +18,7 @@ import Profile from './client_screens/Profile.js';
 import Appointments from './client_screens/Appointments.js';
 import Friends from './client_screens/Friends.js';
 import BloodInfo from './client_screens/BloodInfo.js';
-import { Feather } from '@expo/vector-icons';
+import DonatorsLogin from './donator_screens/DonatorsLogin.js';
 
 const Stack = createStackNavigator();
 
@@ -196,6 +200,7 @@ export default function App({ navigation }) {
               return null;
             },
           }} />
+        <Stack.Screen name="DonatorsLogin" component={DonatorsLogin} />
       </Stack.Navigator>
     </NavigationContainer>
   );
