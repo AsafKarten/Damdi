@@ -24,30 +24,45 @@ const Stack = createStackNavigator();
 
 export default function App({ navigation }) {
 
+  //TODO: Fix the navigation issue 
   const backPage = (page) => {
     switch (page) {
       case 'Home':
         navigation.navigate('Home')
         break;
-      case 'Home':
+      case 'Login':
+        //TODO: pop up a confirmation to exit
+        //navigation.navigate('Home')
+        break;
+      case 'Registration':
+        navigation.navigate('Login')
+        break;
+      case 'PersonalForm':
         navigation.navigate('Home')
         break;
-      case 'Home':
+      case 'PersonalForm2':
+        navigation.navigate('PersonalForm')
+        break;
+      case 'PersonalForm3':
+        navigation.navigate('PersonalForm2')
+        break;
+      case 'Welcome':
+        //TODO: pop up a confirmation to exit
+        //navigation.navigate('Home')
+        break;
+      case 'Stations':
         navigation.navigate('Home')
         break;
-      case 'Home':
+      case 'Profile':
         navigation.navigate('Home')
         break;
-      case 'Home':
+      case 'Appointments':
         navigation.navigate('Home')
         break;
-      case 'Home':
+      case 'Friends':
         navigation.navigate('Home')
         break;
-      case 'Home':
-        navigation.navigate('Home')
-        break;
-      case 'Home':
+      case 'BloodInfo':
         navigation.navigate('Home')
         break;
       default:
