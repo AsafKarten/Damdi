@@ -6,6 +6,8 @@ import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 //import ActionSheet from 'react-native-actionsheet';
 
+
+//TODO: Fix the Button Container, 4 Squers
 const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
 const default_img = "../assets/DAMDI_White_BG"
 
