@@ -32,7 +32,7 @@ const PersonalFormScreen3 = ({ navigation, route}) => {
         new_route.Mother_birth_land=Mother_birth_land
         console.log(new_route)
 
-        navigation.navigate('Welcome')
+        navigation.navigate('Welcome',{route: new_route})
     }
 
     return (
