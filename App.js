@@ -19,8 +19,10 @@ import Appointments from './client_screens/Appointments.js';
 import Friends from './client_screens/Friends.js';
 import BloodInfo from './client_screens/BloodInfo.js';
 import DonatorsLogin from './donator_screens/DonatorsLogin.js';
+import { ScreenStack } from 'react-native-screens';
 
 const Stack = createStackNavigator();
+
 
 export default function App({ navigation }) {
 
@@ -145,11 +147,11 @@ export default function App({ navigation }) {
           }} />
         <Stack.Screen name="Home" component={Home}
           options={{
-            title: 'Damdi',
+            title: 'Home',
             headerStyle: {
               backgroundColor: '#4d5b70',
             },
-            headerTintColor: 'red',
+            headerTintColor: '#fff',
             headerRight: () => <Feather onPress={() => backPage('Home')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
             headerLeft: () => {
               return null;

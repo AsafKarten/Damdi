@@ -4,6 +4,7 @@ import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+import PI from '../assets/DamdiPI.png';
 //import ActionSheet from 'react-native-actionsheet';
 
 
@@ -13,7 +14,7 @@ const default_img = "../assets/DAMDI_White_BG"
 
 export default function Profile({ navigation, route }) {
   const [User, onChangeId] = useState(route.params.route)
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(PI);
 
   const checkDevice = async () => {
     if (Platform.OS === 'web') {
@@ -140,7 +141,7 @@ export default function Profile({ navigation, route }) {
           </Text>
         </TouchableOpacity>
 
-        <Text style={styles.addText}>ישראל ישראלי</Text>
+        <Text style={styles.addText}>{User.First_name + " " + User.Last_name}</Text>
 
         <Text style={styles.addText}>סוג דם: -O</Text>
 
@@ -159,7 +160,8 @@ export default function Profile({ navigation, route }) {
             <Text style={styles.button_text} >עדכון פרטים רפואים</Text>
           </View>
         </TouchableOpacity>
-
+      </View>
+      <View style={styles.ButtonContainer}>
         <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
           <View style={styles.button_normal}>
             <Text style={styles.button_text} >אבטחה ופרטיות</Text>
