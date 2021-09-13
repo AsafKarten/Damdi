@@ -37,48 +37,69 @@ export default function PersonalFormScreen({ navigation, route }) {
     return (
 
         <SafeAreaView style={styles.container}>
+              <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}> שם פרטי </Text>
             <TextInput
                 style={styles.input}
                 onChangeText={onChangeFirst_name}
                 value={First_name}
                 placeholder="שם פרטי"
             />
+            </View>
+            <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>שם משפחה</Text>
             <TextInput
                 style={styles.input}
                 onChangeText={onChangeLast_name}
                 value={Last_name}
                 placeholder="שם משפחה"
             />
+            </View>
+            <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>מס פלאפון</Text>
             <TextInput
                 style={styles.input}
                 onChangeText={onChangePhone}
                 value={Phone}
                 placeholder="מס פלאפון"
             />
+            </View>
+            <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>מין</Text>
             <TextInput
                 style={styles.input}
                 onChangeText={onChangeGender}
                 value={Gender}
                 placeholder="מין"
             />
+            </View>
+            <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>תאריך לידה</Text>
             <TextInput
                 style={styles.input}
                 onChangeText={onChangeBirthdate}
                 value={Birthdate}
                 placeholder="תאריך לידה"
             />
+            </View>
+            <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>שם קודם: פרטי</Text>
             <TextInput
                 style={styles.input}
                 onChangeText={onChangePrev_first_name}
                 value={Prev_first_name}
                 placeholder="שם קודם: פרטי"
             />
+            </View>
+            <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>שם קודם: משפחה</Text>
             <TextInput
                 style={styles.input}
                 onChangeText={onChangePrev_last_name}
                 value={Prev_last_name}
                 placeholder="שם קודם: משפחה"
             />
+            </View>
             <TouchableOpacity onPress={() => PostPersonalForm()}>
         <View style={styles.button_normal}>
           <Text style={styles.button_text} >הבא</Text>

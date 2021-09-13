@@ -34,42 +34,60 @@ const PersonalFormScreen2 = ({ navigation, route }) => {
 
         <SafeAreaView style={styles.container}>
 
+<View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>עיר</Text>
             <TextInput
                 style={styles.input}
                 onChangeText={onChangeCity}
                 value={City}
                 placeholder="עיר"
             />
+            </View>
+            <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>רחוב</Text>
             <TextInput
                 style={styles.input}
                 onChangeText={onChangeAddress}
                 value={Address}
                 placeholder="רחוב"
             />
+            </View>
+            <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>מיקוד</Text>
             <TextInput
                 style={styles.input}
                 onChangeText={onChangePostal_code}
                 value={Postal_code}
                 placeholder="מיקוד"
             />
+            </View>
+            <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>תיבת דואר</Text>
             <TextInput
                 style={styles.input}
                 onChangeText={onChangeMail_box}
                 value={Mail_box}
                 placeholder="תיבת דואר"
             />
+</View>
+<View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>מס טלפון</Text>
             <TextInput
                 style={styles.input}
                 onChangeText={onChangeTelephone}
                 value={Telephone}
                 placeholder="מס טלפון"
             />
+            </View>
+            <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>מס טלפון בעבודה</Text>
             <TextInput
                 style={styles.input}
                 onChangeText={onChangeWork_telephone}
                 value={Work_telephone}
                 placeholder="מס טלפון בעבודה"
             />
+            </View>
 <View style={styles.HorizontalBoxButtons}>
 <TouchableOpacity onPress={() => PostPersonalForm2()}>
         <View style={styles.button_normal}>
