@@ -45,7 +45,7 @@ export default function ScheduleAppointment({ navigation, route }) {
                 keyExtractor={(item) => item.Time}
                 renderItem={({ item }) => (
                     <View style={styles.list}>
-                        <Text>{item.Time}</Text>
+                        <Text>{item}</Text>
                         <TouchableOpacity onPress={() => ScheduleApp(item)}>
                             <View style={styles.button_normal}>
                                 <Text style={styles.button_text} >הזמן/י תור</Text>
