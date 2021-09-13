@@ -1,6 +1,6 @@
 import React from 'react';
 
-import StackNavigation from './Components/StackNavigation'
+import StackNavigation from './Componentes/StackNavigation'
 
 
 export default function App() {
