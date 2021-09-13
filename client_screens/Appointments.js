@@ -13,34 +13,34 @@ export default function Appointments({ navigation , route }) {
   return (
     <SafeAreaView style={styles.container}>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Profile',{route:User})}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >הפרופיל שלי</Text>
-        </View>
-      </TouchableOpacity>
+<View style={styles.ButtonContainer}>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Stations',{route:User})}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >חיפוש תחנה קרובה</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Appointments',{route:User})}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >התורים שלי</Text>
-        </View>
-      </TouchableOpacity>
+<TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
+  <View style={styles.button_normal}>
+    <Text style={styles.button_text} >נווט אל התחנה</Text>
+  </View>
+</TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Friends',{route:User})}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >החברים שלי</Text>
-        </View>
-      </TouchableOpacity>
+<TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
+  <View style={styles.button_normal}>
+    <Text style={styles.button_text} >הוסף תזכורת</Text>
+  </View>
+</TouchableOpacity>
+</View>
+<View style={styles.ButtonContainer}>
+<TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
+  <View style={styles.button_normal}>
+    <Text style={styles.button_text} >ביטול תור</Text>
+  </View>
+</TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('BloodInfo',{route:User})}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >מידע על תרומות הדם</Text>
-        </View>
-      </TouchableOpacity>
+<TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
+  <View style={styles.button_normal}>
+    <Text style={styles.button_text} >עדכון תור</Text>
+  </View>
+</TouchableOpacity>
+
+</View>
 
     </SafeAreaView>
 
@@ -80,5 +80,8 @@ const styles = StyleSheet.create({
   },
   button_text: {
     color:'white'
+  },
+  ButtonContainer: {
+    flexDirection: 'row'
   },
 });
