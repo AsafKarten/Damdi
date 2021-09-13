@@ -127,11 +127,11 @@ export default function StackNavigation() {
             headerStyle: {
               backgroundColor: '#4d5b70',
             },
-            headerTintColor: '#fff',
-            headerRight: () => <Feather onPress={() => backPage('PersonalForm3')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
-            headerLeft: () => {
-              return null;
-            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('PersonalForm3')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
           }} />
         <Stack.Screen name="Welcome" component={Welcome}
           options={{
