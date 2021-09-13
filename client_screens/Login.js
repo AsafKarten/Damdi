@@ -1,114 +1,133 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Input } from 'react-native-elements';
+import Spiner from '../Componentes/Spiner';
+import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
 var bcrypt = require('bcryptjs');
+
+
 export default function Login({ navigation }) {
   const [PersonalId, onChangeId] = useState()
   const [Email, onChangeEmail] = useState();
   const [Pass, onChangePass] = useState();
-  const [Asaf, onChangeAsaf] = useState({Personal_id:"204610620",First_name:"אסף",Last_name:"קרטן",Phone:"0549214258",Gender:"ז" ,Birthdate:"03.03.1993" ,Prev_first_name:"" ,Prev_last_name:"",City:"ranana", Address:"hertzel 101", Postal_code:"3355", Mail_box:"3", Telephone:"0549214258", Work_telephone:"",Blood_group_member:false, Personal_insurance:false, Confirm_examination:true, Agree_future_don:true, Birth_land:"ישראל", Aliya_year:"", Father_birth_land:"ישראל", Mother_birth_land:"ישראל"});
+  const [Asaf, onChangeAsaf] = useState({ Personal_id: "204610620", First_name: "אסף", Last_name: "קרטן", Phone: "0549214258", Gender: "ז", Birthdate: "03.03.1993", Prev_first_name: "", Prev_last_name: "", City: "ranana", Address: "hertzel 101", Postal_code: "3355", Mail_box: "3", Telephone: "0549214258", Work_telephone: "", Blood_group_member: false, Personal_insurance: false, Confirm_examination: true, Agree_future_don: true, Birth_land: "ישראל", Aliya_year: "", Father_birth_land: "ישראל", Mother_birth_land: "ישראל" });
+  const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    (async () => {
+      await getData();
+    })()
+  }, [])
 
-  const LoginNew = async () => {
+  const clearAsyncStorage = async () => {
     try {
-        // if (PersonalId == null || PersonalId == "" || Email == null || Email == ""|| Pass == null || Pass == "") {
-        //     Alert.alert("אנא מלא\י את כל פרטים !")
-        //     return
-        // }
-        // else {
-           
-            let result = await fetch(uri + "api/user", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json; charset=UTF-8',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    Personal_id: PersonalId,
-                    Email: Email
-                })
-            });
-            let data = await result.json();
-            console.log(data);
-            var correct = bcrypt.compareSync(Pass, data.Solted_hash)
-            if (!correct) {
-                Alert.alert("הפרטים שגוים או שהסיסמה אינה נכונה!");
-                return;
-            }
-            else {
-              let user_result = await fetch(uri + "api/user/info", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json; charset=UTF-8',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    Personal_id: PersonalId,
-                })
-            });
-            let user = await user_result.json();
-            console.log(user);
-                navigation.navigate( "PersonalForm" , { route : user } );
-            }
-        // }
-
+      await AsyncStorage.clear();
+      console.log('Done');
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-}
+  }
 
-    const Login = async () => {
-    if (id == "" || email == "" || Pass == "") {
-      alert("אנא מלא\י את כל פרטים !")
-      return
+  const getData = async () => {
+    const data = await AsyncStorage.getItem('loggedUser')
+    if (data !== null) {
+      let user = JSON.parse(data)
     }
     else {
-      let result = await fetch(uri + "api/user", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          Personal_id: PersonalId,
-          Email: Email,
-        })
-      })
-      let data = await result.JSON
-      console.log(data);
-      var correct = bcrypt.compareSync(Pass, data.Salted_hash)
-      if (!correct) {
-        Alert.alert("Wrong details,check your details");
-        return;
+      navigation.navigate("Login");
+    }
+  }
+
+  const storeData = async (data) => {
+    try {
+      const loggedUser = JSON.stringify(data);
+      await AsyncStorage.setItem('loggedUser', loggedUser)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+
+  const clientLogin = async () => {
+    try {
+      if (PersonalId === null || PersonalId === "" || Email === null || Email === "" || Pass === null || Pass === "") {
+        Alert.alert("אנא מלא\י את כל פרטים !")
+        return
       }
-      console.log(data);
-      navigation.navigate("Welcome")
+      else {
+        let result = await fetch(uri + "api/user", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            Personal_id: PersonalId,
+            Email: Email
+          })
+        });
+        let data = await result.json();
+        console.log(data);
+        var correct = bcrypt.compareSync(Pass, data.Solted_hash)
+        if (!correct) {
+          Alert.alert("הפרטים שגוים או שהסיסמה אינה נכונה!");
+          return;
+        }
+        else {
+          setLoading(true);
+          await clearAsyncStorage();
+          let user_result = await fetch(uri + "api/user/info", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+              Personal_id: PersonalId,
+            })
+          });
+          let user = await user_result.json();
+          console.log(user);
+          storeData(data);
+          setLoading(false);
+          navigation.navigate("PersonalForm", { route: user });
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <TextInput
+      <Input
         style={styles.input}
-        onChangeText={()=>onChangeId}
+        onChangeText={() => onChangeId}
         value={PersonalId}
         placeholder="תעודת זהות"
+        rightIcon={<FontAwesome name="id-card" size={24} color="black" />}
       />
-      <TextInput
+      <Input
         style={styles.input}
-        onChangeText={()=>onChangeEmail}
+        onChangeText={() => onChangeEmail}
         value={Email}
         placeholder="אימייל"
+        rightIcon={<MaterialIcons name="mail" size={30} color="black" />}
       />
-      <TextInput
+      <Input
         style={styles.input}
-        onChangeText={()=>onChangePass}
+        onChangeText={() => onChangePass}
         value={Pass}
         secureTextEntry={true}
         placeholder="סיסמה"
+        rightIcon={<MaterialCommunityIcons name="form-textbox-password" size={28} color="black" />}
       />
-      <TouchableOpacity onPress={() => LoginNew()}>
+      <TouchableOpacity onPress={() => clientLogin()}>
         <View style={styles.button_normal}>
           <Text style={styles.button_text}>התחברות</Text>
         </View>
@@ -126,17 +145,14 @@ export default function Login({ navigation }) {
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('PersonalForm',{route:Asaf})}>
+      <TouchableOpacity onPress={() => navigation.navigate('PersonalForm', { route: Asaf })}>
         <View style={styles.button_normal}>
           <Text style={styles.button_text} >הכפתור של אסף</Text>
         </View>
       </TouchableOpacity>
+      <Spiner loading={loading} />
 
     </SafeAreaView>
-
-    
-    
-
   );
 }
 const styles = StyleSheet.create({
@@ -156,19 +172,19 @@ const styles = StyleSheet.create({
   button_normal: {
 
     alignItems: 'center',
-    width:160,
+    width: 160,
     margin: 15,
     borderRadius: 8,
     padding: 10,
     backgroundColor: "#757c94",
-    opacity:0.8,
-    shadowColor:'black',
-    shadowRadius:5,
+    opacity: 0.8,
+    shadowColor: 'black',
+    shadowRadius: 5,
 
-  
-    
+
+
   },
   button_text: {
-    color:'white'
+    color: 'white'
   },
 });
