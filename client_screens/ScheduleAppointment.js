@@ -20,8 +20,22 @@ export default function ScheduleAppointment({ navigation, route }) {
         navigation.navigate('Appointments', {route: User})
     }
     
- 
+    useEffect(() => {
+        (async () => {
+            SetTimes()
+        })()
+    }, [])
 
+    const SetTimes = () => {
+        var times = []
+        let st =parseInt(Station.Start_time) 
+        let et =parseInt(Station.End_time)
+        for(var i = st; i <= et; i++){
+            let Time = i
+            times.push(Time)
+        }
+        onChangeAppTime(times)
+    }
 
     return (
         <View style={styles.container}>
