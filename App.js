@@ -18,6 +18,7 @@ import Profile from './client_screens/Profile.js';
 import Appointments from './client_screens/Appointments.js';
 import Friends from './client_screens/Friends.js';
 import BloodInfo from './client_screens/BloodInfo.js';
+import ScheduleAppointment from './client_screens/ScheduleAppointment.js';
 import DonatorsLogin from './donator_screens/DonatorsLogin.js';
 import { ScreenStack } from 'react-native-screens';
 
@@ -217,6 +218,7 @@ export default function App({ navigation }) {
               return null;
             },
           }} />
+          <Stack.Screen name="ScheduleAppointment" component={ScheduleAppointment} />
         <Stack.Screen name="DonatorsLogin" component={DonatorsLogin} />
       </Stack.Navigator>
     </NavigationContainer>

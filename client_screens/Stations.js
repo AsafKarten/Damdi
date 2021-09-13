@@ -18,8 +18,9 @@ export default function Stations({ navigation, route }) {
     var time = today.getHours() + ":" + today.getMinutes();
     const dateTime = date + ' ' + time;
 
-     const ShAppointment = (item) => {
-        navigation.navigate('Appointments', {route: User})
+     const ScheduleAppointment = (item) => {
+         var route = {User: User , Station:item , DateTime: dateTime}
+        navigation.navigate('ScheduleAppointment', {route: route})
     }
 
     return (
@@ -50,7 +51,7 @@ export default function Stations({ navigation, route }) {
                         <Text>{item.City}</Text>
                         <Text>{item.F_address}</Text>
                         <Text>{item.Start_time + " - " + item.End_time}</Text>
-                        <TouchableOpacity onPress={() => ShAppointment(item)}>
+                        <TouchableOpacity onPress={() => ScheduleAppointment(item)}>
                             <View style={styles.button_normal}>
                                 <Text style={styles.button_text} >הזמן/י תור</Text>
                             </View>
