@@ -4,7 +4,7 @@ import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
-import PI from '../assets/DamdiPI.png';
+import PI from '../assets/DamdiPI4.png';
 //import ActionSheet from 'react-native-actionsheet';
 
 
@@ -194,13 +194,14 @@ const styles = StyleSheet.create({
     margin: 5
   },
   profile_image: {
-    width: 120,
-    height: 120,
+    width: 100,
+    height: 100,
     borderRadius: 100,
     borderWidth: 2,
     borderRadius: 90,
     borderColor: 'red',
-    resizeMode: 'stretch',
+    resizeMode:'stretch',
+   
   },
   addText: {
     fontSize: 16,

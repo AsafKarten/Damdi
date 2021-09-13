@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Button } from 'react-native';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Button, CheckBox } from 'react-native';
 
 
 const url = "http://ruppinmobile.tempdomain.co.il/site15/"
@@ -7,9 +7,9 @@ const url = "http://ruppinmobile.tempdomain.co.il/site15/"
 //Personal_id:"204610620",First_name:"אסף",Last_name:"קרטן",Phone:"0549214258",Gender:"ז" ,Birthdate:"03.03.1993" ,Prev_first_name:"" ,Prev_last_name:"",City:"ranana", Address:"hertzel 101", Postal_code:"3355", Mail_box:"3", Telephone:"0549214258", Work_telephone:"",Blood_group_member:False, Personal_insurance:False, Confirm_examination:True, Agree_future_don:True, Birth_land:"ישראל", Aliya_year:"", Father_birth_land:"ישראל", Mother_birth_land:"ישראל"
 //Blood_group_member:False, Personal_insurance:False, Confirm_examination:True, Agree_future_don:True, Birth_land:"ישראל", Aliya_year:"", Father_birth_land:"ישראל", Mother_birth_land:"ישראל"
 
-const PersonalFormScreen3 = ({ navigation, route}) => {
+const PersonalFormScreen3 = ({ navigation, route }) => {
 
-    
+
     const [Blood_group_member, onChangeBlood_group_member] = useState(route.params.route.Blood_group_member);
     const [Personal_insurance, onChangePersonal_insurance] = useState(route.params.route.Personal_insurance);
     const [Confirm_examination, onChangeConfirm_examination] = useState(route.params.route.Agree_future_don);
@@ -22,30 +22,31 @@ const PersonalFormScreen3 = ({ navigation, route}) => {
 
     const PostPersonalForm3 = () => {
         const new_route = route.params.route
-        new_route.Blood_group_member=Blood_group_member
-        new_route.Personal_insurance=Personal_insurance
-        new_route.Confirm_examination=Confirm_examination
-        new_route.Agree_future_don=Agree_future_don
-        new_route.Birth_land=Birth_land
-        new_route.Aliya_year=Aliya_year
-        new_route.Father_birth_land=Father_birth_land
-        new_route.Mother_birth_land=Mother_birth_land
+        new_route.Blood_group_member = Blood_group_member
+        new_route.Personal_insurance = Personal_insurance
+        new_route.Confirm_examination = Confirm_examination
+        new_route.Agree_future_don = Agree_future_don
+        new_route.Birth_land = Birth_land
+        new_route.Aliya_year = Aliya_year
+        new_route.Father_birth_land = Father_birth_land
+        new_route.Mother_birth_land = Mother_birth_land
         console.log(new_route)
 
-        navigation.navigate('Welcome',{route: new_route})
+        navigation.navigate('Welcome', { route: new_route })
     }
 
     return (
 
         <SafeAreaView style={styles.container}>
 
-        
-            <TextInput
-                style={styles.input}
-                onChangeText={onChangeBlood_group_member}
+        <View style={styles.HorizontalBox}>
+            <Text>חבר ארגון תורמי דם?</Text>
+            <CheckBox
                 value={Blood_group_member}
-                placeholder="חבר ארגון תורמי דם"
+                onValueChange={onChangeBlood_group_member}
+                style={styles.checkbox}
             />
+        </View> 
             <TextInput
                 style={styles.input}
                 onChangeText={onChangePersonal_insurance}
@@ -100,7 +101,7 @@ const PersonalFormScreen3 = ({ navigation, route}) => {
                 Mother_birth_land
             )} />
             <Button title="חזרה" onPress={() => navigation.navigate('PersonalForm2')} />
-      
+
         </SafeAreaView>
 
     );
@@ -119,5 +120,12 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         textAlign: 'center',
     },
+    checkbox: {
+        alignSelf: "center",
+        marginRight:8,
+      },
+      HorizontalBox:{
+          flexDirection:'row-reverse',
+      },
 });
 export default PersonalFormScreen3;
