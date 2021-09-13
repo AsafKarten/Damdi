@@ -3,20 +3,20 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Registration from './client_screens/Registration'
-import Login from './client_screens/Login.js'
-import PersonalFormScreen from './client_screens/PersonalForm';
-import PersonalFormScreen2 from './client_screens/PersonalForm2';
-import PersonalFormScreen3 from './client_screens/PersonalForm3';
-import Welcome from './client_screens/Welcome.js';
-import Home from './client_screens/Home.js';
-import Stations from './client_screens/Stations.js';
-import Profile from './client_screens/Profile.js';
-import Appointments from './client_screens/Appointments.js';
-import Friends from './client_screens/Friends.js';
-import BloodInfo from './client_screens/BloodInfo.js';
-import ScheduleAppointment from './client_screens/ScheduleAppointment.js';
-import DonatorsLogin from './donator_screens/DonatorsLogin.js';
+import Registration from '../client_screens/Registration'
+import Login from '../client_screens/Login.js'
+import PersonalFormScreen from '../client_screens/PersonalForm';
+import PersonalFormScreen2 from '../client_screens/PersonalForm2';
+import PersonalFormScreen3 from '../client_screens/PersonalForm3';
+import Welcome from '../client_screens/Welcome.js';
+import Home from '../client_screens/Home.js';
+import Stations from '../client_screens/Stations.js';
+import Profile from '../client_screens/Profile.js';
+import Appointments from '../client_screens/Appointments.js';
+import Friends from '../client_screens/Friends.js';
+import BloodInfo from '../client_screens/BloodInfo.js';
+import ScheduleAppointment from '../client_screens/ScheduleAppointment.js';
+import DonatorsLogin from '../donator_screens/DonatorsLogin.js';
 
 
 const Stack = createStackNavigator();
