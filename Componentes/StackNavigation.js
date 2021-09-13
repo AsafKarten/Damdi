@@ -1,8 +1,9 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image, FlatList } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { Feather } from '@expo/vector-icons'; 
 
 import Registration from '../client_screens/Registration'
 import Login from '../client_screens/Login.js'
