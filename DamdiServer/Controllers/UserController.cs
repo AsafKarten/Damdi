@@ -1,24 +1,25 @@
-﻿using System;
+﻿using DamdiServer.Models;
+using System;
 using System.Net;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
 namespace DamdiServer.Controllers
 {
-    [EnableCors("*", "*", "*")]
     public class UserController : ApiController
     {
         //Get One User from users table.
         [HttpPost]
         [Route("api/user")]
-        public IHttpActionResult GetUserFromDB([FromBody] Models.User u)
+        public IHttpActionResult GetUserFromDB([FromBody] User user)
         {
             try
             {
-                u = Globals.UserDAL.GetUser(u.Personal_id, u.Email);
-                if (u == null)
-                    return Content(HttpStatusCode.NotFound, $"User {u.Personal_id} or pass is incorrect");
-                return Ok(u);
+                User checked_user = null;
+                checked_user = Globals.UserDAL.GetUser(user);
+                if (checked_user != null)
+                    return Ok(checked_user);
+                return Content(HttpStatusCode.NotFound, $"User {user.Personal_id} or pass or email is incorrect");
             }
             catch (Exception ex)
             {
@@ -28,12 +29,12 @@ namespace DamdiServer.Controllers
 
         //Add new user to users table.
         [HttpPost]
-        [Route("api/user/post")]
-        public IHttpActionResult AddNewUser([FromBody] Models.User user)
+        [Route("api/add/post")]
+        public IHttpActionResult AddNewUser([FromBody] User user)
         {
             try
             {
-                Created(new Uri(Request.RequestUri.AbsoluteUri + user.Personal_id), Globals.UserDAL.SetNewUser(user));
+                Created(new Uri(Request.RequestUri.AbsoluteUri + user), Globals.UserDAL.SetNewUser(user));
                 return Ok("User created successfully.");
             }
             catch (Exception ex)

@@ -247,12 +247,13 @@ Create procedure GetUserInfo(@personal_id nvarchar(10))
 as
 SELECT * FROM Users where personal_id=@personal_id
 
-Create procedure InsertNewUser(
+alter procedure InsertNewUser(
 @personal_id nvarchar(9),
 @email nvarchar(50),
-@salted_hash nvarchar(max))
+@salted_hash nvarchar(max),
+@profile_img nvarchar(max))
 as 
-INSERT INTO Users (personal_id,email,salted_hash) VALUES (@personal_id,@email,@salted_hash)
+INSERT INTO Users (personal_id,email,salted_hash,profile_img) VALUES (@personal_id,@email,@salted_hash,@profile_img)
 
 Create procedure InsertNewAppointment(@station_code int , @personal_id nvarchar(10) , @app_time datetime)
 as 

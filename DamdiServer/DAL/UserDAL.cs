@@ -15,7 +15,7 @@ namespace DamdiServer.DAL
         }
 
         /*Get user from database*/
-        public User GetUser(string personal_id, string email)
+        public User GetUser(User user)
         {
             try
             {
@@ -25,8 +25,8 @@ namespace DamdiServer.DAL
                     User u = null;
                     SqlCommand cmd = new SqlCommand("GetUser", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@id", personal_id);
-                    cmd.Parameters.AddWithValue("@email", email);
+                    cmd.Parameters.AddWithValue("@id", user.Personal_id);
+                    cmd.Parameters.AddWithValue("@email", user.Email);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
@@ -101,9 +101,10 @@ namespace DamdiServer.DAL
                     con.Open();
                     SqlCommand cmd = new SqlCommand("InsertNewUser", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Personal_id", SqlDbType.NVarChar).Value = user.Personal_id; //u.Personal_id
-                    cmd.Parameters.AddWithValue("@Email", SqlDbType.NVarChar).Value = user.Email; //u.Email
-                    cmd.Parameters.AddWithValue("@Salted_hash", SqlDbType.NVarChar).Value = user.Salted_hash;
+                    cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = user.Personal_id; 
+                    cmd.Parameters.AddWithValue("@email", SqlDbType.NVarChar).Value = user.Email; 
+                    cmd.Parameters.AddWithValue("@salted_hash", SqlDbType.NVarChar).Value = user.Salted_hash;
+                    cmd.Parameters.AddWithValue("@profile_img", SqlDbType.NVarChar).Value = user.Profile_img;
                     int res = cmd.ExecuteNonQuery();
                     return res;
                 }

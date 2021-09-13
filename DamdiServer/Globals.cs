@@ -10,7 +10,7 @@ namespace DamdiServer
     {
         //initializing data access layer with sql server before start the work between client side and backnd side.
         #region ctor
-        static string conStr;
+        static readonly string conStr;
         static Globals()
         {
 
