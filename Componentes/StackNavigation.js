@@ -91,11 +91,11 @@ export default function StackNavigation() {
             headerStyle: {
               backgroundColor: '#4d5b70',
             },
-            headerTintColor: '#fff',
-            headerRight: () => <Feather onPress={() => backPage('Registration')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
-            headerLeft: () => {
-              return null;
-            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('Registration')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
           }} />
         <Stack.Screen name="PersonalForm" component={PersonalFormScreen}
           options={{
@@ -103,11 +103,11 @@ export default function StackNavigation() {
             headerStyle: {
               backgroundColor: '#4d5b70',
             },
-            headerTintColor: '#fff',
-            headerRight: () => <Feather onPress={() => backPage('PersonalForm')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
-            headerLeft: () => {
-              return null;
-            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('PersonalForm')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
           }} />
         <Stack.Screen name="PersonalForm2" component={PersonalFormScreen2}
           options={{
@@ -115,11 +115,11 @@ export default function StackNavigation() {
             headerStyle: {
               backgroundColor: '#4d5b70',
             },
-            headerTintColor: '#fff',
-            headerRight: () => <Feather onPress={() => backPage('PersonalForm2')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
-            headerLeft: () => {
-              return null;
-            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('PersonalForm2')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
           }} />
         <Stack.Screen name="PersonalForm3" component={PersonalFormScreen3}
           options={{
@@ -138,11 +138,11 @@ export default function StackNavigation() {
             headerStyle: {
               backgroundColor: '#4d5b70',
             },
-            headerTintColor: '#fff',
-            headerRight: () => <Feather onPress={() => backPage('Welcome')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
-            headerLeft: () => {
-              return null;
-            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('Welcome')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
           }} />
         <Stack.Screen name="Home" component={Home}
           options={{
@@ -151,10 +151,10 @@ export default function StackNavigation() {
               backgroundColor: '#4d5b70',
             },
             headerTintColor: '#fff',
-            headerRight: () => <Feather onPress={() => backPage('Home')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
-            headerLeft: () => {
-              return null;
-            },
+            // headerRight: () => <Feather onPress={() => backPage('Home')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
           }} />
         <Stack.Screen name="Stations" component={Stations}
           options={{
@@ -162,11 +162,11 @@ export default function StackNavigation() {
             headerStyle: {
               backgroundColor: '#4d5b70',
             },
-            headerTintColor: '#fff',
-            headerRight: () => <Feather onPress={() => backPage('Stations')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
-            headerLeft: () => {
-              return null;
-            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('Stations')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
           }} />
         <Stack.Screen name="Profile" component={Profile}
           options={{
@@ -174,11 +174,11 @@ export default function StackNavigation() {
             headerStyle: {
               backgroundColor: '#4d5b70',
             },
-            headerTintColor: '#fff',
-            headerRight: () => <Feather onPress={() => backPage('Profile')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
-            headerLeft: () => {
-              return null;
-            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('Profile')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
           }} />
         <Stack.Screen name="Appointments" component={Appointments}
           options={{
@@ -186,11 +186,11 @@ export default function StackNavigation() {
             headerStyle: {
               backgroundColor: '#4d5b70',
             },
-            headerTintColor: '#fff',
-            headerRight: () => <Feather onPress={() => backPage('Appointments')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
-            headerLeft: () => {
-              return null;
-            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('Appointments')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
           }} />
         <Stack.Screen name="Friends" component={Friends}
           options={{
@@ -198,11 +198,11 @@ export default function StackNavigation() {
             headerStyle: {
               backgroundColor: '#4d5b70',
             },
-            headerTintColor: '#fff',
-            headerRight: () => <Feather onPress={() => backPage('Friends')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
-            headerLeft: () => {
-              return null;
-            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('Friends')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
           }} />
         <Stack.Screen name="BloodInfo" component={BloodInfo}
           options={{
@@ -210,11 +210,11 @@ export default function StackNavigation() {
             headerStyle: {
               backgroundColor: '#4d5b70',
             },
-            headerTintColor: '#fff',
-            headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
-            headerLeft: () => {
-              return null;
-            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
           }} />
         <Stack.Screen name="ScheduleAppointment" component={ScheduleAppointment} />
         <Stack.Screen name="DonatorsLogin" component={DonatorsLogin} />
