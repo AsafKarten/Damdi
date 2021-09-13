@@ -79,13 +79,11 @@ export default function PersonalFormScreen({ navigation, route }) {
                 value={Prev_last_name}
                 placeholder="שם קודם: משפחה"
             />
-
-
-
-            <Button
-                title="הבא"
-                onPress={() => PostPersonalForm()}
-            />
+            <TouchableOpacity onPress={() => PostPersonalForm()}>
+        <View style={styles.button_normal}>
+          <Text style={styles.button_text} >הבא</Text>
+        </View>
+      </TouchableOpacity>
 
         </SafeAreaView>
 
@@ -99,11 +97,40 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     input: {
+        width:120,
         height: 40,
         margin: 12,
         borderWidth: 1,
         borderRadius: 8,
         textAlign: 'center',
+    },
+    button_normal: {
+
+        alignItems: 'center',
+        width:160,
+        margin: 15,
+        borderRadius: 8,
+        padding: 10,
+        backgroundColor: "#757c94",
+        opacity:0.8,
+        shadowColor:'black',
+        shadowRadius:5,
+    
+      
+        
+      },
+      button_text: {
+        color:'white'
+      },
+      HorizontalBox: {
+        width:280,
+        justifyContent:'space-between',
+        flexDirection: 'row-reverse',
+        marginTop:12,
+    },
+    lableText: {
+        marginTop: 17,
+        fontWeight: 'bold'
     },
 });
 

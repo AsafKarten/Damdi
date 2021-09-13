@@ -70,10 +70,19 @@ const PersonalFormScreen2 = ({ navigation, route }) => {
                 value={Work_telephone}
                 placeholder="מס טלפון בעבודה"
             />
-
-            <Button title="הבא" onPress={() => PostPersonalForm2()}
-           />
-            <Button title="חזרה" onPress={() => navigation.navigate('PersonalForm')} />
+<View style={styles.HorizontalBoxButtons}>
+<TouchableOpacity onPress={() => PostPersonalForm2()}>
+        <View style={styles.button_normal}>
+          <Text style={styles.button_text} >הבא</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('PersonalForm')} >
+        <View style={styles.button_normal}>
+          <Text style={styles.button_text} >חזרה</Text>
+        </View>
+      </TouchableOpacity>
+      </View>
+          
 
         </SafeAreaView>
 
@@ -87,11 +96,42 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     input: {
+        width:120,
         height: 40,
         margin: 12,
         borderWidth: 1,
         borderRadius: 8,
         textAlign: 'center',
+    },
+    button_normal: {
+
+        alignItems: 'center',
+        width:80,
+        margin: 15,
+        borderRadius: 8,
+        padding: 10,
+        backgroundColor: "#757c94",
+        opacity:0.8,
+        shadowColor:'black',
+        shadowRadius:5,
+    
+      
+        
+      },
+      button_text: {
+        color:'white'
+      },
+      HorizontalBox: {
+        width:280,
+        justifyContent:'space-between',
+        flexDirection: 'row-reverse',
+    },
+    HorizontalBoxButtons: {
+        flexDirection: 'row',
+    },
+    lableText: {
+        marginTop: 17,
+        fontWeight: 'bold'
     },
 });
 export default PersonalFormScreen2;

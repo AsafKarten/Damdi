@@ -39,69 +39,98 @@ const PersonalFormScreen3 = ({ navigation, route }) => {
 
         <SafeAreaView style={styles.container}>
 
-        <View style={styles.HorizontalBox}>
-            <Text>חבר ארגון תורמי דם?</Text>
-            <CheckBox
-                value={Blood_group_member}
-                onValueChange={onChangeBlood_group_member}
-                style={styles.checkbox}
-            />
-        </View> 
-            <TextInput
-                style={styles.input}
-                onChangeText={onChangePersonal_insurance}
-                value={Personal_insurance}
-                placeholder="ביטוח אישי"
-            />
-            <TextInput
-                style={styles.input}
-                onChangeText={onChangeConfirm_examination}
-                value={Confirm_examination}
-                placeholder="מסכים לשימוש בניסויים"
-            />
-            <TextInput
-                style={styles.input}
-                onChangeText={onChangeAgree_future_don}
-                value={Agree_future_don}
-                placeholder="מסכים לקבלת הזמנות לתרום דם בעתיד"
-            />
-            <TextInput
-                style={styles.input}
-                onChangeText={onChangeBirth_land}
-                value={Birth_land}
-                placeholder="ארץ לידה"
-            />
-            <TextInput
-                style={styles.input}
-                onChangeText={onChangeAliya_year}
-                value={Aliya_year}
-                placeholder="שנת עליה"
-            />
-            <TextInput
-                style={styles.input}
-                onChangeText={onChangeFather_birth_land}
-                value={Father_birth_land}
-                placeholder="ארץ לידת אב"
-            />
-            <TextInput
-                style={styles.input}
-                onChangeText={onChangeMother_birth_land}
-                value={Mother_birth_land}
-                placeholder="ארץ לידת אם"
-            />
+            <View style={styles.HorizontalBox}>
+                <Text>חבר ארגון תורמי דם?</Text>
+                <CheckBox
+                    value={Blood_group_member}
+                    onValueChange={onChangeBlood_group_member}
+                    style={styles.checkbox}
+                />
+            </View>
+            <View style={styles.HorizontalBox}>
+                <Text>ביטוח אישי</Text>
+                <CheckBox
+                    value={Personal_insurance}
+                    onValueChange={onChangePersonal_insurance}
+                    style={styles.checkbox}
+                />
+            </View>
+            <View style={styles.HorizontalBox}>
+                <Text>מסכים לשימוש בניסויים</Text>
+                <CheckBox
+                    value={Confirm_examination}
+                    onValueChange={onChangeConfirm_examination}
+                    style={styles.checkbox}
+                />
+            </View>
+            <View style={styles.HorizontalBox}>
+                <Text>מסכים לקבלת הזמנות לתרום דם בעתיד</Text>
+                <CheckBox
+                    value={Agree_future_don}
+                    onValueChange={onChangeAgree_future_don}
+                    style={styles.checkbox}
+                />
+            </View>
 
-            <Button title="סיום" onPress={() => PostPersonalForm3(
-                Blood_group_member,
-                Personal_insurance,
-                Confirm_examination,
-                Agree_future_don,
-                Birth_land,
-                Aliya_year,
-                Father_birth_land,
-                Mother_birth_land
-            )} />
-            <Button title="חזרה" onPress={() => navigation.navigate('PersonalForm2')} />
+            <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>ארץ לידה</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={onChangeBirth_land}
+                    value={Birth_land}
+                    placeholder="ארץ לידה"
+                />
+            </View>
+            <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>שנת עליה</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={onChangeAliya_year}
+                    value={Aliya_year}
+                    placeholder="שנת עליה"
+                />
+            </View>
+            <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>ארץ לידת אב</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={onChangeFather_birth_land}
+                    value={Father_birth_land}
+                    placeholder="ארץ לידת אב"
+                />
+            </View>
+            <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>ארץ לידת אם</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={onChangeMother_birth_land}
+                    value={Mother_birth_land}
+                    placeholder="ארץ לידת אם"
+                />
+            </View>
+            <View style={styles.HorizontalBoxButtons}>
+                <TouchableOpacity onPress={() => PostPersonalForm3(
+                    Blood_group_member,
+                    Personal_insurance,
+                    Confirm_examination,
+                    Agree_future_don,
+                    Birth_land,
+                    Aliya_year,
+                    Father_birth_land,
+                    Mother_birth_land
+                )}>
 
+                    <View style={styles.button_normal}>
+                        <Text style={styles.button_text} >סיום</Text>
+                    </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => navigation.navigate('PersonalForm2')}>
+                    <View style={styles.button_normal}>
+                        <Text style={styles.button_text} >חזרה</Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
 
     );
@@ -114,6 +143,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     input: {
+        width:120,
         height: 40,
         margin: 12,
         borderWidth: 1,
@@ -122,10 +152,38 @@ const styles = StyleSheet.create({
     },
     checkbox: {
         alignSelf: "center",
-        marginRight:8,
-      },
-      HorizontalBox:{
-          flexDirection:'row-reverse',
-      },
+        marginRight: 8,
+    },
+    HorizontalBox: {
+        width:280,
+        justifyContent:'space-between',
+        flexDirection: 'row-reverse',
+        marginTop:12,
+    },
+    HorizontalBoxButtons: {
+        flexDirection: 'row',
+    },
+    lableText: {
+        marginTop: 17,
+        fontWeight: 'bold'
+    },
+    button_normal: {
+
+        alignItems: 'center',
+        width: 80,
+        margin: 15,
+        borderRadius: 8,
+        padding: 10,
+        backgroundColor: "#757c94",
+        opacity: 0.8,
+        shadowColor: 'black',
+        shadowRadius: 5,
+
+
+
+    },
+    button_text: {
+        color: 'white'
+    },
 });
 export default PersonalFormScreen3;
