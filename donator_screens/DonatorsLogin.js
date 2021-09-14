@@ -7,7 +7,7 @@ export default function DonatorsLogin({ navigation }) {
   const [PersonalId, onChangeId] = useState()
   const [Email, onChangeEmail] = useState();
   const [Pass, onChangePass] = useState();
-  const [Asaf, onChangeAsaf] = useState({Personal_id:"204610620",First_name:"אסף",Last_name:"קרטן",Phone:"0549214258",Gender:"ז" ,Birthdate:"03.03.1993" ,Prev_first_name:"" ,Prev_last_name:"",City:"ranana", Address:"hertzel 101", Postal_code:"3355", Mail_box:"3", Telephone:"0549214258", Work_telephone:"",Blood_group_member:false, Personal_insurance:false, Confirm_examination:true, Agree_future_don:true, Birth_land:"ישראל", Aliya_year:"", Father_birth_land:"ישראל", Mother_birth_land:"ישראל"});
+  const [Natkes, onChangeNatkes] = useState({Auto_worker_id:1, Personal_id_worker:"204610620",First_name:"נתנאל",Last_name:"אקנין"});
 
 
   const LoginNew = async () => {
@@ -126,9 +126,9 @@ export default function DonatorsLogin({ navigation }) {
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('PersonalForm',{route:Asaf})}>
+      <TouchableOpacity onPress={() => navigation.navigate('DHome',{route:Natkes})}>
         <View style={styles.button_normal}>
-          <Text style={styles.button_text} >הכפתור של אסף</Text>
+          <Text style={styles.button_text} >הכפתור של נתנאל</Text>
         </View>
       </TouchableOpacity>
 

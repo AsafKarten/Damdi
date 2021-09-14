@@ -19,7 +19,7 @@ import Friends from '../client_screens/Friends.js';
 import BloodInfo from '../client_screens/BloodInfo.js';
 import ScheduleAppointment from '../client_screens/ScheduleAppointment.js';
 import DonatorsLogin from '../donator_screens/DonatorsLogin.js';
-
+import DHome from '../donator_screens/DHome.js';
 
 const Stack = createStackNavigator();
 
@@ -99,7 +99,7 @@ export default function StackNavigation() {
           }} />
         <Stack.Screen name="PersonalForm" component={PersonalFormScreen}
           options={{
-            title: 'טופס הרשמה חלק א',
+            title: 'פרטים אישים',
             headerStyle: {
               backgroundColor: '#4d5b70',
             },
@@ -111,7 +111,7 @@ export default function StackNavigation() {
           }} />
         <Stack.Screen name="PersonalForm2" component={PersonalFormScreen2}
           options={{
-            title: 'טופס הרשמה חלק ב',
+            title: 'פרטים אישים',
             headerStyle: {
               backgroundColor: '#4d5b70',
             },
@@ -123,7 +123,7 @@ export default function StackNavigation() {
           }} />
         <Stack.Screen name="PersonalForm3" component={PersonalFormScreen3}
           options={{
-            title: 'טופס הרשמה חלק ג',
+            title: 'פרטים אישים',
             headerStyle: {
               backgroundColor: '#4d5b70',
             },
@@ -218,6 +218,7 @@ export default function StackNavigation() {
           }} />
         <Stack.Screen name="ScheduleAppointment" component={ScheduleAppointment} />
         <Stack.Screen name="DonatorsLogin" component={DonatorsLogin} />
+        <Stack.Screen name="DHome" component={DHome} />
       </Stack.Navigator>
     </NavigationContainer>
   );
