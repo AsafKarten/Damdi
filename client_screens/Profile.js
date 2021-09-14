@@ -1,32 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Platform, View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
+import ActionSheet from 'react-native-actionsheet';
 import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
 import PI from '../assets/DamdiPI4.png';
-//import ActionSheet from 'react-native-actionsheet';
 
 
-const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
-const default_img = "../assets/DAMDI_White_BG"
+const api = "http://ruppinmobile.tempdomain.co.il/site15/"
 
 export default function Profile({ navigation, route }) {
-  const [User, onChangeId] = useState(route.params.route)
+  let actionSheet = useRef();
+  var optionArray = ['take a photo', 'choose from a gallery', 'Cancel'];
+  const [userId, setUserId] = useState(route.params.route.Personal_id)
   const [image, setImage] = useState(PI);
+  const [shouldShow, setShouldShow] = useState(false);
+
+
+  useEffect(() => {
+    (async () => {
+      if (route !== undefined) {
+        if (route.Profile_img.indexOf("?asid") == -1)
+          setImage(`${route.Profile_img}?t=${Date.now()}`)
+        setUserId(route.Personal_id)
+      }
+      if (Platform.OS !== 'web') {
+        setShouldShow(true)
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          Alert.alert('Sorry, we need media permissions to make this work!');
+        }
+      }
+    })()
+  }, [])
+
 
   const checkDevice = async () => {
     if (Platform.OS === 'web') {
       await GalleryPicture();
     }
     else {
-      // showActionSheet();
+      showActionSheet();
     }
   }
 
-  // const showActionSheet = () => {
-  //   actionSheet.current.show();
-  // };
+  const showActionSheet = () => {
+    actionSheet.current.show();
+  };
 
   const takePicture = async () => {
     try {
@@ -40,10 +60,10 @@ export default function Profile({ navigation, route }) {
         if (Platform.OS !== 'web') {
           const content = await FileSystem.readAsStringAsync(result.uri, { encoding: FileSystem.EncodingType.Base64 });
           result.uri = content
-          await imageUploadA(result.uri, username)
+          await imageUploadA(result.uri, userId)
         }
         else {
-          await imageUpload(result.uri, username);
+          await imageUpload(result.uri, userId);
         }
       }
     } catch (e) {
@@ -65,11 +85,11 @@ export default function Profile({ navigation, route }) {
           setLoading(true);
           var content = await FileSystem.readAsStringAsync(result.uri, { encoding: FileSystem.EncodingType.Base64 });
           result.uri = content
-          await imageUploadA(result.uri, username)
+          await imageUploadA(result.uri, userId)
         }
         else {
           setLoading(true);
-          await imageUpload(result.uri, username);
+          await imageUpload(result.uri, userId);
         }
       }
     } catch (e) {
@@ -79,7 +99,7 @@ export default function Profile({ navigation, route }) {
   const imageUpload = async (imgUri, picName) => {
     try {
 
-      let res = await fetch(url + "api/uploadpicture", {
+      let res = await fetch(api + "api/uploadpicture", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
@@ -104,7 +124,7 @@ export default function Profile({ navigation, route }) {
 
   const imageUploadA = async (imgUri, picName) => {
     try {
-      let res = await fetch(url + "api/uploadpicture", {
+      let res = await fetch(api + "api/uploadpicture", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
@@ -127,6 +147,27 @@ export default function Profile({ navigation, route }) {
     }
   }
 
+  const updateLoggedUser = async () => {
+    try {
+      let result = await fetch(api + "api/user", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Id_user: userId,
+        })
+      });
+      let data = await result.json();
+      if (data.Profile_img.indexOf("?asid") == -1)
+        data.Profile_img = `${data.Profile_img}?t=${Date.now()}`;
+      storeData(data);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
 
@@ -140,7 +181,7 @@ export default function Profile({ navigation, route }) {
           </Text>
         </TouchableOpacity>
 
-        <Text style={styles.addText}>{User.First_name + " " + User.Last_name}</Text>
+        <Text style={styles.addText}>{route.First_name + " " + route.Last_name}</Text>
 
         <Text style={styles.addText}>סוג דם: -O</Text>
 
@@ -148,33 +189,56 @@ export default function Profile({ navigation, route }) {
 
       <View style={styles.ButtonContainer}>
 
-        <TouchableOpacity onPress={() => navigation.navigate('PersonalForm', { route: User })}>
+        <TouchableOpacity onPress={() => navigation.navigate('PersonalForm', { route: route })}>
           <View style={styles.button_normal}>
             <Text style={styles.button_text} >עדכון פרטים אישיים</Text>
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: route })}>
           <View style={styles.button_normal}>
             <Text style={styles.button_text} >עדכון פרטים רפואים</Text>
           </View>
         </TouchableOpacity>
       </View>
       <View style={styles.ButtonContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: route })}>
           <View style={styles.button_normal}>
             <Text style={styles.button_text} >אבטחה ופרטיות</Text>
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: route })}>
           <View style={styles.button_normal}>
             <Text style={styles.button_text} >הגדרות</Text>
           </View>
         </TouchableOpacity>
 
       </View>
-
+      {shouldShow ? (
+        <View>
+          <ActionSheet
+            ref={actionSheet}
+            title={'בחר/י מאיפה לעלות תמונה'}
+            // Options Array to show in bottom sheet
+            options={optionArray}
+            // Define cancel button index in the option array
+            // This will take the cancel option in bottom
+            // and will highlight it
+            cancelButtonIndex={2}
+            // Highlight any specific option
+            destructiveButtonIndex={1}
+            onPress={(index) => {
+              if (index == 0) {
+                takePicture();
+              }
+              else if (index == 1) {
+                GalleryPicture();
+              }
+            }}
+          />
+        </View>
+      ) : null}
     </SafeAreaView>
 
   );
@@ -199,8 +263,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 90,
     borderColor: 'red',
-    resizeMode:'stretch',
-   
+    resizeMode: 'stretch',
+
   },
   addText: {
     fontSize: 16,
