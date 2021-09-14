@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Platform, View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
+import { Platform, View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Image } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons';
 import PI from '../assets/DamdiPI4.png';
+import Spiner from '../Componentes/Spiner';
+
 
 
 const api = "http://ruppinmobile.tempdomain.co.il/site15/"
@@ -12,17 +14,19 @@ const api = "http://ruppinmobile.tempdomain.co.il/site15/"
 export default function Profile({ navigation, route }) {
   let actionSheet = useRef();
   var optionArray = ['take a photo', 'choose from a gallery', 'Cancel'];
-  const [userId, setUserId] = useState(route.params.route.Personal_id)
-  const [image, setImage] = useState(PI);
+  const [User, onChangeUser] = useState(route.params.route)
+  const [userId, setUserId] = useState();
+  const [image, setImage] = useState();
   const [shouldShow, setShouldShow] = useState(false);
+  const [loading, setLoading] = useState(false);
 
 
   useEffect(() => {
     (async () => {
-      if (route !== undefined) {
-        if (route.Profile_img.indexOf("?asid") == -1)
-          setImage(`${route.Profile_img}?t=${Date.now()}`)
-        setUserId(route.Personal_id)
+      if (User !== undefined) {
+        // if (User.Profile_img.indexOf("?asid") == -1)
+        //   setImage(`${User.Profile_img}?t=${Date.now()}`)
+        setUserId(User.Personal_id)
       }
       if (Platform.OS !== 'web') {
         setShouldShow(true)
@@ -113,8 +117,8 @@ export default function Profile({ navigation, route }) {
         })
       });
       let data = await res.json();
-      if (data.path.indexOf("?asid") == -1)
-        setImage(`${data.path}?t=${Date.now()}`)
+      // if (data.path.indexOf("?asid") == -1)
+      //   setImage(`${data.path}?t=${Date.now()}`)
       await updateLoggedUser(userId);
       setLoading(false);
     } catch (e) {
@@ -160,8 +164,8 @@ export default function Profile({ navigation, route }) {
         })
       });
       let data = await result.json();
-      if (data.Profile_img.indexOf("?asid") == -1)
-        data.Profile_img = `${data.Profile_img}?t=${Date.now()}`;
+      // if (data.Profile_img.indexOf("?asid") == -1)
+      //   data.Profile_img = `${data.Profile_img}?t=${Date.now()}`;
       storeData(data);
     } catch (e) {
       console.error(e);
@@ -180,10 +184,12 @@ export default function Profile({ navigation, route }) {
             <AntDesign name="plus" size={24} color="grey" fontWeight={'bold'} />
           </Text>
         </TouchableOpacity>
+        {shouldShow ? (
+          <Spiner loading={loading} />
+        ) : null}
+        <Text style={styles.addText}>{User.First_name + " " + User.Last_name}</Text>
 
-        <Text style={styles.addText}>{route.First_name + " " + route.Last_name}</Text>
-
-        <Text style={styles.addText}>סוג דם: -O</Text>
+        <Text style={styles.addText}>סוג דם: O-</Text>
 
       </View>
 
@@ -195,7 +201,7 @@ export default function Profile({ navigation, route }) {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: route })}>
+        <TouchableOpacity onPress={() => navigation.navigate('MedicalForm', { route: User })}>
           <View style={styles.button_normal}>
             <Text style={styles.button_text} >עדכון פרטים רפואים</Text>
           </View>
@@ -240,7 +246,6 @@ export default function Profile({ navigation, route }) {
         </View>
       ) : null}
     </SafeAreaView>
-
   );
 }
 const styles = StyleSheet.create({

@@ -4,37 +4,40 @@ import BG from '../assets/DAMDI_White_BG.jpg'
 
 
 const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
-export default function Home({ navigation, route }) {
+export default function UnitOne({ navigation, route }) {
     const [Donator, onChangeDonator] = useState(route.params.route)
     const [shouldShow, setShouldShow] = useState(false);
-    const [roleModal, setRoleModal] = useState(false);
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [personal_id, onChangeId] = useState();
 
     useEffect(() => {
         (async () => {
-       
+
             if (Platform.OS !== 'web') {
                 setShouldShow(true)
             }
         })()
     }, [])
 
+    const GetDonor =()=>{
+        console.log("make api request get all user info")
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <Image source={BG} style={styles.header_img}></Image>
+      
+               <TextInput
+                    style={styles.input}
+                    onChangeText={() => onChangeId}
+                    value={personal_id}
+                    placeholder="תעודת זהות"
+                />
 
-            <TouchableOpacity onPress={() => setRoleModal(true)}>
+            <TouchableOpacity onPress={() => GetDonor()}>
                 <View style={styles.button_normal}>
 
-                    <Text style={styles.button_text} >בחירת עמדה</Text>
-                </View>
-            </TouchableOpacity>
-
-
-
-
-            <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
-                <View style={styles.button_normal}>
-                    <Text style={styles.button_text} >שינוי אתר התרמה</Text>
+                    <Text style={styles.button_text} >התחל</Text>
                 </View>
             </TouchableOpacity>
 
@@ -42,7 +45,7 @@ export default function Home({ navigation, route }) {
                 <Modal
                     animationType="slide"
                     transparent={true}
-                    visible={roleModal}
+                    visible={confirmModal}
                     onRequestClose={() => {
                         Alert.alert('Modal has been closed.');
                     }}>
@@ -54,17 +57,17 @@ export default function Home({ navigation, route }) {
                                 <View >
                                     <Text >{Donator.First_name + " " + Donator.Last_name}</Text>
                                     <Text>בחר עמדה</Text>
-                                    <TouchableOpacity onPress={() => navigation.navigate('UnitOne', { route: Donator })}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
                                         <View style={styles.button_normal}>
                                             <Text style={styles.button_text} >עמדה 1</Text>
                                         </View>
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={() => navigation.navigate('UnitTwo', { route: Donator })}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
                                         <View style={styles.button_normal}>
                                             <Text style={styles.button_text} >עמדה 2</Text>
                                         </View>
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={() => navigation.navigate('UnitThree', { route: Donator })}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
                                         <View style={styles.button_normal}>
                                             <Text style={styles.button_text} >עמדה 3</Text>
                                         </View>
@@ -74,7 +77,7 @@ export default function Home({ navigation, route }) {
                             <TouchableHighlight
                                 style={{ backgroundColor: '#4d5b70' }}
                                 onPress={() => {
-                                    setRoleModal(!roleModal);
+                                    setConfirmModal(!confirmModal);
                                 }}>
                                 <Text>סגור</Text>
                             </TouchableHighlight>
@@ -140,5 +143,11 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
         backgroundColor: "#fcfff9",
         color: "black",
+    },
+    HorizontalBox: {
+        width:280,
+        justifyContent:'space-between',
+        flexDirection: 'row-reverse',
+        marginTop:12,
     },
 });

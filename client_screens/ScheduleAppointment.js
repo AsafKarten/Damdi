@@ -89,6 +89,13 @@ export default function ScheduleAppointment({ navigation, route }) {
                                 <View >
                                     <Text >{Item.date + " " + Item.time}</Text>
                                     <Text>כאן יהיה אישור קביעת תור</Text>
+                                    <TouchableHighlight
+                                style={{ backgroundColor: '#4d5b70' }}
+                                onPress={() => {
+                                   navigation.navigate('MedicalForm', { route: User })
+                                }}>
+                                <Text>למילוי שאלון רפואי</Text>
+                            </TouchableHighlight>
                                 </View>
                             </View>
                             <TouchableHighlight

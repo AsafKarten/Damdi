@@ -18,8 +18,12 @@ import Appointments from '../client_screens/Appointments.js';
 import Friends from '../client_screens/Friends.js';
 import BloodInfo from '../client_screens/BloodInfo.js';
 import ScheduleAppointment from '../client_screens/ScheduleAppointment.js';
+import MedicalForm from '../client_screens/MedicalForm.js';
 import DonatorsLogin from '../donator_screens/DonatorsLogin.js';
 import DHome from '../donator_screens/DHome.js';
+import UnitOne from '../donator_screens/UnitOne.js';
+import UnitTwo from '../donator_screens/UnitTwo.js';
+import UnitThree from '../donator_screens/UnitThree.js';
 
 const Stack = createStackNavigator();
 
@@ -217,8 +221,12 @@ export default function StackNavigation() {
             // },
           }} />
         <Stack.Screen name="ScheduleAppointment" component={ScheduleAppointment} />
+        <Stack.Screen name="MedicalForm" component={MedicalForm} />
         <Stack.Screen name="DonatorsLogin" component={DonatorsLogin} />
         <Stack.Screen name="DHome" component={DHome} />
+        <Stack.Screen name="UnitOne" component={UnitOne} />
+        <Stack.Screen name="UnitTwo" component={UnitTwo} />
+        <Stack.Screen name="UnitThree" component={UnitThree} />
       </Stack.Navigator>
     </NavigationContainer>
   );

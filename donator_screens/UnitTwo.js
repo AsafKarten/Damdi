@@ -4,7 +4,7 @@ import BG from '../assets/DAMDI_White_BG.jpg'
 
 
 const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
-export default function Home({ navigation, route }) {
+export default function UnitTwo({ navigation, route }) {
     const [Donator, onChangeDonator] = useState(route.params.route)
     const [shouldShow, setShouldShow] = useState(false);
     const [roleModal, setRoleModal] = useState(false);
@@ -54,17 +54,17 @@ export default function Home({ navigation, route }) {
                                 <View >
                                     <Text >{Donator.First_name + " " + Donator.Last_name}</Text>
                                     <Text>בחר עמדה</Text>
-                                    <TouchableOpacity onPress={() => navigation.navigate('UnitOne', { route: Donator })}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
                                         <View style={styles.button_normal}>
                                             <Text style={styles.button_text} >עמדה 1</Text>
                                         </View>
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={() => navigation.navigate('UnitTwo', { route: Donator })}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
                                         <View style={styles.button_normal}>
                                             <Text style={styles.button_text} >עמדה 2</Text>
                                         </View>
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={() => navigation.navigate('UnitThree', { route: Donator })}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
                                         <View style={styles.button_normal}>
                                             <Text style={styles.button_text} >עמדה 3</Text>
                                         </View>
@@ -140,5 +140,11 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
         backgroundColor: "#fcfff9",
         color: "black",
+    },
+    HorizontalBox: {
+        width:280,
+        justifyContent:'space-between',
+        flexDirection: 'row-reverse',
+        marginTop:12,
     },
 });
