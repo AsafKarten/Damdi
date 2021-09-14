@@ -18,8 +18,6 @@ namespace DamdiServer
             bool SqlLocal = false;//before doing publish need to be false
             if (localWebAPI && SqlLocal)
                 conStr = ConfigurationManager.ConnectionStrings["LocalDB"].ConnectionString;
-            else if (localWebAPI && !SqlLocal)
-                conStr = ConfigurationManager.ConnectionStrings["LIVEDNSfromLocal"].ConnectionString;
             else
                 conStr = ConfigurationManager.ConnectionStrings["LIVEDNSfromLivedns"].ConnectionString;
             UserDAL = new UserDAL(conStr);

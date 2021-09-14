@@ -1,7 +1,7 @@
 /*
 Use Master
 GO
-Use site15
+Use [db_a79b5b_proj13]
 GO
 */
 
@@ -265,9 +265,6 @@ Create procedure UpdateProfileImage(
 as
 Update Users Set profile_img=@user_img where personal_id=@id
 
-
-
-
 Create procedure InsertNewDonator(
 @personal_id_worker nvarchar (10),
 @first_name nvarchar(50),
@@ -275,7 +272,6 @@ Create procedure InsertNewDonator(
 @salted_hash nvarchar(max))
 as 
 INSERT INTO Donators(personal_id_worker,first_name,last_name,salted_hash) VALUES (@personal_id_worker,@first_name,@last_name,@salted_hash)
-
 
 Create procedure InsertNewStation(
 @station_code int,
