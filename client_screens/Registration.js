@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, Button, TouchableOpacity } from 'react-native';
 
 
-const url = "http://ruppinmobile.tempdomain.co.il/site15/"
+const url = "http://proj13.ruppin-tech.co.il/"
 var bcrypt = require('bcryptjs');
 
 export default function Registration({ navigation }) {

@@ -9,7 +9,7 @@ import Spiner from '../Componentes/Spiner';
 
 
 
-const api = "http://ruppinmobile.tempdomain.co.il/site15/"
+const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function Profile({ navigation, route }) {
   let actionSheet = useRef();
@@ -100,10 +100,10 @@ export default function Profile({ navigation, route }) {
       console.error(e);
     }
   }
-  const imageUpload = async (imgUri, picName) => {
+  const imageUpload = async (imgurl, picName) => {
     try {
 
-      let res = await fetch(api + "api/uploadpicture", {
+      let res = await fetch(url + "api/uploadpicture", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
@@ -126,9 +126,9 @@ export default function Profile({ navigation, route }) {
     }
   }
 
-  const imageUploadA = async (imgUri, picName) => {
+  const imageUploadA = async (imgurl, picName) => {
     try {
-      let res = await fetch(api + "api/uploadpicture", {
+      let res = await fetch(url + "api/uploadpicture", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',

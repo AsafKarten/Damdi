@@ -3,7 +3,7 @@ import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Image } 
 import BG from '../assets/DAMDI_White_BG.jpg'
 
 
-const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
+const url = "http://proj13.ruppin-tech.co.il/"
 export default function Home({ navigation, route }) {
   const [User, onChangeId] = useState(route.params.route)
 

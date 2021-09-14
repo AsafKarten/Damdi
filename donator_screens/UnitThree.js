@@ -3,7 +3,8 @@ import { View, Modal, TouchableHighlight, Platform, SafeAreaView, StyleSheet, Te
 import BG from '../assets/DAMDI_White_BG.jpg'
 
 
-const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
+const url = "http://proj13.ruppin-tech.co.il/"
+
 export default function UnitThree({ navigation, route }) {
     const [Donator, onChangeDonator] = useState(route.params.route)
     const [shouldShow, setShouldShow] = useState(false);

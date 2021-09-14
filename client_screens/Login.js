@@ -7,7 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
-const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
+const url = "http://proj13.ruppin-tech.co.il/"
 var bcrypt = require('bcryptjs');
 
 
@@ -60,7 +60,7 @@ export default function Login({ navigation }) {
         return
       }
       else {
-        let result = await fetch(uri + "api/user", {
+        let result = await fetch(url + "api/user", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -73,7 +73,7 @@ export default function Login({ navigation }) {
         });
         let data = await result.json();
         console.log(data);
-        var correct = bcrypt.compareSync(Pass, data.Solted_hash)
+        var correct = bcrypt.compareSync(Pass, data.Salted_hash)
         if (!correct) {
           Alert.alert("הפרטים שגוים או שהסיסמה אינה נכונה!");
           return;
@@ -81,7 +81,7 @@ export default function Login({ navigation }) {
         else {
           setLoading(true);
           await clearAsyncStorage();
-          let user_result = await fetch(uri + "api/user/info", {
+          let user_result = await fetch(url + "api/user/info", {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
@@ -110,14 +110,12 @@ export default function Login({ navigation }) {
         onChangeText={() => onChangeId}
         value={PersonalId}
         placeholder="תעודת זהות"
-        rightIcon={<FontAwesome name="id-card" size={24} color="black" />}
       />
       <Input
         style={styles.input}
         onChangeText={() => onChangeEmail}
         value={Email}
         placeholder="אימייל"
-        rightIcon={<MaterialIcons name="mail" size={30} color="black" />}
       />
       <Input
         style={styles.input}
@@ -125,7 +123,6 @@ export default function Login({ navigation }) {
         value={Pass}
         secureTextEntry={true}
         placeholder="סיסמה"
-        rightIcon={<MaterialCommunityIcons name="form-textbox-password" size={28} color="black" />}
       />
       <TouchableOpacity onPress={() => clientLogin()}>
         <View style={styles.button_normal}>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 
-const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
+const url = "http://proj13.ruppin-tech.co.il/"
 var bcrypt = require('bcryptjs');
 export default function Appointments({ navigation , route }) {
   const [User, onChangeId] = useState(route.params.route)

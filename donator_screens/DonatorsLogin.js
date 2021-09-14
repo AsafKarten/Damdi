@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 
-const uri = "http://ruppinmobile.tempdomain.co.il/site15/"
+const url = "http://proj13.ruppin-tech.co.il/"
+
 var bcrypt = require('bcryptjs');
 export default function DonatorsLogin({ navigation }) {
   const [PersonalId, onChangeId] = useState()
@@ -18,7 +19,7 @@ export default function DonatorsLogin({ navigation }) {
         // }
         // else {
            
-            let result = await fetch(uri + "api/user", {
+            let result = await fetch(url + "api/user", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8',
@@ -37,7 +38,7 @@ export default function DonatorsLogin({ navigation }) {
                 return;
             }
             else {
-              let user_result = await fetch(uri + "api/user/info", {
+              let user_result = await fetch(url + "api/user/info", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8',
@@ -64,7 +65,7 @@ export default function DonatorsLogin({ navigation }) {
       return
     }
     else {
-      let result = await fetch(uri + "api/user", {
+      let result = await fetch(url + "api/user", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',

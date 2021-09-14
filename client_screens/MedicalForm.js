@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { View, ScrollView, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Button, CheckBox } from 'react-native';
 
 
-const url = "http://ruppinmobile.tempdomain.co.il/site15/"
+const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function MedicalForm({ navigation, route }) {
     const [Q3_1, onChangeQ3_1] = useState(false)
