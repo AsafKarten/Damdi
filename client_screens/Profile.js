@@ -154,7 +154,7 @@ export default function Profile({ navigation, route }) {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
+        <TouchableOpacity onPress={() => navigation.navigate('MedicalForm', { route: User })}>
           <View style={styles.button_normal}>
             <Text style={styles.button_text} >עדכון פרטים רפואים</Text>
           </View>
