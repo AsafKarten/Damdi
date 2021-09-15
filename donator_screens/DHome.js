@@ -30,9 +30,6 @@ export default function Home({ navigation, route }) {
                 </View>
             </TouchableOpacity>
 
-
-
-
             <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
                 <View style={styles.button_normal}>
                     <Text style={styles.button_text} >שינוי אתר התרמה</Text>

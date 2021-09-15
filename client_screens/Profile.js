@@ -11,6 +11,8 @@ import Spiner from '../Componentes/Spiner';
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
+
+
 export default function Profile({ navigation, route }) {
   let actionSheet = useRef();
   var optionArray = ['take a photo', 'choose from a gallery', 'Cancel'];

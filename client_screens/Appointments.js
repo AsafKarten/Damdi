@@ -3,49 +3,53 @@ import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Aler
 
 const url = "http://proj13.ruppin-tech.co.il/"
 var bcrypt = require('bcryptjs');
-export default function Appointments({ navigation , route }) {
+export default function Appointments({ navigation, route }) {
   const [User, onChangeId] = useState(route.params.route)
- 
-
-
-  
 
   return (
     <SafeAreaView style={styles.container}>
 
-<View style={styles.ButtonContainer}>
+      <View style={styles.ButtonContainer}>
 
-<TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
-  <View style={styles.button_normal}>
-    <Text style={styles.button_text} >נווט אל התחנה</Text>
-  </View>
-</TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
+          <View style={styles.button_normal}>
+            <Text style={styles.button_text} >נווט אל התחנה</Text>
+          </View>
+        </TouchableOpacity>
 
-<TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
-  <View style={styles.button_normal}>
-    <Text style={styles.button_text} >הוסף תזכורת</Text>
-  </View>
-</TouchableOpacity>
-</View>
-<View style={styles.ButtonContainer}>
-<TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
-  <View style={styles.button_normal}>
-    <Text style={styles.button_text} >ביטול תור</Text>
-  </View>
-</TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
+          <View style={styles.button_normal}>
+            <Text style={styles.button_text} >הוסף תזכורת</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.ButtonContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
+          <View style={styles.button_normal}>
+            <Text style={styles.button_text} >ביטול תור</Text>
+          </View>
+        </TouchableOpacity>
 
-<TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
-  <View style={styles.button_normal}>
-    <Text style={styles.button_text} >עדכון תור</Text>
-  </View>
-</TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
+          <View style={styles.button_normal}>
+            <Text style={styles.button_text} >עדכון תור</Text>
+          </View>
+        </TouchableOpacity>
 
-</View>
+      </View>
 
+      <View style={styles.line}>
+        <Text style={styles.button_normal}>היסטורית התורים שלך</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('AppointmentsHistory', { route: User })}>
+          <View style={styles.button_normal}>
+            <Text style={styles.button_text}>הצג</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
 
-    
-    
+
+
 
   );
 }
@@ -54,6 +58,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  line: {
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
   },
   input: {
     height: 40,
@@ -66,20 +74,20 @@ const styles = StyleSheet.create({
   button_normal: {
 
     alignItems: 'center',
-    width:160,
+    width: 160,
     margin: 15,
     borderRadius: 8,
     padding: 10,
     backgroundColor: "#757c94",
-    opacity:0.8,
-    shadowColor:'black',
-    shadowRadius:5,
+    opacity: 0.8,
+    shadowColor: 'black',
+    shadowRadius: 5,
 
-  
-    
+
+
   },
   button_text: {
-    color:'white'
+    color: 'white'
   },
   ButtonContainer: {
     flexDirection: 'row'
