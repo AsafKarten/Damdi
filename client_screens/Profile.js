@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Platform, View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Image } from 'react-native';
-import ActionSheet from 'react-native-actionsheet';
+//import ActionSheet from 'react-native-actionsheet';
 import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons';
@@ -14,7 +14,7 @@ const url = "http://proj13.ruppin-tech.co.il/"
 
 
 export default function Profile({ navigation, route }) {
-  let actionSheet = useRef();
+  //let actionSheet = useRef();
   var optionArray = ['take a photo', 'choose from a gallery', 'Cancel'];
   const [User, onChangeUser] = useState(route.params.route)
   const [userId, setUserId] = useState();
@@ -46,12 +46,12 @@ export default function Profile({ navigation, route }) {
       await GalleryPicture();
     }
     else {
-      showActionSheet();
+      //showActionSheet();
     }
   }
 
   const showActionSheet = () => {
-    actionSheet.current.show();
+    //actionSheet.current.show();
   };
 
   const takePicture = async () => {
@@ -223,7 +223,7 @@ export default function Profile({ navigation, route }) {
         </TouchableOpacity>
 
       </View>
-      {shouldShow ? (
+      {/* {shouldShow ? (
         <View>
           <ActionSheet
             ref={actionSheet}
@@ -246,7 +246,7 @@ export default function Profile({ navigation, route }) {
             }}
           />
         </View>
-      ) : null}
+      ) : null} */}
     </SafeAreaView>
   );
 }

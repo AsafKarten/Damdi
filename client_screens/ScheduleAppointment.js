@@ -43,13 +43,15 @@ export default function ScheduleAppointment({ navigation, route }) {
     }, [])
 
     const SetTimes = () => {
+        let id = 0
         var times = []
         let st = parseInt(Station.Start_time)
         let et = parseInt(Station.End_time)
         var today = new Date();
         var date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
         for (var i = st; i <= et; i++) {
-            var app = { date: date, time: i }
+            var app = {id:""+id, date: date, time: i }
+            id++
 
             times.push(app)
         }
@@ -61,10 +63,10 @@ export default function ScheduleAppointment({ navigation, route }) {
 
             <FlatList
                 data={appointmentsTime}
-                keyExtractor={(item) => item.time}
+                keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <View style={styles.list}>
-                        <Text>{item.date + " " + item.time}</Text>
+                        <Text style={styles.appText}>{"בתאריך " + item.date + "            "+"בשעה: " + item.time}</Text>
                         <TouchableOpacity onPress={() => ScheduleApp(item)}>
                             <View style={styles.button_normal}>
                                 <Text style={styles.button_text} >הזמן/י תור</Text>
@@ -115,8 +117,9 @@ export default function ScheduleAppointment({ navigation, route }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        padding: 10,
+        //alignItems: 'center',
+        //justifyContent: 'center',
     },
     input: {
         height: 40,
@@ -154,5 +157,9 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
         backgroundColor: "#fcfff9",
         color: "black",
+    },
+    appText : {
+        fontSize:20,
+        flexDirection: 'row-reverse',
     },
 });

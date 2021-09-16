@@ -7,6 +7,7 @@ const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function UnitOne({ navigation, route }) {
     const [Donator, onChangeDonator] = useState(route.params.route)
+    const [donor, onChangeDonor] = useState({ Personal_id: "204610620", First_name: "אסף", Last_name: "קרטן", Phone: "0549214258", Gender: "ז", Birthdate: "03.03.1993", Prev_first_name: "", Prev_last_name: "", City: "ranana", Address: "hertzel 101", Postal_code: "3355", Mail_box: "3", Telephone: "0549214258", Work_telephone: "", Blood_group_member: false, Personal_insurance: false, Confirm_examination: true, Agree_future_don: true, Birth_land: "ישראל", Aliya_year: "", Father_birth_land: "ישראל", Mother_birth_land: "ישראל" });
     const [shouldShow, setShouldShow] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
     const [personal_id, onChangeId] = useState();
@@ -21,7 +22,9 @@ export default function UnitOne({ navigation, route }) {
     }, [])
 
     const GetDonor =()=>{
+        var route = {Donator:Donator, Donor: donor}
         console.log("make api request get all user info")
+        navigation.navigate('DonorInfo',{route:route})
     }
 
     return (

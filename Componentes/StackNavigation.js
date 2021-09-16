@@ -19,14 +19,16 @@ import Friends from '../client_screens/Friends.js';
 import BloodInfo from '../client_screens/BloodInfo.js';
 import ScheduleAppointment from '../client_screens/ScheduleAppointment.js';
 import MedicalForm from '../client_screens/MedicalForm.js';
+import ValidationForm from '../client_screens/ValidationForm.js';
 import DonatorsLogin from '../donator_screens/DonatorsLogin.js';
 import DHome from '../donator_screens/DHome.js';
 import UnitOne from '../donator_screens/UnitOne.js';
 import UnitTwo from '../donator_screens/UnitTwo.js';
 import UnitThree from '../donator_screens/UnitThree.js';
-
+import DonorInfo from '../donator_screens/DonorInfo.js';
+import PersonalInfo from '../donator_screens/PersonalInfo.js';
+import MedicalInfo from '../donator_screens/MedicalInfo.js';
 const Stack = createStackNavigator();
-
 
 export default function StackNavigation() {
 
@@ -220,6 +222,8 @@ export default function StackNavigation() {
             //   return null;
             // },
           }} />
+        
+        <Stack.Screen name="ValidationForm" component={ValidationForm} />
         <Stack.Screen name="ScheduleAppointment" component={ScheduleAppointment} />
         <Stack.Screen name="MedicalForm" component={MedicalForm} />
         <Stack.Screen name="DonatorsLogin" component={DonatorsLogin} />
@@ -227,6 +231,9 @@ export default function StackNavigation() {
         <Stack.Screen name="UnitOne" component={UnitOne} />
         <Stack.Screen name="UnitTwo" component={UnitTwo} />
         <Stack.Screen name="UnitThree" component={UnitThree} />
+        <Stack.Screen name="DonorInfo" component={DonorInfo} />
+        <Stack.Screen name="MedicalInfo" component={MedicalInfo} />
+        <Stack.Screen name="PersonalInfo" component={PersonalInfo} />
       </Stack.Navigator>
     </NavigationContainer>
   );

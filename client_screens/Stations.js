@@ -9,8 +9,8 @@ export default function Stations({ navigation, route }) {
     const [AppointDate, onChangeDate] = useState(dateTime)
     const [City, onChangeCity] = useState("")
     const [Stations, onChangeStations] = useState([
-        { Station_code: 1, City: 'רעננה', F_address: 'הנכשלים 8', Start_time: '8', End_time: '16', Lat: '65.5575', Lng: '68.77676' },
-        { Station_code: 2, City: 'רופין', F_address: 'חרוב 5', Start_time: '8', End_time: '12', Lat: '67.5775', Lng: '68.77676' },
+        { Station_code: '1', City: 'רעננה', F_address: 'הנכשלים 8', Start_time: '8', End_time: '16', Lat: '65.5575', Lng: '68.77676' },
+        { Station_code: '2', City: 'רופין', F_address: 'חרוב 5', Start_time: '8', End_time: '12', Lat: '67.5775', Lng: '68.77676' },
     ])
 
     var today = new Date();
