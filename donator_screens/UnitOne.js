@@ -11,6 +11,7 @@ export default function UnitOne({ navigation, route }) {
     const [shouldShow, setShouldShow] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
     const [personal_id, onChangeId] = useState();
+    const [Route , onChangeRoute] = useState({Donator:Donator, Donor:donor});
 
     useEffect(() => {
         (async () => {
@@ -22,9 +23,10 @@ export default function UnitOne({ navigation, route }) {
     }, [])
 
     const GetDonor =()=>{
-        var route = {Donator:Donator, Donor: donor}
+        
         console.log("make api request get all user info")
-        navigation.navigate('DonorInfo',{route:route})
+        console.log(Route);
+        navigation.navigate('DonorInfo',{route:Route})
     }
 
     return (

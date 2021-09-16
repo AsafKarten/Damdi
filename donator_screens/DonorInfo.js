@@ -6,8 +6,16 @@ import BG from '../assets/DAMDI_White_BG.jpg'
 const url = "http://proj13.ruppin-tech.co.il/"
 export default function DonorInfo({ navigation, route }) {
     const [Donator, onChangeDonator] = useState(route.params.route.Donator)
-    const [donor, onChangeDonor] = useState(route.params.route.User);
+    const [donor, onChangeDonor] = useState(route.params.route.Donor);
     const Route = {Donator:Donator, Donor:donor}
+    useEffect(() => {
+        (async () => {
+            if (Platform.OS !== 'web') {
+             console.log(donor);
+             console.log(Donator);
+            }
+        })()
+    }, [])
 
     return (
         <SafeAreaView>

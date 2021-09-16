@@ -6,21 +6,30 @@ import BG from '../assets/DAMDI_White_BG.jpg'
 const url = "http://proj13.ruppin-tech.co.il/"
 export default function PersonalInfo({ navigation, route }) {
     const [Donator, onChangeDonator] = useState(route.params.route.Donator)
-    const [donor, onChangeDonor] = useState(route.params.route.User);
+    const [donor, onChangeDonor] = useState(route.params.route.Donor);
     const Route = {Donator:Donator, Donor:donor}
+
+    useEffect(() => {
+        (async () => {
+            if (Platform.OS !== 'web') {
+             console.log(donor);
+             console.log(Donator);
+            }
+        })()
+    }, [])
 
     return (
         <SafeAreaView>
-               <TouchableOpacity onPress={() => navigation.navigate('PersonalInfo', { route: Route })}>
-          <View style={styles.button_normal}>
-            <Text style={styles.button_text} >פרטים אישים</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('MedicalInfo', { route: Route })}>
-          <View style={styles.button_normal}>
-            <Text style={styles.button_text} >פרטים רפואים</Text>
-          </View>
-        </TouchableOpacity>
+    <View style={styles.container}>
+        <Text>{donor.First_name + " " + donor.Last_name}</Text>
+        <Text>{donor.Birthdate}</Text>
+        <Text>{donor.Personal_id}</Text>
+        <Text>{donor.Gender}</Text>
+        <Text>{donor.Birth_land}</Text>
+        <Text>{donor.Father_birth_landGender}</Text>
+        <Text>{donor.Mother_birth_land}</Text>
+    
+    </View>
         <TouchableOpacity onPress={() => navigation.navigate('UnitOne', { route: Donator })}>
           <View style={styles.button_normal}>
             <Text style={styles.button_text} >אישור תורם</Text>
@@ -31,6 +40,10 @@ export default function PersonalInfo({ navigation, route }) {
     );
 }
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+    },
     button_normal: {
         alignItems: 'center',
         width: 90,

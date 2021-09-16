@@ -43,6 +43,32 @@ export default function MedicalForm({ navigation, route }) {
 
 
     }
+    const CallJson = async () => {
+        var medicalForm = {
+            Q3_1: Q3_1,
+            Q3_2: Q3_2,
+            Q3_3: Q3_3,
+            Q3_4: Q3_4,
+            Q3_5: Q3_5,
+            Q3_7: Q3_7,
+            Q3_8: Q3_8,
+            Q3_9: Q3_9,
+            Q3_10: Q3_10
+            , Q3_11: Q3_11
+            , Q3_12: Q3_12
+            , Q3_13: Q3_13
+            , Q3_14: Q3_14
+            , Q3_15: Q3_15
+            , Q3_16: Q3_16
+            , Q3_17: Q3_17
+            , Q3_18: Q3_18
+            , Q3_19: Q3_19
+            , Q3_20: Q3_20
+            , Q3_21: Q3_21
+        }
+       await console.log(medicalForm);
+       await navigation.navigate('ValidationForm', { route: User })
+    }
 
     //חלק ג של השאלון בשרת זה MedicalInfoDonation
     return (
@@ -359,11 +385,11 @@ export default function MedicalForm({ navigation, route }) {
                 </View>
             </View>
 
-            <TouchableOpacity onPress={() => navigation.navigate('ValidationForm',{route: User })}>
-                    <View style={styles.button_normal}>
-                        <Text style={styles.button_text} >סיום</Text>
-                    </View>
-                </TouchableOpacity>
+            <TouchableOpacity onPress={() => CallJson()}>
+                <View style={styles.button_normal}>
+                    <Text style={styles.button_text} >סיום</Text>
+                </View>
+            </TouchableOpacity>
 
 
         </ScrollView>
