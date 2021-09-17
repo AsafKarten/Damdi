@@ -13,7 +13,7 @@ export default function ScheduleAppointment({ navigation, route }) {
     const [appointmentsTime, onChangeAppTime] = useState()
     const [shouldShow, setShouldShow] = useState(false);
     const [confirmModal, setConfirm] = useState(false);
-    const [Item, setItem] = useState({date:"" , time:0});
+    const [Item, setItem] = useState({ date: "", time: 0 });
 
     var today = new Date();
     var date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
@@ -50,7 +50,7 @@ export default function ScheduleAppointment({ navigation, route }) {
         var today = new Date();
         var date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
         for (var i = st; i <= et; i++) {
-            var app = {id:""+id, date: date, time: i }
+            var app = { id: "" + id, date: date, time: i }
             id++
 
             times.push(app)
@@ -66,7 +66,7 @@ export default function ScheduleAppointment({ navigation, route }) {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <View style={styles.list}>
-                        <Text style={styles.appText}>{"בתאריך " + item.date + "            "+"בשעה: " + item.time}</Text>
+                        <Text style={styles.appText}>{"בתאריך " + item.date + "            " + "בשעה: " + item.time}</Text>
                         <TouchableOpacity onPress={() => ScheduleApp(item)}>
                             <View style={styles.button_normal}>
                                 <Text style={styles.button_text} >הזמן/י תור</Text>
@@ -92,12 +92,12 @@ export default function ScheduleAppointment({ navigation, route }) {
                                     <Text >{Item.date + " " + Item.time}</Text>
                                     <Text>כאן יהיה אישור קביעת תור</Text>
                                     <TouchableHighlight
-                                style={{ backgroundColor: '#4d5b70' }}
-                                onPress={() => {
-                                   navigation.navigate('MedicalForm', { route: User })
-                                }}>
-                                <Text>למילוי שאלון רפואי</Text>
-                            </TouchableHighlight>
+                                        style={{ backgroundColor: '#4d5b70' }}
+                                        onPress={() => {
+                                            navigation.navigate('MedicalForm', { route: User })
+                                        }}>
+                                        <Text>למילוי שאלון רפואי</Text>
+                                    </TouchableHighlight>
                                 </View>
                             </View>
                             <TouchableHighlight
@@ -158,8 +158,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#fcfff9",
         color: "black",
     },
-    appText : {
-        fontSize:20,
+    appText: {
+        fontSize: 20,
         flexDirection: 'row-reverse',
     },
 });

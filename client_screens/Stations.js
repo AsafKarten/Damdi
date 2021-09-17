@@ -3,6 +3,7 @@ import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Aler
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
+//TODO: Search function
 
 export default function Stations({ navigation, route }) {
     const [User, onChangeUser] = useState(route.params.route)
