@@ -94,13 +94,14 @@ export default function Registration({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
   inner: {
-    padding: 55,
+    padding: 60,
     flex: 1,
+    justifyContent: "space-around"
   },
   input: {
     height: 40,

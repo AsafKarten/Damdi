@@ -165,8 +165,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   inner: {
-    padding: 55,
+    padding: 40,
     flex: 1,
+    justifyContent: "space-around"
   },
   input: {
     height: 40,

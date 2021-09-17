@@ -8,58 +8,58 @@ export default function DonatorsLogin({ navigation }) {
   const [PersonalId, onChangeId] = useState()
   const [Email, onChangeEmail] = useState();
   const [Pass, onChangePass] = useState();
-  const [Natkes, onChangeNatkes] = useState({Auto_worker_id:1, Personal_id_worker:"204610620",First_name:"נתנאל",Last_name:"אקנין"});
+  const [Natkes, onChangeNatkes] = useState({ Auto_worker_id: 1, Personal_id_worker: "204610620", First_name: "נתנאל", Last_name: "אקנין" });
 
 
   const LoginNew = async () => {
     try {
-        // if (PersonalId == null || PersonalId == "" || Email == null || Email == ""|| Pass == null || Pass == "") {
-        //     Alert.alert("אנא מלא\י את כל פרטים !")
-        //     return
-        // }
-        // else {
-           
-            let result = await fetch(url + "api/user", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json; charset=UTF-8',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    Personal_id: PersonalId,
-                    Email: Email
-                })
-            });
-            let data = await result.json();
-            console.log(data);
-            var correct = bcrypt.compareSync(Pass, data.Solted_hash)
-            if (!correct) {
-                Alert.alert("הפרטים שגוים או שהסיסמה אינה נכונה!");
-                return;
-            }
-            else {
-              let user_result = await fetch(url + "api/user/info", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json; charset=UTF-8',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    Personal_id: PersonalId,
-                })
-            });
-            let user = await user_result.json();
-            console.log(user);
-                navigation.navigate( "PersonalForm" , { route : user } );
-            }
-        // }
+      // if (PersonalId == null || PersonalId == "" || Email == null || Email == ""|| Pass == null || Pass == "") {
+      //     Alert.alert("אנא מלא\י את כל פרטים !")
+      //     return
+      // }
+      // else {
+
+      let result = await fetch(url + "api/user", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: PersonalId,
+          Email: Email
+        })
+      });
+      let data = await result.json();
+      console.log(data);
+      var correct = bcrypt.compareSync(Pass, data.Solted_hash)
+      if (!correct) {
+        Alert.alert("הפרטים שגוים או שהסיסמה אינה נכונה!");
+        return;
+      }
+      else {
+        let user_result = await fetch(url + "api/user/info", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            Personal_id: PersonalId,
+          })
+        });
+        let user = await user_result.json();
+        console.log(user);
+        navigation.navigate("PersonalForm", { route: user });
+      }
+      // }
 
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-}
+  }
 
-    const Login = async () => {
+  const Login = async () => {
     if (id == "" || email == "" || Pass == "") {
       alert("אנא מלא\י את כל פרטים !")
       return
@@ -90,54 +90,55 @@ export default function DonatorsLogin({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TextInput
-        style={styles.input}
-        onChangeText={()=>onChangeId}
-        value={PersonalId}
-        placeholder="תעודת זהות"
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={()=>onChangeEmail}
-        value={Email}
-        placeholder="אימייל"
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={()=>onChangePass}
-        value={Pass}
-        secureTextEntry={true}
-        placeholder="סיסמה"
-      />
-      <TouchableOpacity onPress={() => LoginNew()}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text}>התחברות</Text>
-        </View>
-      </TouchableOpacity>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.inner}>
+            <TextInput
+              style={styles.input}
+              onChangeText={() => onChangeId}
+              value={PersonalId}
+              placeholder="תעודת זהות"
+            />
+            <TextInput
+              style={styles.input}
+              onChangeText={() => onChangeEmail}
+              value={Email}
+              placeholder="אימייל"
+            />
+            <TextInput
+              style={styles.input}
+              onChangeText={() => onChangePass}
+              value={Pass}
+              secureTextEntry={true}
+              placeholder="סיסמה"
+            />
+            <TouchableOpacity onPress={() => LoginNew()}>
+              <View style={styles.button_normal}>
+                <Text style={styles.button_text}>התחברות</Text>
+              </View>
+            </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Registration')}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >הרשמה</Text>
-        </View>
-      </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Registration')}>
+              <View style={styles.button_normal}>
+                <Text style={styles.button_text} >הרשמה</Text>
+              </View>
+            </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('DonatorsLogin')}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >כניסת מתרימים</Text>
-        </View>
-      </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('DonatorsLogin')}>
+              <View style={styles.button_normal}>
+                <Text style={styles.button_text} >כניסת מתרימים</Text>
+              </View>
+            </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('DHome',{route:Natkes})}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >הכפתור של נתנאל</Text>
-        </View>
-      </TouchableOpacity>
-
+            <TouchableOpacity onPress={() => navigation.navigate('DHome', { route: Natkes })}>
+              <View style={styles.button_normal}>
+                <Text style={styles.button_text} >הכפתור של נתנאל</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </SafeAreaView>
-
-    
-    
-
   );
 }
 const styles = StyleSheet.create({
@@ -145,6 +146,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  inner: {
+    padding: 40,
+    flex: 1,
+    justifyContent: "space-around"
   },
   input: {
     height: 40,
@@ -157,19 +163,19 @@ const styles = StyleSheet.create({
   button_normal: {
 
     alignItems: 'center',
-    width:160,
+    width: 160,
     margin: 15,
     borderRadius: 8,
     padding: 10,
     backgroundColor: "#757c94",
-    opacity:0.8,
-    shadowColor:'black',
-    shadowRadius:5,
+    opacity: 0.8,
+    shadowColor: 'black',
+    shadowRadius: 5,
 
-  
-    
+
+
   },
   button_text: {
-    color:'white'
+    color: 'white'
   },
 });
