@@ -56,33 +56,12 @@ export default function Login({ navigation }) {
 
   const clientLogin = async () => {
     try {
-      // if (PersonalId == null || PersonalId == "" || Email == null || Email == "" || Pass == null || Pass == "") {
-      //   Alert.alert("שגיאת התחברות", "אנא מלא/י את כל פרטים !")
-      //   return
-      // }
-      // else {
-      let result = await fetch(url + "api/user", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          Personal_id: PersonalId,
-          Email: Email
-        })
-      });
-      let data = await result.json();
-      console.log(data);
-      var correct = bcrypt.compareSync(Pass, data.Salted_hash)
-      if (!correct) {
-        Alert.alert("הפרטים שגוים או שהסיסמה אינה נכונה!");
-        return;
+      if (PersonalId == null || PersonalId == "" || Email == null || Email == "" || Pass == null || Pass == "") {
+        Alert.alert("שגיאת התחברות", "אנא מלא/י את כל פרטים !")
+        return
       }
       else {
-        setLoading(true);
-        await clearAsyncStorage();
-        let user_result = await fetch(url + "api/user/info", {
+        let result = await fetch(url + "api/user", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -90,15 +69,36 @@ export default function Login({ navigation }) {
           },
           body: JSON.stringify({
             Personal_id: PersonalId,
+            Email: Email
           })
         });
-        let user = await user_result.json();
-        console.log(user);
-        storeData(data);
-        setLoading(false);
-        navigation.navigate("PersonalForm", { route: user });
+        let data = await result.json();
+        console.log(data);
+        var correct = bcrypt.compareSync(Pass, data.Salted_hash)
+        if (!correct) {
+          Alert.alert("הפרטים שגוים או שהסיסמה אינה נכונה!");
+          return;
+        }
+        else {
+          setLoading(true);
+          await clearAsyncStorage();
+          let user_result = await fetch(url + "api/user/info", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+              Personal_id: PersonalId,
+            })
+          });
+          let user = await user_result.json();
+          console.log(user);
+          storeData(data);
+          setLoading(false);
+          navigation.navigate("PersonalForm", { route: user });
+        }
       }
-      // }
     } catch (error) {
       console.log(error);
     }
@@ -111,19 +111,19 @@ export default function Login({ navigation }) {
           <View style={styles.inner}>
             <TextInput
               style={styles.input}
-              onChangeText={() => onChangeId}
+              onChangeText={onChangeId}
               value={PersonalId}
               placeholder="תעודת זהות"
             />
             <TextInput
               style={styles.input}
-              onChangeText={() => onChangeEmail}
+              onChangeText={onChangeEmail}
               value={Email}
               placeholder="אימייל"
             />
             <TextInput
               style={styles.input}
-              onChangeText={() => onChangePass}
+              onChangeText={onChangePass}
               value={Pass}
               secureTextEntry={true}
               placeholder="סיסמה"

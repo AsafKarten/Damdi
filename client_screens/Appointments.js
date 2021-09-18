@@ -38,19 +38,16 @@ export default function Appointments({ navigation, route }) {
 
       </View>
 
+
       <View style={styles.line}>
-        <Text style={styles.button_normal}>היסטורית התורים שלך</Text>
         <TouchableOpacity onPress={() => navigation.navigate('AppointmentsHistory', { route: User })}>
           <View style={styles.button_normal}>
-            <Text style={styles.button_text}>הצג</Text>
+            <Text style={styles.button_text}>היסטורית התורים שלך</Text>
           </View>
         </TouchableOpacity>
+
       </View>
     </SafeAreaView>
-
-
-
-
   );
 }
 const styles = StyleSheet.create({
@@ -60,7 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   line: {
-    borderBottomColor: 'black',
+    flexDirection: 'row',
     borderBottomWidth: 1,
   },
   input: {

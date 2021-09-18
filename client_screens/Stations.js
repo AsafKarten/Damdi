@@ -19,10 +19,15 @@ export default function Stations({ navigation, route }) {
     var time = today.getHours() + ":" + today.getMinutes();
     const dateTime = date + ' ' + time;
 
-     const ScheduleAppointment = (item) => {
-         var route = {User: User , Station:item , DateTime: dateTime}
-        navigation.navigate('ScheduleAppointment', {route: route})
+    const ScheduleAppointment = (item) => {
+        var route = { User: User, Station: item, DateTime: dateTime }
+        navigation.navigate('ScheduleAppointment', { route: route })
     }
+
+    const SearchStation = () => {
+        
+    }
+
 
     return (
         <View style={styles.container}>
