@@ -68,7 +68,6 @@ Create TABLE Stations
 	lng decimal null
 )
 GO
-
 CREATE TABLE Appointments
 (
 	[app_id] int identity NOT NULL,
@@ -236,18 +235,17 @@ CONSTRAINT FK_autonumber_BD FOREIGN KEY (blood_donation_id) REFERENCES [Donation
 GO
 
 
-Create procedure GetUser(
-@id nvarchar(9),
-@salted_hash nvarchar(max))
+alter procedure GetUser (@id nvarchar(10), @email nvarchar(50))
 AS
 SELECT * FROM Users
-where personal_id=@id and salted_hash=@salted_hash
+where personal_id=@id and email=@email
+
 
 Create procedure GetUserInfo(@personal_id nvarchar(10))
 as
 SELECT * FROM Users where personal_id=@personal_id
 
-alter procedure InsertNewUser(
+create procedure InsertNewUser(
 @personal_id nvarchar(9),
 @email nvarchar(50),
 @salted_hash nvarchar(max),
@@ -273,7 +271,7 @@ Create procedure InsertNewDonator(
 as 
 INSERT INTO Donators(personal_id_worker,first_name,last_name,salted_hash) VALUES (@personal_id_worker,@first_name,@last_name,@salted_hash)
 
-Create procedure InsertNewStation(
+alter procedure InsertNewStation(
 @station_code int,
 @city nvarchar(50),
 @f_address nvarchar(70),

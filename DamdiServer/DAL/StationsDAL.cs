@@ -39,5 +39,10 @@ namespace DamdiServer.DAL
                 throw new Exception(ex.Message);
             }
         }
+
+        public List<Stations> GetStations(string city, DateTime date)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

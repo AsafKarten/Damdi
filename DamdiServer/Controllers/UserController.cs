@@ -2,7 +2,6 @@
 using System;
 using System.Net;
 using System.Web.Http;
-using System.Web.Http.Cors;
 
 namespace DamdiServer.Controllers
 {
@@ -29,7 +28,7 @@ namespace DamdiServer.Controllers
 
         //Add new user to users table.
         [HttpPost]
-        [Route("api/add/post")]
+        [Route("api/add/user")]
         public IHttpActionResult AddNewUser([FromBody] User user)
         {
             try
@@ -76,6 +75,9 @@ namespace DamdiServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+
     }
 }
 
