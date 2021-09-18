@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo-google-fonts/roboto": "^0.2.0",
     "@react-native-async-storage/async-storage": "^1.15.7",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/native": "^5.9.4",
@@ -25,6 +26,8 @@
     "react-native-actionsheet": "^2.4.2",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-modal": "^13.0.0",
+    "react-native-neat-date-picker": "^1.0.7",
     "react-native-reanimated": "^2.1.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.0.0",

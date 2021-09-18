@@ -85,8 +85,6 @@ export default function ScheduleAppointment({ navigation, route }) {
           }}>
           <View >
             <View >
-
-
               <View style={styles.list}>
                 <View >
                   <Text >{Item.date + " " + Item.time}</Text>
