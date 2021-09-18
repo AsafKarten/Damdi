@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DateTime,View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, FlatList, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, Platform } from 'react-native';
+import { DateTime, View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, FlatList, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, Platform } from 'react-native';
 import DatePicker from 'react-native-neat-date-picker'
 
 const url = "http://proj13.ruppin-tech.co.il/"
@@ -10,8 +10,8 @@ export default function Stations({ navigation, route }) {
   const [AppointDate, onChangeDate] = useState()
   const [City, onChangeCity] = useState()
   const [Stations, setStations] = useState([
-    { Station_code: '1', Date_location: Date.now(), City: 'רעננה', F_address: 'הנכשלים 8', Start_time: '8', End_time: '16', Lat: '65.5575', Lng: '68.77676' },
-    { Station_code: '2', Date_location: Date.now(), City: 'רופין', F_address: 'חרוב 5', Start_time: '8', End_time: '12', Lat: '67.5775', Lng: '68.77676' },
+    { Station_code: '1', City: 'רעננה', F_address: 'הנכשלים 8', Start_time: '8', End_time: '16', Lat: '65.5575', Lng: '68.77676' },
+    { Station_code: '2', City: 'רופין', F_address: 'חרוב 5', Start_time: '8', End_time: '12', Lat: '67.5775', Lng: '68.77676' },
   ])
   const [showDatePicker, setShowDatePicker] = useState(false)
 
@@ -29,7 +29,6 @@ export default function Stations({ navigation, route }) {
   }
 
   const onConfirm = (date) => {
-    onChangeDate(date)
     setShowDatePicker(false)
     // The parameter 'date' is a Date object so that you can use any Date prototype method.
     console.log(date.getDate())
@@ -53,15 +52,15 @@ export default function Stations({ navigation, route }) {
           },
           body: JSON.stringify({
             City: City,
-            Date_location: AppointDate
+            Start_time: AppointDate
           })
         });
+        let data = [...await result.json()];
+        setStations(data);
+        console.log('====================================');
+        console.log(Stations);
+        console.log('====================================');
       }
-      let data = [...await result.json()];
-      setStations(data);
-      console.log('====================================');
-      console.log(Stations);
-      console.log('====================================');
     } catch (error) {
 
     }
@@ -73,7 +72,7 @@ export default function Stations({ navigation, route }) {
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
-          <TouchableOpacity onPress={openDatePicker}>
+            <TouchableOpacity onPress={openDatePicker}>
               <View style={styles.button_normal}>
                 <Text style={styles.button_text} > תאריך התרמה</Text>
               </View>
@@ -84,12 +83,12 @@ export default function Stations({ navigation, route }) {
               onCancel={onCancel}
               onConfirm={onConfirm}
             />
-            {/* <TextInput
+            <TextInput
               style={styles.input}
               onChangeText={onChangeDate}
               value={AppointDate}
               placeholder="תאריך"
-            /> */}
+            />
             <TextInput
               style={styles.input}
               onChangeText={onChangeCity}
