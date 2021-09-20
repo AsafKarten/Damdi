@@ -16,14 +16,15 @@ export default function Login({ navigation }) {
   const [PersonalId, onChangeId] = useState()
   const [Email, onChangeEmail] = useState()
   const [Pass, onChangePass] = useState()
-  const [Asaf, onChangeAsaf] = useState({ Personal_id: "204610620", First_name: "אסף", Last_name: "קרטן", Phone: "0549214258", Gender: "ז", Birthdate: "03.03.1993", Prev_first_name: "", Prev_last_name: "", City: "ranana", Address: "hertzel 101", Postal_code: "3355", Mail_box: "3", Telephone: "0549214258", Work_telephone: "", Blood_group_member: false, Personal_insurance: false, Confirm_examination: true, Agree_future_don: true, Birth_land: "ישראל", Aliya_year: "", Father_birth_land: "ישראל", Mother_birth_land: "ישראל" });
   const [loading, setLoading] = useState(false);
+  const [shouldShow, setShouldShow] = useState(false);
+  const [Asaf, onChangeAsaf] = useState({ Personal_id: "204610620", First_name: "אסף", Last_name: "קרטן", Phone: "0549214258", Gender: "ז", Birthdate: "03.03.1993", Prev_first_name: "", Prev_last_name: "", City: "ranana", Address: "hertzel 101", Postal_code: "3355", Mail_box: "3", Telephone: "0549214258", Work_telephone: "", Blood_group_member: false, Personal_insurance: false, Confirm_examination: true, Agree_future_don: true, Birth_land: "ישראל", Aliya_year: "", Father_birth_land: "ישראל", Mother_birth_land: "ישראל" });
 
-  // useEffect(() => {
-  //   (async () => {
-  //     await getData();
-  //   })()
-  // }, [])
+  useEffect(() => {
+    (async () => {
+      await getData();
+    })()
+  }, [])
 
   const clearAsyncStorage = async () => {
     try {
@@ -35,9 +36,11 @@ export default function Login({ navigation }) {
   }
 
   const getData = async () => {
-    const data = await AsyncStorage.getItem('loggedUser')
-    if (data !== null) {
-      let user = JSON.parse(data)
+    var loggedUser = await AsyncStorage.getItem('loggedUser')
+    if (loggedUser !== null) {
+      let user = JSON.parse(loggedUser)
+      await updateLoggedUser();
+      navigation.navigate("Welcome", { route: user });
     }
     else {
       navigation.navigate("Login");
@@ -46,10 +49,38 @@ export default function Login({ navigation }) {
 
   const storeData = async (data) => {
     try {
-      const loggedUser = JSON.stringify(data);
+      var loggedUser = JSON.stringify(data);
       await AsyncStorage.setItem('loggedUser', loggedUser)
     } catch (e) {
       console.error(e)
+    }
+  }
+
+  const updateLoggedUser = async () => {
+    try {
+      if (Platform.OS !== 'web') {
+        setShouldShow(true)
+      }
+       await clearAsyncStorage()
+      let result = await fetch(url + "api/user", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: PersonalId,
+          Email: Email
+        })
+      });
+      let user = await result.json();
+      // if (data.User_img.indexOf("?asid") == -1)
+      //   data.User_img = `${data.User_img}?t=${Date.now()}`;
+      storeData(user);
+      setLoading(false);
+      navigation.navigate("Welcome", { route: user });
+    } catch (e) {
+      console.error(e);
     }
   }
 
@@ -58,9 +89,16 @@ export default function Login({ navigation }) {
     try {
       if (PersonalId == null || PersonalId == "" || Email == null || Email == "" || Pass == null || Pass == "") {
         Alert.alert("שגיאת התחברות", "אנא מלא/י את כל פרטים !")
+        console.log('====================================');
+        console.log("Error, Empty fields");
+        console.log('====================================');
         return
       }
       else {
+        if (Platform.OS !== 'web') {
+          setShouldShow(true)
+          setLoading(true);
+        }
         let result = await fetch(url + "api/user", {
           method: 'POST',
           headers: {
@@ -74,14 +112,18 @@ export default function Login({ navigation }) {
         });
         let data = await result.json();
         console.log(data);
+        if (Email !== data.Email || PersonalId !== data.Personal_id) {
+          setLoading(false);
+          Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
+          return;
+        }
         var correct = bcrypt.compareSync(Pass, data.Salted_hash)
         if (!correct) {
-          Alert.alert("הפרטים שגוים או שהסיסמה אינה נכונה!");
+          setLoading(false);
+          Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
           return;
         }
         else {
-          setLoading(true);
-          await clearAsyncStorage();
           let user_result = await fetch(url + "api/user/info", {
             method: 'POST',
             headers: {
@@ -93,9 +135,12 @@ export default function Login({ navigation }) {
             })
           });
           let user = await user_result.json();
-          console.log(user);
-          storeData(data);
-          setLoading(false);
+          storeData(user);
+          // if (loggedUser === null || loggedUser === undefined || loggedUser === "") {
+          //   setLoading(false);
+          //   return
+          // }
+          //TODO: check with modal if user want to update personal info, if yes move to PersonalForm screen else move to Welcome screen
           navigation.navigate("PersonalForm", { route: user });
         }
       }
@@ -133,28 +178,35 @@ export default function Login({ navigation }) {
                 <Text style={styles.button_text}>התחברות</Text>
               </View>
             </TouchableOpacity>
-
+            {shouldShow ? (
+              <Spiner loading={loading} />
+            ) : null}
             <TouchableOpacity onPress={() => navigation.navigate('Registration')}>
               <View style={styles.button_normal}>
                 <Text style={styles.button_text} >הרשמה</Text>
               </View>
             </TouchableOpacity>
-
+            {shouldShow ? (
+              <Spiner loading={loading} />
+            ) : null}
             <TouchableOpacity onPress={() => navigation.navigate('DonatorsLogin')}>
               <View style={styles.button_normal}>
                 <Text style={styles.button_text} >כניסת מתרימים</Text>
               </View>
             </TouchableOpacity>
-
+            {shouldShow ? (
+              <Spiner loading={loading} />
+            ) : null}
             <TouchableOpacity onPress={() => navigation.navigate('PersonalForm', { route: Asaf })}>
               <View style={styles.button_normal}>
                 <Text style={styles.button_text} >הכפתור של אסף</Text>
               </View>
             </TouchableOpacity>
+            <Spiner loading={loading} />
+
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
-      <Spiner loading={loading} />
     </SafeAreaView>
   );
 }

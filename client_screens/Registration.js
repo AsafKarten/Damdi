@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, Button, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Spiner from '../Componentes/Spiner';
 
 
 const url = "http://proj13.ruppin-tech.co.il/"
@@ -11,6 +13,18 @@ export default function Registration({ navigation }) {
   const [Email, onChangeEmail] = useState();
   const [Pass, onChangePass] = useState();
   const [CPass, onChangeCPass] = useState();
+  const [shouldShow, setShouldShow] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const storeData = async (data) => {
+    try {
+      var loggedUser = JSON.stringify(data);
+      await AsyncStorage.setItem('loggedUser', loggedUser)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
 
   const SignUp = async () => {
     try {
@@ -20,12 +34,19 @@ export default function Registration({ navigation }) {
       }
       else if (PersonalId == null || PersonalId == "" || Email == null || Email == "" || Pass == null || Pass == "" || CPass == null || CPass == "") {
         Alert.alert("אנא מלא/י את כל השדות");
+        console.log('====================================');
+        console.log("Error, Empty fields");
+        console.log('====================================');
         return
       }
       else {
+        if (Platform.OS !== 'web') {
+          setShouldShow(true)
+          setLoading(true);
+        }
         let salt = bcrypt.genSaltSync(10);
         let saltedHash = bcrypt.hashSync(Pass, salt);
-        let result = await fetch(url + "api/add/user", {
+        let result_register = await fetch(url + "api/add/user", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -38,15 +59,31 @@ export default function Registration({ navigation }) {
             Profile_img: defaultImg
           })
         })
-        let data = await result.JSON
-        console.log(data)
-        navigation.navigate('Login')
+        let new_data = await result_register.json()
+        console.log(new_data)
+        let result_user = await fetch(url + "api/user", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            Personal_id: PersonalId,
+            Email: Email
+          })
+        });
+        let user = await result_user.json();
+        storeData(user)
+        navigation.navigate("PersonalForm", { route: user  })
+        setLoading(false)
       }
     } catch (error) {
       Alert.alert("שגיאת הרשמה", "מצטערים ההרשמה נכשלה אנא נסו מאוחר יותר")
     }
 
   }
+
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -84,6 +121,9 @@ export default function Registration({ navigation }) {
                 <Text >סיים הרשמה</Text>
               </View>
             </TouchableOpacity>
+            {shouldShow ? (
+              <Spiner loading={loading} />
+            ) : null}
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
