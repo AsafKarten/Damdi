@@ -136,10 +136,6 @@ export default function Login({ navigation }) {
           });
           let user = await user_result.json();
           storeData(user);
-          // if (loggedUser === null || loggedUser === undefined || loggedUser === "") {
-          //   setLoading(false);
-          //   return
-          // }
           //TODO: check with modal if user want to update personal info, if yes move to PersonalForm screen else move to Welcome screen
           navigation.navigate("PersonalForm", { route: user });
         }
