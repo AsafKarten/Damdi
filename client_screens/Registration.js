@@ -74,7 +74,7 @@ export default function Registration({ navigation }) {
         });
         let user = await result_user.json();
         storeData(user)
-        navigation.navigate("PersonalForm", { route: user  })
+        navigation.navigate("PersonalForm", { route: user })
         setLoading(false)
       }
     } catch (error) {
@@ -82,8 +82,6 @@ export default function Registration({ navigation }) {
     }
 
   }
-
-
 
   return (
     <SafeAreaView style={styles.container}>

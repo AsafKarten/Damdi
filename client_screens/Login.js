@@ -61,7 +61,7 @@ export default function Login({ navigation }) {
       if (Platform.OS !== 'web') {
         setShouldShow(true)
       }
-       await clearAsyncStorage()
+      await clearAsyncStorage()
       let result = await fetch(url + "api/user", {
         method: 'POST',
         headers: {
