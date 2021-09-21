@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Platform, View, SafeAreaView, StyleSheet, TextInput, Text, TouchableOpacity, Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
+import { Modal, Platform, View, SafeAreaView, StyleSheet, TextInput, Text, TouchableOpacity, TouchableHighlight, Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spiner from '../Componentes/Spiner';
 
@@ -18,29 +18,27 @@ export default function Login({ navigation }) {
   const [Pass, onChangePass] = useState()
   const [loading, setLoading] = useState(false);
   const [shouldShow, setShouldShow] = useState(false);
+  const [confirmModal, setConfirm] = useState(false);
   const [Asaf, onChangeAsaf] = useState({ Personal_id: "204610620", First_name: "אסף", Last_name: "קרטן", Phone: "0549214258", Gender: "ז", Birthdate: "03.03.1993", Prev_first_name: "", Prev_last_name: "", City: "ranana", Address: "hertzel 101", Postal_code: "3355", Mail_box: "3", Telephone: "0549214258", Work_telephone: "", Blood_group_member: false, Personal_insurance: false, Confirm_examination: true, Agree_future_don: true, Birth_land: "ישראל", Aliya_year: "", Father_birth_land: "ישראל", Mother_birth_land: "ישראל" });
+  const [User, setUser] = useState()
 
   useEffect(() => {
     (async () => {
+      if (Platform.OS !== 'web') {
+        setShouldShow(true)
+      }
       await getData();
     })()
   }, [])
 
-  const clearAsyncStorage = async () => {
-    try {
-      await AsyncStorage.clear();
-      console.log('Done');
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   const getData = async () => {
     var loggedUser = await AsyncStorage.getItem('loggedUser')
     if (loggedUser !== null) {
-      let user = JSON.parse(loggedUser)
+      console.log(loggedUser);
+      var user = JSON.parse(loggedUser)
+      setUser(user);
       await updateLoggedUser();
-      navigation.navigate("Welcome", { route: user });
+      //navigation.navigate("Welcome", { route: user });
     }
     else {
       navigation.navigate("Login");
@@ -56,11 +54,17 @@ export default function Login({ navigation }) {
     }
   }
 
+  const clearAsyncStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+      console.log('clear AsyncStorage = Done');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const updateLoggedUser = async () => {
     try {
-      if (Platform.OS !== 'web') {
-        setShouldShow(true)
-      }
       await clearAsyncStorage()
       let result = await fetch(url + "api/user", {
         method: 'POST',
@@ -69,16 +73,20 @@ export default function Login({ navigation }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id: PersonalId,
-          Email: Email
+          Personal_id: User.Personal_id,
+          Email: User.Email
         })
       });
-      let user = await result.json();
+      let updated_user = await result.json();
       // if (data.User_img.indexOf("?asid") == -1)
       //   data.User_img = `${data.User_img}?t=${Date.now()}`;
-      storeData(user);
-      setLoading(false);
-      navigation.navigate("Welcome", { route: user });
+      setUser(updated_user)
+      storeData(updated_user);
+      if (Platform.OS !== 'web') {
+        setLoading(false);
+        setConfirm(true)
+      }
+      //navigation.navigate("Welcome", { route: user });
     } catch (e) {
       console.error(e);
     }
@@ -96,7 +104,6 @@ export default function Login({ navigation }) {
       }
       else {
         if (Platform.OS !== 'web') {
-          setShouldShow(true)
           setLoading(true);
         }
         let result = await fetch(url + "api/user", {
@@ -134,10 +141,13 @@ export default function Login({ navigation }) {
               Personal_id: PersonalId,
             })
           });
-          let user = await user_result.json();
+          const user = await user_result.json();
           storeData(user);
-          //TODO: check with modal if user want to update personal info, if yes move to PersonalForm screen else move to Welcome screen
-          navigation.navigate("PersonalForm", { route: user });
+          if (Platform.OS !== 'web') {
+            setConfirm(true);
+          }
+
+          //navigation.navigate("PersonalForm", { route: user });
         }
       }
     } catch (error) {
@@ -174,32 +184,62 @@ export default function Login({ navigation }) {
                 <Text style={styles.button_text}>התחברות</Text>
               </View>
             </TouchableOpacity>
-            {shouldShow ? (
-              <Spiner loading={loading} />
-            ) : null}
             <TouchableOpacity onPress={() => navigation.navigate('Registration')}>
               <View style={styles.button_normal}>
                 <Text style={styles.button_text} >הרשמה</Text>
               </View>
             </TouchableOpacity>
-            {shouldShow ? (
-              <Spiner loading={loading} />
-            ) : null}
             <TouchableOpacity onPress={() => navigation.navigate('DonatorsLogin')}>
               <View style={styles.button_normal}>
                 <Text style={styles.button_text} >כניסת מתרימים</Text>
               </View>
             </TouchableOpacity>
-            {shouldShow ? (
-              <Spiner loading={loading} />
-            ) : null}
             <TouchableOpacity onPress={() => navigation.navigate('PersonalForm', { route: Asaf })}>
               <View style={styles.button_normal}>
                 <Text style={styles.button_text} >הכפתור של אסף</Text>
               </View>
             </TouchableOpacity>
-            <Spiner loading={loading} />
 
+            {shouldShow ? (
+              <Modal
+                animationType="fade"
+                transparent={true}
+                visible={confirmModal}
+                onRequestClose={() => {
+                  Alert.alert('Modal has been closed.');
+                }}>
+                <View >
+                  <View style={styles.button_container}>
+                    <Text>כדי לעדכן פרטים אישיים לחץ על "כן", כדי להמשיך לחץ על "לא" </Text>
+                    <TouchableHighlight
+                      style={{ backgroundColor: '#4d5b70' }}
+                      onPress={() => {
+                        navigation.navigate("PersonalForm", { route: User });
+                      }}>
+                      <Text>כן</Text>
+                    </TouchableHighlight>
+
+                    <TouchableHighlight
+                      style={{ backgroundColor: '#4d5b70' }}
+                      onPress={() => {
+                        navigation.navigate("Welcome", { route: User });
+                      }}>
+                      <Text>לא</Text>
+                    </TouchableHighlight>
+                  </View>
+                  <TouchableHighlight
+                    style={{ backgroundColor: '#4d5b70' }}
+                    onPress={() => {
+                      setConfirm(!confirmModal);
+                    }}>
+                    <Text>סגור</Text>
+                  </TouchableHighlight>
+                </View>
+              </Modal>
+            ) : null}
+            {shouldShow ? (
+              <Spiner loading={loading} />
+            ) : null}
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -238,5 +278,8 @@ const styles = StyleSheet.create({
   },
   button_text: {
     color: 'white'
+  },
+  button_container: {
+    flexDirection: 'row'
   },
 });

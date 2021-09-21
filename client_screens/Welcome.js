@@ -4,10 +4,13 @@ import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Aler
 import BG from '../assets/DAMDI_White_BG.jpg'
 export default function Welcome({ navigation, route }) {
   const [User, onChangeUser] = useState(route.params.route)
+  console.log(route.params.route);
   return (
+    
     <View>
-      <Text> ברוך הבא לדאמדי </Text>
       <Image source={BG} style={{ width: 360, height: 150, alignSelf: 'center', resizeMode: 'stretch' }}></Image>
+
+      <Text> {route.params.First_name} ברוך הבא לדאמדי </Text>
 
       <TouchableOpacity onPress={() => navigation.navigate('Home', { route: User })}>
         <View style={styles.button_normal}>
