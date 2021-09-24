@@ -45,14 +45,15 @@ namespace DamdiServer.Controllers
         //Get User info from users table.
         [HttpPost]
         [Route("api/user/info")]
-        public IHttpActionResult GetUserInfoFromDB([FromBody] Models.User ui)
+        public IHttpActionResult GetUserInfoFromDB([FromBody] User ui)
         {
             try
             {
-                ui = Globals.UserDAL.GetUserInfo(ui.Personal_id);
-                if (ui == null)
+                User user_info = null;
+                user_info = Globals.UserDAL.GetUserInfo(ui.Personal_id);
+                if (user_info == null)
                     return Content(HttpStatusCode.NotFound, $"User info {ui.Personal_id} was not found");
-                return Ok(ui);
+                return Ok(user_info);
             }
             catch (Exception ex)
             {

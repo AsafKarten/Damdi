@@ -58,7 +58,7 @@ namespace DamdiServer.DAL
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        ui = new User(Convert.ToString(reader["personal_id"]),
+                        ui = new User(
                             Convert.ToString(reader["first_name"]),
                             Convert.ToString(reader["last_name"]),
                             Convert.ToString(reader["phone"]),

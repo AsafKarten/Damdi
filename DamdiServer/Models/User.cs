@@ -79,7 +79,6 @@ namespace DamdiServer.Models
         }
 
         public User(
-            string personal_id,
             string first_name,
             string last_name,
             string phone,
@@ -103,7 +102,6 @@ namespace DamdiServer.Models
             string mother_birth_land
             )
         {
-            Personal_id = personal_id;
             First_name = first_name;
             Last_name = last_name;
             Phone = phone;
