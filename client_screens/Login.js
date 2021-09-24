@@ -34,14 +34,15 @@ export default function Login({ navigation }) {
   const getData = async () => {
     var loggedUser = await AsyncStorage.getItem('loggedUser')
     if (loggedUser !== null) {
-      console.log(loggedUser);
-      var user = JSON.parse(loggedUser)
-      setUser(user);
-      await updateLoggedUser();
-      //navigation.navigate("Welcome", { route: user });
+      var existUser = JSON.parse(loggedUser)
+      let updatedUser = await getAutenticateUser(existUser.Personal_id, existUser.Email)
+      if (existUser.Email !== updatedUser.Email || existUser.Salted_hash !== updatedUser.Salted_hash) {
+        setUser(updatedUser);
+      }
+      setConfirm(true)
     }
     else {
-      navigation.navigate("Login");
+      console.log('No user found on setion storage');
     }
   }
 
@@ -54,43 +55,56 @@ export default function Login({ navigation }) {
     }
   }
 
-  const clearAsyncStorage = async () => {
-    try {
-      await AsyncStorage.clear();
-      console.log('clear AsyncStorage = Done');
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // const clearAsyncStorage = async () => {
+  //   try {
+  //     await AsyncStorage.clear();
+  //     console.log('clear AsyncStorage = Done');
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
-  const updateLoggedUser = async () => {
-    try {
-      await clearAsyncStorage()
-      let result = await fetch(url + "api/user", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          Personal_id: User.Personal_id,
-          Email: User.Email
-        })
-      });
-      let updated_user = await result.json();
-      // if (data.User_img.indexOf("?asid") == -1)
-      //   data.User_img = `${data.User_img}?t=${Date.now()}`;
-      setUser(updated_user)
-      storeData(updated_user);
-      if (Platform.OS !== 'web') {
-        setLoading(false);
-        setConfirm(true)
-      }
-      //navigation.navigate("Welcome", { route: user });
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  // const updateLoggedUser = async () => {
+  //   try {
+  //     let updatedUser = getAutenticateUser(User.Personal_id, User.Email)
+  //     if (updatedUser !== undefined || updatedUser !== null) {
+  //       setUser(updatedUser)
+  //       storeData(updatedUser);
+  //       let fullUpdatedUser = getUserInfo();
+  //       if (
+  //         fullUpdatedUser.First_name === null ||
+  //         fullUpdatedUser.Last_name === null ||
+  //         fullUpdatedUser.Phone === null ||
+  //         fullUpdatedUser.Gender === null ||
+  //         fullUpdatedUser.Birthdate === null ||
+  //         fullUpdatedUser.City === null ||
+  //         fullUpdatedUser.Address === null ||
+  //         fullUpdatedUser.Postal_code === null ||
+  //         fullUpdatedUser.Mail_box === null ||
+  //         fullUpdatedUser.Telephone === null ||
+  //         fullUpdatedUser.Confirm_examination === null ||
+  //         fullUpdatedUser.Birth_land === null ||
+  //         fullUpdatedUser.Father_birth_land === null ||
+  //         fullUpdatedUser.Mother_birth_land === null) {
+  //         setLoading(false);
+  //         Alert.alert("! אנא מלא/י את כל הפרטים האישיים כדי לתרום דם")
+  //         navigation.navigate('PersonalForm', { route: updatedUser })
+  //       }
+  //       setConfirm(true);
+  //     }
+  //     else {
+  //       Alert.alert("בעיית התחברות, הירשם או בדוק את פרטיך")
+  //       return
+  //     }
+  //     if (Platform.OS !== 'web') {
+  //       setLoading(false);
+  //       setConfirm(true)
+  //     }
+
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // }
 
 
   const clientLogin = async () => {
@@ -106,52 +120,90 @@ export default function Login({ navigation }) {
         if (Platform.OS !== 'web') {
           setLoading(true);
         }
-        let result = await fetch(url + "api/user", {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            Personal_id: PersonalId,
-            Email: Email
-          })
-        });
-        let data = await result.json();
-        console.log(data);
-        if (Email !== data.Email || PersonalId !== data.Personal_id) {
-          setLoading(false);
-          Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
-          return;
-        }
-        var correct = bcrypt.compareSync(Pass, data.Salted_hash)
-        if (!correct) {
-          setLoading(false);
-          Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
-          return;
-        }
-        else {
-          let user_result = await fetch(url + "api/user/info", {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json; charset=UTF-8',
-              'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-              Personal_id: PersonalId,
-            })
-          });
-          const user = await user_result.json();
+        let user = getAutenticateUser(PersonalId, Email);
+        if (user !== undefined || user !== null) {
+          if (Email !== user.Email || PersonalId !== user.Personal_id) {
+            Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
+            return;
+          }
+          var correct = bcrypt.compareSync(Pass, user.Salted_hash)
+          if (!correct) {
+            Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
+            return;
+          }
           storeData(user);
-          if (Platform.OS !== 'web') {
+          let fullUpdatedUser = getUserInfo();
+          if (
+            fullUpdatedUser.First_name === null ||
+            fullUpdatedUser.Last_name === null ||
+            fullUpdatedUser.Phone === null ||
+            fullUpdatedUser.Gender === null ||
+            fullUpdatedUser.Birthdate === null ||
+            fullUpdatedUser.City === null ||
+            fullUpdatedUser.Address === null ||
+            fullUpdatedUser.Postal_code === null ||
+            fullUpdatedUser.Mail_box === null ||
+            fullUpdatedUser.Telephone === null ||
+            fullUpdatedUser.Confirm_examination === null ||
+            fullUpdatedUser.Birth_land === null ||
+            fullUpdatedUser.Father_birth_land === null ||
+            fullUpdatedUser.Mother_birth_land === null) {
+            Alert.alert("אנא מלא/י את כל הפרטים כדי לתרום!")
+            navigation.navigate('PersonalForm', { route: user })
+          }
+          else {
             setConfirm(true);
           }
-
-          //navigation.navigate("PersonalForm", { route: user });
+        }
+        else {
+          setLoading(false);
+          Alert.alert("בעיית התחברות, הירשם או בדוק את פרטיך")
+          return
         }
       }
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  const getAutenticateUser = async (id, email) => {
+    try {
+      let result = await fetch(url + "api/user", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: id,
+          Email: email
+        })
+      });
+      let user = await result.json();
+      setLoading(false);
+      return user;
+    } catch (error) {
+      console.error('user not authenticated');
+    }
+  }
+
+
+  const getUserInfo = async () => {
+    try {
+      let result = await fetch(url + "api/user/info", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: PersonalId,
+        })
+      });
+      let full_user = await result.json();
+      return full_user;
+    } catch (error) {
+      console.error('error with retrun full user');
     }
   }
 
@@ -208,38 +260,31 @@ export default function Login({ navigation }) {
                 onRequestClose={() => {
                   Alert.alert('Modal has been closed.');
                 }}>
-                <View >
-                  <View style={styles.button_container}>
-                    <Text>כדי לעדכן פרטים אישיים לחץ על "כן", כדי להמשיך לחץ על "לא" </Text>
+                <View style={styles.modal}>
+                  <Text style={styles.modal_text}>האם תרצה/י לעדכן פרטיים אישיים לחץ על "כן", אחרת לחצ/י על "לא" </Text>
+                  <View style={styles.modal_buttons}>
                     <TouchableHighlight
                       style={{ backgroundColor: '#4d5b70' }}
                       onPress={() => {
-                        navigation.navigate("PersonalForm", { route: User });
+                        navigation.navigate("Welcome", { route: User });
+                        setLoading(true);
                       }}>
-                      <Text>כן</Text>
+                      <Text style={styles.modal_text}>לא</Text>
                     </TouchableHighlight>
 
                     <TouchableHighlight
                       style={{ backgroundColor: '#4d5b70' }}
                       onPress={() => {
-                        navigation.navigate("Welcome", { route: User });
+                        navigation.navigate("PersonalForm", { route: User });
+                        setLoading(true);
                       }}>
-                      <Text>לא</Text>
+                      <Text style={styles.modal_text}>כן</Text>
                     </TouchableHighlight>
                   </View>
-                  <TouchableHighlight
-                    style={{ backgroundColor: '#4d5b70' }}
-                    onPress={() => {
-                      setConfirm(!confirmModal);
-                    }}>
-                    <Text>סגור</Text>
-                  </TouchableHighlight>
                 </View>
               </Modal>
             ) : null}
-            {shouldShow ? (
-              <Spiner loading={loading} />
-            ) : null}
+            <Spiner loading={loading} />
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -277,9 +322,29 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    color: 'white'
+    color: 'black'
   },
-  button_container: {
-    flexDirection: 'row'
+
+  modal: {
+    width: 350,
+    backgroundColor: '#757c94',
+    alignSelf: 'center',
   },
+  modal_buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    margin: 15,
+  },
+  modal_text: {
+    textAlign: 'center',
+    fontSize: 20,
+    color: 'white',
+    alignItems: 'center',
+    margin: 5,
+    borderRadius: 8,
+    padding: 2,
+    opacity: 1,
+    shadowColor: 'black',
+    shadowRadius: 5,
+  }
 });
