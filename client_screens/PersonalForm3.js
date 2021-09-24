@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Button, CheckBox, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import Spiner from '../Componentes/Spiner';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const url = "http://proj13.ruppin-tech.co.il/"
@@ -7,9 +9,8 @@ const url = "http://proj13.ruppin-tech.co.il/"
 //Personal_id:"204610620",First_name:"אסף",Last_name:"קרטן",Phone:"0549214258",Gender:"ז" ,Birthdate:"03.03.1993" ,Prev_first_name:"" ,Prev_last_name:"",City:"ranana", Address:"hertzel 101", Postal_code:"3355", Mail_box:"3", Telephone:"0549214258", Work_telephone:"",Blood_group_member:False, Personal_insurance:False, Confirm_examination:True, Agree_future_don:True, Birth_land:"ישראל", Aliya_year:"", Father_birth_land:"ישראל", Mother_birth_land:"ישראל"
 //Blood_group_member:False, Personal_insurance:False, Confirm_examination:True, Agree_future_don:True, Birth_land:"ישראל", Aliya_year:"", Father_birth_land:"ישראל", Mother_birth_land:"ישראל"
 
-const PersonalFormScreen3 = ({ navigation, route }) => {
-
-
+export default function PersonalFormScreen3({ navigation, route }) {
+  const [loading, setLoading] = useState(false);
   const [Blood_group_member, onChangeBlood_group_member] = useState(route.params.route.Blood_group_member);
   const [Personal_insurance, onChangePersonal_insurance] = useState(route.params.route.Personal_insurance);
   const [Confirm_examination, onChangeConfirm_examination] = useState(route.params.route.Agree_future_don);
@@ -19,8 +20,26 @@ const PersonalFormScreen3 = ({ navigation, route }) => {
   const [Father_birth_land, onChangeFather_birth_land] = useState(route.params.route.Father_birth_land);
   const [Mother_birth_land, onChangeMother_birth_land] = useState(route.params.route.Mother_birth_land);
 
+  const storeData = async (data) => {
+    try {
+      var loggedUser = JSON.stringify(data);
+      await AsyncStorage.setItem('loggedUser', loggedUser)
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
-  const PostPersonalForm3 = () => {
+  const clearAsyncStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+      console.log('Done clear storage');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const PostPersonalForm3 = async () => {
+    setLoading(true);
     const new_route = route.params.route
     new_route.Blood_group_member = Blood_group_member
     new_route.Personal_insurance = Personal_insurance
@@ -30,8 +49,9 @@ const PersonalFormScreen3 = ({ navigation, route }) => {
     new_route.Aliya_year = Aliya_year
     new_route.Father_birth_land = Father_birth_land
     new_route.Mother_birth_land = Mother_birth_land
-    console.log(new_route)
-
+    await clearAsyncStorage()
+    await storeData(new_route)
+    setLoading(false);
     navigation.navigate('Welcome', { route: new_route })
   }
 
@@ -134,6 +154,7 @@ const PersonalFormScreen3 = ({ navigation, route }) => {
               </TouchableOpacity>
             </View>
           </View>
+          <Spiner loading={loading} />
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -196,4 +217,3 @@ const styles = StyleSheet.create({
     color: 'white'
   },
 });
-export default PersonalFormScreen3;

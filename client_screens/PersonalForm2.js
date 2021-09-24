@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Button, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
-
-
-const url = "http://proj13.ruppin-tech.co.il/"
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import Spiner from '../Componentes/Spiner';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Personal_id:"204610620",First_name:"אסף",Last_name:"קרטן",Phone:"0549214258",Gender:"ז" ,Birthdate:"03.03.1993" ,Prev_first_name:"" ,Prev_last_name:"",City:"ranana", Address:"hertzel 101", Postal_code:"3355", Mail_box:"3", Telephone:"0549214258", Work_telephone:"",
 //City:"ranana", Address:"hertzel 101", Postal_code:"3355", Mail_box:"3", Telephone:"0549214258", Work_telephone:"",
 
-const PersonalFormScreen2 = ({ navigation, route }) => {
-
+export default function PersonalFormScreen2({ navigation, route }) {
+  const User = route.params.route;
+  console.log('PersonalForm2', User);
+  const [loading, setLoading] = useState(false);
   const [City, onChangeCity] = useState(route.params.route.City);
   const [Address, onChangeAddress] = useState(route.params.route.Address);
   const [Postal_code, onChangePostal_code] = useState(route.params.route.Postal_code);
@@ -16,9 +17,26 @@ const PersonalFormScreen2 = ({ navigation, route }) => {
   const [Telephone, onChangeTelephone] = useState(route.params.route.Telephone);
   const [Work_telephone, onChangeWork_telephone] = useState(route.params.route.Work_telephone);
 
+  const storeData = async (data) => {
+    try {
+      var loggedUser = JSON.stringify(data);
+      await AsyncStorage.setItem('loggedUser', loggedUser)
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
+  const clearAsyncStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+      console.log('Done clear storage');
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-  const PostPersonalForm2 = () => {
+  const PostPersonalForm2 = async () => {
+    setLoading(true);
     const new_route = route.params.route
     new_route.City = City
     new_route.Address = Address
@@ -26,6 +44,9 @@ const PersonalFormScreen2 = ({ navigation, route }) => {
     new_route.Mail_box = Mail_box
     new_route.Telephone = Telephone
     new_route.Work_telephone = Work_telephone
+    await clearAsyncStorage()
+    await storeData(new_route)
+    setLoading(false)
     navigation.navigate('PersonalForm3', { route: new_route })
   }
 
@@ -35,7 +56,6 @@ const PersonalFormScreen2 = ({ navigation, route }) => {
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
-
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>עיר</Text>
               <TextInput
@@ -103,6 +123,7 @@ const PersonalFormScreen2 = ({ navigation, route }) => {
               </TouchableOpacity>
             </View>
           </View>
+          <Spiner loading={loading} />
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -129,7 +150,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button_normal: {
-
     alignItems: 'center',
     width: 80,
     margin: 15,
@@ -139,9 +159,6 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     shadowColor: 'black',
     shadowRadius: 5,
-
-
-
   },
   button_text: {
     color: 'white'
@@ -159,4 +176,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
 });
-export default PersonalFormScreen2;

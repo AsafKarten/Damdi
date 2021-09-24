@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
-
-
-const url = "http://proj13.ruppin-tech.co.il/"
+import React, { useState, useEffect } from 'react';
+import { Modal, TouchableHighlight, View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import Spiner from '../Componentes/Spiner';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Personal_id:"204610620",First_name:"אסף",Last_name:"קרטן",Phone:"0549214258",Gender:"ז" ,Birthdate:"03.03.1993" ,Prev_first_name:"" ,Prev_last_name:""
 
 export default function PersonalFormScreen({ navigation, route }) {
-  const Personal_id = route.params.route.Personal_id
+  const [User, setUser] = useState(route.params.route)
+  const [loading, setLoading] = useState(false);
+  const [shouldShow, setShouldShow] = useState(false);
+  const [confirmModal, setConfirm] = useState(false);
   const [First_name, onChangeFirst_name] = useState(route.params.route.First_name);
   const [Last_name, onChangeLast_name] = useState(route.params.route.Last_name);
   const [Phone, onChangePhone] = useState(route.params.route.Phone);
@@ -16,19 +18,50 @@ export default function PersonalFormScreen({ navigation, route }) {
   const [Prev_first_name, onChangePrev_first_name] = useState(route.params.route.Prev_first_name);
   const [Prev_last_name, onChangePrev_last_name] = useState(route.params.route.Prev_last_name);
 
-  const PostPersonalForm = () => {
-    const new_route = route.params.route
-    new_route.First_name = First_name
-    new_route.Last_name = Last_name
-    new_route.Phone = Phone
-    new_route.Gender = Gender
-    new_route.Birthdate = Birthdate
-    new_route.Prev_first_name = Prev_first_name
-    new_route.Prev_last_name = Prev_last_name
 
 
-    console.log()
-    navigation.navigate('PersonalForm2', { route: new_route })
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        setShouldShow(true)
+        setTimeout(() => {
+          setConfirm(true)
+        }, 500);
+      }
+    })()
+  }, [])
+
+  const storeData = async (data) => {
+    try {
+      var loggedUser = JSON.stringify(data);
+      await AsyncStorage.setItem('loggedUser', loggedUser)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  const clearAsyncStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+      console.log('Done clear storage');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const PostPersonalForm = async () => {
+    //const new_route = route.params.route
+    User.First_name = First_name
+    User.Last_name = Last_name
+    User.Phone = Phone
+    User.Gender = Gender
+    User.Birthdate = Birthdate
+    User.Prev_first_name = Prev_first_name
+    User.Prev_last_name = Prev_last_name
+    await clearAsyncStorage()
+    await storeData(User)
+    navigation.navigate('PersonalForm2', { route: User })
   }
 
   return (
@@ -104,6 +137,39 @@ export default function PersonalFormScreen({ navigation, route }) {
                 <Text style={styles.button_text} >הבא</Text>
               </View>
             </TouchableOpacity>
+            <Spiner loading={loading} />
+
+            {shouldShow ? (
+              <Modal
+                animationType="fade"
+                transparent={true}
+                visible={confirmModal}
+                onRequestClose={() => {
+                  Alert.alert('Modal has been closed.');
+                }}>
+                <View style={styles.modal}>
+                  <Text style={styles.modal_text}>האם תרצה/י לעדכן פרטיים אישיים לחץ על "כן", אחרת לחצ/י על "לא" </Text>
+                  <View style={styles.modal_buttons}>
+                    <TouchableHighlight
+                      style={{ backgroundColor: '#4d5b70' }}
+                      onPress={() => {
+                        navigation.navigate("Welcome", { route: User });
+                        setLoading(true);
+                      }}>
+                      <Text style={styles.modal_text}>לא</Text>
+                    </TouchableHighlight>
+
+                    <TouchableHighlight
+                      style={{ backgroundColor: '#4d5b70' }}
+                      onPress={() => {
+                        setShouldShow(false);
+                      }}>
+                      <Text style={styles.modal_text}>כן</Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </Modal>
+            ) : null}
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -155,5 +221,27 @@ const styles = StyleSheet.create({
     marginTop: 17,
     fontWeight: 'bold'
   },
+  modal: {
+    width: 350,
+    backgroundColor: '#757c94',
+    alignSelf: 'center',
+  },
+  modal_buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    margin: 15,
+  },
+  modal_text: {
+    textAlign: 'center',
+    fontSize: 20,
+    color: 'white',
+    alignItems: 'center',
+    margin: 5,
+    borderRadius: 8,
+    padding: 2,
+    opacity: 1,
+    shadowColor: 'black',
+    shadowRadius: 5,
+  }
 });
 
