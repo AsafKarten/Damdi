@@ -6,9 +6,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //Personal_id:"204610620",First_name:"אסף",Last_name:"קרטן",Phone:"0549214258",Gender:"ז" ,Birthdate:"03.03.1993" ,Prev_first_name:"" ,Prev_last_name:"",City:"ranana", Address:"hertzel 101", Postal_code:"3355", Mail_box:"3", Telephone:"0549214258", Work_telephone:"",
 //City:"ranana", Address:"hertzel 101", Postal_code:"3355", Mail_box:"3", Telephone:"0549214258", Work_telephone:"",
 
-export default function PersonalFormScreen2({ navigation, route }) {
+export default function PersonalFormB({ navigation, route }) {
   const User = route.params.route;
-  console.log('PersonalForm2', User);
+  console.log('PersonalFormB', User);
   const [loading, setLoading] = useState(false);
   const [City, onChangeCity] = useState(route.params.route.City);
   const [Address, onChangeAddress] = useState(route.params.route.Address);
@@ -37,7 +37,7 @@ export default function PersonalFormScreen2({ navigation, route }) {
 
   const PostPersonalForm2 = async () => {
     setLoading(true);
-    const new_route = route.params.route
+    const new_route = User
     new_route.City = City
     new_route.Address = Address
     new_route.Postal_code = Postal_code
@@ -47,7 +47,7 @@ export default function PersonalFormScreen2({ navigation, route }) {
     await clearAsyncStorage()
     await storeData(new_route)
     setLoading(false)
-    navigation.navigate('PersonalForm3', { route: new_route })
+    navigation.navigate('PersonalFormC', { route: new_route })
   }
 
 
@@ -122,8 +122,8 @@ export default function PersonalFormScreen2({ navigation, route }) {
                 </View>
               </TouchableOpacity>
             </View>
+            <Spiner loading={loading} />
           </View>
-          <Spiner loading={loading} />
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </SafeAreaView>

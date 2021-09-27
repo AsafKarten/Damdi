@@ -53,10 +53,10 @@ export default function Login({ navigation }) {
         if (existUser.Email !== updatedUser.Email || existUser.Salted_hash !== updatedUser.Salted_hash) {
           await clearAsyncStorage()
           storeData(updatedUser)
-          navigation.navigate('PersonalForm', { route: updatedUser })
+          navigation.navigate('PersonalFormA', { route: updatedUser })
         }
         console.log('exist user', existUser);
-        navigation.navigate('PersonalForm', { route: existUser })
+        navigation.navigate('PersonalFormA', { route: existUser })
 
       }
       else {
@@ -81,7 +81,10 @@ export default function Login({ navigation }) {
         })
       });
       let user = await result.json();
-      return user
+      if (user !== undefined || user !== null) {
+        return user
+      }
+      console.log('user not found');
     } catch (error) {
       console.error('user not authenticated');
     }
@@ -101,7 +104,10 @@ export default function Login({ navigation }) {
         })
       });
       let full_user = await result.json();
-      return full_user
+      if (full_user !== undefined || full_user !== null) {
+        return full_user
+      }
+      console.log('user not found');
     } catch (error) {
       console.error('error with retrun full user');
     }

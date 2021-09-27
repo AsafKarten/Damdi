@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { DateTime, View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, FlatList, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, Platform } from 'react-native';
-import DatePicker from 'react-native-neat-date-picker'
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, FlatList, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, Platform } from 'react-native';
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
@@ -13,26 +12,13 @@ export default function Stations({ navigation, route }) {
     { Station_code: '1', City: 'רעננה', F_address: 'הנכשלים 8', Start_time: '8', End_time: '16', Lat: '65.5575', Lng: '68.77676' },
     { Station_code: '2', City: 'רופין', F_address: 'חרוב 5', Start_time: '8', End_time: '12', Lat: '67.5775', Lng: '68.77676' },
   ])
-  const [showDatePicker, setShowDatePicker] = useState(false)
 
 
   var today = new Date();
   var date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
   var time = today.getHours() + ":" + today.getMinutes();
   const dateTime = date + ' ' + time;
-  const openDatePicker = () => {
-    setShowDatePicker(true)
-  }
-
-  const onCancel = () => {
-    setShowDatePicker(false)
-  }
-
-  const onConfirm = (date) => {
-    setShowDatePicker(false)
-    // The parameter 'date' is a Date object so that you can use any Date prototype method.
-    console.log(date.getDate())
-  }
+  
   const ScheduleAppointment = (item) => {
     var route = { User: User, Station: item, DateTime: dateTime }
     navigation.navigate('ScheduleAppointment', { route: route })
@@ -77,12 +63,6 @@ export default function Stations({ navigation, route }) {
                 <Text style={styles.button_text} > תאריך התרמה</Text>
               </View>
             </TouchableOpacity>
-            <DatePicker
-              isVisible={showDatePicker}
-              mode={'single'}
-              onCancel={onCancel}
-              onConfirm={onConfirm}
-            />
             <TextInput
               style={styles.input}
               onChangeText={onChangeDate}

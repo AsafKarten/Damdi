@@ -3,13 +3,12 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Feather } from '@expo/vector-icons'; 
 
 import Registration from '../client_screens/Registration'
 import Login from '../client_screens/Login.js'
-import PersonalFormScreen from '../client_screens/PersonalForm';
-import PersonalFormScreen2 from '../client_screens/PersonalForm2';
-import PersonalFormScreen3 from '../client_screens/PersonalForm3';
+import PersonalFormA from '../client_screens/PersonalFormA';
+import PersonalFormB from '../client_screens/PersonalFormB';
+import PersonalFormC from '../client_screens/PersonalFormC';
 import Welcome from '../client_screens/Welcome.js';
 import Home from '../client_screens/Home.js';
 import Stations from '../client_screens/Stations.js';
@@ -28,54 +27,10 @@ import UnitThree from '../donator_screens/UnitThree.js';
 import DonorInfo from '../donator_screens/DonorInfo.js';
 import PersonalInfo from '../donator_screens/PersonalInfo.js';
 import MedicalInfo from '../donator_screens/MedicalInfo.js';
+
 const Stack = createStackNavigator();
 
 export default function StackNavigation() {
-
-  const backPage = (page) => {
-    switch (page) {
-      case 'Home':
-        navigation.navigate('Home')
-        break;
-      case 'Login':
-        //TODO: pop up a confirmation to exit
-        //navigation.navigate('Home')
-        break;
-      case 'Registration':
-        navigation.navigate('Login')
-        break;
-      case 'PersonalForm':
-        navigation.navigate('Home')
-        break;
-      case 'PersonalForm2':
-        navigation.navigate('PersonalForm')
-        break;
-      case 'PersonalForm3':
-        navigation.navigate('PersonalForm2')
-        break;
-      case 'Welcome':
-        //TODO: pop up a confirmation to exit
-        //navigation.navigate('Home')
-        break;
-      case 'Stations':
-        navigation.navigate('Home')
-        break;
-      case 'Profile':
-        navigation.navigate('Home')
-        break;
-      case 'Appointments':
-        navigation.navigate('Home')
-        break;
-      case 'Friends':
-        navigation.navigate('Home')
-        break;
-      case 'BloodInfo':
-        navigation.navigate('Home')
-        break;
-      default:
-        break;
-    }
-  }
 
   return (
     <NavigationContainer>
@@ -103,7 +58,7 @@ export default function StackNavigation() {
             //   return null;
             // },
           }} />
-        <Stack.Screen name="PersonalForm" component={PersonalFormScreen}
+        <Stack.Screen name="PersonalFormA" component={PersonalFormA}
           options={{
             title: 'פרטים אישים',
             headerStyle: {
@@ -115,7 +70,7 @@ export default function StackNavigation() {
             //   return null;
             // },
           }} />
-        <Stack.Screen name="PersonalForm2" component={PersonalFormScreen2}
+        <Stack.Screen name="PersonalFormB" component={PersonalFormB}
           options={{
             title: 'פרטים אישים',
             headerStyle: {
@@ -127,7 +82,7 @@ export default function StackNavigation() {
             //   return null;
             // },
           }} />
-        <Stack.Screen name="PersonalForm3" component={PersonalFormScreen3}
+        <Stack.Screen name="PersonalFormC" component={PersonalFormC}
           options={{
             title: 'פרטים אישים',
             headerStyle: {

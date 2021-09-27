@@ -5,11 +5,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Personal_id:"204610620",First_name:"אסף",Last_name:"קרטן",Phone:"0549214258",Gender:"ז" ,Birthdate:"03.03.1993" ,Prev_first_name:"" ,Prev_last_name:""
 
-export default function PersonalFormScreen({ navigation, route }) {
+export default function PersonalFormA({ navigation, route }) {
   const [User, setUser] = useState(route.params.route)
   const [loading, setLoading] = useState(false);
   const [shouldShow, setShouldShow] = useState(false);
   const [confirmModal, setConfirm] = useState(false);
+
   const [First_name, onChangeFirst_name] = useState(route.params.route.First_name);
   const [Last_name, onChangeLast_name] = useState(route.params.route.Last_name);
   const [Phone, onChangePhone] = useState(route.params.route.Phone);
@@ -17,8 +18,6 @@ export default function PersonalFormScreen({ navigation, route }) {
   const [Birthdate, onChangeBirthdate] = useState(route.params.route.Birthdate);
   const [Prev_first_name, onChangePrev_first_name] = useState(route.params.route.Prev_first_name);
   const [Prev_last_name, onChangePrev_last_name] = useState(route.params.route.Prev_last_name);
-
-
 
 
   useEffect(() => {
@@ -51,17 +50,20 @@ export default function PersonalFormScreen({ navigation, route }) {
   }
 
   const PostPersonalForm = async () => {
-    //const new_route = route.params.route
-    User.First_name = First_name
-    User.Last_name = Last_name
-    User.Phone = Phone
-    User.Gender = Gender
-    User.Birthdate = Birthdate
-    User.Prev_first_name = Prev_first_name
-    User.Prev_last_name = Prev_last_name
+    const new_route = User
+    new_route.First_name = First_name
+    new_route.Last_name = Last_name
+    new_route.Phone = Phone
+    new_route.Gender = Gender
+    new_route.Birthdate = Birthdate
+    new_route.Prev_first_name = Prev_first_name
+    new_route.Prev_last_name = Prev_last_name
     await clearAsyncStorage()
-    await storeData(User)
-    navigation.navigate('PersonalForm2', { route: User })
+    await storeData(new_route)
+    console.log('====================================');
+    console.log('new route', new_route);
+    console.log('====================================');
+    navigation.navigate('PersonalFormB', { route: new_route })
   }
 
   return (
@@ -197,7 +199,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button_normal: {
-
     alignItems: 'center',
     width: 150,
     margin: 25,
@@ -244,4 +245,3 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   }
 });
-

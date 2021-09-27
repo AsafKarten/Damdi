@@ -9,7 +9,7 @@ const url = "http://proj13.ruppin-tech.co.il/"
 //Personal_id:"204610620",First_name:"אסף",Last_name:"קרטן",Phone:"0549214258",Gender:"ז" ,Birthdate:"03.03.1993" ,Prev_first_name:"" ,Prev_last_name:"",City:"ranana", Address:"hertzel 101", Postal_code:"3355", Mail_box:"3", Telephone:"0549214258", Work_telephone:"",Blood_group_member:False, Personal_insurance:False, Confirm_examination:True, Agree_future_don:True, Birth_land:"ישראל", Aliya_year:"", Father_birth_land:"ישראל", Mother_birth_land:"ישראל"
 //Blood_group_member:False, Personal_insurance:False, Confirm_examination:True, Agree_future_don:True, Birth_land:"ישראל", Aliya_year:"", Father_birth_land:"ישראל", Mother_birth_land:"ישראל"
 
-export default function PersonalFormScreen3({ navigation, route }) {
+export default function PersonalFormC({ navigation, route }) {
   const [loading, setLoading] = useState(false);
   const [Blood_group_member, onChangeBlood_group_member] = useState(route.params.route.Blood_group_member);
   const [Personal_insurance, onChangePersonal_insurance] = useState(route.params.route.Personal_insurance);
@@ -147,14 +147,14 @@ export default function PersonalFormScreen3({ navigation, route }) {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate('PersonalForm2')}>
+              <TouchableOpacity onPress={() => navigation.navigate('PersonalFormB')}>
                 <View style={styles.button_normal}>
                   <Text style={styles.button_text} >חזרה</Text>
                 </View>
               </TouchableOpacity>
             </View>
+            <Spiner loading={loading} />
           </View>
-          <Spiner loading={loading} />
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </SafeAreaView>
