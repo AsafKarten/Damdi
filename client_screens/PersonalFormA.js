@@ -50,6 +50,11 @@ export default function PersonalFormA({ navigation, route }) {
   }
 
   const PostPersonalForm = async () => {
+    if (First_name == "" || Last_name == "" || Phone == "" || Gender == "" || Gender == "" || Birthdate == "" || Prev_first_name == "" || Prev_last_name == "") {
+      Alert.alert('אנא מלא/י את כל הפרטים בבקשה')
+      return
+    }
+    setLoading(true);
     const new_route = User
     new_route.First_name = First_name
     new_route.Last_name = Last_name

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity,Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -35,7 +35,11 @@ export default function PersonalFormB({ navigation, route }) {
     }
   }
 
-  const PostPersonalForm2 = async () => {
+  const PostPersonalFormB = async () => {
+    if (City == '' || Address == '' || Postal_code == '' || Mail_box == '' || Telephone == '') {
+      Alert.alert('אנא מלא/י את כל הפרטים בבקשה (לא חובה טלפון עבודה)')
+      return
+    }
     setLoading(true);
     const new_route = User
     new_route.City = City
@@ -46,7 +50,6 @@ export default function PersonalFormB({ navigation, route }) {
     new_route.Work_telephone = Work_telephone
     await clearAsyncStorage()
     await storeData(new_route)
-    setLoading(false)
     navigation.navigate('PersonalFormC', { route: new_route })
   }
 
@@ -111,12 +114,12 @@ export default function PersonalFormB({ navigation, route }) {
               />
             </View>
             <View style={styles.HorizontalBoxButtons}>
-              <TouchableOpacity onPress={() => PostPersonalForm2()}>
+              <TouchableOpacity onPress={() => PostPersonalFormB()}>
                 <View style={styles.button_normal}>
                   <Text style={styles.button_text} >הבא</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate('PersonalForm')} >
+              <TouchableOpacity onPress={() => navigation.navigate('PersonalFormA')} >
                 <View style={styles.button_normal}>
                   <Text style={styles.button_text} >חזרה</Text>
                 </View>

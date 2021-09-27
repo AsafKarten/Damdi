@@ -3,14 +3,19 @@ import React, { useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 import BG from '../assets/DAMDI_White_BG.jpg'
 export default function Welcome({ navigation, route }) {
+  const [loading, setLoading] = useState(false);
+
+  console.log('====================================');
+  console.log('Welecome', { route });
+  console.log('====================================');
   const [User, onChangeUser] = useState(route.params.route)
   console.log(route.params.route);
   return (
-    
+
     <View>
       <Image source={BG} style={{ width: 360, height: 150, alignSelf: 'center', resizeMode: 'stretch' }}></Image>
 
-      <Text> {route.params.First_name} ברוך הבא לדאמדי </Text>
+      <Text> ברוך הבא לדאמדי {User.First_name} </Text>
 
       <TouchableOpacity onPress={() => navigation.navigate('Home', { route: User })}>
         <View style={styles.button_normal}>

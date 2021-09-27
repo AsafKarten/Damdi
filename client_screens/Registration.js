@@ -74,7 +74,7 @@ export default function Registration({ navigation }) {
         });
         let user = await result_user.json();
         storeData(user)
-        navigation.navigate("PersonalForm", { route: user })
+        navigation.navigate("PersonalFormA", { route: user })
         setLoading(false)
       }
     } catch (error) {

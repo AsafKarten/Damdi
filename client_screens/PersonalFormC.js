@@ -10,6 +10,7 @@ const url = "http://proj13.ruppin-tech.co.il/"
 //Blood_group_member:False, Personal_insurance:False, Confirm_examination:True, Agree_future_don:True, Birth_land:"ישראל", Aliya_year:"", Father_birth_land:"ישראל", Mother_birth_land:"ישראל"
 
 export default function PersonalFormC({ navigation, route }) {
+  const User = route.params.route;
   const [loading, setLoading] = useState(false);
   const [Blood_group_member, onChangeBlood_group_member] = useState(route.params.route.Blood_group_member);
   const [Personal_insurance, onChangePersonal_insurance] = useState(route.params.route.Personal_insurance);
@@ -38,9 +39,15 @@ export default function PersonalFormC({ navigation, route }) {
     }
   }
 
-  const PostPersonalForm3 = async () => {
+  const PostPersonalFormC = async () => {
+    if (Blood_group_member == null || Personal_insurance == null || Confirm_examination == null || Agree_future_don == null || Birth_land == '') {
+      Alert.alert('אנא מלא/י את כל הפרטים בבקשה (אם לא עלית מארץ אחרת לא חובה למלא, אם ההורים לא עלו מארץ אחרת לא חובה למלא גם כן)')
+      return
+    }
+
+    //function to send data to server side to DB
     setLoading(true);
-    const new_route = route.params.route
+    const new_route = User
     new_route.Blood_group_member = Blood_group_member
     new_route.Personal_insurance = Personal_insurance
     new_route.Confirm_examination = Confirm_examination
@@ -51,7 +58,6 @@ export default function PersonalFormC({ navigation, route }) {
     new_route.Mother_birth_land = Mother_birth_land
     await clearAsyncStorage()
     await storeData(new_route)
-    setLoading(false);
     navigation.navigate('Welcome', { route: new_route })
   }
 
@@ -131,29 +137,18 @@ export default function PersonalFormC({ navigation, route }) {
               />
             </View>
             <View style={styles.HorizontalBoxButtons}>
-              <TouchableOpacity onPress={() => PostPersonalForm3(
-                Blood_group_member,
-                Personal_insurance,
-                Confirm_examination,
-                Agree_future_don,
-                Birth_land,
-                Aliya_year,
-                Father_birth_land,
-                Mother_birth_land
-              )}>
-
+              <TouchableOpacity onPress={() => PostPersonalFormC()}>
                 <View style={styles.button_normal}>
                   <Text style={styles.button_text} >סיום</Text>
                 </View>
               </TouchableOpacity>
-
+              <Spiner loading={loading} />
               <TouchableOpacity onPress={() => navigation.navigate('PersonalFormB')}>
                 <View style={styles.button_normal}>
                   <Text style={styles.button_text} >חזרה</Text>
                 </View>
               </TouchableOpacity>
             </View>
-            <Spiner loading={loading} />
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
