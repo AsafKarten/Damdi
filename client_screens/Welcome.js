@@ -1,15 +1,18 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
+import Spiner from '../Componentes/Spiner';
+
 import BG from '../assets/DAMDI_White_BG.jpg'
 export default function Welcome({ navigation, route }) {
   const [loading, setLoading] = useState(false);
 
-  console.log('====================================');
-  console.log('Welecome', { route });
-  console.log('====================================');
   const [User, onChangeUser] = useState(route.params.route)
-  console.log(route.params.route);
+
+  useEffect(() => {
+    setLoading(false);
+  }, [])
+
   return (
 
     <View>
@@ -17,11 +20,12 @@ export default function Welcome({ navigation, route }) {
 
       <Text> ברוך הבא לדאמדי {User.First_name} </Text>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Home', { route: User })}>
+      <TouchableOpacity onPress={() => navigation.navigate('Home', { route: User }, setLoading(true))}>
         <View style={styles.button_normal}>
           <Text style={styles.button_text} >המשך</Text>
         </View>
       </TouchableOpacity>
+      <Spiner loading={loading} />
     </View>
   )
 }

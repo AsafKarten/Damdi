@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Image } from 'react-native';
 import BG from '../assets/DAMDI_White_BG.jpg'
 
 
 const url = "http://proj13.ruppin-tech.co.il/"
 export default function Home({ navigation, route }) {
+  const [loading, setLoading] = useState(false);
+
   const [User, onChangeId] = useState(route.params.route)
 
-  
+  useEffect(() => {
+    setLoading(false);
+  }, [])
+
   return (
     <SafeAreaView style={styles.container}>
       <Image source={BG} style={styles.header_img}></Image>
