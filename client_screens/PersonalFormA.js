@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, TouchableHighlight, View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import { DateTime, Modal, TouchableHighlight, View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 //Personal_id:"204610620",First_name:"אסף",Last_name:"קרטן",Phone:"0549214258",Gender:"ז" ,Birthdate:"03.03.1993" ,Prev_first_name:"" ,Prev_last_name:""
 
 export default function PersonalFormA({ navigation, route }) {
-  const [User, setUser] = useState(route.params.route)
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+  const [text, setText] = useState();
+
+  const User = route.params.route
   const [loading, setLoading] = useState(false);
   const [shouldShow, setShouldShow] = useState(false);
   const [confirmModal, setConfirm] = useState(false);
@@ -65,10 +71,33 @@ export default function PersonalFormA({ navigation, route }) {
     new_route.Prev_last_name = Prev_last_name
     await clearAsyncStorage()
     await storeData(new_route)
-    console.log('====================================');
-    console.log('new route', new_route);
-    console.log('====================================');
     navigation.navigate('PersonalFormB', { route: new_route })
+  }
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS !== 'web');
+    setDate(currentDate);
+    onChangeBirthdate(currentDate)
+
+    let tempDate = new Date(currentDate);
+    let fDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDay();
+    setText(fDate)
+    console.log(fDate);
+    setShow(false);
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const onFocus = () => {
+    showDatepicker()
   }
 
   return (
@@ -114,10 +143,9 @@ export default function PersonalFormA({ navigation, route }) {
             </View>
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>תאריך לידה</Text>
-              <TextInput
+              <TextInput onFocus={onFocus}
                 style={styles.input}
-                onChangeText={onChangeBirthdate}
-                value={Birthdate}
+                value={text}
                 placeholder="תאריך לידה"
               />
             </View>
@@ -145,7 +173,15 @@ export default function PersonalFormA({ navigation, route }) {
               </View>
             </TouchableOpacity>
             <Spiner loading={loading} />
-
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={mode}
+                display="calendar"
+                onChange={onChange}
+              />
+            )}
             {shouldShow ? (
               <Modal
                 animationType="fade"

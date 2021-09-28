@@ -10,6 +10,8 @@ const url = "http://proj13.ruppin-tech.co.il/"
 //Blood_group_member:False, Personal_insurance:False, Confirm_examination:True, Agree_future_don:True, Birth_land:"ישראל", Aliya_year:"", Father_birth_land:"ישראל", Mother_birth_land:"ישראל"
 
 export default function PersonalFormC({ navigation, route }) {
+
+
   const User = route.params.route;
   const [loading, setLoading] = useState(false);
   const [Blood_group_member, onChangeBlood_group_member] = useState(route.params.route.Blood_group_member);
@@ -40,29 +42,76 @@ export default function PersonalFormC({ navigation, route }) {
   }
 
   const PostPersonalFormC = async () => {
-    if (Blood_group_member == null || Personal_insurance == null || Confirm_examination == null || Agree_future_don == null || Birth_land == '') {
+    if (Birth_land == '') {
       Alert.alert('אנא מלא/י את כל הפרטים בבקשה (אם לא עלית מארץ אחרת לא חובה למלא, אם ההורים לא עלו מארץ אחרת לא חובה למלא גם כן)')
       return
     }
-
-    //function to send data to server side to DB
     setLoading(true);
-    const new_route = User
-    new_route.Blood_group_member = Blood_group_member
-    new_route.Personal_insurance = Personal_insurance
-    new_route.Confirm_examination = Confirm_examination
-    new_route.Agree_future_don = Agree_future_don
-    new_route.Birth_land = Birth_land
-    new_route.Aliya_year = Aliya_year
-    new_route.Father_birth_land = Father_birth_land
-    new_route.Mother_birth_land = Mother_birth_land
+    User.Blood_group_member = Blood_group_member
+    User.Personal_insurance = Personal_insurance
+    User.Confirm_examination = Confirm_examination
+    User.Agree_future_don = Agree_future_don
+    User.Birth_land = Birth_land
+    User.Aliya_year = Aliya_year
+    User.Father_birth_land = Father_birth_land
+    User.Mother_birth_land = Mother_birth_land
     await clearAsyncStorage()
-    await storeData(new_route)
-    navigation.navigate('Welcome', { route: new_route })
+    await storeData(User)
+    await postDataToDB()
+    navigation.navigate('Welcome', { route: User })
   }
 
-  return (
+  const postDataToDB = async () => {
+    console.log(User.Birthdate)
+    console.log(User.First_name)
+    console.log(User.Last_name)
 
+    try {
+      let result = await fetch(url + "api/info/new", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: User.Personal_id,
+          First_name: User.First_name,
+          Last_name: User.Last_name,
+          Phone: User.Phone,
+          Gender: User.Gender,
+          Birthdate: User.Birthdate,
+          Prev_first_name: User.Prev_first_name,
+          Prev_last_name: User.Prev_last_name,
+          City: User.City,
+          Address: User.Address,
+          Postal_code: User.Postal_code,
+          Mail_box: User.Mail_box,
+          Telephone: User.Telephone,
+          Work_telephone: User.Work_telephone,
+          Blood_group_member: User.Blood_group_member,
+          Personal_insurance: User.Personal_insurance,
+          Confirm_examination: User.Confirm_examination,
+          Agree_future_don: User.Agree_future_don,
+          Birth_land: User.Birth_land,
+          Aliya_year: User.Aliya_year,
+          Father_birth_land: User.Father_birth_land,
+          Mother_birth_land: User.Mother_birth_land
+        })
+      })
+      let respone = await result.json()
+      console.log('====================================');
+      console.log(respone);
+      console.log('====================================');
+    } catch (error) {
+      console.log('error with the send data to server ')
+    }
+
+  }
+
+
+
+
+  return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

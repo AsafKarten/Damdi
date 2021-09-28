@@ -8,7 +8,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function PersonalFormB({ navigation, route }) {
   const User = route.params.route;
-  console.log('PersonalFormB', User);
   const [loading, setLoading] = useState(false);
   const [City, onChangeCity] = useState(route.params.route.City);
   const [Address, onChangeAddress] = useState(route.params.route.Address);
@@ -41,16 +40,15 @@ export default function PersonalFormB({ navigation, route }) {
       return
     }
     setLoading(true);
-    const new_route = User
-    new_route.City = City
-    new_route.Address = Address
-    new_route.Postal_code = Postal_code
-    new_route.Mail_box = Mail_box
-    new_route.Telephone = Telephone
-    new_route.Work_telephone = Work_telephone
+    User.City = City
+    User.Address = Address
+    User.Postal_code = Postal_code
+    User.Mail_box = Mail_box
+    User.Telephone = Telephone
+    User.Work_telephone = Work_telephone
     await clearAsyncStorage()
-    await storeData(new_route)
-    navigation.navigate('PersonalFormC', { route: new_route })
+    await storeData(User)
+    navigation.navigate('PersonalFormC', { route: User })
   }
 
 
