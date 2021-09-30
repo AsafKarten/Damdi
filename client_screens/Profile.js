@@ -1,27 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Platform, View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Image } from 'react-native';
-//import ActionSheet from 'react-native-actionsheet';
+import { Platform, View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Image, Modal, Pressable } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons';
-import PI from '../assets/DamdiPI4.png';
 import Spiner from '../Componentes/Spiner';
-
-
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
-
-
 export default function Profile({ navigation, route }) {
-  //let actionSheet = useRef();
-  var optionArray = ['take a photo', 'choose from a gallery', 'Cancel'];
+  const [shouldShow, setShouldShow] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+
   const [User, onChangeUser] = useState(route.params.route)
   const [userId, setUserId] = useState();
   const [image, setImage] = useState();
-  const [shouldShow, setShouldShow] = useState(false);
-  const [loading, setLoading] = useState(false);
-
 
   useEffect(() => {
     (async () => {
@@ -46,13 +39,10 @@ export default function Profile({ navigation, route }) {
       await GalleryPicture();
     }
     else {
-      //showActionSheet();
+      setModalVisible(true);
     }
   }
 
-  const showActionSheet = () => {
-    //actionSheet.current.show();
-  };
 
   const takePicture = async () => {
     try {
@@ -102,7 +92,7 @@ export default function Profile({ navigation, route }) {
       console.error(e);
     }
   }
-  const imageUpload = async (imgurl, picName) => {
+  const imageUpload = async (imgUrl, picName) => {
     try {
 
       let res = await fetch(url + "api/uploadpicture", {
@@ -112,7 +102,7 @@ export default function Profile({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          uri: imgUri.split(',')[1],
+          uri: imgUrl.split(',')[1],
           name: picName,
           folder: userId,
           type: 'jpg',
@@ -128,7 +118,7 @@ export default function Profile({ navigation, route }) {
     }
   }
 
-  const imageUploadA = async (imgurl, picName) => {
+  const imageUploadA = async (imgUrl, picName) => {
     try {
       let res = await fetch(url + "api/uploadpicture", {
         method: 'POST',
@@ -137,7 +127,7 @@ export default function Profile({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          uri: imgUri,
+          uri: imgUrl,
           name: picName,
           folder: userId,
           type: 'jpg',
@@ -176,7 +166,6 @@ export default function Profile({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-
       <View style={styles.TopContainer}>
         <Image style={styles.profile_image} source={{ uri: image }} />
         <TouchableOpacity
@@ -223,30 +212,42 @@ export default function Profile({ navigation, route }) {
         </TouchableOpacity>
 
       </View>
-      {/* {shouldShow ? (
+      {shouldShow ? (
         <View>
-          <ActionSheet
-            ref={actionSheet}
-            title={'בחר/י מאיפה לעלות תמונה'}
-            // Options Array to show in bottom sheet
-            options={optionArray}
-            // Define cancel button index in the option array
-            // This will take the cancel option in bottom
-            // and will highlight it
-            cancelButtonIndex={2}
-            // Highlight any specific option
-            destructiveButtonIndex={1}
-            onPress={(index) => {
-              if (index == 0) {
-                takePicture();
-              }
-              else if (index == 1) {
-                GalleryPicture();
-              }
-            }}
-          />
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              console.log('Modal has been closed.');
+            }}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>בחר\י מהיכן להעלאות תמונת פרופיל</Text>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => takePicture()}>
+                <Text style={styles.textStyle}>צלמ\י עכשיו</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => GalleryPicture()}>
+                <Text style={styles.textStyle}>בחר\י מהגלריה</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Text style={styles.textStyle}>סגור</Text>
+              </Pressable>
+            </View>
+          </Modal>
+          <Pressable
+            style={[styles.button, styles.buttonOpen]}
+            onPress={() => setModalVisible(true)}
+          >
+            <Text style={styles.textStyle}>Show Modal</Text>
+          </Pressable>
         </View>
-      ) : null} */}
+      ) : null}
     </SafeAreaView>
   );
 }
@@ -302,5 +303,42 @@ const styles = StyleSheet.create({
   },
   button_text: {
     color: 'white'
+  },
+
+  //upload image Modal
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
   }
 });
