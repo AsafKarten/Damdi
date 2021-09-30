@@ -61,17 +61,16 @@ export default function PersonalFormA({ navigation, route }) {
       return
     }
     setLoading(true);
-    const new_route = User
-    new_route.First_name = First_name
-    new_route.Last_name = Last_name
-    new_route.Phone = Phone
-    new_route.Gender = Gender
-    new_route.Birthdate = Birthdate
-    new_route.Prev_first_name = Prev_first_name
-    new_route.Prev_last_name = Prev_last_name
+    User.First_name = First_name
+    User.Last_name = Last_name
+    User.Phone = Phone
+    User.Gender = Gender
+    User.Birthdate = Birthdate
+    User.Prev_first_name = Prev_first_name
+    User.Prev_last_name = Prev_last_name
     await clearAsyncStorage()
-    await storeData(new_route)
-    navigation.navigate('PersonalFormB', { route: new_route })
+    await storeData(User)
+    navigation.navigate('PersonalFormB', { route: User })
   }
 
   const onChange = (event, selectedDate) => {
@@ -83,7 +82,6 @@ export default function PersonalFormA({ navigation, route }) {
     let tempDate = new Date(currentDate);
     let fDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDay();
     setText(fDate)
-    console.log(fDate);
     setShow(false);
   };
 
@@ -188,7 +186,7 @@ export default function PersonalFormA({ navigation, route }) {
                 transparent={true}
                 visible={confirmModal}
                 onRequestClose={() => {
-                  Alert.alert('Modal has been closed.');
+                  console.log('Modal has been closed.');
                 }}>
                 <View style={styles.modal}>
                   <Text style={styles.modal_text}>האם תרצה/י לעדכן פרטיים אישיים לחץ על "כן", אחרת לחצ/י על "לא" </Text>

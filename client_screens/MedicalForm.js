@@ -66,7 +66,6 @@ export default function MedicalForm({ navigation, route }) {
       , Q3_20: Q3_20
       , Q3_21: Q3_21
     }
-    await console.log(medicalForm);
     await navigation.navigate('ValidationForm', { route: User })
   }
 
