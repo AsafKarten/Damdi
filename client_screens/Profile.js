@@ -223,21 +223,23 @@ export default function Profile({ navigation, route }) {
             }}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>בחר\י מהיכן להעלאות תמונת פרופיל</Text>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => takePicture()}>
-                <Text style={styles.textStyle}>צלמ\י עכשיו</Text>
-              </Pressable>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => GalleryPicture()}>
-                <Text style={styles.textStyle}>בחר\י מהגלריה</Text>
-              </Pressable>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}>
-                <Text style={styles.textStyle}>סגור</Text>
-              </Pressable>
+              <View style={styles.modal_buttons}>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}>
+                  <Text style={styles.textStyle}>סגור</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => GalleryPicture()}>
+                  <Text style={styles.textStyle}>בחר\י מהגלריה</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => takePicture()}>
+                  <Text style={styles.textStyle}>צלמ\י עכשיו</Text>
+                </Pressable>
+              </View>
             </View>
           </Modal>
         </View>
@@ -304,7 +306,7 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: '#757c94',
     borderRadius: 20,
-    padding: 35,
+    padding: 25,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -315,13 +317,16 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5
   },
+  modal_buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin: 10,
+  },
   button: {
+    margin: 10,
     borderRadius: 20,
     padding: 10,
-    elevation: 2,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    margin: 15,
+    elevation: 2
   },
   buttonOpen: {
     backgroundColor: "#F194FF",
@@ -335,7 +340,9 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   modalText: {
-    marginBottom: 15,
+    color: "white",
+    fontSize: 22,
+    marginBottom: 10,
     textAlign: "center"
   }
 });
