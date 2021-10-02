@@ -240,12 +240,6 @@ export default function Profile({ navigation, route }) {
               </Pressable>
             </View>
           </Modal>
-          <Pressable
-            style={[styles.button, styles.buttonOpen]}
-            onPress={() => setModalVisible(true)}
-          >
-            <Text style={styles.textStyle}>Show Modal</Text>
-          </Pressable>
         </View>
       ) : null}
     </SafeAreaView>
@@ -308,7 +302,7 @@ const styles = StyleSheet.create({
   //upload image Modal
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: '#757c94',
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
@@ -324,7 +318,10 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    margin: 15,
   },
   buttonOpen: {
     backgroundColor: "#F194FF",
