@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Platform, View, SafeAreaView, StyleSheet, TextInput, Text, TouchableOpacity, Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
+import { Platform,ImageBackground, View, SafeAreaView, StyleSheet, TextInput, Text, TouchableOpacity, Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spiner from '../Componentes/Spiner';
+import BG_ONLY from '../assets/BG_ONLY.jpg';
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
@@ -181,6 +182,9 @@ export default function Login({ navigation }) {
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+           <ImageBackground source={BG_ONLY} style={styles.BGimage}>
+        <Text style={styles.text}>Inside</Text>
+     
           <View style={styles.inner}>
             <TextInput
               style={styles.input}
@@ -223,7 +227,8 @@ export default function Login({ navigation }) {
             </TouchableOpacity>
 
             <Spiner loading={loading} />
-          </View>
+          </View> 
+          </ImageBackground>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -262,4 +267,11 @@ const styles = StyleSheet.create({
   button_text: {
     color: 'black'
   },
+  BGimage:{
+    // alignSelf: 'center',
+    // resizeMode: 'stretch'
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  }
 });
