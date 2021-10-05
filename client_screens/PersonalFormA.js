@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 //Personal_id:"204610620",First_name:"אסף",Last_name:"קרטן",Phone:"0549214258",Gender:"ז" ,Birthdate:"03.03.1993" ,Prev_first_name:"" ,Prev_last_name:""
+const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function PersonalFormA({ navigation, route }) {
   const [date, setDate] = useState(new Date());
@@ -55,23 +56,46 @@ export default function PersonalFormA({ navigation, route }) {
     }
   }
 
+  const getUserInfo = async () => {
+    try {
+      let result = await fetch(url + "api/user/info", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: User.PersonalId,
+        })
+      });
+      let full_user = await result.json();
+      if (full_user !== undefined || full_user !== null) {
+        return full_user
+      }
+      console.log('user not found');
+    } catch (error) {
+      console.error('error with retrun full user');
+    }
+  }
+
   const PostPersonalForm = async () => {
     if (First_name == "" || Last_name == "" || Phone == "" || Gender == "" || Gender == "" || Birthdate == "" || Prev_first_name == "" || Prev_last_name == "") {
       Alert.alert('אנא מלא/י את כל הפרטים בבקשה')
       return
     }
     setLoading(true);
-    User.First_name = First_name
-    User.Last_name = Last_name
-    User.Phone = Phone
-    User.Gender = Gender
-    User.Birthdate = Birthdate
-    User.Prev_first_name = Prev_first_name
-    User.Prev_last_name = Prev_last_name
+    let full_user = await getUserInfo()
     await clearAsyncStorage()
-    await storeData(User)
-    navigation.navigate('PersonalFormB', { route: User })
+    await storeData(full_user)
+    navigation.navigate('PersonalFormB', { route: full_user })
   }
+  // User.First_name = First_name
+  // User.Last_name = Last_name
+  // User.Phone = Phone
+  // User.Gender = Gender
+  // User.Birthdate = Birthdate
+  // User.Prev_first_name = Prev_first_name
+  // User.Prev_last_name = Prev_last_name
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;

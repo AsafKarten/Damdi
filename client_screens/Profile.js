@@ -12,16 +12,14 @@ export default function Profile({ navigation, route }) {
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [User, onChangeUser] = useState(route.params.route)
-  const [userId, setUserId] = useState();
-  const [image, setImage] = useState();
+  const [User, setUser] = useState(route.params.route)
+  const [PersonalId, setUserID] = useState();
+  const [image, setImage] = useState(route.params.Profile_img);
 
   useEffect(() => {
     (async () => {
       if (User !== undefined) {
-        // if (User.Profile_img.indexOf("?asid") == -1)
-        //   setImage(`${User.Profile_img}?t=${Date.now()}`)
-        setUserId(User.Personal_id)
+        setUserID(User.Personal_id)
       }
       if (Platform.OS !== 'web') {
         setShouldShow(true)
@@ -33,7 +31,6 @@ export default function Profile({ navigation, route }) {
     })()
   }, [])
 
-
   const checkDevice = async () => {
     if (Platform.OS === 'web') {
       await GalleryPicture();
@@ -42,7 +39,6 @@ export default function Profile({ navigation, route }) {
       setModalVisible(true);
     }
   }
-
 
   const takePicture = async () => {
     try {
@@ -56,14 +52,14 @@ export default function Profile({ navigation, route }) {
         if (Platform.OS !== 'web') {
           const content = await FileSystem.readAsStringAsync(result.uri, { encoding: FileSystem.EncodingType.Base64 });
           result.uri = content
-          await imageUploadA(result.uri, userId)
+          await imageUploadAndroid(result.uri, PersonalId)
         }
         else {
-          await imageUpload(result.uri, userId);
+          await imageUpload(result.uri, PersonalId);
         }
       }
     } catch (e) {
-      console.error(e);
+      console.error("error with take a live picture");
     }
   }
 
@@ -81,15 +77,15 @@ export default function Profile({ navigation, route }) {
           setLoading(true);
           var content = await FileSystem.readAsStringAsync(result.uri, { encoding: FileSystem.EncodingType.Base64 });
           result.uri = content
-          await imageUploadA(result.uri, userId)
+          await imageUploadAndroid(result.uri, PersonalId)
         }
         else {
           setLoading(true);
-          await imageUpload(result.uri, userId);
+          await imageUpload(result.uri, PersonalId);
         }
       }
     } catch (e) {
-      console.error(e);
+      console.error("Error with upload image from gallery");
     }
   }
   const imageUpload = async (imgUrl, picName) => {
@@ -104,21 +100,18 @@ export default function Profile({ navigation, route }) {
         body: JSON.stringify({
           uri: imgUrl.split(',')[1],
           name: picName,
-          folder: userId,
+          folder: PersonalId,
           type: 'jpg',
         })
       });
       let data = await res.json();
-      // if (data.path.indexOf("?asid") == -1)
-      //   setImage(`${data.path}?t=${Date.now()}`)
-      await updateLoggedUser(userId);
       setLoading(false);
     } catch (e) {
-      console.error(e);
+      console.error("error with upload profile image");
     }
   }
 
-  const imageUploadA = async (imgUrl, picName) => {
+  const imageUploadAndroid = async (imgUrl, picName) => {
     try {
       let res = await fetch(url + "api/uploadpicture", {
         method: 'POST',
@@ -129,40 +122,18 @@ export default function Profile({ navigation, route }) {
         body: JSON.stringify({
           uri: imgUrl,
           name: picName,
-          folder: userId,
+          folder: PersonalId,
           type: 'jpg',
         })
       });
       let data = await res.json();
-      //if (data.path.indexOf("?asid") == -1)
-      await setImage(`${data.path}?t=${Date.now()}`)
-      await updateLoggedUser(userId);
       setLoading(false);
     } catch (e) {
-      console.error(e);
+      console.error("error with upload profile image");
     }
   }
 
-  const updateLoggedUser = async () => {
-    try {
-      let result = await fetch(api + "api/user", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          Id_user: userId,
-        })
-      });
-      let data = await result.json();
-      // if (data.Profile_img.indexOf("?asid") == -1)
-      //   data.Profile_img = `${data.Profile_img}?t=${Date.now()}`;
-      storeData(data);
-    } catch (e) {
-      console.error(e);
-    }
-  }
+
 
   return (
     <SafeAreaView style={styles.container}>

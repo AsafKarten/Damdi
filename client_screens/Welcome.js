@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import Spiner from '../Componentes/Spiner';
 
 import BG from '../assets/DAMDI_White_BG.jpg'
@@ -59,4 +59,3 @@ const styles = StyleSheet.create({
     color: 'white'
   },
 });
-

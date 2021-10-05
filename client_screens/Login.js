@@ -49,15 +49,16 @@ export default function Login({ navigation }) {
       let loggedUser = await AsyncStorage.getItem('loggedUser')
       if (loggedUser !== null) {
         let existUser = JSON.parse(loggedUser)
+        console.log(existUser);
         let updatedUser = await getAutenticateUser(existUser.Personal_id, existUser.Email)
         if (existUser.Email !== updatedUser.Email || existUser.Salted_hash !== updatedUser.Salted_hash) {
+          console.log("if");
           await clearAsyncStorage()
           storeData(updatedUser)
           navigation.navigate('PersonalFormA', { route: updatedUser })
         }
-        console.log('exist user', existUser);
+        console.log("else");
         navigation.navigate('PersonalFormA', { route: existUser })
-
       }
       else {
         console.log('No user found on setion storage');
@@ -69,6 +70,9 @@ export default function Login({ navigation }) {
 
   const getAutenticateUser = async (personal_id, email) => {
     try {
+      if (Platform.OS !== 'web') {
+        setLoading(true);
+      }
       let result = await fetch(url + "api/user", {
         method: 'POST',
         headers: {
@@ -123,9 +127,6 @@ export default function Login({ navigation }) {
         return
       }
       else {
-        if (Platform.OS !== 'web') {
-          setLoading(true);
-        }
         let updatedUser = await getAutenticateUser(PersonalId, Email);
         if (updatedUser !== undefined || updatedUser !== null) {
           if (Email !== updatedUser.Email || PersonalId !== updatedUser.Personal_id) {
@@ -160,7 +161,7 @@ export default function Login({ navigation }) {
             fullUpdatedUser.Mother_birth_land === null) {
             setLoading(false);
             Alert.alert("אנא מלא/י את כל הפרטים כדי לתרום!")
-            navigation.navigate('PersonalForm', { route: updatedUser })
+            navigation.navigate('PersonalFormA', { route: updatedUser })
           }
         }
         else {
