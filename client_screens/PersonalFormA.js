@@ -8,29 +8,28 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function PersonalFormA({ navigation, route }) {
-  console.log(route.params.route);
+  console.log();
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [text, setText] = useState();
-
-  const [User, setUser] = useState(null)
   const [loading, setLoading] = useState(false);
   const [shouldShow, setShouldShow] = useState(false);
   const [confirmModal, setConfirm] = useState(false);
 
-  const [First_name, onChangeFirst_name] = useState(route.params.route.First_name);
-  const [Last_name, onChangeLast_name] = useState(route.params.route.Last_name);
-  const [Phone, onChangePhone] = useState(route.params.route.Phone);
-  const [Gender, onChangeGender] = useState(route.params.route.Gender);
-  const [Birthdate, onChangeBirthdate] = useState(route.params.route.Birthdate);
-  const [Prev_first_name, onChangePrev_first_name] = useState(route.params.route.Prev_first_name);
-  const [Prev_last_name, onChangePrev_last_name] = useState(route.params.route.Prev_last_name);
+  const [User, setUser] = useState(null)
+  const [First_name, onChangeFirst_name] = useState();
+  const [Last_name, onChangeLast_name] = useState();
+  const [Phone, onChangePhone] = useState();
+  const [Gender, onChangeGender] = useState();
+  const [Birthdate, onChangeBirthdate] = useState();
+  const [Prev_first_name, onChangePrev_first_name] = useState();
+  const [Prev_last_name, onChangePrev_last_name] = useState();
 
 
   useEffect(() => {
     (async () => {
-      setUser(route.params.route)
+      await getUserInfo();
       if (Platform.OS !== 'web') {
         setShouldShow(true)
         setTimeout(() => {
@@ -40,23 +39,23 @@ export default function PersonalFormA({ navigation, route }) {
     })()
   }, [])
 
-  const storeData = async (data) => {
-    try {
-      var loggedUser = JSON.stringify(data);
-      await AsyncStorage.setItem('loggedUser', loggedUser)
-    } catch (e) {
-      console.error(e)
-    }
-  }
+  // const storeData = async (data) => {
+  //   try {
+  //     var loggedUser = JSON.stringify(data);
+  //     await AsyncStorage.setItem('loggedUser', loggedUser)
+  //   } catch (e) {
+  //     console.error(e)
+  //   }
+  // }
 
-  const clearAsyncStorage = async () => {
-    try {
-      await AsyncStorage.clear();
-      console.log('Done clear storage');
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // const clearAsyncStorage = async () => {
+  //   try {
+  //     await AsyncStorage.clear();
+  //     console.log('Done clear storage A');
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   const getUserInfo = async () => {
     try {
@@ -67,36 +66,39 @@ export default function PersonalFormA({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id: User.PersonalId,
+          Personal_id: route.params.route.Personal_id,
         })
       });
       let full_user = await result.json();
       if (full_user !== undefined || full_user !== null) {
-        return full_user
+        setUser(full_user);
+        onChangeFirst_name(full_user.First_name)
+        onChangeLast_name(full_user.Last_name)
+        onChangePhone(full_user.Phone)
+        onChangeGender(full_user.Gender)
+        onChangeBirthdate(full_user.Birthdate)
+        onChangePrev_first_name(full_user.Prev_first_name)
+        onChangePrev_last_name(full_user.Prev_last_name)
       }
-      console.log('user not found');
     } catch (error) {
       console.error('error with retrun full user');
     }
   }
 
   const PostPersonalForm = async () => {
-    if (First_name === "" || Last_name === "" || Phone === "" || Gender === "" || Gender === "" || Birthdate === "" || Prev_first_name === "" || Prev_last_name === "") {
+    if (First_name === "" || Last_name === "" || Phone === "" || Gender === "" || Birthdate === "" || Prev_first_name === "" || Prev_last_name === "") {
       Alert.alert('אנא מלא/י את כל הפרטים בבקשה')
       return
     }
     setLoading(true);
-    let full_user = await getUserInfo()
-    full_user.First_name = First_name
-    full_user.Last_name = Last_name
-    full_user.Phone = Phone
-    full_user.Gender = Gender
-    full_user.Birthdate = Birthdate
-    full_user.Prev_first_name = Prev_first_name
-    full_user.Prev_last_name = Prev_last_name
-    await clearAsyncStorage()
-    await storeData(full_user)
-    navigation.navigate('PersonalFormB', { route: full_user })
+    User.First_name = First_name;
+    User.Last_name = Last_name;
+    User.Phone = Phone;
+    User.Gender = Gender;
+    User.Birthdate = Birthdate;
+    User.Prev_first_name = Prev_first_name;
+    User.Prev_last_name = Prev_last_name;
+    navigation.navigate('PersonalFormB', { route: User })
   }
 
 
@@ -105,7 +107,6 @@ export default function PersonalFormA({ navigation, route }) {
     setShow(Platform.OS !== 'web');
     setDate(currentDate);
     onChangeBirthdate(currentDate)
-
     let tempDate = new Date(currentDate);
     let fDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDay();
     setText(fDate)
@@ -155,6 +156,7 @@ export default function PersonalFormA({ navigation, route }) {
                 onChangeText={onChangePhone}
                 value={Phone}
                 placeholder="מס פלאפון"
+                keyboardType='numeric'
               />
             </View>
             <View style={styles.HorizontalBox}>

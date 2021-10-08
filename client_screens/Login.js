@@ -26,6 +26,22 @@ export default function Login({ navigation }) {
     })()
   }, [])
 
+  const getData = async () => {
+    try {
+      let loggedUser = await AsyncStorage.getItem('loggedUser')
+      if (loggedUser !== null) {
+        let existUser = JSON.parse(loggedUser)
+        navigation.navigate('PersonalFormA', { route: existUser })
+      }
+      else {
+        console.log('No user found on setion storage');
+        return
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const storeData = async (data) => {
     try {
       var loggedUser = JSON.stringify(data);
@@ -45,31 +61,6 @@ export default function Login({ navigation }) {
   }
 
 
-  const getData = async () => {
-    try {
-      let loggedUser = await AsyncStorage.getItem('loggedUser')
-      if (loggedUser !== null) {
-        let existUser = JSON.parse(loggedUser)
-        console.log(existUser);
-        let updatedUser = await getAutenticateUser(existUser.Personal_id, existUser.Email)
-        if (existUser.Email !== updatedUser.Email || existUser.Salted_hash !== updatedUser.Salted_hash) {
-          await clearAsyncStorage()
-          storeData(updatedUser)
-          navigation.navigate('PersonalFormA', { route: updatedUser })
-        }
-        navigation.navigate('PersonalFormA', { route: existUser })
-      }
-      else {
-        let user = await getAutenticateUser(PersonalId, Email)
-        storeData(user)
-        navigation.navigate('PersonalFormA', { route: user })
-        console.log('No user found on setion storage');
-
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   const getAutenticateUser = async (personal_id, email) => {
     try {
@@ -98,7 +89,7 @@ export default function Login({ navigation }) {
   }
 
 
-  const getUserInfo = async () => {
+  const getUserInfo = async (personal_id) => {
     try {
       let result = await fetch(url + "api/user/info", {
         method: 'POST',
@@ -107,7 +98,7 @@ export default function Login({ navigation }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id: PersonalId,
+          Personal_id: personal_id,
         })
       });
       let full_user = await result.json();
@@ -121,7 +112,7 @@ export default function Login({ navigation }) {
 
   const clientLogin = async () => {
     try {
-      if (PersonalId == null || PersonalId == "" || Email == null || Email == "" || Pass == null || Pass == "") {
+      if (PersonalId === "" || Email === "" || Pass === "") {
         Alert.alert("שגיאת התחברות", "אנא מלא/י את כל פרטים !")
         console.log('====================================');
         console.log("Error, Empty fields");
@@ -133,19 +124,19 @@ export default function Login({ navigation }) {
         if (updatedUser !== undefined || updatedUser !== null) {
           if (Email !== updatedUser.Email || PersonalId !== updatedUser.Personal_id) {
             setLoading(false);
-            console.log("error with email or id");
             Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
+            console.log("error with email or id");
             return;
           }
           var correct = bcrypt.compareSync(Pass, updatedUser.Salted_hash)
           if (!correct) {
             setLoading(false);
-            console.log("error with password");
             Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
+            console.log("error with password");
             return;
           }
           storeData(updatedUser)
-          let fullUpdatedUser = getUserInfo();
+          let fullUpdatedUser = await getUserInfo(updatedUser.Personal_id);
           if (
             fullUpdatedUser.First_name === null ||
             fullUpdatedUser.Last_name === null ||
@@ -163,8 +154,10 @@ export default function Login({ navigation }) {
             fullUpdatedUser.Mother_birth_land === null) {
             setLoading(false);
             Alert.alert("אנא מלא/י את כל הפרטים כדי לתרום!")
-            navigation.navigate('PersonalFormA', { route: updatedUser })
+            navigation.navigate('PersonalFormA', { route: fullUpdatedUser })
           }
+          navigation.navigate('PersonalFormA', { route: fullUpdatedUser })
+
         }
         else {
           setLoading(false);

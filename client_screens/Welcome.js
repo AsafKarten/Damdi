@@ -9,14 +9,13 @@ import BG from '../assets/DAMDI_White_BG.jpg'
 
 export default function Welcome({ navigation, route }) {
   const [loading, setLoading] = useState(false);
-  const [User, setUser] = useState(null)
+  const [User, setUser] = useState(route.params.route)
 
   useEffect(() => {
-    setUser(route.params.route)
     setLoading(false);
   }, [])
 
-  
+
 
   return (
 

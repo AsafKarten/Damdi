@@ -13,14 +13,11 @@ export default function Profile({ navigation, route }) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [User, setUser] = useState(route.params.route)
-  const [PersonalId, setUserID] = useState();
   const [image, setImage] = useState(route.params.Profile_img);
 
   useEffect(() => {
     (async () => {
-      if (User !== undefined) {
-        setUserID(User.Personal_id)
-      }
+      setLoading(false);
       if (Platform.OS !== 'web') {
         setShouldShow(true)
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -52,10 +49,10 @@ export default function Profile({ navigation, route }) {
         if (Platform.OS !== 'web') {
           const content = await FileSystem.readAsStringAsync(result.uri, { encoding: FileSystem.EncodingType.Base64 });
           result.uri = content
-          await imageUploadAndroid(result.uri, PersonalId)
+          await imageUploadAndroid(result.uri, User.Personal_Id)
         }
         else {
-          await imageUpload(result.uri, PersonalId);
+          await imageUpload(result.uri, User.Personal_Id);
         }
       }
     } catch (e) {
@@ -77,17 +74,19 @@ export default function Profile({ navigation, route }) {
           setLoading(true);
           var content = await FileSystem.readAsStringAsync(result.uri, { encoding: FileSystem.EncodingType.Base64 });
           result.uri = content
-          await imageUploadAndroid(result.uri, PersonalId)
+          await imageUploadAndroid(result.uri, User.First_name)
         }
         else {
           setLoading(true);
-          await imageUpload(result.uri, PersonalId);
+          await imageUpload(result.uri, User.First_name);
         }
       }
     } catch (e) {
       console.error("Error with upload image from gallery");
     }
   }
+
+
   const imageUpload = async (imgUrl, picName) => {
     try {
 
@@ -100,7 +99,7 @@ export default function Profile({ navigation, route }) {
         body: JSON.stringify({
           uri: imgUrl.split(',')[1],
           name: picName,
-          folder: PersonalId,
+          folder: User.Personal_Id,
           type: 'jpg',
         })
       });
@@ -122,11 +121,12 @@ export default function Profile({ navigation, route }) {
         body: JSON.stringify({
           uri: imgUrl,
           name: picName,
-          folder: PersonalId,
+          folder: User.Personal_Id,
           type: 'jpg',
         })
       });
       let data = await res.json();
+      console.log(data);
       setLoading(false);
     } catch (e) {
       console.error("error with upload profile image");

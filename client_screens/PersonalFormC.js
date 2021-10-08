@@ -35,14 +35,14 @@ export default function PersonalFormC({ navigation, route }) {
       return
     }
     setLoading(true);
-    // User.Blood_group_member = Blood_group_member
-    // User.Personal_insurance = Personal_insurance
-    // User.Confirm_examination = Confirm_examination
-    // User.Agree_future_don = Agree_future_don
-    // User.Birth_land = Birth_land
-    // User.Aliya_year = Aliya_year
-    // User.Father_birth_land = Father_birth_land
-    // User.Mother_birth_land = Mother_birth_land
+    User.Blood_group_member = Blood_group_member
+    User.Personal_insurance = Personal_insurance
+    User.Confirm_examination = Confirm_examination
+    User.Agree_future_don = Agree_future_don
+    User.Birth_land = Birth_land
+    User.Aliya_year = Aliya_year
+    User.Father_birth_land = Father_birth_land
+    User.Mother_birth_land = Mother_birth_land
     await postDataToDB()
     navigation.navigate('Welcome', { route: User })
   }

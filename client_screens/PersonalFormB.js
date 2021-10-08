@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -7,8 +7,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //City:"ranana", Address:"hertzel 101", Postal_code:"3355", Mail_box:"3", Telephone:"0549214258", Work_telephone:"",
 
 export default function PersonalFormB({ navigation, route }) {
-  const [User, setUser] = useState(null)
   const [loading, setLoading] = useState(false);
+
+  const [User, setUser] = useState(null)
   const [City, onChangeCity] = useState(route.params.route.City);
   const [Address, onChangeAddress] = useState(route.params.route.Address);
   const [Postal_code, onChangePostal_code] = useState(route.params.route.Postal_code);
@@ -36,14 +37,14 @@ export default function PersonalFormB({ navigation, route }) {
   const clearAsyncStorage = async () => {
     try {
       await AsyncStorage.clear();
-      console.log('Done clear storage');
+      console.log('Done clear storage B');
     } catch (error) {
       console.log(error);
     }
   }
 
   const PostPersonalFormB = async () => {
-    if (City == '' || Address == '' || Postal_code == '' || Mail_box == '' || Telephone == '') {
+    if (City === '' || Address === '' || Postal_code === '' || Mail_box === '' || Telephone === '') {
       Alert.alert('אנא מלא/י את כל הפרטים בבקשה (לא חובה טלפון עבודה)')
       return
     }
@@ -54,8 +55,6 @@ export default function PersonalFormB({ navigation, route }) {
     User.Mail_box = Mail_box
     User.Telephone = Telephone
     User.Work_telephone = Work_telephone
-    await clearAsyncStorage()
-    await storeData(User)
     navigation.navigate('PersonalFormC', { route: User })
   }
 
@@ -90,11 +89,13 @@ export default function PersonalFormB({ navigation, route }) {
                 onChangeText={onChangePostal_code}
                 value={Postal_code}
                 placeholder="מיקוד"
+                keyboardType='numeric'
               />
             </View>
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>תיבת דואר</Text>
               <TextInput
+                keyboardType='numeric'
                 style={styles.input}
                 onChangeText={onChangeMail_box}
                 value={Mail_box}
@@ -104,6 +105,7 @@ export default function PersonalFormB({ navigation, route }) {
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>מס טלפון</Text>
               <TextInput
+                keyboardType='numeric'
                 style={styles.input}
                 onChangeText={onChangeTelephone}
                 value={Telephone}
@@ -117,6 +119,7 @@ export default function PersonalFormB({ navigation, route }) {
                 onChangeText={onChangeWork_telephone}
                 value={Work_telephone}
                 placeholder="מס טלפון בעבודה"
+                keyboardType='numeric'
               />
             </View>
             <View style={styles.HorizontalBoxButtons}>
