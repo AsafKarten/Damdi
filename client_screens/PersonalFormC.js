@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Button, CheckBox, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,8 +11,7 @@ const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function PersonalFormC({ navigation, route }) {
 
-
-  const User = route.params.route;
+  const [User, setUser] = useState(null)
   const [loading, setLoading] = useState(false);
   const [Blood_group_member, onChangeBlood_group_member] = useState(route.params.route.Blood_group_member);
   const [Personal_insurance, onChangePersonal_insurance] = useState(route.params.route.Personal_insurance);
@@ -23,23 +22,12 @@ export default function PersonalFormC({ navigation, route }) {
   const [Father_birth_land, onChangeFather_birth_land] = useState(route.params.route.Father_birth_land);
   const [Mother_birth_land, onChangeMother_birth_land] = useState(route.params.route.Mother_birth_land);
 
-  const storeData = async (data) => {
-    try {
-      var loggedUser = JSON.stringify(data);
-      await AsyncStorage.setItem('loggedUser', loggedUser)
-    } catch (e) {
-      console.error(e)
-    }
-  }
 
-  const clearAsyncStorage = async () => {
-    try {
-      await AsyncStorage.clear();
-      console.log('Done clear storage');
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  useEffect(() => {
+    (async () => {
+      setUser(route.params.route)
+    })()
+  }, [])
 
   const PostPersonalFormC = async () => {
     if (Birth_land == '') {
@@ -47,25 +35,19 @@ export default function PersonalFormC({ navigation, route }) {
       return
     }
     setLoading(true);
-    User.Blood_group_member = Blood_group_member
-    User.Personal_insurance = Personal_insurance
-    User.Confirm_examination = Confirm_examination
-    User.Agree_future_don = Agree_future_don
-    User.Birth_land = Birth_land
-    User.Aliya_year = Aliya_year
-    User.Father_birth_land = Father_birth_land
-    User.Mother_birth_land = Mother_birth_land
-    await clearAsyncStorage()
-    await storeData(User)
+    // User.Blood_group_member = Blood_group_member
+    // User.Personal_insurance = Personal_insurance
+    // User.Confirm_examination = Confirm_examination
+    // User.Agree_future_don = Agree_future_don
+    // User.Birth_land = Birth_land
+    // User.Aliya_year = Aliya_year
+    // User.Father_birth_land = Father_birth_land
+    // User.Mother_birth_land = Mother_birth_land
     await postDataToDB()
     navigation.navigate('Welcome', { route: User })
   }
 
   const postDataToDB = async () => {
-    console.log(User.Birthdate)
-    console.log(User.First_name)
-    console.log(User.Last_name)
-
     try {
       let result = await fetch(url + "api/info/new", {
         method: 'POST',
@@ -107,9 +89,6 @@ export default function PersonalFormC({ navigation, route }) {
     }
 
   }
-
-
-
 
   return (
     <SafeAreaView style={styles.container}>

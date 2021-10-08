@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DateTime, Modal, TouchableHighlight, View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import { Alert, DateTime, Modal, TouchableHighlight, View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -8,12 +8,13 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function PersonalFormA({ navigation, route }) {
+  console.log(route.params.route);
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [text, setText] = useState();
 
-  const User = route.params.route
+  const [User, setUser] = useState(null)
   const [loading, setLoading] = useState(false);
   const [shouldShow, setShouldShow] = useState(false);
   const [confirmModal, setConfirm] = useState(false);
@@ -29,6 +30,7 @@ export default function PersonalFormA({ navigation, route }) {
 
   useEffect(() => {
     (async () => {
+      setUser(route.params.route)
       if (Platform.OS !== 'web') {
         setShouldShow(true)
         setTimeout(() => {
@@ -79,23 +81,24 @@ export default function PersonalFormA({ navigation, route }) {
   }
 
   const PostPersonalForm = async () => {
-    if (First_name == "" || Last_name == "" || Phone == "" || Gender == "" || Gender == "" || Birthdate == "" || Prev_first_name == "" || Prev_last_name == "") {
+    if (First_name === "" || Last_name === "" || Phone === "" || Gender === "" || Gender === "" || Birthdate === "" || Prev_first_name === "" || Prev_last_name === "") {
       Alert.alert('אנא מלא/י את כל הפרטים בבקשה')
       return
     }
     setLoading(true);
     let full_user = await getUserInfo()
+    full_user.First_name = First_name
+    full_user.Last_name = Last_name
+    full_user.Phone = Phone
+    full_user.Gender = Gender
+    full_user.Birthdate = Birthdate
+    full_user.Prev_first_name = Prev_first_name
+    full_user.Prev_last_name = Prev_last_name
     await clearAsyncStorage()
     await storeData(full_user)
     navigation.navigate('PersonalFormB', { route: full_user })
   }
-  // User.First_name = First_name
-  // User.Last_name = Last_name
-  // User.Phone = Phone
-  // User.Gender = Gender
-  // User.Birthdate = Birthdate
-  // User.Prev_first_name = Prev_first_name
-  // User.Prev_last_name = Prev_last_name
+
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;

@@ -4,14 +4,19 @@ import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import Spiner from '../Componentes/Spiner';
 
 import BG from '../assets/DAMDI_White_BG.jpg'
+
+
+
 export default function Welcome({ navigation, route }) {
   const [loading, setLoading] = useState(false);
-
-  const [User, onChangeUser] = useState(route.params.route)
+  const [User, setUser] = useState(null)
 
   useEffect(() => {
+    setUser(route.params.route)
     setLoading(false);
   }, [])
+
+  
 
   return (
 

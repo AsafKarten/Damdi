@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Platform,ImageBackground, View, SafeAreaView, StyleSheet, TextInput, Text, TouchableOpacity, Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
+import { Platform, ImageBackground, View, SafeAreaView, StyleSheet, TextInput, Text, TouchableOpacity, Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spiner from '../Componentes/Spiner';
 import BG_ONLY from '../assets/BG_ONLY.jpg';
@@ -53,16 +53,18 @@ export default function Login({ navigation }) {
         console.log(existUser);
         let updatedUser = await getAutenticateUser(existUser.Personal_id, existUser.Email)
         if (existUser.Email !== updatedUser.Email || existUser.Salted_hash !== updatedUser.Salted_hash) {
-          console.log("if");
           await clearAsyncStorage()
           storeData(updatedUser)
           navigation.navigate('PersonalFormA', { route: updatedUser })
         }
-        console.log("else");
         navigation.navigate('PersonalFormA', { route: existUser })
       }
       else {
+        let user = await getAutenticateUser(PersonalId, Email)
+        storeData(user)
+        navigation.navigate('PersonalFormA', { route: user })
         console.log('No user found on setion storage');
+
       }
     } catch (error) {
       console.log(error);
@@ -87,9 +89,9 @@ export default function Login({ navigation }) {
       });
       let user = await result.json();
       if (user !== undefined || user !== null) {
+        setLoading(false);
         return user
       }
-      console.log('user not found');
     } catch (error) {
       console.error('user not authenticated');
     }
@@ -112,7 +114,6 @@ export default function Login({ navigation }) {
       if (full_user !== undefined || full_user !== null) {
         return full_user
       }
-      console.log('user not found');
     } catch (error) {
       console.error('error with retrun full user');
     }
@@ -179,59 +180,58 @@ export default function Login({ navigation }) {
 
 
   return (
-    <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-           <ImageBackground source={BG_ONLY} style={styles.BGimage}>
-        <Text style={styles.text}>Inside</Text>
-     
-          <View style={styles.inner}>
-            <TextInput
-              style={styles.input}
-              onChangeText={onChangeId}
-              value={PersonalId}
-              placeholder="תעודת זהות"
-            />
-            <TextInput
-              style={styles.input}
-              onChangeText={onChangeEmail}
-              value={Email}
-              placeholder="אימייל"
-            />
-            <TextInput
-              style={styles.input}
-              onChangeText={onChangePass}
-              value={Pass}
-              secureTextEntry={true}
-              placeholder="סיסמה"
-            />
-            <TouchableOpacity onPress={() => clientLogin()}>
-              <View style={styles.button_normal}>
-                <Text style={styles.button_text}>התחברות</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('Registration')}>
-              <View style={styles.button_normal}>
-                <Text style={styles.button_text} >הרשמה</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('DonatorsLogin')}>
-              <View style={styles.button_normal}>
-                <Text style={styles.button_text} >כניסת מתרימים</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('PersonalForm', { route: Asaf })}>
-              <View style={styles.button_normal}>
-                <Text style={styles.button_text} >הכפתור של אסף</Text>
-              </View>
-            </TouchableOpacity>
+    <ImageBackground source={BG_ONLY} style={styles.BGimage}>
+      <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.inner}>
+              <TextInput
+                style={styles.input}
+                onChangeText={onChangeId}
+                value={PersonalId}
+                placeholder="תעודת זהות"
+              />
+              <TextInput
+                style={styles.input}
+                onChangeText={onChangeEmail}
+                value={Email}
+                placeholder="אימייל"
+              />
+              <TextInput
+                style={styles.input}
+                onChangeText={onChangePass}
+                value={Pass}
+                secureTextEntry={true}
+                placeholder="סיסמה"
+              />
+              <TouchableOpacity onPress={() => clientLogin()}>
+                <View style={styles.button_normal}>
+                  <Text style={styles.button_text}>התחברות</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate('Registration')}>
+                <View style={styles.button_normal}>
+                  <Text style={styles.button_text} >הרשמה</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate('DonatorsLogin')}>
+                <View style={styles.button_normal}>
+                  <Text style={styles.button_text} >כניסת מתרימים</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate('PersonalForm', { route: Asaf })}>
+                <View style={styles.button_normal}>
+                  <Text style={styles.button_text} >הכפתור של אסף</Text>
+                </View>
+              </TouchableOpacity>
 
-            <Spiner loading={loading} />
-          </View> 
-          </ImageBackground>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+              <Spiner loading={loading} />
+            </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </ImageBackground>
+
   );
 }
 const styles = StyleSheet.create({
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
   button_text: {
     color: 'black'
   },
-  BGimage:{
+  BGimage: {
     // alignSelf: 'center',
     // resizeMode: 'stretch'
     flex: 1,

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity,Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import React, { useEffect,useState } from 'react';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //City:"ranana", Address:"hertzel 101", Postal_code:"3355", Mail_box:"3", Telephone:"0549214258", Work_telephone:"",
 
 export default function PersonalFormB({ navigation, route }) {
-  const User = route.params.route;
+  const [User, setUser] = useState(null)
   const [loading, setLoading] = useState(false);
   const [City, onChangeCity] = useState(route.params.route.City);
   const [Address, onChangeAddress] = useState(route.params.route.Address);
@@ -15,6 +15,14 @@ export default function PersonalFormB({ navigation, route }) {
   const [Mail_box, onChangeMail_box] = useState(route.params.route.Mail_box);
   const [Telephone, onChangeTelephone] = useState(route.params.route.Telephone);
   const [Work_telephone, onChangeWork_telephone] = useState(route.params.route.Work_telephone);
+
+  useEffect(() => {
+    (async () => {
+      setUser(route.params.route)
+    })()
+  }, [])
+
+
 
   const storeData = async (data) => {
     try {
