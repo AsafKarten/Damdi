@@ -51,17 +51,6 @@ export default function Login({ navigation }) {
     }
   }
 
-  const clearAsyncStorage = async () => {
-    try {
-      await AsyncStorage.clear();
-      console.log('Done clear storage');
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-
-
   const getAutenticateUser = async (personal_id, email) => {
     try {
       if (Platform.OS !== 'web') {

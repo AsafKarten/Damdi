@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spiner from '../Componentes/Spiner';
-
 import BG from '../assets/DAMDI_White_BG.jpg'
 
 
@@ -12,13 +11,31 @@ export default function Welcome({ navigation, route }) {
   const [User, setUser] = useState(route.params.route)
 
   useEffect(() => {
-    setLoading(false);
+    (async () => {
+      setLoading(false);
+      await clearAsyncStorage();
+      await storeData(User);
+    })
   }, [])
 
+  const storeData = async (data) => {
+    try {
+      var loggedUser = JSON.stringify(data);
+      await AsyncStorage.setItem('loggedUser', loggedUser)
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
-
+  const clearAsyncStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+      console.log('Done clear storage');
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
-
     <View>
       <Image source={BG} style={{ width: 360, height: 150, alignSelf: 'center', resizeMode: 'stretch' }}></Image>
 
