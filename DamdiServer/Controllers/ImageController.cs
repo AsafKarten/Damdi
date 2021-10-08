@@ -2,9 +2,9 @@
 using System.Net;
 using DamdiServer.Models;
 using System.Web.Http;
-using static DamdiServer.Models.ProfileImage;
 using System.Web;
 using System.IO;
+using static DamdiServer.Models.ProfileImage;
 
 namespace DamdiServer.Controllers
 {
@@ -34,7 +34,7 @@ namespace DamdiServer.Controllers
                 File.WriteAllBytes(imagePath, imageBytes);
 
                 //update the resposne object
-                res.path = $"{Server.GetServerUrl()}/Upload_users/{image.folder}/{imageName}";
+                res.path = $"{Server.GetServerUrl()}/Users/{image.folder}/{imageName}";
                 res.isOk = true;
                 Globals.UserDAL.SaveNewProfilePhotoToDB(res.path, int.Parse(image.folder));
                 return Ok(res);
