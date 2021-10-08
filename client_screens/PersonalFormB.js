@@ -1,47 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-//Personal_id:"204610620",First_name:"אסף",Last_name:"קרטן",Phone:"0549214258",Gender:"ז" ,Birthdate:"03.03.1993" ,Prev_first_name:"" ,Prev_last_name:"",City:"ranana", Address:"hertzel 101", Postal_code:"3355", Mail_box:"3", Telephone:"0549214258", Work_telephone:"",
-//City:"ranana", Address:"hertzel 101", Postal_code:"3355", Mail_box:"3", Telephone:"0549214258", Work_telephone:"",
 
 export default function PersonalFormB({ navigation, route }) {
   const [loading, setLoading] = useState(false);
 
-  const [User, setUser] = useState(null)
-  const [City, onChangeCity] = useState(route.params.route.City);
-  const [Address, onChangeAddress] = useState(route.params.route.Address);
-  const [Postal_code, onChangePostal_code] = useState(route.params.route.Postal_code);
-  const [Mail_box, onChangeMail_box] = useState(route.params.route.Mail_box);
-  const [Telephone, onChangeTelephone] = useState(route.params.route.Telephone);
-  const [Work_telephone, onChangeWork_telephone] = useState(route.params.route.Work_telephone);
+  const [User, setUser] = useState(route.params.route)
+
+  const [City, onChangeCity] = useState();
+  const [Address, onChangeAddress] = useState();
+  const [Postal_code, onChangePostal_code] = useState();
+  const [Mail_box, onChangeMail_box] = useState();
+  const [Telephone, onChangeTelephone] = useState();
+  const [Work_telephone, onChangeWork_telephone] = useState();
 
   useEffect(() => {
     (async () => {
-      setUser(route.params.route)
+      onChangeCity(User.City)
+      onChangeAddress(User.Address)
+      onChangePostal_code(User.Postal_code)
+      onChangeMail_box(User.Postal_code)
+      onChangeTelephone(User.Telephone)
+      onChangeWork_telephone(User.Work_telephone)
     })()
   }, [])
-
-
-
-  const storeData = async (data) => {
-    try {
-      var loggedUser = JSON.stringify(data);
-      await AsyncStorage.setItem('loggedUser', loggedUser)
-    } catch (e) {
-      console.error(e)
-    }
-  }
-
-  const clearAsyncStorage = async () => {
-    try {
-      await AsyncStorage.clear();
-      console.log('Done clear storage B');
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   const PostPersonalFormB = async () => {
     if (City === '' || Address === '' || Postal_code === '' || Mail_box === '' || Telephone === '') {

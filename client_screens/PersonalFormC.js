@@ -1,31 +1,33 @@
 import React, { useEffect,useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Button, CheckBox, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
-//Personal_id:"204610620",First_name:"אסף",Last_name:"קרטן",Phone:"0549214258",Gender:"ז" ,Birthdate:"03.03.1993" ,Prev_first_name:"" ,Prev_last_name:"",City:"ranana", Address:"hertzel 101", Postal_code:"3355", Mail_box:"3", Telephone:"0549214258", Work_telephone:"",Blood_group_member:False, Personal_insurance:False, Confirm_examination:True, Agree_future_don:True, Birth_land:"ישראל", Aliya_year:"", Father_birth_land:"ישראל", Mother_birth_land:"ישראל"
-//Blood_group_member:False, Personal_insurance:False, Confirm_examination:True, Agree_future_don:True, Birth_land:"ישראל", Aliya_year:"", Father_birth_land:"ישראל", Mother_birth_land:"ישראל"
-
 export default function PersonalFormC({ navigation, route }) {
 
-  const [User, setUser] = useState(null)
+  const [User, setUser] = useState(route.params.route)
   const [loading, setLoading] = useState(false);
-  const [Blood_group_member, onChangeBlood_group_member] = useState(route.params.route.Blood_group_member);
-  const [Personal_insurance, onChangePersonal_insurance] = useState(route.params.route.Personal_insurance);
-  const [Confirm_examination, onChangeConfirm_examination] = useState(route.params.route.Agree_future_don);
-  const [Agree_future_don, onChangeAgree_future_don] = useState(route.params.route.Agree_future_don);
-  const [Birth_land, onChangeBirth_land] = useState(route.params.route.Birth_land);
-  const [Aliya_year, onChangeAliya_year] = useState(route.params.route.Aliya_year);
-  const [Father_birth_land, onChangeFather_birth_land] = useState(route.params.route.Father_birth_land);
-  const [Mother_birth_land, onChangeMother_birth_land] = useState(route.params.route.Mother_birth_land);
+  const [Blood_group_member, onChangeBlood_group_member] = useState();
+  const [Personal_insurance, onChangePersonal_insurance] = useState();
+  const [Confirm_examination, onChangeConfirm_examination] = useState();
+  const [Agree_future_don, onChangeAgree_future_don] = useState();
+  const [Birth_land, onChangeBirth_land] = useState();
+  const [Aliya_year, onChangeAliya_year] = useState();
+  const [Father_birth_land, onChangeFather_birth_land] = useState();
+  const [Mother_birth_land, onChangeMother_birth_land] = useState();
 
 
   useEffect(() => {
     (async () => {
-      setUser(route.params.route)
+      onChangeBlood_group_member(User.Blood_group_member)
+      onChangePersonal_insurance(User.Personal_insurance)
+      onChangeConfirm_examination(User.Agree_future_don)
+      onChangeAgree_future_don(User.Birth_land)
+      onChangeBirth_land(User.Birth_land)
+      onChangeAliya_year(User.Aliya_year)
+      onChangeFather_birth_land(User.Father_birth_land)
+      onChangeMother_birth_land(User.Mother_birth_land)
     })()
   }, [])
 
@@ -81,9 +83,7 @@ export default function PersonalFormC({ navigation, route }) {
         })
       })
       let respone = await result.json()
-      console.log('====================================');
       console.log(respone);
-      console.log('====================================');
     } catch (error) {
       console.log('error with the send data to server ')
     }
