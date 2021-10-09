@@ -36,5 +36,31 @@ namespace DamdiServer.DAL
                 throw new Exception(ex.Message);
             }
         }
+
+        public Donators GetDonator(Donators donator)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    Donators d = null;
+                    SqlCommand cmd = new SqlCommand("GetDonator", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id", donator.Personal_id_worker);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        d = new Donators(Convert.ToInt32(reader["personal_id"]), Convert.ToString(reader["personal_id_worker"]), Convert.ToString(reader["first_name"]), Convert.ToString(reader["last_name"]), Convert.ToString(reader["salted_hash"]));
+                    }
+                    return d;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

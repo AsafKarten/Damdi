@@ -240,7 +240,7 @@ namespace DamdiServer.DAL
             }
         }
 
-        public int SaveNewProfilePhotoToDB(string path, int id)
+        public int SaveNewProfilePhotoToDB(string path, string id)
         {
             try
             {
@@ -250,7 +250,7 @@ namespace DamdiServer.DAL
                     SqlCommand cmd = new SqlCommand("UpdateProfileImage", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@user_img", SqlDbType.NVarChar).Value = path;
-                    cmd.Parameters.AddWithValue("@id", SqlDbType.Int).Value = id;
+                    cmd.Parameters.AddWithValue("@id", SqlDbType.NVarChar).Value = id;
                     int res = cmd.ExecuteNonQuery();
                     return res;
                 }

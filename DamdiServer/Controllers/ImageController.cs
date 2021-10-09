@@ -36,7 +36,7 @@ namespace DamdiServer.Controllers
                 //update the resposne object
                 res.path = $"{Server.GetServerUrl()}/Users/{image.folder}/{imageName}";
                 res.isOk = true;
-                Globals.UserDAL.SaveNewProfilePhotoToDB(res.path, int.Parse(image.folder));
+                Globals.UserDAL.SaveNewProfilePhotoToDB(res.path, image.folder);
                 return Ok(res);
             }
             catch (Exception e)
