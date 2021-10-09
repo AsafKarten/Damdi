@@ -12,7 +12,6 @@ export default function Home({ navigation, route }) {
 
     useEffect(() => {
         (async () => {
-       
             if (Platform.OS !== 'web') {
                 setShouldShow(true)
             }

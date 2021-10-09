@@ -19,29 +19,28 @@ export default function DonatorsLogin({ navigation }) {
   const [Pass, onChangePass] = useState();
 
 
-  const getAutenticateDonator = async (personal_id, email) => {
+  const getAutenticateDonator = async (personal_id) => {
     try {
       if (Platform.OS !== 'web') {
         setLoading(true);
       }
-      let result = await fetch(url + "api/user", {
+      let result = await fetch(url + "api/donator", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id: personal_id,
-          Email: email
+          Personal_id_worker: personal_id,
         })
       });
-      let user = await result.json();
-      if (user !== undefined || user !== null) {
+      let donator = await result.json();
+      if (donator !== undefined || donator !== null) {
         setLoading(false);
-        return user
+        return donator
       }
     } catch (error) {
-      console.error('user not authenticated');
+      console.error('donator not authenticated');
     }
   }
 
@@ -58,7 +57,7 @@ export default function DonatorsLogin({ navigation }) {
       else {
         let donator = await getAutenticateDonator(PersonalId, Email);
         if (donator !== undefined || donator !== null) {
-          if (Email !== donator.Email || PersonalId !== donator.Personal_id) {
+          if (PersonalId !== donator.Personal_id_worker) {
             setLoading(false);
             Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
             console.log("error with email or id");
@@ -96,12 +95,6 @@ export default function DonatorsLogin({ navigation }) {
               onChangeText={() => onChangeId}
               value={PersonalId}
               placeholder="תעודת זהות"
-            />
-            <TextInput
-              style={styles.input}
-              onChangeText={() => onChangeEmail}
-              value={Email}
-              placeholder="אימייל"
             />
             <TextInput
               style={styles.input}
