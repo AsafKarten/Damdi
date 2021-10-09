@@ -15,7 +15,6 @@ bcrypt.setRandomFallback((len) => {
 export default function DonatorsLogin({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [PersonalId, onChangeId] = useState()
-  const [Email, onChangeEmail] = useState();
   const [Pass, onChangePass] = useState();
 
 
