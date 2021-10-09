@@ -1,24 +1,29 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard,Platform } from 'react-native';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
+import Spiner from '../Componentes/Spiner';
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
+var isaac = require('isaac');
 var bcrypt = require('bcryptjs');
+
+bcrypt.setRandomFallback((len) => {
+  const buf = new Uint8Array(len);
+  return buf.map(() => Math.floor(isaac.random() * 256));
+});
+
 export default function DonatorsLogin({ navigation }) {
+  const [loading, setLoading] = useState(false);
   const [PersonalId, onChangeId] = useState()
   const [Email, onChangeEmail] = useState();
   const [Pass, onChangePass] = useState();
-  const [Natkes, onChangeNatkes] = useState({ Auto_worker_id: 1, Personal_id_worker: "204610620", First_name: "נתנאל", Last_name: "אקנין" });
 
 
-  const LoginNew = async () => {
+  const getAutenticateDonator = async (personal_id, email) => {
     try {
-      // if (PersonalId == null || PersonalId == "" || Email == null || Email == ""|| Pass == null || Pass == "") {
-      //     Alert.alert("אנא מלא\י את כל פרטים !")
-      //     return
-      // }
-      // else {
-
+      if (Platform.OS !== 'web') {
+        setLoading(true);
+      }
       let result = await fetch(url + "api/user", {
         method: 'POST',
         headers: {
@@ -26,67 +31,60 @@ export default function DonatorsLogin({ navigation }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id: PersonalId,
-          Email: Email
+          Personal_id: personal_id,
+          Email: email
         })
       });
-      let data = await result.json();
-      console.log(data);
-      var correct = bcrypt.compareSync(Pass, data.Solted_hash)
-      if (!correct) {
-        Alert.alert("הפרטים שגוים או שהסיסמה אינה נכונה!");
-        return;
+      let user = await result.json();
+      if (user !== undefined || user !== null) {
+        setLoading(false);
+        return user
+      }
+    } catch (error) {
+      console.error('user not authenticated');
+    }
+  }
+
+
+  const donatorLogin = async () => {
+    try {
+      if (PersonalId === "" || Email === "" || Pass === "") {
+        Alert.alert("שגיאת התחברות", "אנא מלא/י את כל פרטים !")
+        console.log('====================================');
+        console.log("Error, Empty fields");
+        console.log('====================================');
+        return
       }
       else {
-        let user_result = await fetch(url + "api/user/info", {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            Personal_id: PersonalId,
-          })
-        });
-        let user = await user_result.json();
-        console.log(user);
-        navigation.navigate("PersonalForm", { route: user });
-      }
-      // }
+        let donator = await getAutenticateDonator(PersonalId, Email);
+        if (donator !== undefined || donator !== null) {
+          if (Email !== donator.Email || PersonalId !== donator.Personal_id) {
+            setLoading(false);
+            Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
+            console.log("error with email or id");
+            return;
+          }
+          var correct = bcrypt.compareSync(Pass, donator.Salted_hash)
+          if (!correct) {
+            setLoading(false);
+            Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
+            console.log("error with password");
+            return;
+          }
+          navigation.navigate('DHome', { route: donator })
 
+        }
+        else {
+          setLoading(false);
+          Alert.alert("בעיית התחברות, בדוק את פרטיך")
+          return
+        }
+      }
     } catch (error) {
       console.log(error);
     }
   }
 
-  const Login = async () => {
-    if (id == "" || email == "" || Pass == "") {
-      alert("אנא מלא\י את כל פרטים !")
-      return
-    }
-    else {
-      let result = await fetch(url + "api/user", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          Personal_id: PersonalId,
-          Email: Email,
-        })
-      })
-      let data = await result.JSON
-      console.log(data);
-      var correct = bcrypt.compareSync(Pass, data.Salted_hash)
-      if (!correct) {
-        Alert.alert("Wrong details,check your details");
-        return;
-      }
-      console.log(data);
-      navigation.navigate("Welcome")
-    }
-  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -112,7 +110,7 @@ export default function DonatorsLogin({ navigation }) {
               secureTextEntry={true}
               placeholder="סיסמה"
             />
-            <TouchableOpacity onPress={() => LoginNew()}>
+            <TouchableOpacity onPress={() => donatorLogin()}>
               <View style={styles.button_normal}>
                 <Text style={styles.button_text}>התחברות</Text>
               </View>
@@ -123,18 +121,12 @@ export default function DonatorsLogin({ navigation }) {
                 <Text style={styles.button_text} >הרשמה</Text>
               </View>
             </TouchableOpacity>
-
             <TouchableOpacity onPress={() => navigation.navigate('DonatorsLogin')}>
               <View style={styles.button_normal}>
                 <Text style={styles.button_text} >כניסת מתרימים</Text>
               </View>
             </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => navigation.navigate('DHome', { route: Natkes })}>
-              <View style={styles.button_normal}>
-                <Text style={styles.button_text} >הכפתור של נתנאל</Text>
-              </View>
-            </TouchableOpacity>
+            <Spiner loading={loading} />
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>

@@ -13,11 +13,12 @@ export default function Profile({ navigation, route }) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [User, setUser] = useState(route.params.route)
-  const [image, setImage] = useState(route.params.Profile_img);
+  const [image, setImage] = useState();
 
   useEffect(() => {
     (async () => {
       setLoading(false);
+      setImage(route.params.route.Profile_img)
       if (Platform.OS !== 'web') {
         setShouldShow(true)
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -87,7 +88,7 @@ export default function Profile({ navigation, route }) {
   }
 
 
-  const imageUpload = async (imgUrl, picName) => {
+  const imageUpload = async (imgUri, picName) => {
     try {
 
       let res = await fetch(url + "api/uploadpicture", {
@@ -97,7 +98,7 @@ export default function Profile({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          uri: imgUrl.split(',')[1],
+          uri: imgUri.split(',')[1],
           name: picName,
           folder: User.Personal_Id,
           type: 'jpg',
@@ -110,7 +111,7 @@ export default function Profile({ navigation, route }) {
     }
   }
 
-  const imageUploadAndroid = async (imgUrl, picName) => {
+  const imageUploadAndroid = async (imgUri, picName) => {
     try {
       let res = await fetch(url + "api/uploadpicture", {
         method: 'POST',
@@ -119,7 +120,7 @@ export default function Profile({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          uri: imgUrl,
+          uri: imgUri,
           name: picName,
           folder: User.Personal_Id,
           type: 'jpg',
@@ -132,7 +133,6 @@ export default function Profile({ navigation, route }) {
       console.error("error with upload profile image");
     }
   }
-
 
 
   return (

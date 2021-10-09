@@ -4,11 +4,9 @@ import Spiner from '../Componentes/Spiner';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-//Personal_id:"204610620",First_name:"אסף",Last_name:"קרטן",Phone:"0549214258",Gender:"ז" ,Birthdate:"03.03.1993" ,Prev_first_name:"" ,Prev_last_name:""
 const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function PersonalFormA({ navigation, route }) {
-  console.log();
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);

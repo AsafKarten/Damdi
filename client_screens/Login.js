@@ -18,7 +18,6 @@ export default function Login({ navigation }) {
   const [Email, onChangeEmail] = useState()
   const [Pass, onChangePass] = useState()
   const [loading, setLoading] = useState(false);
-  //const [Asaf, onChangeAsaf] = useState({ Personal_id: "204610620", First_name: "אסף", Last_name: "קרטן", Phone: "0549214258", Gender: "ז", Birthdate: "03.03.1993", Prev_first_name: "", Prev_last_name: "", City: "ranana", Address: "hertzel 101", Postal_code: "3355", Mail_box: "3", Telephone: "0549214258", Work_telephone: "", Blood_group_member: false, Personal_insurance: false, Confirm_examination: true, Agree_future_don: true, Birth_land: "ישראל", Aliya_year: "", Father_birth_land: "ישראל", Mother_birth_land: "ישראל" });
 
   useEffect(() => {
     (async () => {
@@ -76,7 +75,6 @@ export default function Login({ navigation }) {
       console.error('user not authenticated');
     }
   }
-
 
   const getUserInfo = async (personal_id) => {
     try {
@@ -196,17 +194,13 @@ export default function Login({ navigation }) {
                   <Text style={styles.button_text} >הרשמה</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate('DonatorsLogin')}>
-                <View style={styles.button_normal}>
-                  <Text style={styles.button_text} >כניסת מתרימים</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate('PersonalForm', { route: Asaf })}>
-                <View style={styles.button_normal}>
-                  <Text style={styles.button_text} >הכפתור של אסף</Text>
-                </View>
-              </TouchableOpacity>
-
+              <View style={styles.reg_btn}>
+                <TouchableOpacity onPress={() => navigation.navigate('DonatorsLogin')}>
+                  <View style={styles.button_normal}>
+                    <Text style={styles.button_text} >כניסת מתרימים</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
               <Spiner loading={loading} />
             </View>
           </TouchableWithoutFeedback>
@@ -245,6 +239,9 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     shadowColor: 'black',
     shadowRadius: 5,
+  },
+  reg_btn: {
+    marginTop: 20,
   },
   button_text: {
     color: 'black'
