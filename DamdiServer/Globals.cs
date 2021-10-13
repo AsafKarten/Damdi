@@ -21,6 +21,7 @@ namespace DamdiServer
             else
                 conStr = ConfigurationManager.ConnectionStrings["LIVEDNSfromLivedns"].ConnectionString;
             UserDAL = new UserDAL(conStr);
+            DonatorsDAL = new DonatorsDAL(conStr);
         }
         #endregion
 

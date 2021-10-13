@@ -13,29 +13,6 @@ namespace DamdiServer.DAL
         {
             this.conStr = conStr;
         }
-        /*Create a new donator in Donators table*/
-        public int SetNewDonator(Donators donator)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(conStr))
-                {
-                    con.Open();
-                    SqlCommand cmd = new SqlCommand("InsertNewDonator", con);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@personal_id_worker", SqlDbType.NVarChar).Value = donator.Personal_id_worker;
-                    cmd.Parameters.AddWithValue("@first_name", SqlDbType.NVarChar).Value = donator.First_name; 
-                    cmd.Parameters.AddWithValue("@last_name", SqlDbType.NVarChar).Value = donator.Last_name;
-                    cmd.Parameters.AddWithValue("@salted_hash", SqlDbType.NVarChar).Value = donator.Salted_hash;
-                    int res = cmd.ExecuteNonQuery();
-                    return res;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
 
         public Donators GetDonator(Donators donator)
         {
@@ -51,7 +28,7 @@ namespace DamdiServer.DAL
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        d = new Donators(Convert.ToInt32(reader["personal_id"]), Convert.ToString(reader["personal_id_worker"]), Convert.ToString(reader["first_name"]), Convert.ToString(reader["last_name"]), Convert.ToString(reader["salted_hash"]));
+                        d = new Donators(Convert.ToString(reader["personal_id_worker"]), Convert.ToString(reader["first_name"]), Convert.ToString(reader["last_name"]), Convert.ToString(reader["salted_hash"]));
                     }
                     return d;
                 }
@@ -62,5 +39,31 @@ namespace DamdiServer.DAL
                 throw new Exception(ex.Message);
             }
         }
+
+        /*Create a new donator in Donators table*/
+        public int SetNewDonator(Donators donator)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("InsertNewDonator", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@personal_id_worker", SqlDbType.NVarChar).Value = donator.Personal_id_worker;
+                    cmd.Parameters.AddWithValue("@first_name", SqlDbType.NVarChar).Value = donator.First_name;
+                    cmd.Parameters.AddWithValue("@last_name", SqlDbType.NVarChar).Value = donator.Last_name;
+                    cmd.Parameters.AddWithValue("@salted_hash", SqlDbType.NVarChar).Value = donator.Salted_hash;
+                    int res = cmd.ExecuteNonQuery();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        
     }
 }
