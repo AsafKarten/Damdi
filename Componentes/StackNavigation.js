@@ -39,7 +39,7 @@ export default function StackNavigation() {
           options={{
             title: 'התחברות',
             headerStyle: {
-              backgroundColor: '#4d5b70',
+              backgroundColor: '#7d91b0',
             },
             headerTintColor: '#fff',
             headerLeft: () => {
@@ -50,7 +50,7 @@ export default function StackNavigation() {
           options={{
             title: 'הרשמה',
             headerStyle: {
-              backgroundColor: '#4d5b70',
+              backgroundColor: '#7d91b0',
             },
             headerTintColor: '#fff'
             // headerRight: () => <Feather onPress={() => backPage('Registration')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
@@ -62,7 +62,7 @@ export default function StackNavigation() {
           options={{
             title: 'פרטים אישים',
             headerStyle: {
-              backgroundColor: '#4d5b70',
+              backgroundColor: '#7d91b0',
             },
             headerTintColor: '#fff'
             // headerRight: () => <Feather onPress={() => backPage('PersonalForm')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
@@ -74,7 +74,7 @@ export default function StackNavigation() {
           options={{
             title: 'פרטים אישים',
             headerStyle: {
-              backgroundColor: '#4d5b70',
+              backgroundColor: '#7d91b0',
             },
             headerTintColor: '#fff'
             // headerRight: () => <Feather onPress={() => backPage('PersonalForm2')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
@@ -86,7 +86,7 @@ export default function StackNavigation() {
           options={{
             title: 'פרטים אישים',
             headerStyle: {
-              backgroundColor: '#4d5b70',
+              backgroundColor: '#7d91b0',
             },
             headerTintColor: '#fff'
             // headerRight: () => <Feather onPress={() => backPage('PersonalForm3')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
@@ -97,7 +97,7 @@ export default function StackNavigation() {
         <Stack.Screen name="Welcome" component={Welcome}
           options={{
             headerStyle: {
-              backgroundColor: '#4d5b70',
+              backgroundColor: '#7d91b0',
             },
             headerTintColor: '#fff'
             // headerRight: () => <Feather onPress={() => backPage('Welcome')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
@@ -109,7 +109,7 @@ export default function StackNavigation() {
           options={{
             title: 'Home',
             headerStyle: {
-              backgroundColor: '#4d5b70',
+              backgroundColor: '#7d91b0',
             },
             headerTintColor: '#fff',
             // headerRight: () => <Feather onPress={() => backPage('Home')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
@@ -121,7 +121,7 @@ export default function StackNavigation() {
           options={{
             title: 'תחנות התרמה',
             headerStyle: {
-              backgroundColor: '#4d5b70',
+              backgroundColor: '#7d91b0',
             },
             headerTintColor: '#fff'
             // headerRight: () => <Feather onPress={() => backPage('Stations')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
@@ -133,7 +133,7 @@ export default function StackNavigation() {
           options={{
             title: 'פרופיל אישי',
             headerStyle: {
-              backgroundColor: '#4d5b70',
+              backgroundColor: '#7d91b0',
             },
             headerTintColor: '#fff'
             // headerRight: () => <Feather onPress={() => backPage('Profile')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
@@ -145,7 +145,7 @@ export default function StackNavigation() {
           options={{
             title: 'התורים שלי',
             headerStyle: {
-              backgroundColor: '#4d5b70',
+              backgroundColor: '#7d91b0',
             },
             headerTintColor: '#fff'
             // headerRight: () => <Feather onPress={() => backPage('Appointments')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
@@ -157,7 +157,7 @@ export default function StackNavigation() {
           options={{
             title: 'החברים שלי',
             headerStyle: {
-              backgroundColor: '#4d5b70',
+              backgroundColor: '#7d91b0',
             },
             headerTintColor: '#fff'
             // headerRight: () => <Feather onPress={() => backPage('Friends')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
@@ -169,7 +169,7 @@ export default function StackNavigation() {
           options={{
             title: 'פרטי הדם שלי',
             headerStyle: {
-              backgroundColor: '#4d5b70',
+              backgroundColor: '#7d91b0',
             },
             headerTintColor: '#fff'
             // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
@@ -177,18 +177,139 @@ export default function StackNavigation() {
             //   return null;
             // },
           }} />
-        
-        <Stack.Screen name="ValidationForm" component={ValidationForm} />
-        <Stack.Screen name="ScheduleAppointment" component={ScheduleAppointment} />
-        <Stack.Screen name="MedicalForm" component={MedicalForm} />
-        <Stack.Screen name="DonatorsLogin" component={DonatorsLogin} />
-        <Stack.Screen name="DHome" component={DHome} />
-        <Stack.Screen name="UnitOne" component={UnitOne} />
-        <Stack.Screen name="UnitTwo" component={UnitTwo} />
-        <Stack.Screen name="UnitThree" component={UnitThree} />
-        <Stack.Screen name="DonorInfo" component={DonorInfo} />
-        <Stack.Screen name="MedicalInfo" component={MedicalInfo} />
-        <Stack.Screen name="PersonalInfo" component={PersonalInfo} />
+
+        <Stack.Screen name="ValidationForm" component={ValidationForm}
+          options={{
+            title: 'טופס אימות',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+        <Stack.Screen name="ScheduleAppointment" component={ScheduleAppointment}
+          options={{
+            title: 'רשימת תורים',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+        <Stack.Screen name="MedicalForm" component={MedicalForm}
+          options={{
+            title: 'טופס רפואי',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+        <Stack.Screen name="DonatorsLogin" component={DonatorsLogin}
+          options={{
+            title: 'התחברות מתרים',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+        <Stack.Screen name="DHome" component={DHome}
+          options={{
+            title: 'מסך בית מתרים',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+        <Stack.Screen name="UnitOne" component={UnitOne}
+          options={{
+            title: 'עמדה 1 - קבלת תורמים',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+        <Stack.Screen name="UnitTwo" component={UnitTwo}
+          options={{
+            title: 'עמדה 2 - בדיקה רפואית',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+        <Stack.Screen name="UnitThree" component={UnitThree}
+          options={{
+            title: 'עמדה 3 - לקיחת תרומות',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+        <Stack.Screen name="DonorInfo" component={DonorInfo}
+          options={{
+            title: 'פרטים אישיים תורם',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+        <Stack.Screen name="MedicalInfo" component={MedicalInfo}
+          options={{
+            title: 'פרטים רפואים תורם',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+        <Stack.Screen name="PersonalInfo" component={PersonalInfo}
+          options={{
+            title: 'פרטים אישיים תורם',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

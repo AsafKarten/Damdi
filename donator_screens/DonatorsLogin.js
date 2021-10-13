@@ -6,7 +6,6 @@ const url = "http://proj13.ruppin-tech.co.il/"
 
 var isaac = require('isaac');
 var bcrypt = require('bcryptjs');
-
 bcrypt.setRandomFallback((len) => {
   const buf = new Uint8Array(len);
   return buf.map(() => Math.floor(isaac.random() * 256));
@@ -14,11 +13,11 @@ bcrypt.setRandomFallback((len) => {
 
 export default function DonatorsLogin({ navigation }) {
   const [loading, setLoading] = useState(false);
-  const [PersonalId, onChangeId] = useState()
+  const [PersonalId, onChangeId] = useState();
   const [Pass, onChangePass] = useState();
 
 
-  const getAutenticateDonator = async (personal_id) => {
+  const getAutenticateDonator = async (id) => {
     try {
       if (Platform.OS !== 'web') {
         setLoading(true);
@@ -30,10 +29,11 @@ export default function DonatorsLogin({ navigation }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id_worker: personal_id,
+          Personal_id_worker: id,
         })
       });
       let donator = await result.json();
+      console.log(donator);
       if (donator !== undefined || donator !== null) {
         setLoading(false);
         return donator
@@ -46,7 +46,7 @@ export default function DonatorsLogin({ navigation }) {
 
   const donatorLogin = async () => {
     try {
-      if (PersonalId === "" || Email === "" || Pass === "") {
+      if (PersonalId === "" || Pass === "") {
         Alert.alert("שגיאת התחברות", "אנא מלא/י את כל פרטים !")
         console.log('====================================');
         console.log("Error, Empty fields");
@@ -54,15 +54,20 @@ export default function DonatorsLogin({ navigation }) {
         return
       }
       else {
-        let donator = await getAutenticateDonator(PersonalId, Email);
+        console.log(PersonalId);
+        console.log(Pass);
+        let donator = await getAutenticateDonator(PersonalId);
+        console.log(donator.Salted_hash);
         if (donator !== undefined || donator !== null) {
           if (PersonalId !== donator.Personal_id_worker) {
             setLoading(false);
             Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
-            console.log("error with email or id");
+            console.log("error with id");
             return;
           }
           var correct = bcrypt.compareSync(Pass, donator.Salted_hash)
+          console.log(Pass);
+          console.log(correct);
           if (!correct) {
             setLoading(false);
             Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
@@ -91,13 +96,13 @@ export default function DonatorsLogin({ navigation }) {
           <View style={styles.inner}>
             <TextInput
               style={styles.input}
-              onChangeText={() => onChangeId}
+              onChangeText={onChangeId}
               value={PersonalId}
               placeholder="תעודת זהות"
             />
             <TextInput
               style={styles.input}
-              onChangeText={() => onChangePass}
+              onChangeText={onChangePass}
               value={Pass}
               secureTextEntry={true}
               placeholder="סיסמה"
@@ -105,17 +110,6 @@ export default function DonatorsLogin({ navigation }) {
             <TouchableOpacity onPress={() => donatorLogin()}>
               <View style={styles.button_normal}>
                 <Text style={styles.button_text}>התחברות</Text>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => navigation.navigate('Registration')}>
-              <View style={styles.button_normal}>
-                <Text style={styles.button_text} >הרשמה</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('DonatorsLogin')}>
-              <View style={styles.button_normal}>
-                <Text style={styles.button_text} >כניסת מתרימים</Text>
               </View>
             </TouchableOpacity>
             <Spiner loading={loading} />
@@ -134,7 +128,7 @@ const styles = StyleSheet.create({
   inner: {
     padding: 40,
     flex: 1,
-    justifyContent: "space-around"
+    justifyContent: "space-evenly"
   },
   input: {
     height: 40,
@@ -145,7 +139,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button_normal: {
-
     alignItems: 'center',
     width: 160,
     margin: 15,
@@ -155,9 +148,6 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     shadowColor: 'black',
     shadowRadius: 5,
-
-
-
   },
   button_text: {
     color: 'white'
