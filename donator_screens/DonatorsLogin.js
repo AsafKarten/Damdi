@@ -33,7 +33,6 @@ export default function DonatorsLogin({ navigation }) {
         })
       });
       let donator = await result.json();
-      console.log(donator);
       if (donator !== undefined || donator !== null) {
         setLoading(false);
         return donator
@@ -53,35 +52,27 @@ export default function DonatorsLogin({ navigation }) {
         console.log('====================================');
         return
       }
-      else {
-        console.log(PersonalId);
-        console.log(Pass);
-        let donator = await getAutenticateDonator(PersonalId);
-        console.log(donator.Salted_hash);
-        if (donator !== undefined || donator !== null) {
-          if (PersonalId !== donator.Personal_id_worker) {
-            setLoading(false);
-            Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
-            console.log("error with id");
-            return;
-          }
-          var correct = bcrypt.compareSync(Pass, donator.Salted_hash)
-          console.log(Pass);
-          console.log(correct);
-          if (!correct) {
-            setLoading(false);
-            Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
-            console.log("error with password");
-            return;
-          }
-          navigation.navigate('DHome', { route: donator })
-
-        }
-        else {
+      const donator = await getAutenticateDonator(PersonalId);
+      if (donator !== undefined || donator !== null) {
+        if (PersonalId !== donator.Personal_id_worker) {
           setLoading(false);
-          Alert.alert("בעיית התחברות, בדוק את פרטיך")
-          return
+          Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
+          console.log("error with id");
+          return;
         }
+        const correct = bcrypt.compareSync(Pass, donator.Salted_hash)
+        if (!correct) {
+          setLoading(false);
+          Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
+          console.log("error with password");
+          return;
+        }
+        navigation.navigate('DHome', { route: donator })
+      }
+      else {
+        setLoading(false);
+        Alert.alert("בעיית התחברות, בדוק את פרטיך")
+        return
       }
     } catch (error) {
       console.log(error);
@@ -107,7 +98,7 @@ export default function DonatorsLogin({ navigation }) {
               secureTextEntry={true}
               placeholder="סיסמה"
             />
-            <TouchableOpacity onPress={() => donatorLogin()}>
+            <TouchableOpacity onPress={() => donatorLogin(PersonalId, Pass)}>
               <View style={styles.button_normal}>
                 <Text style={styles.button_text}>התחברות</Text>
               </View>
@@ -126,9 +117,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   inner: {
-    padding: 40,
+    padding: 10,
     flex: 1,
-    justifyContent: "space-evenly"
+    justifyContent: "center",
   },
   input: {
     height: 40,

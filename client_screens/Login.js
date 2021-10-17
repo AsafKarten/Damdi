@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   inner: {
     padding: 40,
     flex: 1,
-    justifyContent: "space-around"
+    justifyContent: "center",
   },
   input: {
     height: 40,

@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   inner: {
     padding: 60,
     flex: 1,
-    justifyContent: "space-around"
+    justifyContent: "center"
   },
   input: {
     height: 40,
