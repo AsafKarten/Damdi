@@ -8,11 +8,6 @@ export default function DonorInfo({ navigation, route }) {
   const [donor, setDonor] = useState(route.params.route.Donor);
   const [Route, setRoute] = useState({ Donator: Donator, Donor: donor })
 
-  useEffect(() => {
-    (async () => {
-      setRoute(route)
-    })()
-  }, [])
 
   return (
     <SafeAreaView>

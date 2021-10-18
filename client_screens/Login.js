@@ -85,7 +85,7 @@ export default function Login({ navigation }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id: personal_id,
+          Personal_id: personal_id
         })
       });
       let full_user = await result.json();

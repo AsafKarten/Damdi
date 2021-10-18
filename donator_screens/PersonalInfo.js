@@ -4,15 +4,8 @@ import { View, Modal, TouchableHighlight, Platform, SafeAreaView, StyleSheet, Te
 
 export default function PersonalInfo({ navigation, route }) {
 
-  const [Donator, setDonator] = useState(route.params.route.Donor);
-  const [donor, setDonor] = useState(route.params.route.Donator);
-  const [Route, setRoute] = useState({ Donator: Donator, Donor: donor })
-
-  useEffect(() => {
-    (async () => {
-      //setRoute(route)
-    })()
-  }, [])
+  const [Donator, setDonator] = useState(route.params.route.Donator);
+  const [donor, setDonor] = useState(route.params.route.Donor);
 
   return (
     <SafeAreaView>

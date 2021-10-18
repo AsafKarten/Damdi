@@ -7,11 +7,11 @@ const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function UnitOne({ navigation, route }) {
   const [Donator, setDonator] = useState(route.params.route)
-  const [donor, setDonor] = useState();
+  //const [donor, setDonor] = useState();
   const [shouldShow, setShouldShow] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
   const [PersonalId, onChangeId] = useState();
-  const [Route, setRoute] = useState({ Donator: Donator, Donor: donor });
+  //const [Route, setRoute] = useState({ Donator: Donator, Donor: donor });
 
   useEffect(() => {
     (async () => {
@@ -40,11 +40,9 @@ export default function UnitOne({ navigation, route }) {
           Personal_id: PersonalId,
         })
       });
-      let full_user = await result.json();
-      if (full_user !== undefined || full_user !== null) {
-        setTimeout(() => {
-          setDonor(full_user);
-        }, 1000);
+      let donor = await result.json();
+      if (donor !== undefined || donor !== null) {
+        const Route = { Donator: Donator, Donor: donor }
         navigation.navigate('DonorInfo', { route: Route })
       }
     } catch (error) {
