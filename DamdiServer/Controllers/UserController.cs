@@ -18,7 +18,7 @@ namespace DamdiServer.Controllers
                 checked_user = Globals.UserDAL.GetUser(user);
                 if (checked_user != null)
                     return Ok(checked_user);
-                return Content(HttpStatusCode.NotFound, $"User {user.Personal_id} or pass or email is incorrect");
+                return Content(HttpStatusCode.NotFound, $"User {user.Personal_id} details is incorrect");
             }
             catch (Exception ex)
             {

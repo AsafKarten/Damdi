@@ -13,6 +13,7 @@ namespace DamdiServer.DAL
         {
             this.conStr = conStr;
         }
+
         /*Create a new appointment in Appointments table*/
         public int SetNewAppointment(Appointments app)
         {

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿
 
 namespace DamdiServer.Models
 {
-    public class Manager
+    public class Admin
     {
         int auto_worker_id;
         string personal_id;
@@ -13,7 +10,7 @@ namespace DamdiServer.Models
         string last_name;
         string salted_hash;
         int access_level;
-        public Manager(int auto_worker_id, string personal_id, string first_name, string last_name, string salted_hash, int access_level)
+        public Admin(int auto_worker_id, string personal_id, string first_name, string last_name, string salted_hash, int access_level)
         {
             Auto_worker_id = auto_worker_id;
             Personal_id = personal_id;

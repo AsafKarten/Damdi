@@ -22,34 +22,19 @@ namespace DamdiServer
                 conStr = ConfigurationManager.ConnectionStrings["LIVEDNSfromLivedns"].ConnectionString;
             UserDAL = new UserDAL(conStr);
             DonatorsDAL = new DonatorsDAL(conStr);
+            AdminDAL = new AdminDAL(conStr);
+            AppointmentsDAL = new AppointmentsDAL(conStr);
+            StationsDAL = new StationsDAL(conStr);
         }
-        #endregion
-
-        #region Controllers
-        public static UserController UserController { get; set; }
-        public static ManagerController ManagerController { get; set; }
-        public static DonatorsController DonatorsController { get; set; }
-        public static StationsController StationsController { get; set; }
-        public static AppointmentsController AppointmentsController { get; set; }
         #endregion
 
         #region DAL
         public static UserDAL UserDAL { get; set; }
-        public static ManagerDAL ManagerDAL { get; set; }
+        public static AdminDAL AdminDAL { get; set; }
         public static DonatorsDAL DonatorsDAL { get; set; }
         public static StationsDAL StationsDAL { get; set; }
         public static AppointmentsDAL AppointmentsDAL { get; set; }
-        #endregion
 
-        #region Models
-        public static User User { get; set; }
-        public static MedicalInfoDonation MedicalInfoDonation { get; set; }
-        public static MedicalInfoDonator medicalInfoDonator { get; set; }
-        public static Donations Donations { get; set; }
-        public static Donators Donators { get; set; }
-        public static Manager Manager { get; set; }
-        public static Stations Stations { get; set; }
-        public static Appointments Appointments { get; set; }
 
         #endregion
 

@@ -255,7 +255,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AppointmentsController.cs" />
     <Compile Include="Controllers\DonatorsController.cs" />
-    <Compile Include="Controllers\ManagerController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\StationsController.cs" />
@@ -263,7 +263,7 @@
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DAL\AppointmentsDAL.cs" />
     <Compile Include="DAL\DonatorsDAL.cs" />
-    <Compile Include="DAL\ManagerDAL.cs" />
+    <Compile Include="DAL\AdminDAL.cs" />
     <Compile Include="DAL\StationsDAL.cs" />
     <Compile Include="DAL\UserDAL.cs" />
     <Compile Include="Global.asax.cs">
@@ -274,7 +274,7 @@
     <Compile Include="Models\Donations.cs" />
     <Compile Include="Models\Donators.cs" />
     <Compile Include="Models\ProfileImage.cs" />
-    <Compile Include="Models\Manager.cs" />
+    <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\MedicalInfoDonation.cs" />
     <Compile Include="Models\MedicalInfoDonator.cs" />
     <Compile Include="Models\Server.cs" />
