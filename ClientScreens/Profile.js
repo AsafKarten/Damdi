@@ -90,7 +90,6 @@ export default function Profile({ navigation, route }) {
 
   const imageUpload = async (imgUri, picName) => {
     try {
-
       let res = await fetch(url + "api/uploadpicture", {
         method: 'POST',
         headers: {
@@ -113,6 +112,7 @@ export default function Profile({ navigation, route }) {
 
   const imageUploadAndroid = async (imgUri, picName) => {
     try {
+      console.log(User.Personal_Id);
       let res = await fetch(url + "api/uploadpicture", {
         method: 'POST',
         headers: {

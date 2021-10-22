@@ -10,7 +10,7 @@ export default function PersonalFormA({ navigation, route }) {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-  const [text, setText] = useState();
+  const [birthdate, onChangeBirthdate] = useState("");
   const [loading, setLoading] = useState(false);
   const [shouldShow, setShouldShow] = useState(false);
   const [confirmModal, setConfirm] = useState(false);
@@ -20,7 +20,6 @@ export default function PersonalFormA({ navigation, route }) {
   const [Last_name, onChangeLast_name] = useState();
   const [Phone, onChangePhone] = useState();
   const [Gender, onChangeGender] = useState();
-  const [Birthdate, onChangeBirthdate] = useState();
   const [Prev_first_name, onChangePrev_first_name] = useState();
   const [Prev_last_name, onChangePrev_last_name] = useState();
 
@@ -69,12 +68,13 @@ export default function PersonalFormA({ navigation, route }) {
       });
       let full_user = await result.json();
       if (full_user !== undefined || full_user !== null) {
+        console.log(full_user);
         setUser(full_user);
         onChangeFirst_name(full_user.First_name)
         onChangeLast_name(full_user.Last_name)
         onChangePhone(full_user.Phone)
         onChangeGender(full_user.Gender)
-        onChangeBirthdate(full_user.Birthdate)
+        onChangeBirthdate(full_user.Birthdate.split(' ')[0])
         onChangePrev_first_name(full_user.Prev_first_name)
         onChangePrev_last_name(full_user.Prev_last_name)
       }
@@ -93,7 +93,7 @@ export default function PersonalFormA({ navigation, route }) {
     User.Last_name = Last_name;
     User.Phone = Phone;
     User.Gender = Gender;
-    User.Birthdate = Birthdate;
+    User.Birthdate = birthdate;
     User.Prev_first_name = Prev_first_name;
     User.Prev_last_name = Prev_last_name;
     navigation.navigate('PersonalFormB', { route: User })
@@ -104,10 +104,9 @@ export default function PersonalFormA({ navigation, route }) {
     const currentDate = selectedDate || date;
     setShow(Platform.OS !== 'web');
     setDate(currentDate);
-    onChangeBirthdate(currentDate)
     let tempDate = new Date(currentDate);
-    let fDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDay();
-    setText(fDate)
+    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
+    onChangeBirthdate(fDate)
     setShow(false);
   };
 
@@ -133,7 +132,7 @@ export default function PersonalFormA({ navigation, route }) {
               <Text style={styles.lableText}> שם פרטי </Text>
               <TextInput
                 style={styles.input}
-                onChangeText={onChangeFirst_name}
+                onChangeText={(text) => { onChangeFirst_name(text) }}
                 value={First_name}
                 placeholder="שם פרטי"
               />
@@ -170,7 +169,7 @@ export default function PersonalFormA({ navigation, route }) {
               <Text style={styles.lableText}>תאריך לידה</Text>
               <TextInput onFocus={onFocus}
                 style={styles.input}
-                value={text}
+                value={birthdate}
                 placeholder="תאריך לידה"
               />
             </View>
@@ -257,7 +256,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   input: {
-    width: 120,
+    width: 150,
     height: 40,
     margin: 12,
     borderWidth: 1,

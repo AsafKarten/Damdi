@@ -27,6 +27,7 @@ export default function StackNavigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
+        
         <Stack.Screen name="Login" component={Login}
           options={{
             title: 'התחברות',
