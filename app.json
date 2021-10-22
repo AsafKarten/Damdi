@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "DamdiCoreApp",
-    "slug": "DamdiCoreApp",
+    "name": "DamdiCore",
+    "slug": "DamdiCore",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

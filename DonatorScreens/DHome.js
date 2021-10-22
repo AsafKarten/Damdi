@@ -19,7 +19,6 @@ export default function Home({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image source={BG} style={styles.header_img}></Image>
 
       <TouchableOpacity onPress={() => setRoleModal(true)}>
         <View style={styles.button_normal}>

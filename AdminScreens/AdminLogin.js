@@ -31,10 +31,10 @@ export default function AdminLogin({ navigation }) {
           Personal_id_worker: id,
         })
       });
-      let donator = await result.json();
-      if (donator !== undefined || donator !== null) {
+      let admin = await result.json();
+      if (admin !== undefined || admin !== null) {
         setLoading(false);
-        return donator
+        return admin
       }
     } catch (error) {
       console.error('donator not authenticated');
@@ -51,22 +51,22 @@ export default function AdminLogin({ navigation }) {
         console.log('====================================');
         return
       }
-      const donator = await getAutenticateDonator(PersonalId);
-      if (donator !== undefined || donator !== null) {
-        if (PersonalId !== donator.Personal_id_worker) {
+      const admin = await getAutenticateAdmin(PersonalId);
+      if (admin !== undefined || admin !== null) {
+        if (PersonalId !== admin.Personal_id_worker) {
           setLoading(false);
           Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
           console.log("error with id");
           return;
         }
-        const correct = bcrypt.compareSync(Pass, donator.Salted_hash)
+        const correct = bcrypt.compareSync(Pass, admin.Salted_hash)
         if (!correct) {
           setLoading(false);
           Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
           console.log("error with password");
           return;
         }
-        navigation.navigate('DHome', { route: donator })
+        navigation.navigate('AdminHome', { route: admin })
       }
       else {
         setLoading(false);

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
+import { View,ImageBackground, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
 import Spiner from './Spiner';
+import BG_ONLY from '../assets/BG_ONLY.jpg';
 
 export default function MainScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
 
   return (
+  <ImageBackground source={BG_ONLY} style={styles.BGimage}>
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -25,6 +27,7 @@ export default function MainScreen({ navigation }) {
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </SafeAreaView>
+  </ImageBackground>
   );
 }
 const styles = StyleSheet.create({
@@ -60,4 +63,9 @@ const styles = StyleSheet.create({
   button_text: {
     color: 'white'
   },
+  BGimage: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  }
 });

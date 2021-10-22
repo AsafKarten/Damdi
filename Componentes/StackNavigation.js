@@ -1,5 +1,5 @@
-import React from 'react';
 import 'react-native-gesture-handler';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -29,7 +29,7 @@ export default function StackNavigation() {
         
         <Stack.Screen name="MainScreen" component={MainScreen}
           options={{
-            title: 'התחברות מנהל',
+            title: 'ממשק ניהול Damdi',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
