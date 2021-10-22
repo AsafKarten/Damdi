@@ -84,6 +84,7 @@ namespace DamdiServer.Models
             string phone,
             string gender,
             string birthdate,
+            string profile_img,
             string prev_first_name,
             string prev_last_name,
             string city,
@@ -107,6 +108,7 @@ namespace DamdiServer.Models
             Phone = phone;
             Gender = gender;
             Birthdate = birthdate;
+            Profile_img = profile_img;
             Prev_first_name = prev_first_name;
             Prev_last_name = prev_last_name;
             City = city;

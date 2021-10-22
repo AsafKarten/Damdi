@@ -30,7 +30,7 @@ namespace DamdiServer.DAL
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        u = new User(Convert.ToString(reader["personal_id"]), Convert.ToString(reader["email"]),Convert.ToString(reader["salted_hash"]));
+                        u = new User(Convert.ToString(reader["personal_id"]), Convert.ToString(reader["email"]), Convert.ToString(reader["salted_hash"]));
                     }
                     return u;
                 }
@@ -64,6 +64,7 @@ namespace DamdiServer.DAL
                             Convert.ToString(reader["phone"]),
                             Convert.ToString(reader["gender"]),
                             Convert.ToString(reader["birthdate"]),
+                            Convert.ToString(reader["profile_img"]),
                             Convert.ToString(reader["prev_first_name"]),
                             Convert.ToString(reader["prev_last_name"]),
                             Convert.ToString(reader["city"]),
@@ -81,6 +82,7 @@ namespace DamdiServer.DAL
                             Convert.ToString(reader["father_birth_land"]),
                             Convert.ToString(reader["mother_birth_land"])
                             );
+                            ui.Personal_id = personal_id;
                     }
                     return ui;
                 }
@@ -90,7 +92,7 @@ namespace DamdiServer.DAL
                 throw new Exception(ex.Message);
             }
         }
-       
+
         /*Create a new user in users table*/
         public int SetNewUser(User user)
         {
@@ -101,8 +103,8 @@ namespace DamdiServer.DAL
                     con.Open();
                     SqlCommand cmd = new SqlCommand("InsertNewUser", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = user.Personal_id; 
-                    cmd.Parameters.AddWithValue("@email", SqlDbType.NVarChar).Value = user.Email; 
+                    cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = user.Personal_id;
+                    cmd.Parameters.AddWithValue("@email", SqlDbType.NVarChar).Value = user.Email;
                     cmd.Parameters.AddWithValue("@salted_hash", SqlDbType.NVarChar).Value = user.Salted_hash;
                     cmd.Parameters.AddWithValue("@profile_img", SqlDbType.NVarChar).Value = user.Profile_img;
                     int res = cmd.ExecuteNonQuery();
@@ -228,7 +230,7 @@ namespace DamdiServer.DAL
                             Convert.ToBoolean(reader["Q3_20"]),
                             Convert.ToBoolean(reader["Q3_21"]),
                             Convert.ToString(reader["notes"])
-                            );;
+                            ); ;
                         medicalInfos.Add(mid);
                     }
                     return medicalInfos;
