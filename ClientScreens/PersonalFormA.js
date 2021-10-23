@@ -10,7 +10,7 @@ export default function PersonalFormA({ navigation, route }) {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-  const [birthdate, onChangeBirthdate] = useState("");
+  const [Birthdate, onChangeBirthdate] = useState("");
   const [loading, setLoading] = useState(false);
   const [shouldShow, setShouldShow] = useState(false);
   const [confirmModal, setConfirm] = useState(false);
@@ -35,24 +35,6 @@ export default function PersonalFormA({ navigation, route }) {
       }
     })()
   }, [])
-
-  // const storeData = async (data) => {
-  //   try {
-  //     var loggedUser = JSON.stringify(data);
-  //     await AsyncStorage.setItem('loggedUser', loggedUser)
-  //   } catch (e) {
-  //     console.error(e)
-  //   }
-  // }
-
-  // const clearAsyncStorage = async () => {
-  //   try {
-  //     await AsyncStorage.clear();
-  //     console.log('Done clear storage A');
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
 
   const getUserInfo = async () => {
     try {
@@ -93,7 +75,7 @@ export default function PersonalFormA({ navigation, route }) {
     User.Last_name = Last_name;
     User.Phone = Phone;
     User.Gender = Gender;
-    User.Birthdate = birthdate;
+    User.Birthdate = Birthdate;
     User.Prev_first_name = Prev_first_name;
     User.Prev_last_name = Prev_last_name;
     navigation.navigate('PersonalFormB', { route: User })
@@ -169,33 +151,35 @@ export default function PersonalFormA({ navigation, route }) {
               <Text style={styles.lableText}>תאריך לידה</Text>
               <TextInput onFocus={onFocus}
                 style={styles.input}
-                value={birthdate}
+                value={Birthdate}
                 placeholder="תאריך לידה"
               />
             </View>
             <View style={styles.HorizontalBox}>
-              <Text style={styles.lableText}>שם קודם: פרטי</Text>
+              <Text style={styles.lableText}>שם פרטי קודם</Text>
               <TextInput
                 style={styles.input}
                 onChangeText={onChangePrev_first_name}
                 value={Prev_first_name}
-                placeholder="שם קודם: פרטי"
+                placeholder=""
               />
             </View>
             <View style={styles.HorizontalBox}>
-              <Text style={styles.lableText}>שם קודם: משפחה</Text>
+              <Text style={styles.lableText}>שם משפחה קודם</Text>
               <TextInput
                 style={styles.input}
                 onChangeText={onChangePrev_last_name}
                 value={Prev_last_name}
-                placeholder="שם קודם: משפחה"
+                placeholder="שם משפחה קודם"
               />
             </View>
-            <TouchableOpacity onPress={() => PostPersonalForm()}>
-              <View style={styles.button_normal}>
-                <Text style={styles.button_text} >הבא</Text>
-              </View>
-            </TouchableOpacity>
+            <View style={styles.container_btn}>
+              <TouchableOpacity onPress={() => PostPersonalForm()}>
+                <View style={styles.button_normal}>
+                  <Text style={styles.button_text} >הבא</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
             <Spiner loading={loading} />
             {show && (
               <DateTimePicker
@@ -251,21 +235,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   inner: {
-    padding: 40,
+    padding: 100,
     flex: 1,
-    justifyContent: "center"
+    justifyContent: "space-between"
   },
   input: {
-    width: 150,
+    width: 120,
     height: 40,
-    margin: 12,
+    margin: 8,
     borderWidth: 1,
     borderRadius: 8,
     textAlign: 'center',
   },
   button_normal: {
     alignItems: 'center',
-    width: 150,
+    width: 110,
     margin: 25,
     borderRadius: 8,
     padding: 10,
@@ -286,6 +270,9 @@ const styles = StyleSheet.create({
   lableText: {
     marginTop: 17,
     fontWeight: 'bold'
+  },
+  container_btn: {
+    alignItems: 'center'
   },
   modal: {
     width: 350,

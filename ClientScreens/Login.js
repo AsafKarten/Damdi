@@ -247,8 +247,6 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   BGimage: {
-    // alignSelf: 'center',
-    // resizeMode: 'stretch'
     flex: 1,
     resizeMode: 'cover',
     justifyContent: 'center',

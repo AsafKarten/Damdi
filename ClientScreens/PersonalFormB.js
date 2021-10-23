@@ -132,9 +132,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   inner: {
-    padding: 40,
+    padding: 50,
     flex: 1,
-    justifyContent: "center"
+    justifyContent: "space-between",
   },
   input: {
     width: 120,
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
   button_normal: {
     alignItems: 'center',
-    width: 80,
+    width: 110,
     margin: 15,
     borderRadius: 8,
     padding: 10,
@@ -165,6 +165,7 @@ const styles = StyleSheet.create({
   },
   HorizontalBoxButtons: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   lableText: {
     marginTop: 17,

@@ -4,7 +4,7 @@
     "slug": "DamdiClient",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/DamdiPI.png",
     "splash": {
       "image": "http://proj13.ruppin-tech.co.il/Assets/Damaisplash.png",
       "resizeMode": "contain",
