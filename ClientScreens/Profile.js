@@ -142,8 +142,7 @@ export default function Profile({ navigation, route }) {
         <TouchableOpacity
           onPress={checkDevice}>
           <Text>
-            <Text style={styles.addText}>תמונת פרופיל</Text>
-            <AntDesign name="plus" size={24} color="grey" fontWeight={'bold'} />
+            <AntDesign name="camera" size={24} color="grey" fontWeight={'bold'} />
           </Text>
         </TouchableOpacity>
         {shouldShow ? (
@@ -151,7 +150,7 @@ export default function Profile({ navigation, route }) {
         ) : null}
         <Text style={styles.addText}>{User.First_name + " " + User.Last_name}</Text>
 
-        <Text style={styles.addText}>סוג דם: O-</Text>
+        <Text style={styles.addText}>{User.Blood_type} :סוג דם</Text>
 
       </View>
 
@@ -170,7 +169,7 @@ export default function Profile({ navigation, route }) {
         </TouchableOpacity>
       </View>
       <View style={styles.ButtonContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: route })}>
+        <TouchableOpacity onPress={() => navigation.navigate('PrivacyAndSecurity', { route: User })}>
           <View style={styles.button_normal}>
             <Text style={styles.button_text} >אבטחה ופרטיות</Text>
           </View>
@@ -242,6 +241,7 @@ const styles = StyleSheet.create({
 
   },
   addText: {
+    textAlign: 'right',
     fontSize: 16,
     fontWeight: 'bold',
   },

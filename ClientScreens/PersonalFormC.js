@@ -1,6 +1,7 @@
-import React, { useEffect,useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Button, CheckBox, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
+import CheckBox from '@react-native-community/checkbox';
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
@@ -8,10 +9,10 @@ export default function PersonalFormC({ navigation, route }) {
 
   const [User, setUser] = useState(route.params.route)
   const [loading, setLoading] = useState(false);
-  const [Blood_group_member, onChangeBlood_group_member] = useState();
-  const [Personal_insurance, onChangePersonal_insurance] = useState();
-  const [Confirm_examination, onChangeConfirm_examination] = useState();
-  const [Agree_future_don, onChangeAgree_future_don] = useState();
+  const [Blood_group_member, onChangeBlood_group_member] = useState(false);
+  const [Personal_insurance, onChangePersonal_insurance] = useState(false);
+  const [Confirm_examination, onChangeConfirm_examination] = useState(false);
+  const [Agree_future_don, onChangeAgree_future_don] = useState(false);
   const [Birth_land, onChangeBirth_land] = useState();
   const [Aliya_year, onChangeAliya_year] = useState();
   const [Father_birth_land, onChangeFather_birth_land] = useState();
@@ -98,32 +99,36 @@ export default function PersonalFormC({ navigation, route }) {
             <View style={styles.HorizontalBox}>
               <Text>חבר ארגון תורמי דם?</Text>
               <CheckBox
+                disabled={false}
                 value={Blood_group_member}
-                onValueChange={onChangeBlood_group_member}
+                onValueChange={(newValue) => onChangeBlood_group_member(newValue)}
                 style={styles.checkbox}
               />
             </View>
             <View style={styles.HorizontalBox}>
               <Text>ביטוח אישי</Text>
               <CheckBox
+                disabled={false}
                 value={Personal_insurance}
-                onValueChange={onChangePersonal_insurance}
+                onValueChange={(newValue) => onChangePersonal_insurance(newValue)}
                 style={styles.checkbox}
               />
             </View>
             <View style={styles.HorizontalBox}>
               <Text>מסכים לשימוש בניסויים</Text>
               <CheckBox
+                disabled={false}
                 value={Confirm_examination}
-                onValueChange={onChangeConfirm_examination}
+                onValueChange={(newValue) => onChangeConfirm_examination(newValue)}
                 style={styles.checkbox}
               />
             </View>
             <View style={styles.HorizontalBox}>
               <Text>מסכים לקבלת הזמנות לתרום דם בעתיד</Text>
               <CheckBox
+                disabled={false}
                 value={Agree_future_don}
-                onValueChange={onChangeAgree_future_don}
+                onValueChange={(newValue) => onChangeAgree_future_don(newValue)}
                 style={styles.checkbox}
               />
             </View>
@@ -181,7 +186,6 @@ export default function PersonalFormC({ navigation, route }) {
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </SafeAreaView>
-
   );
 
 }
@@ -222,7 +226,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   button_normal: {
-
     alignItems: 'center',
     width: 80,
     margin: 15,
@@ -232,9 +235,6 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     shadowColor: 'black',
     shadowRadius: 5,
-
-
-
   },
   button_text: {
     color: 'white'
