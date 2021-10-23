@@ -76,9 +76,6 @@ namespace DamdiServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
-
     }
 }
 

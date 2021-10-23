@@ -32,6 +32,7 @@ namespace DamdiServer.Models
         private string mother_birth_land;
         private string aliya_year;
         private string birth_land;
+        private string blood_type;
 
         public string Personal_id { get => personal_id; set => personal_id = value; }
         public string Email { get => email; set => email = value; }
@@ -58,6 +59,7 @@ namespace DamdiServer.Models
         public string Mother_birth_land { get => mother_birth_land; set => mother_birth_land = value; }
         public string Aliya_year { get => aliya_year; set => aliya_year = value; }
         public string Birth_land { get => birth_land; set => birth_land = value; }
+        public string Blood_type { get => blood_type; set => blood_type = value; }
 
         public User()
         {
@@ -79,6 +81,7 @@ namespace DamdiServer.Models
         }
 
         public User(
+            string personal_id,
             string first_name,
             string last_name,
             string phone,
@@ -100,9 +103,11 @@ namespace DamdiServer.Models
             string birth_land,
             string aliya_year,
             string father_birth_land,
-            string mother_birth_land
+            string mother_birth_land,
+            string blood_type
             )
         {
+            Personal_id = personal_id;
             First_name = first_name;
             Last_name = last_name;
             Phone = phone;
@@ -125,6 +130,7 @@ namespace DamdiServer.Models
             Aliya_year = aliya_year;
             Father_birth_land = father_birth_land;
             Mother_birth_land = mother_birth_land;
+            Blood_type = blood_type;
         }
     }
 }

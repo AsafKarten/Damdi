@@ -59,6 +59,7 @@ namespace DamdiServer.DAL
                     while (reader.Read())
                     {
                         ui = new User(
+                            Convert.ToString(reader["personal_id"]),
                             Convert.ToString(reader["first_name"]),
                             Convert.ToString(reader["last_name"]),
                             Convert.ToString(reader["phone"]),
@@ -80,9 +81,9 @@ namespace DamdiServer.DAL
                             Convert.ToString(reader["birth_land"]),
                             Convert.ToString(reader["aliya_year"]),
                             Convert.ToString(reader["father_birth_land"]),
-                            Convert.ToString(reader["mother_birth_land"])
+                            Convert.ToString(reader["mother_birth_land"]),
+                            Convert.ToString(reader["blood_type"])
                             );
-                            ui.Personal_id = personal_id;
                     }
                     return ui;
                 }
