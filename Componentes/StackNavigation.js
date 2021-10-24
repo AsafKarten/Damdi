@@ -89,6 +89,7 @@ export default function StackNavigation() {
           }} />
         <Stack.Screen name="Welcome" component={Welcome}
           options={{
+            title: 'ברוך הבא',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },

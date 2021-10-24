@@ -9,6 +9,14 @@ import BG from '../assets/DAMDI_White_BG.jpg'
 export default function Welcome({ navigation, route }) {
   const [loading, setLoading] = useState(false);
   const [User, setUser] = useState(route.params.route)
+  const [shouldShow, setShouldShow] = useState(false);
+
+
+  useEffect(() => {
+    navigation.addListener('focus', async () => {
+      setLoading(false);
+    })
+  }, [navigation])
 
   useEffect(() => {
     (async () => {
@@ -41,12 +49,14 @@ export default function Welcome({ navigation, route }) {
 
       <Text> ברוך הבא לדאמדי {User.First_name} </Text>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Home', { route: User }, setLoading(true))}>
+      <TouchableOpacity onPress={() => navigation.navigate('Home', { route: User }, setShouldShow(true))}>
         <View style={styles.button_normal}>
           <Text style={styles.button_text} >המשך</Text>
         </View>
       </TouchableOpacity>
-      <Spiner loading={loading} />
+      {shouldShow ? (
+        <Spiner loading={loading} />
+      ) : null}
     </View>
   )
 }

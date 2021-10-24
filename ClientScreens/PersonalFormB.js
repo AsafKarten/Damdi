@@ -5,7 +5,6 @@ import Spiner from '../Componentes/Spiner';
 
 export default function PersonalFormB({ navigation, route }) {
   const [loading, setLoading] = useState(false);
-
   const [User, setUser] = useState(route.params.route)
 
   const [City, onChangeCity] = useState();
@@ -31,7 +30,6 @@ export default function PersonalFormB({ navigation, route }) {
       Alert.alert('אנא מלא/י את כל הפרטים בבקשה (לא חובה טלפון עבודה)')
       return
     }
-    setLoading(true);
     User.City = City
     User.Address = Address
     User.Postal_code = Postal_code
@@ -106,12 +104,12 @@ export default function PersonalFormB({ navigation, route }) {
               />
             </View>
             <View style={styles.HorizontalBoxButtons}>
-              <TouchableOpacity onPress={() => PostPersonalFormB()}>
+              <TouchableOpacity onPress={() => PostPersonalFormB(), setLoading(true)}>
                 <View style={styles.button_normal}>
                   <Text style={styles.button_text} >הבא</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate('PersonalFormA')} >
+              <TouchableOpacity onPress={() => navigation.navigate('PersonalFormA'), setLoading(true)} >
                 <View style={styles.button_normal}>
                   <Text style={styles.button_text} >חזרה</Text>
                 </View>

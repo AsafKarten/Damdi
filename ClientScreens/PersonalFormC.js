@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import { View, Switch, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
-import CheckBox from '@react-native-community/checkbox';
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
@@ -9,43 +8,47 @@ export default function PersonalFormC({ navigation, route }) {
 
   const [User, setUser] = useState(route.params.route)
   const [loading, setLoading] = useState(false);
-  const [Blood_group_member, onChangeBlood_group_member] = useState(false);
-  const [Personal_insurance, onChangePersonal_insurance] = useState(false);
-  const [Confirm_examination, onChangeConfirm_examination] = useState(false);
-  const [Agree_future_don, onChangeAgree_future_don] = useState(false);
-  const [Birth_land, onChangeBirth_land] = useState();
-  const [Aliya_year, onChangeAliya_year] = useState();
-  const [Father_birth_land, onChangeFather_birth_land] = useState();
-  const [Mother_birth_land, onChangeMother_birth_land] = useState();
+  const [bloodGroupMember, setBloodGroupMember] = useState(false);
+  const toggleGroupMember = () => setBloodGroupMember(previousState => !previousState);
+  const [personalInsurance, setPersonalInsurance] = useState(false);
+  const togglePersonalInsurance = () => setPersonalInsurance(previousState => !previousState);
+  const [confirmExamination, setConfirmExamination] = useState(false);
+  const toggleConfirmExamination = () => setConfirmExamination(previousState => !previousState);
+  const [agreeFutureDonation, setAgreeFutureDonation] = useState(false);
+  const toggleAgreeFutureDonation = () => setAgreeFutureDonation(previousState => !previousState);
+  const [birthLand, setBirthLand] = useState();
+  const [aliyaYear, setAliyaYear] = useState();
+  const [fatherBirthLand, setFatherBirthLand] = useState();
+  const [motherBirthLand, setMotherBirthLand] = useState();
 
 
   useEffect(() => {
     (async () => {
-      onChangeBlood_group_member(User.Blood_group_member)
-      onChangePersonal_insurance(User.Personal_insurance)
-      onChangeConfirm_examination(User.Agree_future_don)
-      onChangeAgree_future_don(User.Birth_land)
-      onChangeBirth_land(User.Birth_land)
-      onChangeAliya_year(User.Aliya_year)
-      onChangeFather_birth_land(User.Father_birth_land)
-      onChangeMother_birth_land(User.Mother_birth_land)
+      setBloodGroupMember(User.Blood_group_member)
+      setPersonalInsurance(User.Personal_insurance)
+      setConfirmExamination(User.Confirm_examination)
+      setAgreeFutureDonation(User.Agree_future_don)
+      setBirthLand(User.Birth_land)
+      setAliyaYear(User.Aliya_year)
+      setFatherBirthLand(User.Father_birth_land)
+      setMotherBirthLand(User.Mother_birth_land)
     })()
   }, [])
 
   const PostPersonalFormC = async () => {
-    if (Birth_land == '') {
+    if (birthLand == '') {
       Alert.alert('אנא מלא/י את כל הפרטים בבקשה (אם לא עלית מארץ אחרת לא חובה למלא, אם ההורים לא עלו מארץ אחרת לא חובה למלא גם כן)')
       return
     }
     setLoading(true);
-    User.Blood_group_member = Blood_group_member
-    User.Personal_insurance = Personal_insurance
-    User.Confirm_examination = Confirm_examination
-    User.Agree_future_don = Agree_future_don
-    User.Birth_land = Birth_land
-    User.Aliya_year = Aliya_year
-    User.Father_birth_land = Father_birth_land
-    User.Mother_birth_land = Mother_birth_land
+    User.Blood_group_member = bloodGroupMember
+    User.Personal_insurance = personalInsurance
+    User.Confirm_examination = confirmExamination
+    User.Agree_future_don = agreeFutureDonation
+    User.Birth_land = birthLand
+    User.Aliya_year = aliyaYear
+    User.Father_birth_land = fatherBirthLand
+    User.Mother_birth_land = motherBirthLand
     await postDataToDB()
     navigation.navigate('Welcome', { route: User })
   }
@@ -88,7 +91,6 @@ export default function PersonalFormC({ navigation, route }) {
     } catch (error) {
       console.log('error with the send data to server ')
     }
-
   }
 
   return (
@@ -98,47 +100,50 @@ export default function PersonalFormC({ navigation, route }) {
           <View style={styles.inner}>
             <View style={styles.HorizontalBox}>
               <Text>חבר ארגון תורמי דם?</Text>
-              <CheckBox
-                disabled={false}
-                value={Blood_group_member}
-                onValueChange={(newValue) => onChangeBlood_group_member(newValue)}
-                style={styles.checkbox}
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={bloodGroupMember ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleGroupMember}
+                value={bloodGroupMember}
               />
             </View>
             <View style={styles.HorizontalBox}>
               <Text>ביטוח אישי</Text>
-              <CheckBox
-                disabled={false}
-                value={Personal_insurance}
-                onValueChange={(newValue) => onChangePersonal_insurance(newValue)}
-                style={styles.checkbox}
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={personalInsurance ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={togglePersonalInsurance}
+                value={personalInsurance}
               />
             </View>
             <View style={styles.HorizontalBox}>
               <Text>מסכים לשימוש בניסויים</Text>
-              <CheckBox
-                disabled={false}
-                value={Confirm_examination}
-                onValueChange={(newValue) => onChangeConfirm_examination(newValue)}
-                style={styles.checkbox}
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={confirmExamination ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleConfirmExamination}
+                value={confirmExamination}
               />
             </View>
             <View style={styles.HorizontalBox}>
               <Text>מסכים לקבלת הזמנות לתרום דם בעתיד</Text>
-              <CheckBox
-                disabled={false}
-                value={Agree_future_don}
-                onValueChange={(newValue) => onChangeAgree_future_don(newValue)}
-                style={styles.checkbox}
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={agreeFutureDonation ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleAgreeFutureDonation}
+                value={agreeFutureDonation}
               />
             </View>
-
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>ארץ לידה</Text>
               <TextInput
                 style={styles.input}
-                onChangeText={onChangeBirth_land}
-                value={Birth_land}
+                onChangeText={setBirthLand}
+                value={birthLand}
                 placeholder="ארץ לידה"
               />
             </View>
@@ -146,8 +151,8 @@ export default function PersonalFormC({ navigation, route }) {
               <Text style={styles.lableText}>שנת עליה</Text>
               <TextInput
                 style={styles.input}
-                onChangeText={onChangeAliya_year}
-                value={Aliya_year}
+                onChangeText={setAliyaYear}
+                value={aliyaYear}
                 placeholder="שנת עליה"
               />
             </View>
@@ -155,8 +160,8 @@ export default function PersonalFormC({ navigation, route }) {
               <Text style={styles.lableText}>ארץ לידת אב</Text>
               <TextInput
                 style={styles.input}
-                onChangeText={onChangeFather_birth_land}
-                value={Father_birth_land}
+                onChangeText={setFatherBirthLand}
+                value={fatherBirthLand}
                 placeholder="ארץ לידת אב"
               />
             </View>
@@ -164,8 +169,8 @@ export default function PersonalFormC({ navigation, route }) {
               <Text style={styles.lableText}>ארץ לידת אם</Text>
               <TextInput
                 style={styles.input}
-                onChangeText={onChangeMother_birth_land}
-                value={Mother_birth_land}
+                onChangeText={setMotherBirthLand}
+                value={motherBirthLand}
                 placeholder="ארץ לידת אם"
               />
             </View>
@@ -208,7 +213,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     textAlign: 'center',
   },
-  checkbox: {
+  switch: {
     alignSelf: "center",
     marginRight: 8,
   },

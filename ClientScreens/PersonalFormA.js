@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, DateTime, Modal, TouchableHighlight, View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import { Alert, Modal, TouchableHighlight, View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 const url = "http://proj13.ruppin-tech.co.il/"
@@ -10,7 +9,6 @@ export default function PersonalFormA({ navigation, route }) {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-  const [Birthdate, onChangeBirthdate] = useState("");
   const [loading, setLoading] = useState(false);
   const [shouldShow, setShouldShow] = useState(false);
   const [confirmModal, setConfirm] = useState(false);
@@ -19,25 +17,40 @@ export default function PersonalFormA({ navigation, route }) {
   const [First_name, onChangeFirst_name] = useState();
   const [Last_name, onChangeLast_name] = useState();
   const [Phone, onChangePhone] = useState();
+  const [Birthdate, onChangeBirthdate] = useState("");
   const [Gender, onChangeGender] = useState();
   const [Prev_first_name, onChangePrev_first_name] = useState();
   const [Prev_last_name, onChangePrev_last_name] = useState();
 
 
+
+  // useEffect(() => {
+  //   (async () => {
+  //     await getUserInfo();
+  //   })()
+  // }, [])
+
   useEffect(() => {
-    (async () => {
-      await getUserInfo();
+    const res = navigation.addListener('focus',
+      async () => {
+        if (res != undefined) {
+          await getUserInfo();
+        }
+      })
+  }, [])
+
+
+
+
+
+  const getUserInfo = async () => {
+    try {
       if (Platform.OS !== 'web') {
         setShouldShow(true)
         setTimeout(() => {
           setConfirm(true)
         }, 500);
       }
-    })()
-  }, [])
-
-  const getUserInfo = async () => {
-    try {
       let result = await fetch(url + "api/user/info", {
         method: 'POST',
         headers: {
@@ -50,7 +63,6 @@ export default function PersonalFormA({ navigation, route }) {
       });
       let full_user = await result.json();
       if (full_user !== undefined || full_user !== null) {
-        console.log(full_user);
         setUser(full_user);
         onChangeFirst_name(full_user.First_name)
         onChangeLast_name(full_user.Last_name)
@@ -78,6 +90,7 @@ export default function PersonalFormA({ navigation, route }) {
     User.Birthdate = Birthdate;
     User.Prev_first_name = Prev_first_name;
     User.Prev_last_name = Prev_last_name;
+    console.log(User);
     navigation.navigate('PersonalFormB', { route: User })
   }
 
@@ -161,7 +174,7 @@ export default function PersonalFormA({ navigation, route }) {
                 style={styles.input}
                 onChangeText={onChangePrev_first_name}
                 value={Prev_first_name}
-                placeholder=""
+                placeholder="שם פרטי קודם"
               />
             </View>
             <View style={styles.HorizontalBox}>
@@ -180,7 +193,9 @@ export default function PersonalFormA({ navigation, route }) {
                 </View>
               </TouchableOpacity>
             </View>
-            <Spiner loading={loading} />
+            {shouldShow ? (
+              <Spiner loading={loading} />
+            ) : null}
             {show && (
               <DateTimePicker
                 testID="dateTimePicker"

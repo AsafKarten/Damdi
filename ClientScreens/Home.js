@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Image } from 'react-native';
 import BG from '../assets/DAMDI_White_BG.jpg'
 
@@ -6,8 +6,13 @@ import BG from '../assets/DAMDI_White_BG.jpg'
 const url = "http://proj13.ruppin-tech.co.il/"
 export default function Home({ navigation, route }) {
   const [loading, setLoading] = useState(false);
-
   const [User, onChangeId] = useState(route.params.route)
+
+  useEffect(() => {
+    navigation.addListener('focus', async () => {
+      setLoading(false);
+    })
+  }, [navigation])
 
   useEffect(() => {
     setLoading(false);
