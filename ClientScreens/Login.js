@@ -30,6 +30,7 @@ export default function Login({ navigation }) {
       let loggedUser = await AsyncStorage.getItem('loggedUser')
       if (loggedUser !== null) {
         let existUser = JSON.parse(loggedUser)
+        console.log(existUser);
         navigation.navigate('PersonalFormA', { route: existUser })
       }
       else {
@@ -141,7 +142,7 @@ export default function Login({ navigation }) {
             fullUpdatedUser.Mother_birth_land === null) {
             setLoading(false);
             Alert.alert("אנא מלא/י את כל הפרטים כדי לתרום!")
-            navigation.navigate('PersonalFormA', { route: fullUpdatedUser })
+            navigation.navigate('PersonalFormA', { route: updatedUser })
           }
           navigation.navigate('PersonalFormA', { route: fullUpdatedUser })
 

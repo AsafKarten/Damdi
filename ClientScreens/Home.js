@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Image } from 'react-native';
-import BG from '../assets/DAMDI_White_BG.jpg'
+import BG from '../assets/LOGO_ONLY_PNG.png'
 
 
 const url = "http://proj13.ruppin-tech.co.il/"

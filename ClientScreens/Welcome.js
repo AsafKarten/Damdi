@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spiner from '../Componentes/Spiner';
-import BG from '../assets/DAMDI_White_BG.jpg'
-
+import BG from '../assets/LOGO_ONLY_PNG.png'
 
 
 export default function Welcome({ navigation, route }) {

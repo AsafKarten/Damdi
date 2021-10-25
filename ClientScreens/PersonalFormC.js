@@ -5,8 +5,9 @@ import Spiner from '../Componentes/Spiner';
 const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function PersonalFormC({ navigation, route }) {
-
+  
   const [User, setUser] = useState(route.params.route)
+  console.log(User);
   const [loading, setLoading] = useState(false);
   const [bloodGroupMember, setBloodGroupMember] = useState(false);
   const toggleGroupMember = () => setBloodGroupMember(previousState => !previousState);

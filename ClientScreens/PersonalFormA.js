@@ -13,7 +13,7 @@ export default function PersonalFormA({ navigation, route }) {
   const [shouldShow, setShouldShow] = useState(false);
   const [confirmModal, setConfirm] = useState(false);
 
-  const [User, setUser] = useState(null)
+  const [User, setUser] = useState(route.params.route)
   const [First_name, onChangeFirst_name] = useState();
   const [Last_name, onChangeLast_name] = useState();
   const [Phone, onChangePhone] = useState();
@@ -23,13 +23,6 @@ export default function PersonalFormA({ navigation, route }) {
   const [Prev_last_name, onChangePrev_last_name] = useState();
 
 
-
-  // useEffect(() => {
-  //   (async () => {
-  //     await getUserInfo();
-  //   })()
-  // }, [])
-
   useEffect(() => {
     const res = navigation.addListener('focus',
       async () => {
@@ -37,13 +30,17 @@ export default function PersonalFormA({ navigation, route }) {
           await getUserInfo();
         }
       })
-  }, [])
+  }, [navigation])
 
-
-
+  // useEffect(() => {
+  //   (async () => {
+  //     await getUserInfo();
+  //   })()
+  // }, [])
 
 
   const getUserInfo = async () => {
+    console.log(User.Personal_id);
     try {
       if (Platform.OS !== 'web') {
         setShouldShow(true)
@@ -58,11 +55,29 @@ export default function PersonalFormA({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id: route.params.route.Personal_id,
+          Personal_id: User.Personal_id
         })
       });
       let full_user = await result.json();
-      if (full_user !== undefined || full_user !== null) {
+      console.log(full_user);
+      if (
+        full_user.First_name === null ||
+        full_user.Last_name === null ||
+        full_user.Phone === null ||
+        full_user.Gender === null ||
+        full_user.Birthdate === null ||
+        full_user.City === null ||
+        full_user.Address === null ||
+        full_user.Postal_code === null ||
+        full_user.Mail_box === null ||
+        full_user.Telephone === null ||
+        full_user.Confirm_examination === null ||
+        full_user.Birth_land === null ||
+        full_user.Father_birth_land === null ||
+        full_user.Mother_birth_land === null) {
+          console.log("User is empty");
+      }
+      else {
         setUser(full_user);
         onChangeFirst_name(full_user.First_name)
         onChangeLast_name(full_user.Last_name)

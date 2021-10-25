@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/DamdiPI.png",
     "splash": {
-      "image": "http://proj13.ruppin-tech.co.il/Assets/Damaisplash.png",
+      "image": "./assets/LOGO_ONLY_PNG.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

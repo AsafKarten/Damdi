@@ -30,6 +30,7 @@ export default function PersonalFormB({ navigation, route }) {
       Alert.alert('אנא מלא/י את כל הפרטים בבקשה (לא חובה טלפון עבודה)')
       return
     }
+    setLoading(true)
     User.City = City
     User.Address = Address
     User.Postal_code = Postal_code
@@ -104,12 +105,12 @@ export default function PersonalFormB({ navigation, route }) {
               />
             </View>
             <View style={styles.HorizontalBoxButtons}>
-              <TouchableOpacity onPress={() => PostPersonalFormB(), setLoading(true)}>
+              <TouchableOpacity onPress={() => PostPersonalFormB() }>
                 <View style={styles.button_normal}>
                   <Text style={styles.button_text} >הבא</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate('PersonalFormA'), setLoading(true)} >
+              <TouchableOpacity onPress={() => navigation.navigate('PersonalFormA')} >
                 <View style={styles.button_normal}>
                   <Text style={styles.button_text} >חזרה</Text>
                 </View>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
-import BG from '../assets/DAMDI_White_BG.jpg'
+import BG from '../assets/LOGO_ONLY_PNG.png'
 
 export default function AppointmentsHistory({ navigation, route }) {
     const [User, onChangeUser] = useState(route.params.route)
