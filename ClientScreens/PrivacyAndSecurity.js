@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, Pressable } from 'react-native';
 
 var bcrypt = require('bcryptjs');
+const url = "http://proj13.ruppin-tech.co.il/"
 
 
 export default function PrivacyAndSecurity({ navigation, route }) {
+  console.log(route.params.route);
   const [prevDetails, setPrev] = useState(route.params.route);
-  const [Email, onChangeEmail] = useState(route.params.route.Email);
-  const [Salt, onChangeSalt] = useState(route.params.route.Salted_hash);
+  const [Email, onChangeEmail] = useState();
+  const [Salt, onChangeSalt] = useState();
   const [Pass, onChangePass] = useState('');
   const [CPass, onChangeCPass] = useState('');
   const [shouldShow, setShouldShow] = useState(false);
@@ -32,7 +34,8 @@ export default function PrivacyAndSecurity({ navigation, route }) {
   }
 
 
-  const CheckDetails = () => {
+  const CheckDetails = async () => {
+    console.log(route.params.route.Email);
     try {
       if (Platform.OS !== 'web') {
         setShouldShow(true)
@@ -44,59 +47,92 @@ export default function PrivacyAndSecurity({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id: route.params.route.Personal_id
+          Personal_id: prevDetails.Personal_id,
+          Email: prevDetails.Email
         })
       });
       let currentUser = await result.json();
-      console.log(data);
+      console.log(currentUser);
       if (currentUser.Personal_id == prevDetails.Personal_id) {
         postEditDetiles()
       }
-      if (currentUser.Salted_hash == prevDetails.Salted_hash || currentUser.Email == prevDetails.Email && currentUser.Personal_id !== prevDetails.Personal_id) {
-        setBadEmail(Email)
-        setBadPass(Pass)
-        setModalVisible(true)
-      }
-      else {
-        postEditDetiles()
-      }
+      // if (currentUser.Salted_hash == prevDetails.Salted_hash || currentUser.Email == prevDetails.Email && currentUser.Personal_id !== prevDetails.Personal_id) {
+      //   setBadEmail(Email)
+      //   setBadPass(Pass)
+      //   setModalVisible(true)
+      // }
+      // else {
+      //   postEditDetiles()
+      // }
     } catch (e) {
       console.error(e);
     }
   }
 
-  const postEditDetiles = async () => {
-    if (!Pass == '') {
-      if (Pass == CPass) {
-        let salt = bcrypt.genSaltSync(10);
-        let saltedHash = bcrypt.hashSync(Pass, salt);
-        onChangeSalt(saltedHash)
+  const getUserInfo = async (personal_id) => {
+    try {
+      let result = await fetch(url + "api/user/info", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: personal_id
+        })
+      });
+      let full_user = await result.json();
+      if (full_user !== undefined || full_user !== null) {
+        return full_user
       }
-    }
-    else {
-      Alert.alert("Incorrect Password", "Password dose not match confirm password !")
+    } catch (error) {
+      console.error('error with retrun full user');
     }
   }
-  try {
-    await clearAsyncStorage()
-    //TODO: create a webAPI call to edit detiles
-    let result = await fetch(url + "api/edit/user", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        Personal_id: prevDetails.Personal_id,
-        Email: Email,
-        Salted_hash: Salt,
-      })
-    });
-    let data = await result.json();
-    await storeData(data);
-    navigation.navigate("Profile", { user: data });
-  } catch (e) {
-    console.error(e)
+
+  const postEditDetiles = async () => {
+    try {
+      if (!Pass == '') {
+        if (Pass == CPass) {
+          let salt = bcrypt.genSaltSync(10);
+          let saltedHash = bcrypt.hashSync(Pass, salt);
+          onChangeSalt(saltedHash)
+        }
+      }
+      else {
+        Alert.alert("Incorrect Password", "Password dose not match confirm password !")
+      }
+      await clearAsyncStorage()
+      let result = await fetch(url + "api/edit/user", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: prevDetails.Personal_id,
+          Email: Email,
+          Salted_hash: Salt,
+        })
+      });
+      let res = await result.json();
+      console.log(res);
+      if (res == 1) {
+        updatedUser = await getUserInfo();
+        await storeData(updatedUser);
+        navigation.navigate("Profile", { route: updatedUser });
+      }
+      else {
+        setBadEmail(Email)
+        setBadPass(Pass)
+        setModalVisible(true)
+        //Alert.alert("בדוק שלא הכנסת אותו אימייל או סיסמא קודמת")
+        return
+      }
+
+    } catch (e) {
+      console.error(e)
+    }
   }
 
 
@@ -107,9 +143,7 @@ export default function PrivacyAndSecurity({ navigation, route }) {
         style={styles.input}
         onChangeText={onChangeEmail}
         value={Email}
-        secureTextEntry={true}
         placeholder="אימייל"
-        leftIcon={<Icon name='lock' size={24} color='black' />}
       />
       <TextInput
         style={styles.input}
@@ -117,7 +151,6 @@ export default function PrivacyAndSecurity({ navigation, route }) {
         value={Pass}
         secureTextEntry={true}
         placeholder="סיסמא"
-        leftIcon={<Icon name='lock' size={24} color='black' />}
       />
       <TextInput
         style={styles.input}
@@ -125,7 +158,6 @@ export default function PrivacyAndSecurity({ navigation, route }) {
         secureTextEntry={true}
         value={CPass}
         placeholder="אשר סיסמא"
-        leftIcon={<Icon name='lock' size={24} color='black' />}
       />
       <TouchableOpacity onPress={() => CheckDetails()}>
         <View style={styles.button_normal}>
@@ -164,15 +196,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
   input: {
-    height: 30,
-    width: 150,
-    margin: 10,
+    height: 40,
+    width: 160,
+    margin: 12,
     borderWidth: 1,
     borderRadius: 8,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   button_text: {
     color: 'white'
@@ -188,4 +220,48 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowRadius: 5,
   },
+  //Modal style
+  modalView: {
+    margin: 20,
+    backgroundColor: '#757c94',
+    borderRadius: 20,
+    padding: 25,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  modal_buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin: 10,
+  },
+  button: {
+    margin: 10,
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    color: "white",
+    fontSize: 22,
+    marginBottom: 10,
+    textAlign: "center"
+  }
 });

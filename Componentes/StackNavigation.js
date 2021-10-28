@@ -19,6 +19,7 @@ import BloodInfo from '../ClientScreens/BloodInfo.js';
 import ScheduleAppointment from '../ClientScreens/ScheduleAppointment.js';
 import MedicalForm from '../ClientScreens/MedicalForm.js';
 import ValidationForm from '../ClientScreens/ValidationForm.js';
+import PrivacyAndSecurity from '../ClientScreens/PrivacyAndSecurity.js'
 
 const Stack = createStackNavigator();
 
@@ -27,7 +28,7 @@ export default function StackNavigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        
+
         <Stack.Screen name="Login" component={Login}
           options={{
             title: 'התחברות',
@@ -57,11 +58,11 @@ export default function StackNavigation() {
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
-            headerTintColor: '#fff'
+            headerTintColor: '#fff',
             // headerRight: () => <Feather onPress={() => backPage('PersonalForm')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
-            // headerLeft: () => {
-            //   return null;
-            // },
+            headerLeft: () => {
+              return null;
+            },
           }} />
         <Stack.Screen name="PersonalFormB" component={PersonalFormB}
           options={{
@@ -101,15 +102,15 @@ export default function StackNavigation() {
           }} />
         <Stack.Screen name="Home" component={Home}
           options={{
-            title: 'Home',
+            title: 'מסך הבית',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
             headerTintColor: '#fff',
             // headerRight: () => <Feather onPress={() => backPage('Home')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
-            // headerLeft: () => {
-            //   return null;
-            // },
+            headerLeft: () => {
+              return null;
+            },
           }} />
         <Stack.Screen name="Stations" component={Stations}
           options={{
@@ -131,6 +132,18 @@ export default function StackNavigation() {
             },
             headerTintColor: '#fff'
             // headerRight: () => <Feather onPress={() => backPage('Profile')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+        <Stack.Screen name="PrivacyAndSecurity" component={PrivacyAndSecurity}
+          options={{
+            title: 'פרטיות ואבטחה',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('Appointments')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
             // headerLeft: () => {
             //   return null;
             // },

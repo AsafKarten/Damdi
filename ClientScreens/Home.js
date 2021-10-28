@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Image } from 'react-native';
 import BG from '../assets/LOGO_ONLY_PNG.png'
+import ProgressBar from '../Componentes/ProgressBar.js'
 
-
-const url = "http://proj13.ruppin-tech.co.il/"
 export default function Home({ navigation, route }) {
+  console.log("Home", route.params.route);
   const [loading, setLoading] = useState(false);
   const [User, onChangeId] = useState(route.params.route)
 
@@ -21,6 +21,8 @@ export default function Home({ navigation, route }) {
   return (
     <SafeAreaView style={styles.container}>
       <Image source={BG} style={styles.header_img}></Image>
+
+      <ProgressBar />
 
       <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
         <View style={styles.button_normal}>

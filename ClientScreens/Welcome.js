@@ -6,6 +6,8 @@ import BG from '../assets/LOGO_ONLY_PNG.png'
 
 
 export default function Welcome({ navigation, route }) {
+  console.log("Welcome" ,route.params.route);
+
   const [loading, setLoading] = useState(false);
   const [User, setUser] = useState(route.params.route)
   const [shouldShow, setShouldShow] = useState(false);

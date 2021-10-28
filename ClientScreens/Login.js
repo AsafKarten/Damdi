@@ -195,13 +195,6 @@ export default function Login({ navigation }) {
                   <Text style={styles.button_text} >הרשמה</Text>
                 </View>
               </TouchableOpacity>
-              <View style={styles.reg_btn}>
-                <TouchableOpacity onPress={() => navigation.navigate('DonatorsLogin')}>
-                  <View style={styles.button_normal}>
-                    <Text style={styles.button_text} >כניסת מתרימים</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
               <Spiner loading={loading} />
             </View>
           </TouchableWithoutFeedback>
