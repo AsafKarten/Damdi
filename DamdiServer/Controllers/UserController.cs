@@ -64,7 +64,7 @@ namespace DamdiServer.Controllers
         //Post new User info into users table.
         [HttpPost]
         [Route("api/info/new")]
-        public IHttpActionResult PostUserInfoIntoDB([FromBody] Models.User ui)
+        public IHttpActionResult PostUserInfoIntoDB([FromBody] User ui)
         {
             try
             {
@@ -73,6 +73,25 @@ namespace DamdiServer.Controllers
             }
             catch (Exception ex)
             {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("api/edit/user")]
+        public IHttpActionResult UpdateDetailsUser([FromBody] User user)
+        {
+            try
+            {
+                int res = Globals.UserDAL.UpdateUser(user);
+                if (res == -1)
+                    return Content(HttpStatusCode.NotFound, $"User was not updated");
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+
                 return BadRequest(ex.Message);
             }
         }

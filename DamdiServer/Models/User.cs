@@ -85,6 +85,8 @@ namespace DamdiServer.Models
             string first_name,
             string last_name,
             string phone,
+            string email,
+            string salted_hash,
             string gender,
             string birthdate,
             string profile_img,
@@ -111,6 +113,8 @@ namespace DamdiServer.Models
             First_name = first_name;
             Last_name = last_name;
             Phone = phone;
+            Email = email;
+            Salted_hash = salted_hash;
             Gender = gender;
             Birthdate = birthdate;
             Profile_img = profile_img;

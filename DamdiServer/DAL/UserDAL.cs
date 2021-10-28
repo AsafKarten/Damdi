@@ -63,6 +63,8 @@ namespace DamdiServer.DAL
                             Convert.ToString(reader["first_name"]),
                             Convert.ToString(reader["last_name"]),
                             Convert.ToString(reader["phone"]),
+                            Convert.ToString(reader["email"]),
+                            Convert.ToString(reader["salted_hash"]),
                             Convert.ToString(reader["gender"]),
                             Convert.ToString(reader["birthdate"]),
                             Convert.ToString(reader["profile_img"]),
@@ -87,6 +89,35 @@ namespace DamdiServer.DAL
                     }
                     return ui;
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public int UpdateUser(User user)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    User exist_user = null;
+                    exist_user = GetUser(user);
+                    if (exist_user.Salted_hash == user.Salted_hash || exist_user.Email == user.Email)
+                    {
+                        return -1;
+                    }
+                    SqlCommand cmd = new SqlCommand("UpdateUserDetails", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id_user", SqlDbType.NVarChar).Value = user.Personal_id;
+                    cmd.Parameters.AddWithValue("@email", SqlDbType.NVarChar).Value = user.Email;
+                    cmd.Parameters.AddWithValue("@salted_hash", SqlDbType.Int).Value = user.Salted_hash;
+                    int res = cmd.ExecuteNonQuery();
+                    return res;
+                }
+
             }
             catch (Exception ex)
             {
