@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, Pressable } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 var bcrypt = require('bcryptjs');
 const url = "http://proj13.ruppin-tech.co.il/"
 
 
 export default function PrivacyAndSecurity({ navigation, route }) {
-  console.log(route.params.route);
   const [prevDetails, setPrev] = useState(route.params.route);
-  const [Email, onChangeEmail] = useState();
+  const [Email, onChangeEmail] = useState(route.params.route.Email);
+  const [Pass, onChangePass] = useState();
+  const [CPass, onChangeCPass] = useState();
   const [Salt, onChangeSalt] = useState();
-  const [Pass, onChangePass] = useState('');
-  const [CPass, onChangeCPass] = useState('');
   const [shouldShow, setShouldShow] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [badEmail, setBadEmail] = useState();
-  const [badPass, setBadPass] = useState();
+
   const storeData = async (data) => {
     try {
-      const loggedUser = JSON.stringify(data);
+      var loggedUser = JSON.stringify(data);
       await AsyncStorage.setItem('loggedUser', loggedUser)
     } catch (e) {
       console.error(e)
@@ -28,14 +27,34 @@ export default function PrivacyAndSecurity({ navigation, route }) {
   const clearAsyncStorage = async () => {
     try {
       await AsyncStorage.clear();
+      console.log('Done clear storage');
     } catch (error) {
       console.log(error);
     }
   }
 
+  const getUserInfo = async () => {
+    try {
+      let result = await fetch(url + "api/user/info", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: prevDetails.Personal_id
+        })
+      });
+      let full_user = await result.json();
+      if (full_user !== undefined || full_user !== null) {
+        return full_user
+      }
+    } catch (error) {
+      console.error('error with retrun full user');
+    }
+  }
 
   const CheckDetails = async () => {
-    console.log(route.params.route.Email);
     try {
       if (Platform.OS !== 'web') {
         setShouldShow(true)
@@ -56,39 +75,18 @@ export default function PrivacyAndSecurity({ navigation, route }) {
       if (currentUser.Personal_id == prevDetails.Personal_id) {
         postEditDetiles()
       }
-      // if (currentUser.Salted_hash == prevDetails.Salted_hash || currentUser.Email == prevDetails.Email && currentUser.Personal_id !== prevDetails.Personal_id) {
-      //   setBadEmail(Email)
-      //   setBadPass(Pass)
-      //   setModalVisible(true)
-      // }
-      // else {
-      //   postEditDetiles()
-      // }
+      if (currentUser.Salted_hash == prevDetails.Salted_hash || currentUser.Email == prevDetails.Email && currentUser.Personal_id !== prevDetails.Personal_id) {
+        setModalVisible(true)
+      }
+      else {
+        postEditDetiles()
+      }
     } catch (e) {
       console.error(e);
     }
   }
 
-  const getUserInfo = async (personal_id) => {
-    try {
-      let result = await fetch(url + "api/user/info", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          Personal_id: personal_id
-        })
-      });
-      let full_user = await result.json();
-      if (full_user !== undefined || full_user !== null) {
-        return full_user
-      }
-    } catch (error) {
-      console.error('error with retrun full user');
-    }
-  }
+
 
   const postEditDetiles = async () => {
     try {
@@ -96,13 +94,13 @@ export default function PrivacyAndSecurity({ navigation, route }) {
         if (Pass == CPass) {
           let salt = bcrypt.genSaltSync(10);
           let saltedHash = bcrypt.hashSync(Pass, salt);
-          onChangeSalt(saltedHash)
+          onChangeSalt(saltedHash);
         }
       }
       else {
-        Alert.alert("Incorrect Password", "Password dose not match confirm password !")
+        Alert.alert("הסיסמא אינה תואמת נסי/ה הזן שוב")
       }
-      await clearAsyncStorage()
+      await clearAsyncStorage();
       let result = await fetch(url + "api/edit/user", {
         method: 'POST',
         headers: {
@@ -116,20 +114,11 @@ export default function PrivacyAndSecurity({ navigation, route }) {
         })
       });
       let res = await result.json();
-      console.log(res);
-      if (res == 1) {
-        updatedUser = await getUserInfo();
+      if (res !== null || res !== undefined) {
+        let updatedUser = await getUserInfo();
         await storeData(updatedUser);
         navigation.navigate("Profile", { route: updatedUser });
       }
-      else {
-        setBadEmail(Email)
-        setBadPass(Pass)
-        setModalVisible(true)
-        //Alert.alert("בדוק שלא הכנסת אותו אימייל או סיסמא קודמת")
-        return
-      }
-
     } catch (e) {
       console.error(e)
     }

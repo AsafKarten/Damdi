@@ -1,27 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Modal, TouchableHighlight, View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import { Alert, Modal, View, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
+
+
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function PersonalFormA({ navigation, route }) {
+  console.log(route.params.route);
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [shouldShow, setShouldShow] = useState(false);
-  const [confirmModal, setConfirm] = useState(false);
+
+  // const [modalInfo, setModalInfo] = useState(false);
+  // const [modalInfoVisible, setModalInfoVisible] = useState(false);
+
+  const [modalUpdate, setModalUpdate] = useState(false);
+  const [modalUpdateVisible, setModalUpdateVisible] = useState(false);
 
   const [User, setUser] = useState(route.params.route)
+  console.log(User.Personal_id)
   const [First_name, onChangeFirst_name] = useState();
   const [Last_name, onChangeLast_name] = useState();
   const [Phone, onChangePhone] = useState();
   const [Birthdate, onChangeBirthdate] = useState("");
+
   const [Gender, onChangeGender] = useState();
   const [Prev_first_name, onChangePrev_first_name] = useState();
   const [Prev_last_name, onChangePrev_last_name] = useState();
-
 
   useEffect(() => {
     const res = navigation.addListener('focus',
@@ -32,20 +41,14 @@ export default function PersonalFormA({ navigation, route }) {
       })
   }, [navigation])
 
-  // useEffect(() => {
-  //   (async () => {
-  //     await getUserInfo();
-  //   })()
-  // }, [])
-
 
   const getUserInfo = async () => {
     console.log(User.Personal_id);
     try {
       if (Platform.OS !== 'web') {
-        setShouldShow(true)
+        setModalUpdate(true)
         setTimeout(() => {
-          setConfirm(true)
+          setModalUpdateVisible(true)
         }, 500);
       }
       let result = await fetch(url + "api/user/info", {
@@ -75,7 +78,7 @@ export default function PersonalFormA({ navigation, route }) {
         full_user.Birth_land === null ||
         full_user.Father_birth_land === null ||
         full_user.Mother_birth_land === null) {
-          console.log("User is empty");
+        console.log("User is empty");
       }
       else {
         setUser(full_user);
@@ -168,12 +171,15 @@ export default function PersonalFormA({ navigation, route }) {
             </View>
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>מין</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={onChangeGender}
-                value={Gender}
-                placeholder="מין"
-              />
+              <RadioButtonGroup
+                containerStyle={{ margin: 15, flexDirection: 'row' }}
+                selected={Gender}
+                onSelected={(value) => onChangeGender(value)}
+                radioBackground="blue"
+              >
+                <RadioButtonItem value="נקבה" label="נקבה" />
+                <RadioButtonItem value="זכר" label="זכר" />
+              </RadioButtonGroup>
             </View>
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>תאריך לידה</Text>
@@ -208,49 +214,68 @@ export default function PersonalFormA({ navigation, route }) {
                 </View>
               </TouchableOpacity>
             </View>
-            {shouldShow ? (
-              <Spiner loading={loading} />
-            ) : null}
+            {loading && <Spiner loading={loading} />}
             {show && (
               <DateTimePicker
                 testID="dateTimePicker"
                 value={date}
                 mode={mode}
-                display="calendar"
+                display='default'
                 onChange={onChange}
               />
             )}
-            {shouldShow ? (
-              <Modal
-                animationType="fade"
-                transparent={true}
-                visible={confirmModal}
-                onRequestClose={() => {
-                  console.log('Modal has been closed.');
-                }}>
-                <View style={styles.modal}>
-                  <Text style={styles.modal_text}>האם תרצה/י לעדכן פרטיים אישיים לחץ על "כן", אחרת לחצ/י על "לא" </Text>
-                  <View style={styles.modal_buttons}>
-                    <TouchableHighlight
-                      style={{ backgroundColor: '#4d5b70' }}
-                      onPress={() => {
-                        navigation.navigate("Welcome", { route: User });
-                        setLoading(true);
-                      }}>
-                      <Text style={styles.modal_text}>לא</Text>
-                    </TouchableHighlight>
-
-                    <TouchableHighlight
-                      style={{ backgroundColor: '#4d5b70' }}
-                      onPress={() => {
-                        setShouldShow(false);
-                      }}>
-                      <Text style={styles.modal_text}>כן</Text>
-                    </TouchableHighlight>
+            {modalUpdate && (
+              <View>
+                <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={modalUpdateVisible}
+                  onRequestClose={() => {
+                    console.log('Modal has been closed.');
+                  }}>
+                  <View style={styles.modalView}>
+                    <Text style={styles.modalText}>האם תרצה/י לעדכן פרטים אישיים לחץ על "כן", אחרת לחצ/י על "לא" </Text>
+                    <View style={styles.modal_buttons}>
+                      <Pressable
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => setModalUpdateVisible(!modalUpdateVisible)}>
+                        <Text style={styles.textStyle}>כן</Text>
+                      </Pressable>
+                      <Pressable
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => {
+                          setLoading(false)
+                          navigation.navigate("Home", { route: User });
+                        }}>
+                        <Text style={styles.textStyle}>לא</Text>
+                      </Pressable>
+                    </View>
                   </View>
-                </View>
-              </Modal>
-            ) : null}
+                </Modal>
+              </View>
+            )}
+            {/* {modalInfo && (
+              <View>
+                <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={modalInfoVisible}
+                  onRequestClose={() => {
+                    console.log('Modal has been closed.');
+                  }}>
+                  <View style={styles.modalView}>
+                    <Text style={styles.modalText}>אנא מלאו את הפרטים האישיים פעם אחת כדי שנוכל לתת לכם אפשרות לתרום דם !</Text>
+                    <View style={styles.modal_buttons}>
+                      <Pressable
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => setModalInfoVisible(!modalInfoVisible)}>
+                        <Text style={styles.textStyle}>סגור</Text>
+                      </Pressable>
+                    </View>
+                  </View>
+                </Modal>
+              </View>
+            )} */}
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -304,26 +329,50 @@ const styles = StyleSheet.create({
   container_btn: {
     alignItems: 'center'
   },
-  modal: {
-    width: 350,
+  //upload image Modal
+  modalView: {
+    margin: 20,
     backgroundColor: '#757c94',
-    alignSelf: 'center',
+    borderRadius: 20,
+    padding: 25,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
   },
   modal_buttons: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    margin: 15,
+    justifyContent: 'space-between',
+    margin: 10,
   },
-  modal_text: {
-    textAlign: 'center',
-    fontSize: 20,
-    color: 'white',
-    alignItems: 'center',
-    margin: 5,
-    borderRadius: 8,
-    padding: 2,
-    opacity: 1,
-    shadowColor: 'black',
-    shadowRadius: 5,
+  button: {
+    marginLeft: 50,
+    marginRight: 50,
+    borderRadius: 20,
+    padding: 15,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 20
+  },
+  modalText: {
+    color: "white",
+    fontSize: 22,
+    marginBottom: 10,
+    textAlign: "center"
   }
 });

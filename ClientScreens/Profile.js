@@ -8,8 +8,10 @@ import Spiner from '../Componentes/Spiner';
 const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function Profile({ navigation, route }) {
-  const [shouldShow, setShouldShow] = useState(false);
+  console.log("Profile", route.params.route);
   const [loading, setLoading] = useState(false);
+
+  const [shouldShow, setShouldShow] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   const [User, setUser] = useState(route.params.route)
@@ -17,7 +19,6 @@ export default function Profile({ navigation, route }) {
 
   useEffect(() => {
     (async () => {
-      setLoading(false);
       setImage(route.params.route.Profile_img)
       if (Platform.OS !== 'web') {
         setShouldShow(true)
@@ -139,15 +140,10 @@ export default function Profile({ navigation, route }) {
     <SafeAreaView style={styles.container}>
       <View style={styles.TopContainer}>
         <Image style={styles.profile_image} source={{ uri: image }} />
-        <TouchableOpacity
-          onPress={checkDevice}>
-          <Text>
-            <AntDesign name="camera" size={24} color="grey" fontWeight={'bold'} />
-          </Text>
+        <TouchableOpacity onPress={() => checkDevice()}>
+          <Text> <AntDesign name="camera" size={24} color="grey" fontWeight={'bold'} /> </Text>
         </TouchableOpacity>
-        {shouldShow ? (
-          <Spiner loading={loading} />
-        ) : null}
+        {loading && <Spiner loading={loading} />}
         <Text style={styles.addText}>{User.First_name + " " + User.Last_name}</Text>
 
         <Text style={styles.addText}>{User.Blood_type} :סוג דם</Text>
@@ -182,7 +178,7 @@ export default function Profile({ navigation, route }) {
         </TouchableOpacity>
 
       </View>
-      {shouldShow ? (
+      {shouldShow && (
         <View>
           <Modal
             animationType="slide"
@@ -213,7 +209,7 @@ export default function Profile({ navigation, route }) {
             </View>
           </Modal>
         </View>
-      ) : null}
+      )}
     </SafeAreaView>
   );
 }

@@ -105,7 +105,10 @@ export default function PersonalFormB({ navigation, route }) {
               />
             </View>
             <View style={styles.HorizontalBoxButtons}>
-              <TouchableOpacity onPress={() => PostPersonalFormB() }>
+              <TouchableOpacity onPress={() => {
+                setLoading(false)
+                PostPersonalFormB()
+              }}>
                 <View style={styles.button_normal}>
                   <Text style={styles.button_text} >הבא</Text>
                 </View>
@@ -116,7 +119,7 @@ export default function PersonalFormB({ navigation, route }) {
                 </View>
               </TouchableOpacity>
             </View>
-            <Spiner loading={loading} />
+            {loading && <Spiner loading={loading} />}
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>

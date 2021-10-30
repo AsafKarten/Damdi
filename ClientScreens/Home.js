@@ -4,8 +4,6 @@ import BG from '../assets/LOGO_ONLY_PNG.png'
 import ProgressBar from '../Componentes/ProgressBar.js'
 
 export default function Home({ navigation, route }) {
-  console.log("Home", route.params.route);
-  const [loading, setLoading] = useState(false);
   const [User, onChangeId] = useState(route.params.route)
 
   useEffect(() => {
@@ -14,9 +12,6 @@ export default function Home({ navigation, route }) {
     })
   }, [navigation])
 
-  useEffect(() => {
-    setLoading(false);
-  }, [])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -60,10 +55,8 @@ export default function Home({ navigation, route }) {
             <Text style={styles.button_text} >החברים שלי</Text>
           </View>
         </TouchableOpacity>
-
       </View>
     </SafeAreaView >
-
   );
 }
 const styles = StyleSheet.create({

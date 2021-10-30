@@ -6,22 +6,12 @@ import BG from '../assets/LOGO_ONLY_PNG.png'
 
 
 export default function Welcome({ navigation, route }) {
-  console.log("Welcome" ,route.params.route);
-
+  console.log("Welcome", route.params.route);
   const [loading, setLoading] = useState(false);
   const [User, setUser] = useState(route.params.route)
-  const [shouldShow, setShouldShow] = useState(false);
-
-
-  useEffect(() => {
-    navigation.addListener('focus', async () => {
-      setLoading(false);
-    })
-  }, [navigation])
 
   useEffect(() => {
     (async () => {
-      setLoading(false);
       await clearAsyncStorage();
       await storeData(User);
     })
@@ -29,6 +19,7 @@ export default function Welcome({ navigation, route }) {
 
   const storeData = async (data) => {
     try {
+      setLoading(true);
       var loggedUser = JSON.stringify(data);
       await AsyncStorage.setItem('loggedUser', loggedUser)
     } catch (e) {
@@ -50,14 +41,15 @@ export default function Welcome({ navigation, route }) {
 
       <Text> ברוך הבא לדאמדי {User.First_name} </Text>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Home', { route: User }, setShouldShow(true))}>
+      <TouchableOpacity onPress={() => {
+        setLoading(false)
+        navigation.navigate('Home', { route: User })
+      }}>
         <View style={styles.button_normal}>
           <Text style={styles.button_text} >המשך</Text>
         </View>
       </TouchableOpacity>
-      {shouldShow ? (
-        <Spiner loading={loading} />
-      ) : null}
+      {loading && <Spiner loading={loading} />}
     </View>
   )
 }

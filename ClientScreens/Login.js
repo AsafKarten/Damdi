@@ -100,7 +100,7 @@ export default function Login({ navigation }) {
 
   const clientLogin = async () => {
     try {
-      if (PersonalId === "" || Email === "" || Pass === "") {
+      if (PersonalId == "" || Email == "" || Pass == "") {
         Alert.alert("שגיאת התחברות", "אנא מלא/י את כל פרטים !")
         console.log('====================================');
         console.log("Error, Empty fields");
@@ -123,27 +123,27 @@ export default function Login({ navigation }) {
             console.log("error with password");
             return;
           }
-          storeData(updatedUser)
           let fullUpdatedUser = await getUserInfo(updatedUser.Personal_id);
           if (
-            fullUpdatedUser.First_name === null ||
-            fullUpdatedUser.Last_name === null ||
-            fullUpdatedUser.Phone === null ||
-            fullUpdatedUser.Gender === null ||
-            fullUpdatedUser.Birthdate === null ||
-            fullUpdatedUser.City === null ||
-            fullUpdatedUser.Address === null ||
-            fullUpdatedUser.Postal_code === null ||
-            fullUpdatedUser.Mail_box === null ||
-            fullUpdatedUser.Telephone === null ||
-            fullUpdatedUser.Confirm_examination === null ||
-            fullUpdatedUser.Birth_land === null ||
-            fullUpdatedUser.Father_birth_land === null ||
-            fullUpdatedUser.Mother_birth_land === null) {
+            fullUpdatedUser.First_name == null &&
+            fullUpdatedUser.Last_name == null &&
+            fullUpdatedUser.Phone == null &&
+            fullUpdatedUser.Gender == null &&
+            fullUpdatedUser.Birthdate == null &&
+            fullUpdatedUser.City == null &&
+            fullUpdatedUser.Address == null &&
+            fullUpdatedUser.Postal_code == null &&
+            fullUpdatedUser.Mail_box == null &&
+            fullUpdatedUser.Telephone == null &&
+            fullUpdatedUser.Confirm_examination == null &&
+            fullUpdatedUser.Birth_land == null &&
+            fullUpdatedUser.Father_birth_land == null &&
+            fullUpdatedUser.Mother_birth_land == null) {
             setLoading(false);
             Alert.alert("אנא מלא/י את כל הפרטים כדי לתרום!")
             navigation.navigate('PersonalFormA', { route: updatedUser })
           }
+          await storeData(fullUpdatedUser)
           navigation.navigate('PersonalFormA', { route: fullUpdatedUser })
 
         }
@@ -185,7 +185,10 @@ export default function Login({ navigation }) {
                 secureTextEntry={true}
                 placeholder="סיסמה"
               />
-              <TouchableOpacity onPress={() => clientLogin()}>
+              <TouchableOpacity onPress={() => {
+                setLoading(false);
+                clientLogin()
+              }}>
                 <View style={styles.button_normal}>
                   <Text style={styles.button_text}>התחברות</Text>
                 </View>
@@ -195,7 +198,7 @@ export default function Login({ navigation }) {
                   <Text style={styles.button_text} >הרשמה</Text>
                 </View>
               </TouchableOpacity>
-              <Spiner loading={loading} />
+              {loading && <Spiner loading={loading} />}
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>

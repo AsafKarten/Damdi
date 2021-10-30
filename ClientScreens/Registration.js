@@ -75,7 +75,6 @@ export default function Registration({ navigation }) {
         let user = await result_user.json();
         storeData(user)
         navigation.navigate("PersonalFormA", { route: user })
-        setLoading(false)
       }
     } catch (error) {
       Alert.alert("שגיאת הרשמה", "מצטערים ההרשמה נכשלה אנא נסו מאוחר יותר")
@@ -114,14 +113,16 @@ export default function Registration({ navigation }) {
               value={CPass}
               placeholder="אשר סיסמה"
             />
-            <TouchableOpacity onPress={() => SignUp()}>
+            <TouchableOpacity onPress={() => {
+              setLoading(false)
+              SignUp()
+            }}>
               <View style={styles.button_normal}>
                 <Text >סיים הרשמה</Text>
               </View>
             </TouchableOpacity>
-            {shouldShow ? (
-              <Spiner loading={loading} />
-            ) : null}
+            {loading && <Spiner loading={loading} />}
+
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>

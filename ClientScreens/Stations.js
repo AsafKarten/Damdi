@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, FlatList, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, Platform } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
-
 export default function Stations({ navigation, route }) {
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+  
   const [User, onChangeUser] = useState(route.params.route)
   const [AppointDate, onChangeDate] = useState()
   const [City, onChangeCity] = useState()
@@ -14,13 +18,38 @@ export default function Stations({ navigation, route }) {
   ])
 
 
-  var today = new Date();
-  var date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
-  var time = today.getHours() + ":" + today.getMinutes();
-  const dateTime = date + ' ' + time;
-  
+
+  // var today = new Date();
+  // var date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
+  // var time = today.getHours() + ":" + today.getMinutes();
+  // const dateTime = date + ' ' + time;
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS !== 'web');
+    setDate(currentDate);
+    let tempDate = new Date(currentDate);
+    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
+    onChangeDate(fDate)
+    setShow(false);
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const onFocus = () => {
+    showDatepicker()
+  }
+
+
   const ScheduleAppointment = (item) => {
-    var route = { User: User, Station: item, DateTime: dateTime }
+    var route = { User: User, Station: item, DateTime: AppointDate }
     navigation.navigate('ScheduleAppointment', { route: route })
   }
 
@@ -43,9 +72,6 @@ export default function Stations({ navigation, route }) {
         });
         let data = [...await result.json()];
         setStations(data);
-        console.log('====================================');
-        console.log(Stations);
-        console.log('====================================');
       }
     } catch (error) {
 
@@ -58,17 +84,18 @@ export default function Stations({ navigation, route }) {
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
-            <TouchableOpacity onPress={openDatePicker}>
-              <View style={styles.button_normal}>
-                <Text style={styles.button_text} > תאריך התרמה</Text>
-              </View>
-            </TouchableOpacity>
-            <TextInput
-              style={styles.input}
-              onChangeText={onChangeDate}
-              value={AppointDate}
-              placeholder="תאריך"
-            />
+            <View style={styles.date_container}>
+              <TouchableOpacity onPress={onFocus}>
+                <View style={styles.button_normal}>
+                  <Text style={styles.button_text} > תאריך התרמה</Text>
+                </View>
+              </TouchableOpacity>
+              <TextInput
+                style={styles.input}
+                value={AppointDate}
+                placeholder="תאריך"
+              />
+            </View>
             <TextInput
               style={styles.input}
               onChangeText={onChangeCity}
@@ -80,7 +107,6 @@ export default function Stations({ navigation, route }) {
                 <Text style={styles.button_text} >חיפוש</Text>
               </View>
             </TouchableOpacity>
-
             <FlatList
               data={Stations}
               keyExtractor={(item) => item.Station_code}
@@ -96,6 +122,15 @@ export default function Stations({ navigation, route }) {
                   </TouchableOpacity>
                 </View>
               )} />
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={mode}
+                display="default"
+                onChange={onChange}
+              />
+            )}
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -105,13 +140,12 @@ export default function Stations({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   inner: {
     padding: 50,
     flex: 1,
-    justifyContent: "center"
   },
   input: {
     height: 40,
@@ -120,10 +154,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     textAlign: 'center',
-
+  },
+  text: {
+    borderBottomColor: 'black',
+    width: 200,
+    borderBottomWidth: 1,
+    fontSize: 15,
+  },
+  date_container: {
+    flexDirection: "row-reverse"
   },
   button_normal: {
-
     alignItems: 'center',
     width: 160,
     margin: 15,

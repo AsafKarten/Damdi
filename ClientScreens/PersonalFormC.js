@@ -5,10 +5,10 @@ import Spiner from '../Componentes/Spiner';
 const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function PersonalFormC({ navigation, route }) {
-  
-  const [User, setUser] = useState(route.params.route)
-  console.log(User);
   const [loading, setLoading] = useState(false);
+
+  const [User, setUser] = useState(route.params.route)
+
   const [bloodGroupMember, setBloodGroupMember] = useState(false);
   const toggleGroupMember = () => setBloodGroupMember(previousState => !previousState);
   const [personalInsurance, setPersonalInsurance] = useState(false);
@@ -36,22 +36,25 @@ export default function PersonalFormC({ navigation, route }) {
     })()
   }, [])
 
-  const PostPersonalFormC = async () => {
-    if (birthLand == '') {
-      Alert.alert('אנא מלא/י את כל הפרטים בבקשה (אם לא עלית מארץ אחרת לא חובה למלא, אם ההורים לא עלו מארץ אחרת לא חובה למלא גם כן)')
-      return
+  const getUserInfo = async () => {
+    try {
+      let result = await fetch(url + "api/user/info", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: User.Personal_id
+        })
+      });
+      let full_user = await result.json();
+      if (full_user !== undefined || full_user !== null) {
+        return full_user
+      }
+    } catch (error) {
+      console.error('error with retrun full user');
     }
-    setLoading(true);
-    User.Blood_group_member = bloodGroupMember
-    User.Personal_insurance = personalInsurance
-    User.Confirm_examination = confirmExamination
-    User.Agree_future_don = agreeFutureDonation
-    User.Birth_land = birthLand
-    User.Aliya_year = aliyaYear
-    User.Father_birth_land = fatherBirthLand
-    User.Mother_birth_land = motherBirthLand
-    await postDataToDB()
-    navigation.navigate('Welcome', { route: User })
   }
 
   const postDataToDB = async () => {
@@ -93,6 +96,27 @@ export default function PersonalFormC({ navigation, route }) {
       console.log('error with the send data to server ')
     }
   }
+
+  const PostPersonalFormC = async () => {
+    if (birthLand == '') {
+      Alert.alert('אנא מלא/י את כל הפרטים בבקשה (אם לא עלית מארץ אחרת לא חובה למלא, אם ההורים לא עלו מארץ אחרת לא חובה למלא גם כן)')
+      return
+    }
+    setLoading(true);
+    User.Blood_group_member = bloodGroupMember
+    User.Personal_insurance = personalInsurance
+    User.Confirm_examination = confirmExamination
+    User.Agree_future_don = agreeFutureDonation
+    User.Birth_land = birthLand
+    User.Aliya_year = aliyaYear
+    User.Father_birth_land = fatherBirthLand
+    User.Mother_birth_land = motherBirthLand
+    await postDataToDB()
+    let updateUser = await getUserInfo();
+    navigation.navigate('Welcome', { route: updateUser })
+  }
+
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -176,13 +200,18 @@ export default function PersonalFormC({ navigation, route }) {
               />
             </View>
             <View style={styles.HorizontalBoxButtons}>
-              <TouchableOpacity onPress={() => PostPersonalFormC()}>
+              <TouchableOpacity onPress={() => {
+                setLoading(false)
+                PostPersonalFormC()
+              }}>
                 <View style={styles.button_normal}>
                   <Text style={styles.button_text} >סיום</Text>
                 </View>
               </TouchableOpacity>
-              <Spiner loading={loading} />
-              <TouchableOpacity onPress={() => navigation.navigate('PersonalFormB')}>
+              <TouchableOpacity onPress={() =>
+                navigation.navigate('PersonalFormB')
+              }>
+                {loading && <Spiner loading={loading} />}
                 <View style={styles.button_normal}>
                   <Text style={styles.button_text} >חזרה</Text>
                 </View>
@@ -191,7 +220,7 @@ export default function PersonalFormC({ navigation, route }) {
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 
 }

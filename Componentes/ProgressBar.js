@@ -7,6 +7,7 @@ const MyBar = () => (
     <View style={styles.container} >
         <ProgressBar color='red' progress={0.3} width={250} height={25} borderColor="navy" borderWidth={1.5} />
         <Text style={styles.textProgress}>1000/10000</Text>
+        <Text style={styles.textProgress}>מנות דם שנתרמו</Text>
     </View>
 );
 const styles = StyleSheet.create({
