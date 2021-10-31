@@ -20,9 +20,7 @@ export default function Login({ navigation }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      await getData();
-    })()
+    getData();
   }, [])
 
   const getData = async () => {
@@ -31,7 +29,7 @@ export default function Login({ navigation }) {
       if (loggedUser !== null) {
         let existUser = JSON.parse(loggedUser)
         console.log(existUser);
-        navigation.navigate('PersonalFormA', { route: existUser })
+        navigation.navigate('PersonalFormA', { route: existUser, modalStatus: "update" })
       }
       else {
         console.log('No user found on setion storage');
@@ -144,8 +142,7 @@ export default function Login({ navigation }) {
             navigation.navigate('PersonalFormA', { route: updatedUser })
           }
           await storeData(fullUpdatedUser)
-          navigation.navigate('PersonalFormA', { route: fullUpdatedUser })
-
+          navigation.navigate('PersonalFormA', { route: fullUpdatedUser, modalStatus: 'update' })
         }
         else {
           setLoading(false);

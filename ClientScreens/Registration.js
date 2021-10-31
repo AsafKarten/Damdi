@@ -73,8 +73,8 @@ export default function Registration({ navigation }) {
           })
         });
         let user = await result_user.json();
-        storeData(user)
-        navigation.navigate("PersonalFormA", { route: user })
+        await storeData(user)
+        navigation.navigate("PersonalFormA", { route: user, modalStatus: "info" })
       }
     } catch (error) {
       Alert.alert("שגיאת הרשמה", "מצטערים ההרשמה נכשלה אנא נסו מאוחר יותר")

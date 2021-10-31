@@ -3,20 +3,22 @@ import { Alert, Modal, View, Pressable, SafeAreaView, StyleSheet, Text, TextInpu
 import Spiner from '../Componentes/Spiner';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
+import parseErrorStack from 'react-native/Libraries/Core/Devtools/parseErrorStack';
 
 
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function PersonalFormA({ navigation, route }) {
+
   console.log(route.params.route);
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // const [modalInfo, setModalInfo] = useState(false);
-  // const [modalInfoVisible, setModalInfoVisible] = useState(false);
+  const [modalInfo, setModalInfo] = useState(false);
+  const [modalInfoVisible, setModalInfoVisible] = useState(false);
 
   const [modalUpdate, setModalUpdate] = useState(false);
   const [modalUpdateVisible, setModalUpdateVisible] = useState(false);
@@ -33,23 +35,34 @@ export default function PersonalFormA({ navigation, route }) {
   const [Prev_last_name, onChangePrev_last_name] = useState();
 
   useEffect(() => {
-    const res = navigation.addListener('focus',
-      async () => {
-        if (res != undefined) {
-          await getUserInfo();
-        }
-      })
+    const res = navigation.addListener('focus', () => {
+      if (res != undefined) {
+        getUserInfo();
+      }
+    })
   }, [navigation])
 
 
   const getUserInfo = async () => {
-    console.log(User.Personal_id);
     try {
       if (Platform.OS !== 'web') {
-        setModalUpdate(true)
-        setTimeout(() => {
-          setModalUpdateVisible(true)
-        }, 500);
+        if (route.params.modalStatus === 'info') {
+          setModalInfo(true);
+          setModalInfoVisible(true);
+        }
+        else if (route.params.modalStatus === 'update') {
+          setModalUpdate(true)
+          setTimeout(() => {
+            setModalUpdateVisible(true)
+          }, 500);
+        }
+        else {
+          console.log("no modals shows");
+          setModalInfo(false);
+          setModalInfoVisible(false);
+          setModalUpdate(false);
+          setModalUpdateVisible(false);
+        }
       }
       let result = await fetch(url + "api/user/info", {
         method: 'POST',
@@ -62,7 +75,6 @@ export default function PersonalFormA({ navigation, route }) {
         })
       });
       let full_user = await result.json();
-      console.log(full_user);
       if (
         full_user.First_name === null ||
         full_user.Last_name === null ||
@@ -135,6 +147,8 @@ export default function PersonalFormA({ navigation, route }) {
   const onFocus = () => {
     showDatepicker()
   }
+
+  console.log(route.params.modalStatus);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -245,7 +259,7 @@ export default function PersonalFormA({ navigation, route }) {
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => {
                           setLoading(false)
-                          navigation.navigate("Home", { route: User });
+                          navigation.navigate("Welcome", { route: User });
                         }}>
                         <Text style={styles.textStyle}>לא</Text>
                       </Pressable>
@@ -254,7 +268,7 @@ export default function PersonalFormA({ navigation, route }) {
                 </Modal>
               </View>
             )}
-            {/* {modalInfo && (
+            {modalInfo && (
               <View>
                 <Modal
                   animationType="slide"
@@ -275,7 +289,7 @@ export default function PersonalFormA({ navigation, route }) {
                   </View>
                 </Modal>
               </View>
-            )} */}
+            )}
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>

@@ -152,7 +152,7 @@ export default function Profile({ navigation, route }) {
 
       <View style={styles.ButtonContainer}>
 
-        <TouchableOpacity onPress={() => navigation.navigate('PersonalFormA', { route: User })}>
+        <TouchableOpacity onPress={() => navigation.navigate('PersonalFormA', { route: User, modalStatus: "none" })}>
           <View style={styles.button_normal}>
             <Text style={styles.button_text} >עדכון פרטים אישיים</Text>
           </View>
