@@ -103,12 +103,6 @@ namespace DamdiServer.DAL
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
-                    User exist_user = null;
-                    exist_user = GetUser(user);
-                    if (exist_user.Salted_hash == user.Salted_hash || exist_user.Email == user.Email)
-                    {
-                        return -1;
-                    }
                     SqlCommand cmd = new SqlCommand("UpdateUserDetails", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id_user", SqlDbType.NVarChar).Value = user.Personal_id;
