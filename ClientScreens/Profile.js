@@ -265,9 +265,10 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    color: 'white'
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold'
   },
-
   //upload image Modal
   modalView: {
     margin: 20,

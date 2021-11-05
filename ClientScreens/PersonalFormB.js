@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
+const ilCities = require('../assets/il.json');
 
 
 export default function PersonalFormB({ navigation, route }) {
@@ -8,6 +9,8 @@ export default function PersonalFormB({ navigation, route }) {
   const [User, setUser] = useState(route.params.route)
 
   const [City, onChangeCity] = useState();
+
+
   const [Address, onChangeAddress] = useState();
   const [Postal_code, onChangePostal_code] = useState();
   const [Mail_box, onChangeMail_box] = useState();
@@ -158,7 +161,9 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    color: 'white'
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold'
   },
   HorizontalBox: {
     width: 280,

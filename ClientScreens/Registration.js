@@ -27,6 +27,8 @@ export default function Registration({ navigation }) {
 
 
   const SignUp = async () => {
+    // var emailregex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/; 
+    // var pasRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
     try {
       if (Pass != CPass) {
         Alert.alert("שגיאת סיסמא", "סיסמא אינה תואמת, אנא בדוק פרטיך!");

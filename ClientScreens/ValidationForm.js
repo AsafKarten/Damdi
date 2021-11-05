@@ -102,9 +102,7 @@ export default function ValidationFrom({ navigation, route }) {
 
         <View style={styles.container}>
           <View style={styles.textBox}>
-            <Text style={styles.text}>
-              האם קיימות סיבות אישיות או אחרות, שבגללן לא ניתן להשתמש במנת הדם שתתרום לעירוי לחולה
-            </Text>
+            <Text style={styles.text}>האם קיימות סיבות אישיות או אחרות, שבגללן לא ניתן להשתמש במנת הדם שתתרום לעירוי לחולה</Text>
           </View>
           <View style={styles.checkboxContainer}>
             <Text>לא לעירוי!</Text>
@@ -155,6 +153,7 @@ export default function ValidationFrom({ navigation, route }) {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     borderBottomColor: 'grey',
@@ -186,7 +185,8 @@ const styles = StyleSheet.create({
     shadowRadius: 5
   },
   button_text: {
-    color: 'white'
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold'
   },
-
 });

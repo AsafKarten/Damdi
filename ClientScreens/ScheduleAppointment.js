@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Modal, TouchableHighlight, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image, FlatList } from 'react-native';
+import { View, Modal, TouchableHighlight, Platform, StyleSheet, Text, TouchableOpacity, Alert, FlatList } from 'react-native';
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
@@ -60,7 +60,6 @@ export default function ScheduleAppointment({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-
       <FlatList
         data={appointmentsTime}
         keyExtractor={(item) => item.id}
@@ -100,9 +99,7 @@ export default function ScheduleAppointment({ navigation, route }) {
               </View>
               <TouchableHighlight
                 style={{ backgroundColor: '#4d5b70' }}
-                onPress={() => {
-                  setConfirm(!confirmModal);
-                }}>
+                onPress={() => { setConfirm(!confirmModal); }}>
                 <Text>סגור</Text>
               </TouchableHighlight>
             </View>
@@ -112,6 +109,7 @@ export default function ScheduleAppointment({ navigation, route }) {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -128,7 +126,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button_normal: {
-
     alignItems: 'center',
     width: 160,
     margin: 15,
@@ -140,7 +137,9 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    color: 'white'
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold'
   },
   list: {
     flexWrap: 'wrap',

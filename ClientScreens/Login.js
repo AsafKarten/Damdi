@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Platform, ImageBackground, View, SafeAreaView, StyleSheet, TextInput, Text, TouchableOpacity, Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
+import { Platform, ImageBackground, View,BackHandler, SafeAreaView, StyleSheet, TextInput, Text, TouchableOpacity, Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spiner from '../Componentes/Spiner';
 import BG_ONLY from '../assets/BG_ONLY.jpg';
@@ -8,6 +8,7 @@ const url = "http://proj13.ruppin-tech.co.il/"
 
 var isaac = require('isaac');
 var bcrypt = require('bcryptjs');
+
 bcrypt.setRandomFallback((len) => {
   const buf = new Uint8Array(len);
   return buf.map(() => Math.floor(isaac.random() * 256));
@@ -21,14 +22,36 @@ export default function Login({ navigation }) {
 
   useEffect(() => {
     getData();
-  }, [])
+  }, [navigation])
+
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert("רגע רגע", "בטוח שאת\ה רוצה לצאת מהאפליקציה?!", [
+        {
+          text: "ביטול",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "כן", onPress: () => BackHandler.exitApp() }
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
 
   const getData = async () => {
     try {
       let loggedUser = await AsyncStorage.getItem('loggedUser')
       if (loggedUser !== null) {
         let existUser = JSON.parse(loggedUser)
-        console.log(existUser);
+        console.log("login 32", existUser);
         navigation.navigate('PersonalFormA', { route: existUser, modalStatus: "update" })
       }
       else {
@@ -49,7 +72,7 @@ export default function Login({ navigation }) {
     }
   }
 
-  const getAutenticateUser = async (personal_id, email) => {
+  const getAutenticateUser = async () => {
     try {
       if (Platform.OS !== 'web') {
         setLoading(true);
@@ -61,8 +84,8 @@ export default function Login({ navigation }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id: personal_id,
-          Email: email
+          Personal_id: PersonalId,
+          Email: Email
         })
       });
       let user = await result.json();
@@ -106,7 +129,7 @@ export default function Login({ navigation }) {
         return
       }
       else {
-        let updatedUser = await getAutenticateUser(PersonalId, Email);
+        let updatedUser = await getAutenticateUser();
         if (updatedUser !== undefined || updatedUser !== null) {
           if (Email !== updatedUser.Email || PersonalId !== updatedUser.Personal_id) {
             setLoading(false);
@@ -114,35 +137,37 @@ export default function Login({ navigation }) {
             console.log("error with email or id");
             return;
           }
-          var correct = bcrypt.compareSync(Pass, updatedUser.Salted_hash)
+          console.log("update", updatedUser);
+          await storeData(updatedUser)
+          var correct = await bcrypt.compareSync(Pass, updatedUser.Salted_hash)
           if (!correct) {
             setLoading(false);
             Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
             console.log("error with password");
             return;
           }
-          let fullUpdatedUser = await getUserInfo(updatedUser.Personal_id);
-          if (
-            fullUpdatedUser.First_name == null &&
-            fullUpdatedUser.Last_name == null &&
-            fullUpdatedUser.Phone == null &&
-            fullUpdatedUser.Gender == null &&
-            fullUpdatedUser.Birthdate == null &&
-            fullUpdatedUser.City == null &&
-            fullUpdatedUser.Address == null &&
-            fullUpdatedUser.Postal_code == null &&
-            fullUpdatedUser.Mail_box == null &&
-            fullUpdatedUser.Telephone == null &&
-            fullUpdatedUser.Confirm_examination == null &&
-            fullUpdatedUser.Birth_land == null &&
-            fullUpdatedUser.Father_birth_land == null &&
-            fullUpdatedUser.Mother_birth_land == null) {
-            setLoading(false);
-            Alert.alert("אנא מלא/י את כל הפרטים כדי לתרום!")
-            navigation.navigate('PersonalFormA', { route: updatedUser })
-          }
-          await storeData(fullUpdatedUser)
-          navigation.navigate('PersonalFormA', { route: fullUpdatedUser, modalStatus: 'update' })
+          // let fullUpdatedUser = await getUserInfo(updatedUser.Personal_id);
+          // console.log(fullUpdatedUser);
+          // if (
+          //   fullUpdatedUser.First_name == null &&
+          //   fullUpdatedUser.Last_name == null &&
+          //   fullUpdatedUser.Phone == null &&
+          //   fullUpdatedUser.Gender == null &&
+          //   fullUpdatedUser.Birthdate == null &&
+          //   fullUpdatedUser.City == null &&
+          //   fullUpdatedUser.Address == null &&
+          //   fullUpdatedUser.Postal_code == null &&
+          //   fullUpdatedUser.Mail_box == null &&
+          //   fullUpdatedUser.Telephone == null &&
+          //   fullUpdatedUser.Confirm_examination == null &&
+          //   fullUpdatedUser.Birth_land == null &&
+          //   fullUpdatedUser.Father_birth_land == null &&
+          //   fullUpdatedUser.Mother_birth_land == null) {
+          //   setLoading(false);
+          //   Alert.alert("אנא מלא/י את כל הפרטים כדי לתרום!")
+          //   navigation.navigate('PersonalFormA', { route: updatedUser })
+          // }
+          navigation.navigate('PersonalFormA', { route: updatedUser, modalStatus: 'update' })
         }
         else {
           setLoading(false);
@@ -160,6 +185,7 @@ export default function Login({ navigation }) {
   return (
     <ImageBackground source={BG_ONLY} style={styles.BGimage}>
       <SafeAreaView style={styles.container}>
+
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.inner}>
@@ -238,7 +264,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   button_text: {
-    color: 'black'
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold'
   },
   BGimage: {
     flex: 1,

@@ -3,6 +3,7 @@ import { StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, Pressable }
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 var bcrypt = require('bcryptjs');
+
 const url = "http://proj13.ruppin-tech.co.il/"
 
 
@@ -24,13 +25,14 @@ export default function PrivacyAndSecurity({ navigation, route }) {
     }
   }
 
-  const clearAsyncStorage = async () => {
+  const clearAsyncStorage = async (key) => {
     try {
-      await AsyncStorage.clear();
-      console.log('Done clear storage');
+      await AsyncStorage.removeItem(key)
+      console.log("clear async storage")
     } catch (error) {
-      console.log(error);
+      console.log(error, "error with clean async storage")
     }
+    console.log('Done.')
   }
 
   const getUserInfo = async () => {
@@ -72,10 +74,10 @@ export default function PrivacyAndSecurity({ navigation, route }) {
       });
       let currentUser = await result.json();
       console.log(currentUser);
-      if (currentUser.Personal_id == prevDetails.Personal_id) {
+      if (currentUser.Personal_id === prevDetails.Personal_id) {
         postEditDetiles()
       }
-      if (currentUser.Salted_hash == prevDetails.Salted_hash || currentUser.Email == prevDetails.Email && currentUser.Personal_id !== prevDetails.Personal_id) {
+      if (currentUser.Salted_hash === prevDetails.Salted_hash || currentUser.Email === prevDetails.Email && currentUser.Personal_id !== prevDetails.Personal_id) {
         setModalVisible(true)
       }
       else {
@@ -86,12 +88,10 @@ export default function PrivacyAndSecurity({ navigation, route }) {
     }
   }
 
-
-
   const postEditDetiles = async () => {
     try {
-      if (!Pass == '') {
-        if (Pass == CPass) {
+      if (!Pass === '') {
+        if (Pass === CPass) {
           let salt = bcrypt.genSaltSync(10);
           let saltedHash = bcrypt.hashSync(Pass, salt);
           onChangeSalt(saltedHash);
@@ -100,7 +100,7 @@ export default function PrivacyAndSecurity({ navigation, route }) {
       else {
         Alert.alert("הסיסמא אינה תואמת נסי/ה הזן שוב")
       }
-      await clearAsyncStorage();
+      await clearAsyncStorage("loggedUser");
       let result = await fetch(url + "api/edit/user", {
         method: 'POST',
         headers: {
@@ -196,7 +196,9 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   button_text: {
-    color: 'white'
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold'
   },
   button_normal: {
     alignItems: 'center',
@@ -209,6 +211,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowRadius: 5,
   },
+  
   //Modal style
   modalView: {
     margin: 20,

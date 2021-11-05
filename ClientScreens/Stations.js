@@ -8,7 +8,7 @@ export default function Stations({ navigation, route }) {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-  
+
   const [User, onChangeUser] = useState(route.params.route)
   const [AppointDate, onChangeDate] = useState()
   const [City, onChangeCity] = useState()
@@ -176,7 +176,9 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    color: 'white'
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold'
   },
   list: {
     flexWrap: 'wrap',

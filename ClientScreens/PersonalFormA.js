@@ -3,7 +3,6 @@ import { Alert, Modal, View, Pressable, SafeAreaView, StyleSheet, Text, TextInpu
 import Spiner from '../Componentes/Spiner';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
-import parseErrorStack from 'react-native/Libraries/Core/Devtools/parseErrorStack';
 
 
 
@@ -11,7 +10,6 @@ const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function PersonalFormA({ navigation, route }) {
 
-  console.log(route.params.route);
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -24,7 +22,6 @@ export default function PersonalFormA({ navigation, route }) {
   const [modalUpdateVisible, setModalUpdateVisible] = useState(false);
 
   const [User, setUser] = useState(route.params.route)
-  console.log(User.Personal_id)
   const [First_name, onChangeFirst_name] = useState();
   const [Last_name, onChangeLast_name] = useState();
   const [Phone, onChangePhone] = useState();
@@ -35,12 +32,8 @@ export default function PersonalFormA({ navigation, route }) {
   const [Prev_last_name, onChangePrev_last_name] = useState();
 
   useEffect(() => {
-    const res = navigation.addListener('focus', () => {
-      if (res != undefined) {
-        getUserInfo();
-      }
-    })
-  }, [navigation])
+    getUserInfo();
+  }, [])
 
 
   const getUserInfo = async () => {
@@ -64,6 +57,7 @@ export default function PersonalFormA({ navigation, route }) {
           setModalUpdateVisible(false);
         }
       }
+      console.log("Personal id", route.params.route.Personal_id);
       let result = await fetch(url + "api/user/info", {
         method: 'POST',
         headers: {
@@ -71,10 +65,19 @@ export default function PersonalFormA({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id: User.Personal_id
+          Personal_id: route.params.route.Personal_id
         })
       });
       let full_user = await result.json();
+      console.log("full user : ", full_user);
+      setUser(full_user);
+      onChangeFirst_name(full_user.First_name)
+      onChangeLast_name(full_user.Last_name)
+      onChangePhone(full_user.Phone)
+      onChangeGender(full_user.Gender)
+      onChangeBirthdate(full_user.Birthdate.split(' ')[0])
+      onChangePrev_first_name(full_user.Prev_first_name)
+      onChangePrev_last_name(full_user.Prev_last_name)
       if (
         full_user.First_name === null ||
         full_user.Last_name === null ||
@@ -91,16 +94,7 @@ export default function PersonalFormA({ navigation, route }) {
         full_user.Father_birth_land === null ||
         full_user.Mother_birth_land === null) {
         console.log("User is empty");
-      }
-      else {
-        setUser(full_user);
-        onChangeFirst_name(full_user.First_name)
-        onChangeLast_name(full_user.Last_name)
-        onChangePhone(full_user.Phone)
-        onChangeGender(full_user.Gender)
-        onChangeBirthdate(full_user.Birthdate.split(' ')[0])
-        onChangePrev_first_name(full_user.Prev_first_name)
-        onChangePrev_last_name(full_user.Prev_last_name)
+        return
       }
     } catch (error) {
       console.error('error with retrun full user');
@@ -148,14 +142,16 @@ export default function PersonalFormA({ navigation, route }) {
     showDatepicker()
   }
 
-  console.log(route.params.modalStatus);
-
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
             <View style={styles.HorizontalBox}>
+              <Text style={styles.lableText}>כחלק מתהליך התרומה,{"\n"}יש להזין את פרטיך האישים העדכניים על מנת לתרום דם בצורה בטוחה ומאובטחת.</Text>
+            </View>
+            <View style={styles.HorizontalBox}>
+
               <Text style={styles.lableText}> שם פרטי </Text>
               <TextInput
                 style={styles.input}
@@ -189,8 +185,7 @@ export default function PersonalFormA({ navigation, route }) {
                 containerStyle={{ margin: 15, flexDirection: 'row' }}
                 selected={Gender}
                 onSelected={(value) => onChangeGender(value)}
-                radioBackground="blue"
-              >
+                radioBackground="blue">
                 <RadioButtonItem value="נקבה" label="נקבה" />
                 <RadioButtonItem value="זכר" label="זכר" />
               </RadioButtonGroup>
@@ -274,9 +269,7 @@ export default function PersonalFormA({ navigation, route }) {
                   animationType="slide"
                   transparent={true}
                   visible={modalInfoVisible}
-                  onRequestClose={() => {
-                    console.log('Modal has been closed.');
-                  }}>
+                  onRequestClose={() => { console.log('Modal has been closed.'); }}>
                   <View style={styles.modalView}>
                     <Text style={styles.modalText}>אנא מלאו את הפרטים האישיים פעם אחת כדי שנוכל לתת לכם אפשרות לתרום דם !</Text>
                     <View style={styles.modal_buttons}>
@@ -304,7 +297,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   inner: {
-    padding: 100,
+    padding: 8,
     flex: 1,
     justifyContent: "space-between"
   },
@@ -328,16 +321,19 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    color: 'white'
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold'
   },
   HorizontalBox: {
     width: 280,
     justifyContent: 'space-between',
     flexDirection: 'row-reverse',
-    marginTop: 12,
+    marginTop: 15,
   },
   lableText: {
     marginTop: 17,
+    fontSize:16,
     fontWeight: 'bold'
   },
   container_btn: {

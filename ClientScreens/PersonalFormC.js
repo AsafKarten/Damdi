@@ -91,7 +91,7 @@ export default function PersonalFormC({ navigation, route }) {
         })
       })
       let respone = await result.json()
-      console.log(respone);
+      console.log("FormC 94",respone);
     } catch (error) {
       console.log('error with the send data to server ')
     }
@@ -272,6 +272,8 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    color: 'white'
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold'
   },
 });

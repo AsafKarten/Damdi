@@ -1,8 +1,10 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import Feather from 'react-native-vector-icons/Feather';
+
 
 import Registration from '../ClientScreens/Registration'
 import Login from '../ClientScreens/Login.js'
@@ -24,6 +26,9 @@ import PrivacyAndSecurity from '../ClientScreens/PrivacyAndSecurity.js'
 const Stack = createStackNavigator();
 
 export default function StackNavigation() {
+
+
+
 
   return (
     <NavigationContainer>
@@ -94,13 +99,14 @@ export default function StackNavigation() {
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
-            headerTintColor: '#fff'
+            headerTintColor: '#fff',
             // headerRight: () => <Feather onPress={() => backPage('Welcome')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
             // headerLeft: () => {
-            //   return null;
-            // },
+            // //   <Spiner />
+            // //   return <Feather onPress={() => logoutUser()} name="log-out" size={32} color="grey" style={styles.arrow} />
+            // // }
           }} />
-        <Stack.Screen name="Home" component={Home}
+        < Stack.Screen name="Home" component={Home}
           options={{
             title: 'מסך הבית',
             headerStyle: {
@@ -112,7 +118,7 @@ export default function StackNavigation() {
               return null;
             },
           }} />
-        <Stack.Screen name="Stations" component={Stations}
+        < Stack.Screen name="Stations" component={Stations}
           options={{
             title: 'תחנות התרמה',
             headerStyle: {
@@ -124,7 +130,7 @@ export default function StackNavigation() {
             //   return null;
             // },
           }} />
-        <Stack.Screen name="Profile" component={Profile}
+        < Stack.Screen name="Profile" component={Profile}
           options={{
             title: 'פרופיל אישי',
             headerStyle: {
@@ -136,7 +142,7 @@ export default function StackNavigation() {
             //   return null;
             // },
           }} />
-        <Stack.Screen name="PrivacyAndSecurity" component={PrivacyAndSecurity}
+        < Stack.Screen name="PrivacyAndSecurity" component={PrivacyAndSecurity}
           options={{
             title: 'פרטיות ואבטחה',
             headerStyle: {
@@ -148,7 +154,7 @@ export default function StackNavigation() {
             //   return null;
             // },
           }} />
-        <Stack.Screen name="Appointments" component={Appointments}
+        < Stack.Screen name="Appointments" component={Appointments}
           options={{
             title: 'התורים שלי',
             headerStyle: {
@@ -160,7 +166,7 @@ export default function StackNavigation() {
             //   return null;
             // },
           }} />
-        <Stack.Screen name="Friends" component={Friends}
+        < Stack.Screen name="Friends" component={Friends}
           options={{
             title: 'החברים שלי',
             headerStyle: {
@@ -172,7 +178,7 @@ export default function StackNavigation() {
             //   return null;
             // },
           }} />
-        <Stack.Screen name="BloodInfo" component={BloodInfo}
+        < Stack.Screen name="BloodInfo" component={BloodInfo}
           options={{
             title: 'פרטי הדם שלי',
             headerStyle: {
@@ -185,7 +191,7 @@ export default function StackNavigation() {
             // },
           }} />
 
-        <Stack.Screen name="ValidationForm" component={ValidationForm}
+        < Stack.Screen name="ValidationForm" component={ValidationForm}
           options={{
             title: 'טופס אימות',
             headerStyle: {
@@ -197,7 +203,7 @@ export default function StackNavigation() {
             //   return null;
             // },
           }} />
-        <Stack.Screen name="ScheduleAppointment" component={ScheduleAppointment}
+        < Stack.Screen name="ScheduleAppointment" component={ScheduleAppointment}
           options={{
             title: 'רשימת תורים',
             headerStyle: {
@@ -209,7 +215,7 @@ export default function StackNavigation() {
             //   return null;
             // },
           }} />
-        <Stack.Screen name="MedicalForm" component={MedicalForm}
+        < Stack.Screen name="MedicalForm" component={MedicalForm}
           options={{
             title: 'טופס רפואי',
             headerStyle: {
@@ -221,8 +227,8 @@ export default function StackNavigation() {
             //   return null;
             // },
           }} />
-      </Stack.Navigator>
-    </NavigationContainer>
+      </Stack.Navigator >
+    </NavigationContainer >
   );
 }
 

@@ -45,7 +45,6 @@ export default function Appointments({ navigation, route }) {
             <Text style={styles.button_text}>היסטורית התורים שלך</Text>
           </View>
         </TouchableOpacity>
-
       </View>
     </SafeAreaView>
   );
@@ -69,7 +68,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button_normal: {
-
     alignItems: 'center',
     width: 160,
     margin: 15,
@@ -78,13 +76,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#757c94",
     opacity: 0.8,
     shadowColor: 'black',
-    shadowRadius: 5,
-
-
-
+    shadowRadius: 5
   },
   button_text: {
-    color: 'white'
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold'
   },
   ButtonContainer: {
     flexDirection: 'row'
