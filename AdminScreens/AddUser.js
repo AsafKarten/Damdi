@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, SafeAreaView, Image, TouchableOpacity, Alert, Dimensions, Modal } from 'react-native';
+import { View, Text, TextInput, StyleSheet, SafeAreaView, Image, TouchableOpacity, Alert, Dimensions, Modal, Pressable } from 'react-native';
 import Spiner from '../Componentes/Spiner.js';
 import RadioButtonGroup, { RadioButtonItem } from 'expo-radio-button';
 
@@ -14,7 +14,7 @@ export default function AddUser({ navigation }) {
   const defaultImg = "http://proj13.ruppin-tech.co.il/Assets/DamdiPI4.png"
   const [loading, setLoading] = useState(false);
 
-  const [typeUser, setTypeUser] = useState(null)
+  const [typeUser, setTypeUser] = useState("לקוח")
   const [personalId, setPersonalId] = useState(null)
   const [firstName, setFirstName] = useState(null)
   const [lastName, setLastName] = useState(null)
@@ -22,7 +22,16 @@ export default function AddUser({ navigation }) {
   const [pass, setPassword] = useState(null)
   const [cPassword, setCPassword] = useState(null)
 
-  const [emailShouldShow, setEmailShouldShow] = useState(false)
+  const [emailInput, setEmailTextInput] = useState()
+  const [nameInput, setNameTextInput] = useState()
+
+
+  const [modalInfoVisible, setModalInfoVisible] = useState(false);
+
+  useEffect(() => {
+    handleOnChange(typeUser);
+  }, [])
+
 
   useEffect(() => {
     navigation.addListener('focus', async () => {
@@ -31,12 +40,14 @@ export default function AddUser({ navigation }) {
   }, [navigation])
 
   const handleOnChange = (typeUser) => {
-    console.log(typeUser);
-    if (typeUser == "לקוח") {
-      setEmailShouldShow(true)
+    if (typeUser === "לקוח") {
+      setEmailTextInput(true)
+      setNameTextInput(false)
       return
+    } else {
+      setNameTextInput(true)
+      setEmailTextInput(false)
     }
-    setEmailShouldShow(false)
   };
 
   // //Render the screen when we return to him 
@@ -53,21 +64,31 @@ export default function AddUser({ navigation }) {
   const validationInput = () => {
     var emailregex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     var pasRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
-    if (personalId == null || personalId == "" || email == null || email == "" || pass == null || pass == "" || cPassword == null || cPassword == "") {
+    if (personalId === null || personalId === "" || pass === null || pass === "" || cPassword === null || cPassword === "") {
       Alert.alert("אנא מלא/י את כל השדות");
-      console.log('====================================');
-      console.log("Error, Empty fields");
-      console.log('====================================');
       return
     }
-    if (!(emailregex.test(email))) {
-      Alert.alert("אופס", "האימייל שהוכנס לא חוקי אנא נסה בפורמט הבא: name@example.com")
-      setEmail("")
-      return
+    if (typeUser === 'לקוח') {
+      if (email === null || email === "") {
+        Alert.alert("אנא מלא/י את כל השדות");
+        return
+      }
+      if (!(emailregex.test(email))) {
+        Alert.alert("אופס", "האימייל שהוכנס לא חוקי אנא נסה בפורמט הבא: name@example.com")
+        setEmail("")
+        return
+      }
+    }
+    if (typeUser === 'עובד') {
+      if (firstName == null || firstName == "" || lastName == null || lastName == "") {
+        Alert.alert("אנא מלא/י את כל השדות");
+        return
+      }
     }
     if (!(pasRegex.test(pass))) {
       Alert.alert("סיסמא לא חוקית", "הסיסמה צריכה להכיל לפחות: 8 תווים , אות גדולה , אות קטנה ,תו , ומספר")
       setPassword("")
+      setCPassword("")
       return
     }
     if (pass !== cPassword) {
@@ -77,6 +98,9 @@ export default function AddUser({ navigation }) {
       return
     }
     else {
+      if (Platform.OS !== 'web') {
+        setLoading(true);
+      }
       if (typeUser === "לקוח") {
         SignUpClient();
       }
@@ -86,9 +110,9 @@ export default function AddUser({ navigation }) {
     }
   }
 
-
   const SignUpClient = async () => {
     try {
+
       let salt = bcrypt.genSaltSync(10);
       let saltedHash = bcrypt.hashSync(pass, salt);
       let result_register = await fetch(url + "api/add/user", {
@@ -105,25 +129,22 @@ export default function AddUser({ navigation }) {
         })
       })
       let new_data = await result_register.json()
-      console.log(new_data)
-      let result_user = await fetch(url + "api/user", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          Personal_id: PersonalId,
-          Email: Email
-        })
-      });
-      let user = await result_user.json();
-      await storeData(user)
-      navigation.navigate("PersonalFormA", { route: user, modalStatus: "info" })
-      onChangeId("")
-      onChangeEmail("")
-      onChangePass("")
-      onChangeCPass("")
+      console.log("new data", new_data);
+      if (new_data == 'User created successfully') {
+        setModalInfoVisible(true)
+        setPersonalId("")
+        setEmail("")
+        setPassword("")
+        setCPassword("")
+        setLoading(false);
+        return;
+      }
+      else {
+        Alert.alert("שגיאה", "בדוק את פרטיך ,המשתמש קיים כבר במערכת")
+        setModalInfoVisible(false)
+        setLoading(false);
+        setEmail("")
+      }
     }
     catch (error) {
       Alert.alert("שגיאת הרשמה", "מצטערים ההרשמה נכשלה אנא נסו מאוחר יותר")
@@ -133,40 +154,37 @@ export default function AddUser({ navigation }) {
   const SignUpEmployee = async () => {
     try {
       let salt = bcrypt.genSaltSync(10);
-      let saltedHash = bcrypt.hashSync(Pass, salt);
-      let result_register = await fetch(url + "api/add/user", {
+      let saltedHash = bcrypt.hashSync(pass, salt);
+      let result_register = await fetch(url + "api/donators/post", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id: PersonalId,
-          Email: Email,
+          Personal_id_worker: personalId,
+          First_name: firstName,
+          Last_name: lastName,
           Salted_hash: saltedHash,
-          Profile_img: defaultImg
         })
       })
       let new_data = await result_register.json()
       console.log(new_data)
-      let result_user = await fetch(url + "api/user", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          Personal_id: PersonalId,
-          Email: Email
-        })
-      });
-      let user = await result_user.json();
-      await storeData(user)
-      navigation.navigate("PersonalFormA", { route: user, modalStatus: "info" })
-      onChangeId("")
-      onChangeEmail("")
-      onChangePass("")
-      onChangeCPass("")
+      if (new_data == 'donator user created successfully.') {
+        setModalInfoVisible(true)
+        setPersonalId("")
+        setFirstName("")
+        setLastName("")
+        setEmail("")
+        setPassword("")
+        setCPassword("")
+        setLoading(false);
+      }
+      else {
+        Alert.alert("שגיאה", "בדוק את פרטיך ,המשתמש קיים כבר במערכת")
+        setModalInfoVisible(false)
+        setLoading(false);
+      }
     }
     catch (error) {
       Alert.alert("שגיאת הרשמה", "מצטערים ההרשמה נכשלה אנא נסו מאוחר יותר")
@@ -176,16 +194,18 @@ export default function AddUser({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.HorizontalBox}>
-        <Text>בחר סוג משתמש להוספה: </Text>
-        <RadioButtonGroup
-          containerStyle={{ margin: 15, flexDirection: 'row' }}
-          selected={typeUser}
-          onSelected={(value) => { setTypeUser(value), handleOnChange(value) }}
-          radioBackground="blue">
-          <RadioButtonItem value="עובד" label="עובד" />
-          <RadioButtonItem value="לקוח" label="לקוח" />
-        </RadioButtonGroup>
+      <View style={styles.top_screen}>
+        <View style={styles.HorizontalBox}>
+          <Text>בחר סוג משתמש להוספה: </Text>
+          <RadioButtonGroup
+            containerStyle={{ margin: 15, flexDirection: 'row' }}
+            selected={typeUser}
+            onSelected={(value) => { setTypeUser(value), handleOnChange(value) }}
+            radioBackground="blue">
+            <RadioButtonItem value="עובד" label="עובד" />
+            <RadioButtonItem value="לקוח" label="לקוח" />
+          </RadioButtonGroup>
+        </View>
       </View>
       <View style={styles.HorizontalBox}>
         <Text style={styles.lableText}> תעודת זהות </Text>
@@ -197,7 +217,7 @@ export default function AddUser({ navigation }) {
           keyboardType='numeric'
         />
       </View>
-      <View style={styles.HorizontalBox}>
+      {nameInput && <View style={styles.HorizontalBox}>
         <Text style={styles.lableText}> שם פרטי </Text>
         <TextInput
           style={styles.input}
@@ -205,8 +225,8 @@ export default function AddUser({ navigation }) {
           value={firstName}
           placeholder="שם פרטי"
         />
-      </View>
-      <View style={styles.HorizontalBox}>
+      </View>}
+      {nameInput && <View style={styles.HorizontalBox}>
         <Text style={styles.lableText}>שם משפחה</Text>
         <TextInput
           style={styles.input}
@@ -214,9 +234,8 @@ export default function AddUser({ navigation }) {
           value={lastName}
           placeholder="שם משפחה"
         />
-      </View>
-
-      {emailShouldShow && (<View style={styles.HorizontalBox}>
+      </View>}
+      {emailInput && (<View style={styles.HorizontalBox}>
         <Text style={styles.lableText}>אימייל</Text>
         <TextInput
           style={styles.input}
@@ -255,6 +274,26 @@ export default function AddUser({ navigation }) {
         </TouchableOpacity>
       </View>
       {loading && <Spiner loading={loading} />}
+      {modalInfoVisible && (
+        <View>
+          <Modal
+            animationType={'none'}
+            transparent={true}
+            visible={modalInfoVisible}
+            onRequestClose={() => { console.log('Modal has been closed.'); }}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>משתמש נוצר בהצלחה !</Text>
+              <View style={styles.modal_buttons}>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalInfoVisible(!modalInfoVisible)}>
+                  <Text style={styles.textStyle}>סגור</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      )}
     </SafeAreaView >
   );
 
@@ -265,6 +304,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  top_screen: {
+    flexDirection: 'row'
+  },
   HorizontalBox: {
     width: 280,
     justifyContent: 'space-between',
@@ -272,7 +314,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   input: {
-    width: 120,
+    width: 150,
     height: 40,
     margin: 8,
     borderWidth: 1,
@@ -303,4 +345,50 @@ const styles = StyleSheet.create({
   register_btn: {
     alignItems: 'center'
   },
+  //Modal
+  modalView: {
+    margin: 20,
+    backgroundColor: '#757c94',
+    borderRadius: 20,
+    padding: 25,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  modal_buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin: 10,
+  },
+  button: {
+    marginLeft: 50,
+    marginRight: 50,
+    borderRadius: 20,
+    padding: 15,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 20
+  },
+  modalText: {
+    color: "white",
+    fontSize: 22,
+    marginBottom: 10,
+    textAlign: "center"
+  }
 });
