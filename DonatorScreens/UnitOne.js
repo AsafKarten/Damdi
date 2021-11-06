@@ -146,7 +146,9 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    color: 'white'
+    fontSize: 14,
+    color: 'white',
+    fontWeight: 'bold'
   },
   header_img: {
     marginBottom: 40,
@@ -156,7 +158,9 @@ const styles = StyleSheet.create({
     resizeMode: 'stretch'
   },
   button_text: {
-    color: 'white'
+    fontSize: 14,
+    color: 'white',
+    fontWeight: 'bold'
   },
   list: {
     flexWrap: 'wrap',

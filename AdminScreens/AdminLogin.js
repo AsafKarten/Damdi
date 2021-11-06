@@ -21,19 +21,20 @@ export default function AdminLogin({ navigation }) {
       if (Platform.OS !== 'web') {
         setLoading(true);
       }
-      let result = await fetch(url + "api/donator", {
+      let result = await fetch(url + "api/admin", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id_worker: id,
+          Personal_id: id,
         })
       });
       let admin = await result.json();
       if (admin !== undefined || admin !== null) {
         setLoading(false);
+        console.log(admin);
         return admin
       }
     } catch (error) {
@@ -53,7 +54,7 @@ export default function AdminLogin({ navigation }) {
       }
       const admin = await getAutenticateAdmin(PersonalId);
       if (admin !== undefined || admin !== null) {
-        if (PersonalId !== admin.Personal_id_worker) {
+        if (PersonalId !== admin.Personal_id) {
           setLoading(false);
           Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
           console.log("error with id");
@@ -140,6 +141,8 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    color: 'white'
+    fontSize: 14,
+    color: 'white',
+    fontWeight: 'bold'
   },
 })

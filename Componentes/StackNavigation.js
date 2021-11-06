@@ -8,7 +8,10 @@ import MainScreen from './MainScreen.js';
 
 import AdminHome from '../AdminScreens/AdminHome.js';
 import AdminLogin from '../AdminScreens/AdminLogin.js';
-
+import AddUser from '../AdminScreens/AddUser.js';
+import UpdateUser from '../AdminScreens/UpdateUser.js';
+import RemoveUser from '../AdminScreens/RemoveUser.js';
+import SearchUser from '../AdminScreens/SearchUser.js';
 
 import DonatorsLogin from '../DonatorScreens/DonatorsLogin.js';
 import DHome from '../DonatorScreens/DHome.js';
@@ -26,7 +29,7 @@ export default function StackNavigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="MainScreen">
-        
+
         <Stack.Screen name="MainScreen" component={MainScreen}
           options={{
             title: 'ממשק ניהול Damdi',
@@ -55,6 +58,58 @@ export default function StackNavigation() {
         <Stack.Screen name="AdminHome" component={AdminHome}
           options={{
             title: 'מסך בית מנהל',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff',
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            headerLeft: () => {
+              return null;
+            },
+          }} />
+
+        <Stack.Screen name="AddUser" component={AddUser}
+          options={{
+            title: 'הוספת משתמש חדש',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+
+        <Stack.Screen name="UpdateUser" component={UpdateUser}
+          options={{
+            title: 'עדכון משתמש קיים',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+
+        <Stack.Screen name="RemoveUser" component={RemoveUser}
+          options={{
+            title: 'הסרת משתמש קיים',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+
+        <Stack.Screen name="SearchUser" component={SearchUser}
+          options={{
+            title: 'חיפוש משתמש קיים',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },

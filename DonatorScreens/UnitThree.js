@@ -123,7 +123,9 @@ const styles = StyleSheet.create({
     resizeMode: 'stretch'
   },
   button_text: {
-    color: 'white'
+    fontSize: 14,
+    color: 'white',
+    fontWeight: 'bold'
   },
   list: {
     flexWrap: 'wrap',

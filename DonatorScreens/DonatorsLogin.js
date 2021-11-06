@@ -141,6 +141,8 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    color: 'white'
+    fontSize: 14,
+    color: 'white',
+    fontWeight: 'bold'
   },
 });

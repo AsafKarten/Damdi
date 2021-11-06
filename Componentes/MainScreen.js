@@ -1,33 +1,54 @@
-import React, { useState } from 'react';
-import { View,ImageBackground, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, BackHandler, ImageBackground, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
 import Spiner from './Spiner';
 import BG_ONLY from '../assets/BG_ONLY.jpg';
 
 export default function MainScreen({ navigation }) {
-  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert("בטוח שאת\ה רוצה לצאת מהאפליקציה?!"
+      [
+        {
+          text: "ביטול",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "כן", onPress: () => BackHandler.exitApp() }
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
 
   return (
-  <ImageBackground source={BG_ONLY} style={styles.BGimage}>
-    <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.inner}>
-            <TouchableOpacity onPress={() => navigation.navigate('DonatorsLogin')}>
-              <View style={styles.button_normal}>
-                <Text style={styles.button_text}>כניסת מתרים</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('AdminLogin')}>
-              <View style={styles.button_normal}>
-                <Text style={styles.button_text}>כניסת מנהל</Text>
-              </View>
-            </TouchableOpacity>
-            <Spiner loading={loading} />
-          </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
-  </ImageBackground>
+    <ImageBackground source={BG_ONLY} style={styles.BGimage}>
+      <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.inner}>
+              <TouchableOpacity onPress={() => navigation.navigate('DonatorsLogin')}>
+                <View style={styles.button_normal}>
+                  <Text style={styles.button_text}>כניסת מתרים</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate('AdminLogin')}>
+                <View style={styles.button_normal}>
+                  <Text style={styles.button_text}>כניסת מנהל מערכת</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 const styles = StyleSheet.create({
@@ -35,19 +56,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  inner: {
-    padding: 10,
-    flex: 1,
-    justifyContent: "center",
-  },
-  input: {
-    height: 40,
-    width: 160,
-    margin: 12,
-    borderWidth: 1,
-    borderRadius: 8,
-    textAlign: 'center',
   },
   button_normal: {
     alignItems: 'center',
@@ -61,7 +69,9 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    color: 'white'
+    fontSize: 14,
+    color: 'white',
+    fontWeight: 'bold'
   },
   BGimage: {
     flex: 1,
