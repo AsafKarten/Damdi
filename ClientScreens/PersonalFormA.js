@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   input: {
-    width: 120,
+    width: 150,
     height: 40,
     margin: 8,
     borderWidth: 1,
@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
   container_btn: {
     alignItems: 'center'
   },
-  //upload image Modal
+  //Modal
   modalView: {
     margin: 20,
     backgroundColor: '#757c94',
