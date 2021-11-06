@@ -31,6 +31,16 @@ export default function PersonalFormA({ navigation, route }) {
   const [Prev_first_name, onChangePrev_first_name] = useState();
   const [Prev_last_name, onChangePrev_last_name] = useState();
 
+  componentDidMount = () => {
+    this._unsubscribeFocus = this.props.navigation.addListener('focus', (payload) => {
+      console.log('will focus', payload);
+      this.setState({ stam: 'will focus ' + new Date().getSeconds() });
+    });
+  }
+  componentWillUnmount = () => {
+    this._unsubscribeFocus();
+  }
+
   useEffect(() => {
     getUserInfo();
   }, [])
@@ -151,7 +161,6 @@ export default function PersonalFormA({ navigation, route }) {
               <Text style={styles.lableText}>כחלק מתהליך התרומה,{"\n"}יש להזין את פרטיך האישים העדכניים על מנת לתרום דם בצורה בטוחה ומאובטחת.</Text>
             </View>
             <View style={styles.HorizontalBox}>
-
               <Text style={styles.lableText}> שם פרטי </Text>
               <TextInput
                 style={styles.input}
@@ -333,7 +342,7 @@ const styles = StyleSheet.create({
   },
   lableText: {
     marginTop: 17,
-    fontSize:16,
+    fontSize: 16,
     fontWeight: 'bold'
   },
   container_btn: {
