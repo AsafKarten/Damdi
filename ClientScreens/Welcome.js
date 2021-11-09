@@ -11,7 +11,7 @@ export default function Welcome({ navigation, route }) {
 
   useEffect(() => {
     (async () => {
-      await removeValue();
+      await clearAsyncStorage();
       await storeData(User);
     })
   }, [])

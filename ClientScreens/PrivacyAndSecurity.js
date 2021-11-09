@@ -9,12 +9,15 @@ const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function PrivacyAndSecurity({ navigation, route }) {
   const [prevDetails, setPrev] = useState(route.params.route);
-  const [Email, onChangeEmail] = useState(route.params.route.Email);
+  const [Email, onChangeEmail] = useState(prevDetails.Email);
   const [Pass, onChangePass] = useState();
   const [CPass, onChangeCPass] = useState();
   const [Salt, onChangeSalt] = useState();
   const [shouldShow, setShouldShow] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+
+
+
 
   const storeData = async (data) => {
     try {
@@ -56,37 +59,37 @@ export default function PrivacyAndSecurity({ navigation, route }) {
     }
   }
 
-  const CheckDetails = async () => {
-    try {
-      if (Platform.OS !== 'web') {
-        setShouldShow(true)
-      }
-      let result = await fetch(url + "api/user", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          Personal_id: prevDetails.Personal_id,
-          Email: prevDetails.Email
-        })
-      });
-      let currentUser = await result.json();
-      console.log(currentUser);
-      if (currentUser.Personal_id === prevDetails.Personal_id) {
-        postEditDetiles()
-      }
-      if (currentUser.Salted_hash === prevDetails.Salted_hash || currentUser.Email === prevDetails.Email && currentUser.Personal_id !== prevDetails.Personal_id) {
-        setModalVisible(true)
-      }
-      else {
-        postEditDetiles()
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  // const CheckDetails = async () => {
+  //   try {
+  //     if (Platform.OS !== 'web') {
+  //       setShouldShow(true)
+  //     }
+  //     let result = await fetch(url + "api/user", {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json; charset=UTF-8',
+  //         'Accept': 'application/json'
+  //       },
+  //       body: JSON.stringify({
+  //         Personal_id: prevDetails.Personal_id,
+  //         Email: prevDetails.Email
+  //       })
+  //     });
+  //     let currentUser = await result.json();
+  //     console.log(currentUser);
+  //     if (currentUser.Personal_id === prevDetails.Personal_id) {
+  //       postEditDetiles()
+  //     }
+  //     if (currentUser.Salted_hash === prevDetails.Salted_hash || currentUser.Email === prevDetails.Email && currentUser.Personal_id !== prevDetails.Personal_id) {
+  //       setModalVisible(true)
+  //     }
+  //     else {
+  //       postEditDetiles()
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // }
 
   const postEditDetiles = async () => {
     try {
@@ -114,7 +117,7 @@ export default function PrivacyAndSecurity({ navigation, route }) {
         })
       });
       let res = await result.json();
-      if (res !== null || res !== undefined) {
+      if (res == 'User updated successfully') {
         let updatedUser = await getUserInfo();
         await storeData(updatedUser);
         navigation.navigate("Profile", { route: updatedUser });
@@ -148,7 +151,7 @@ export default function PrivacyAndSecurity({ navigation, route }) {
         value={CPass}
         placeholder="אשר סיסמא"
       />
-      <TouchableOpacity onPress={() => CheckDetails()}>
+      <TouchableOpacity onPress={() => postEditDetiles()}>
         <View style={styles.button_normal}>
           <Text style={styles.button_text}>שמור</Text>
         </View>
@@ -163,7 +166,7 @@ export default function PrivacyAndSecurity({ navigation, route }) {
               console.log('Modal has been closed.');
             }}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>האימייל או הסיסמא שהכנסת קיימים, בחר אימייל או סיסמא שונים</Text>
+              <Text style={styles.modalText}>האימייל או הסיסמא שהכנסת שומשו בעבר, בחר אימייל או סיסמא שונים</Text>
               <View style={styles.modal_buttons}>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
