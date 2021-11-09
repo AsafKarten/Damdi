@@ -33,8 +33,13 @@ namespace DamdiServer.Controllers
         {
             try
             {
-                Created(new Uri(Request.RequestUri.AbsoluteUri + user), Globals.UserDAL.SetNewUser(user));
-                return Ok("User created successfully.");
+                int res = Globals.UserDAL.SetNewUser(user);
+                Created(new Uri(Request.RequestUri.AbsoluteUri + user), res);
+                if (res == 1)
+                {
+                    return Ok("User created successfully");
+                }
+                return BadRequest("User not created");
             }
             catch (Exception ex)
             {
@@ -50,10 +55,11 @@ namespace DamdiServer.Controllers
             try
             {
                 User user_info = null;
-                user_info = Globals.UserDAL.GetUserInfo(ui.Personal_id);
-                if (user_info == null)
-                    return Content(HttpStatusCode.NotFound, $"User info {ui.Personal_id} was not found");
-                return Ok(user_info);
+                user_info = Globals.UserDAL.GetUserInfo(ui);
+                if (user_info != null)
+                    return Ok(user_info);
+                return Content(HttpStatusCode.NotFound, $"User info {ui.Personal_id} was not found");
+
             }
             catch (Exception ex)
             {

@@ -44,7 +44,7 @@ namespace DamdiServer.DAL
         }
 
         /*Get user info from database*/
-        public User GetUserInfo(string personal_id)
+        public User GetUserInfo(User user)
         {
             try
             {
@@ -54,20 +54,20 @@ namespace DamdiServer.DAL
                     User ui = null;
                     SqlCommand cmd = new SqlCommand("GetUserInfo", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@personal_id", personal_id);
+                    cmd.Parameters.AddWithValue("@id", SqlDbType.NVarChar).Value = user.Personal_id;
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         ui = new User(
                             Convert.ToString(reader["personal_id"]),
+                            Convert.ToString(reader["email"]),
+                            Convert.ToString(reader["salted_hash"]),
+                            Convert.ToString(reader["profile_img"]),
                             Convert.ToString(reader["first_name"]),
                             Convert.ToString(reader["last_name"]),
                             Convert.ToString(reader["phone"]),
-                            Convert.ToString(reader["email"]),
-                            Convert.ToString(reader["salted_hash"]),
                             Convert.ToString(reader["gender"]),
                             Convert.ToString(reader["birthdate"]),
-                            Convert.ToString(reader["profile_img"]),
                             Convert.ToString(reader["prev_first_name"]),
                             Convert.ToString(reader["prev_last_name"]),
                             Convert.ToString(reader["city"]),
@@ -124,6 +124,7 @@ namespace DamdiServer.DAL
         {
             try
             {
+ 
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
@@ -142,6 +143,7 @@ namespace DamdiServer.DAL
                 throw new Exception(ex.Message);
             }
         }
+
 
         /*Create a new user info in donorsinfo table*/
         public int SetNewUserInfo(User ui)

@@ -32,8 +32,13 @@ namespace DamdiServer.Controllers
         {
             try
             {
-                Created(new Uri(Request.RequestUri.AbsoluteUri + donator.Personal_id_worker), Globals.DonatorsDAL.SetNewDonator(donator));
-                return Ok("Donator user created successfully.");
+                int res = Globals.DonatorsDAL.SetNewDonator(donator);
+                Created(new Uri(Request.RequestUri.AbsoluteUri + donator.Personal_id_worker), res);
+                if (res == 1)
+                {
+                    return Ok("donator user created successfully.");
+                }
+                return BadRequest("donator was not created");
             }
             catch (Exception ex)
             {
