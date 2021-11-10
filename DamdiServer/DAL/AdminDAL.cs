@@ -45,5 +45,10 @@ namespace DamdiServer.DAL
             }
 
         }
+
+        //public int DeleteUser(object user)
+        //{
+            
+        //}
     }
 }

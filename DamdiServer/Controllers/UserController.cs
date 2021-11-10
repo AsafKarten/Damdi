@@ -91,9 +91,12 @@ namespace DamdiServer.Controllers
             try
             {
                 int res = Globals.UserDAL.UpdateUser(user);
-                if (res == -1)
-                    return Content(HttpStatusCode.NotFound, $"User was not updated");
-                return Ok(res);
+                Created(new Uri(Request.RequestUri.AbsoluteUri + user), res);
+                if (res == 1)
+                {
+                    return Ok("User updated successfully");
+                }
+                return BadRequest("User was not updated");
             }
             catch (Exception ex)
             {

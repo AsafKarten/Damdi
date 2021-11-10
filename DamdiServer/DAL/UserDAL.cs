@@ -60,14 +60,14 @@ namespace DamdiServer.DAL
                     {
                         ui = new User(
                             Convert.ToString(reader["personal_id"]),
-                            Convert.ToString(reader["email"]),
-                            Convert.ToString(reader["salted_hash"]),
-                            Convert.ToString(reader["profile_img"]),
                             Convert.ToString(reader["first_name"]),
                             Convert.ToString(reader["last_name"]),
                             Convert.ToString(reader["phone"]),
+                            Convert.ToString(reader["email"]),
+                            Convert.ToString(reader["salted_hash"]),
                             Convert.ToString(reader["gender"]),
                             Convert.ToString(reader["birthdate"]),
+                            Convert.ToString(reader["profile_img"]),
                             Convert.ToString(reader["prev_first_name"]),
                             Convert.ToString(reader["prev_last_name"]),
                             Convert.ToString(reader["city"]),
@@ -124,7 +124,7 @@ namespace DamdiServer.DAL
         {
             try
             {
- 
+
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
@@ -153,53 +153,30 @@ namespace DamdiServer.DAL
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
-                    string query =
-                        "Update Users SET " +
-                        "first_name=@First_name," +
-                        "last_name=@Last_name," +
-                        "phone=@Phone," +
-                        "gender=@Gender," +
-                        "birthdate=@Birthdate," +
-                        "prev_first_name=@Prev_first_name," +
-                        "prev_last_name=@Prev_last_name," +
-                        "city=@City," +
-                        "address=@Address," +
-                        "postal_code=@Postal_code," +
-                        "mail_box=@Mail_box," +
-                        "telephone=@Telephone," +
-                        "work_telephone=@Work_telephone," +
-                        "blood_group_member=@Blood_group_member," +
-                        "personal_insurance=@Personal_insurance," +
-                        "confirm_examination=@Confirm_examination," +
-                        "agree_future_don=@Agree_future_don," +
-                        "birth_land=@Birth_land," +
-                        "aliya_year=@Aliya_year," +
-                        "father_birth_land=@Father_birth_land," +
-                        "mother_birth_land=@Mother_birth_land " +
-                        "WHERE personal_id=@Personal_id";
-                    SqlCommand cmd = new SqlCommand(query, con);
-                    cmd.Parameters.AddWithValue("@Personal_id", SqlDbType.NVarChar).Value = ui.Personal_id;
-                    cmd.Parameters.AddWithValue("@First_name", SqlDbType.NVarChar).Value = ui.First_name;
-                    cmd.Parameters.AddWithValue("@Last_name", SqlDbType.NVarChar).Value = ui.Last_name;
-                    cmd.Parameters.AddWithValue("@Phone", SqlDbType.NVarChar).Value = ui.Phone;
-                    cmd.Parameters.AddWithValue("@Gender", SqlDbType.NVarChar).Value = ui.Gender;
-                    cmd.Parameters.AddWithValue("@Birthdate", SqlDbType.Date).Value = Convert.ToDateTime(ui.Birthdate);
-                    cmd.Parameters.AddWithValue("@Prev_first_name", SqlDbType.NVarChar).Value = ui.Prev_first_name;
-                    cmd.Parameters.AddWithValue("@Prev_last_name", SqlDbType.NVarChar).Value = ui.Prev_last_name;
-                    cmd.Parameters.AddWithValue("@City", SqlDbType.NVarChar).Value = ui.City;
-                    cmd.Parameters.AddWithValue("@Address", SqlDbType.NVarChar).Value = ui.Address;
-                    cmd.Parameters.AddWithValue("@Postal_code", SqlDbType.NVarChar).Value = ui.Postal_code;
-                    cmd.Parameters.AddWithValue("@Mail_box", SqlDbType.NVarChar).Value = ui.Mail_box;
-                    cmd.Parameters.AddWithValue("@Telephone", SqlDbType.NVarChar).Value = ui.Telephone;
-                    cmd.Parameters.AddWithValue("@Work_telephone", SqlDbType.NVarChar).Value = ui.Work_telephone;
-                    cmd.Parameters.AddWithValue("@Blood_group_member", SqlDbType.Bit).Value = ui.Blood_group_member;
-                    cmd.Parameters.AddWithValue("@Personal_insurance", SqlDbType.Bit).Value = ui.Personal_insurance;
-                    cmd.Parameters.AddWithValue("@Confirm_examination", SqlDbType.Bit).Value = ui.Confirm_examination;
-                    cmd.Parameters.AddWithValue("@Agree_future_don", SqlDbType.Bit).Value = ui.Agree_future_don;
-                    cmd.Parameters.AddWithValue("@Birth_land", SqlDbType.NVarChar).Value = ui.Birth_land;
-                    cmd.Parameters.AddWithValue("@Aliya_year", SqlDbType.NVarChar).Value = ui.Aliya_year;
-                    cmd.Parameters.AddWithValue("@Father_birth_land", SqlDbType.NVarChar).Value = ui.Father_birth_land;
-                    cmd.Parameters.AddWithValue("@Mother_birth_land", SqlDbType.NVarChar).Value = ui.Mother_birth_land;
+                    SqlCommand cmd = new SqlCommand("UpdateUserInfoDetails", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = ui.Personal_id;
+                    cmd.Parameters.AddWithValue("@first_name", SqlDbType.NVarChar).Value = ui.First_name;
+                    cmd.Parameters.AddWithValue("@last_name", SqlDbType.NVarChar).Value = ui.Last_name;
+                    cmd.Parameters.AddWithValue("@phone", SqlDbType.NVarChar).Value = ui.Phone;
+                    cmd.Parameters.AddWithValue("@gender", SqlDbType.NVarChar).Value = ui.Gender;
+                    cmd.Parameters.AddWithValue("@birthdate", SqlDbType.DateTime).Value = Convert.ToDateTime(ui.Birthdate);
+                    cmd.Parameters.AddWithValue("@prev_first_name", SqlDbType.NVarChar).Value = ui.Prev_first_name;
+                    cmd.Parameters.AddWithValue("@prev_last_name", SqlDbType.NVarChar).Value = ui.Prev_last_name;
+                    cmd.Parameters.AddWithValue("@city", SqlDbType.NVarChar).Value = ui.City;
+                    cmd.Parameters.AddWithValue("@address", SqlDbType.NVarChar).Value = ui.Address;
+                    cmd.Parameters.AddWithValue("@postal_code", SqlDbType.NVarChar).Value = ui.Postal_code;
+                    cmd.Parameters.AddWithValue("@mail_box", SqlDbType.NVarChar).Value = ui.Mail_box;
+                    cmd.Parameters.AddWithValue("@telephone", SqlDbType.NVarChar).Value = ui.Telephone;
+                    cmd.Parameters.AddWithValue("@work_telephone", SqlDbType.NVarChar).Value = ui.Work_telephone;
+                    cmd.Parameters.AddWithValue("@blood_group_member", SqlDbType.Bit).Value = ui.Blood_group_member;
+                    cmd.Parameters.AddWithValue("@personal_insurance", SqlDbType.Bit).Value = ui.Personal_insurance;
+                    cmd.Parameters.AddWithValue("@confirm_examination", SqlDbType.Bit).Value = ui.Confirm_examination;
+                    cmd.Parameters.AddWithValue("@agree_future_don", SqlDbType.Bit).Value = ui.Agree_future_don;
+                    cmd.Parameters.AddWithValue("@birth_land", SqlDbType.NVarChar).Value = ui.Birth_land;
+                    cmd.Parameters.AddWithValue("@aliya_year", SqlDbType.NVarChar).Value = ui.Aliya_year;
+                    cmd.Parameters.AddWithValue("@father_birth_land", SqlDbType.NVarChar).Value = ui.Father_birth_land;
+                    cmd.Parameters.AddWithValue("@mother_birth_land", SqlDbType.NVarChar).Value = ui.Mother_birth_land;
                     int res = cmd.ExecuteNonQuery();
                     return res;
                 }

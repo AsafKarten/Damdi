@@ -28,5 +28,23 @@ namespace DamdiServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+        //[HttpPost]
+        //[Route("api/delete")]
+        //public IHttpActionResult DeleteUserFromDB([FromBody] Object user)
+        //{
+        //    try
+        //    {
+        //        int res = Globals.AdminDAL.DeleteUser(user);
+        //        if (res == -1)
+        //            return Content(HttpStatusCode.NotFound, $"User was not updated");
+        //        return Ok(res);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
     }
 }
