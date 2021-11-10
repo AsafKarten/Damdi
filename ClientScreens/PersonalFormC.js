@@ -17,6 +17,7 @@ export default function PersonalFormC({ navigation, route }) {
   const toggleConfirmExamination = () => setConfirmExamination(previousState => !previousState);
   const [agreeFutureDonation, setAgreeFutureDonation] = useState(false);
   const toggleAgreeFutureDonation = () => setAgreeFutureDonation(previousState => !previousState);
+
   const [birthLand, setBirthLand] = useState();
   const [aliyaYear, setAliyaYear] = useState();
   const [fatherBirthLand, setFatherBirthLand] = useState();
@@ -24,38 +25,15 @@ export default function PersonalFormC({ navigation, route }) {
 
 
   useEffect(() => {
-    (async () => {
-      setBloodGroupMember(User.Blood_group_member)
-      setPersonalInsurance(User.Personal_insurance)
-      setConfirmExamination(User.Confirm_examination)
-      setAgreeFutureDonation(User.Agree_future_don)
-      setBirthLand(User.Birth_land)
-      setAliyaYear(User.Aliya_year)
-      setFatherBirthLand(User.Father_birth_land)
-      setMotherBirthLand(User.Mother_birth_land)
-    })()
+    setBloodGroupMember(User.Blood_group_member)
+    setPersonalInsurance(User.Personal_insurance)
+    setConfirmExamination(User.Confirm_examination)
+    setAgreeFutureDonation(User.Agree_future_don)
+    setBirthLand(User.Birth_land)
+    setAliyaYear(User.Aliya_year)
+    setFatherBirthLand(User.Father_birth_land)
+    setMotherBirthLand(User.Mother_birth_land)
   }, [])
-
-  const getUserInfo = async () => {
-    try {
-      let result = await fetch(url + "api/user/info", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          Personal_id: User.Personal_id
-        })
-      });
-      let full_user = await result.json();
-      if (full_user !== undefined || full_user !== null) {
-        return full_user
-      }
-    } catch (error) {
-      console.error('error with retrun full user');
-    }
-  }
 
   const postDataToDB = async () => {
     try {
@@ -91,18 +69,21 @@ export default function PersonalFormC({ navigation, route }) {
         })
       })
       let respone = await result.json()
-      console.log("FormC 94",respone);
+      console.log("FormC 72", respone);
     } catch (error) {
       console.log('error with the send data to server ')
     }
   }
 
   const PostPersonalFormC = async () => {
-    if (birthLand == '') {
+    if (Platform.OS !== 'web') {
+      setLoading(true);
+    }
+    if (birthLand === "") {
+      setLoading(false);
       Alert.alert('אנא מלא/י את כל הפרטים בבקשה (אם לא עלית מארץ אחרת לא חובה למלא, אם ההורים לא עלו מארץ אחרת לא חובה למלא גם כן)')
       return
     }
-    setLoading(true);
     User.Blood_group_member = bloodGroupMember
     User.Personal_insurance = personalInsurance
     User.Confirm_examination = confirmExamination
@@ -112,8 +93,7 @@ export default function PersonalFormC({ navigation, route }) {
     User.Father_birth_land = fatherBirthLand
     User.Mother_birth_land = motherBirthLand
     await postDataToDB()
-    let updateUser = await getUserInfo();
-    navigation.navigate('Welcome', { route: updateUser })
+    navigation.navigate('Welcome', { route: User })
   }
 
 

@@ -1,45 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
-const ilCities = require('../assets/il.json');
+//const ilCities = require('../assets/il.json');
 
 
 export default function PersonalFormB({ navigation, route }) {
   const [loading, setLoading] = useState(false);
   const [User, setUser] = useState(route.params.route)
 
-  const [City, onChangeCity] = useState();
-
-
-  const [Address, onChangeAddress] = useState();
-  const [Postal_code, onChangePostal_code] = useState();
-  const [Mail_box, onChangeMail_box] = useState();
-  const [Telephone, onChangeTelephone] = useState();
-  const [Work_telephone, onChangeWork_telephone] = useState();
+  const [city, setCity] = useState();
+  const [address, setAddress] = useState();
+  const [postalCode, setPostalCode] = useState();
+  const [mailBox, setMailBox] = useState();
+  const [telephone, setTelephone] = useState();
+  const [workTelephone, setWorkTelephone] = useState();
 
   useEffect(() => {
-    (async () => {
-      onChangeCity(User.City)
-      onChangeAddress(User.Address)
-      onChangePostal_code(User.Postal_code)
-      onChangeMail_box(User.Postal_code)
-      onChangeTelephone(User.Telephone)
-      onChangeWork_telephone(User.Work_telephone)
-    })()
+    setCity(User.City)
+    setAddress(User.Address)
+    setPostalCode(User.Postal_code)
+    setMailBox(User.Postal_code)
+    setTelephone(User.Telephone)
+    setWorkTelephone(User.Work_telephone)
   }, [])
 
   const PostPersonalFormB = async () => {
-    if (City === '' || Address === '' || Postal_code === '' || Mail_box === '' || Telephone === '') {
+    if (city === '' || address === '' || postalCode === '' || mailBox === '' || telephone === '') {
       Alert.alert('אנא מלא/י את כל הפרטים בבקשה (לא חובה טלפון עבודה)')
       return
     }
     setLoading(true)
-    User.City = City
-    User.Address = Address
-    User.Postal_code = Postal_code
-    User.Mail_box = Mail_box
-    User.Telephone = Telephone
-    User.Work_telephone = Work_telephone
+    User.City = city
+    User.Address = address
+    User.Postal_code = postalCode
+    User.Mail_box = mailBox
+    User.Telephone = telephone
+    User.Work_telephone = workTelephone
+    console.log("PersonalFormB",User);
     navigation.navigate('PersonalFormC', { route: User })
   }
 
@@ -53,28 +50,31 @@ export default function PersonalFormB({ navigation, route }) {
               <Text style={styles.lableText}>עיר</Text>
               <TextInput
                 style={styles.input}
-                onChangeText={onChangeCity}
-                value={City}
+                onChangeText={setCity}
+                value={city}
                 placeholder="עיר"
+                maxLength={20}
               />
             </View>
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>רחוב</Text>
               <TextInput
                 style={styles.input}
-                onChangeText={onChangeAddress}
-                value={Address}
+                onChangeText={setAddress}
+                value={address}
                 placeholder="רחוב"
+                maxLength={30}
               />
             </View>
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>מיקוד</Text>
               <TextInput
                 style={styles.input}
-                onChangeText={onChangePostal_code}
-                value={Postal_code}
+                onChangeText={setPostalCode}
+                value={postalCode}
                 placeholder="מיקוד"
                 keyboardType='numeric'
+                maxLength={7}
               />
             </View>
             <View style={styles.HorizontalBox}>
@@ -82,9 +82,10 @@ export default function PersonalFormB({ navigation, route }) {
               <TextInput
                 keyboardType='numeric'
                 style={styles.input}
-                onChangeText={onChangeMail_box}
-                value={Mail_box}
+                onChangeText={setMailBox}
+                value={mailBox}
                 placeholder="תיבת דואר"
+                maxLength={6}
               />
             </View>
             <View style={styles.HorizontalBox}>
@@ -92,19 +93,21 @@ export default function PersonalFormB({ navigation, route }) {
               <TextInput
                 keyboardType='numeric'
                 style={styles.input}
-                onChangeText={onChangeTelephone}
-                value={Telephone}
+                onChangeText={setTelephone}
+                value={telephone}
                 placeholder="מס טלפון"
+                maxLength={9}
               />
             </View>
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>מס טלפון בעבודה</Text>
               <TextInput
                 style={styles.input}
-                onChangeText={onChangeWork_telephone}
-                value={Work_telephone}
+                onChangeText={setWorkTelephone}
+                value={workTelephone}
                 placeholder="מס טלפון בעבודה"
                 keyboardType='numeric'
+                maxLength={9}
               />
             </View>
             <View style={styles.HorizontalBoxButtons}>

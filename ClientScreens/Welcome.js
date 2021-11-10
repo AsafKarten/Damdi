@@ -8,13 +8,8 @@ import BG from '../assets/LOGO_ONLY_PNG.png'
 export default function Welcome({ navigation, route }) {
   const [loading, setLoading] = useState(false);
   const [User, setUser] = useState(route.params.route)
+  const [firstName, setFirstName] = useState(route.params.route.First_name)
 
-  useEffect(() => {
-    (async () => {
-      await clearAsyncStorage();
-      await storeData(User);
-    })
-  }, [])
 
   useEffect(() => {
     const backAction = () => {
@@ -30,15 +25,6 @@ export default function Welcome({ navigation, route }) {
     return () => backHandler.remove();
   }, []);
 
-  const storeData = async (data) => {
-    try {
-      setLoading(true);
-      var loggedUser = JSON.stringify(data);
-      await AsyncStorage.setItem('loggedUser', loggedUser)
-    } catch (e) {
-      console.error(e)
-    }
-  }
 
   const clearAsyncStorage = async (key) => {
     try {
@@ -66,7 +52,7 @@ export default function Welcome({ navigation, route }) {
 
       <Image source={BG} style={{ width: 360, height: 150, alignSelf: 'center', resizeMode: 'stretch' }}></Image>
 
-      <Text style={styles.welcome_text}> ברוך הבא לדאמדי {User.First_name} </Text>
+      <Text style={styles.welcome_text}> ברוך הבא לדאמדי {firstName} </Text>
 
       <TouchableOpacity onPress={() => {
         setLoading(false)

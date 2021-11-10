@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Platform, ImageBackground, View,BackHandler, SafeAreaView, StyleSheet, TextInput, Text, TouchableOpacity, Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
+import { Platform, ImageBackground, View, BackHandler, SafeAreaView, StyleSheet, TextInput, Text, TouchableOpacity, Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spiner from '../Componentes/Spiner';
 import BG_ONLY from '../assets/BG_ONLY.jpg';
@@ -15,9 +15,9 @@ bcrypt.setRandomFallback((len) => {
 });
 
 export default function Login({ navigation }) {
-  const [PersonalId, onChangeId] = useState()
-  const [Email, onChangeEmail] = useState()
-  const [Pass, onChangePass] = useState()
+  const [personalId, onChangeId] = useState()
+  const [email, onChangeEmail] = useState()
+  const [pass, onChangePass] = useState()
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function Login({ navigation }) {
       let loggedUser = await AsyncStorage.getItem('loggedUser')
       if (loggedUser !== null) {
         let existUser = JSON.parse(loggedUser)
-        console.log("login 32", existUser);
+        console.log("Login 54", existUser);
         navigation.navigate('PersonalFormA', { route: existUser, modalStatus: "update" })
       }
       else {
@@ -84,8 +84,8 @@ export default function Login({ navigation }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id: PersonalId,
-          Email: Email
+          Personal_id: personalId,
+          Email: email
         })
       });
       let user = await result.json();
@@ -94,89 +94,59 @@ export default function Login({ navigation }) {
         return user
       }
     } catch (error) {
-      console.error('user not authenticated');
+      console.error(error, 'בעיה בשליפת פרטים של המשתמש בעת התחברות');
     }
   }
 
-  const getUserInfo = async (personal_id) => {
-    try {
-      let result = await fetch(url + "api/user/info", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          Personal_id: personal_id
-        })
-      });
-      let full_user = await result.json();
-      if (full_user !== undefined || full_user !== null) {
-        return full_user
-      }
-    } catch (error) {
-      console.error('error with retrun full user');
+  const validationInput = (loadedUser) => {
+    if (Platform.OS !== 'web') {
+      setLoading(true);
+    }
+    if (personalId === "" || email === "" || pass === "") {
+      Alert.alert("שגיאת התחברות", "אנא מלא/י את כל פרטים !")
+      console.log('====================================');
+      console.log("Error, Empty fields");
+      console.log('====================================');
+      return
+    }
+    if (email !== loadedUser.Email || personalId !== loadedUser.Personal_id) {
+      setLoading(false);
+      console.log("error with email or id");
+      return;
+    }
+    var correct = bcrypt.compareSync(pass, loadedUser.Salted_hash)
+    if (!correct) {
+      setLoading(false);
+      console.log("error with password");
+      return;
+    }
+    else {
+      return "correct"
     }
   }
+
 
   const clientLogin = async () => {
     try {
-      if (PersonalId == "" || Email == "" || Pass == "") {
-        Alert.alert("שגיאת התחברות", "אנא מלא/י את כל פרטים !")
-        console.log('====================================');
-        console.log("Error, Empty fields");
-        console.log('====================================');
-        return
-      }
-      else {
-        let updatedUser = await getAutenticateUser();
-        if (updatedUser !== undefined || updatedUser !== null) {
-          if (Email !== updatedUser.Email || PersonalId !== updatedUser.Personal_id) {
-            setLoading(false);
-            Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
-            console.log("error with email or id");
-            return;
-          }
-          console.log("update", updatedUser);
+      let updatedUser = await getAutenticateUser();
+      if (updatedUser !== undefined || updatedUser !== null) {
+        let result = validationInput(updatedUser)
+        if (result === 'correct') {
           await storeData(updatedUser)
-          var correct = await bcrypt.compareSync(Pass, updatedUser.Salted_hash)
-          if (!correct) {
-            setLoading(false);
-            Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
-            console.log("error with password");
-            return;
-          }
-          // let fullUpdatedUser = await getUserInfo(updatedUser.Personal_id);
-          // console.log(fullUpdatedUser);
-          // if (
-          //   fullUpdatedUser.First_name == null &&
-          //   fullUpdatedUser.Last_name == null &&
-          //   fullUpdatedUser.Phone == null &&
-          //   fullUpdatedUser.Gender == null &&
-          //   fullUpdatedUser.Birthdate == null &&
-          //   fullUpdatedUser.City == null &&
-          //   fullUpdatedUser.Address == null &&
-          //   fullUpdatedUser.Postal_code == null &&
-          //   fullUpdatedUser.Mail_box == null &&
-          //   fullUpdatedUser.Telephone == null &&
-          //   fullUpdatedUser.Confirm_examination == null &&
-          //   fullUpdatedUser.Birth_land == null &&
-          //   fullUpdatedUser.Father_birth_land == null &&
-          //   fullUpdatedUser.Mother_birth_land == null) {
-          //   setLoading(false);
-          //   Alert.alert("אנא מלא/י את כל הפרטים כדי לתרום!")
-          //   navigation.navigate('PersonalFormA', { route: updatedUser })
-          // }
           navigation.navigate('PersonalFormA', { route: updatedUser, modalStatus: 'update' })
         }
         else {
-          setLoading(false);
-          Alert.alert("בעיית התחברות, הירשם או בדוק את פרטיך")
+          Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
           return
         }
       }
+      else {
+        setLoading(false);
+        Alert.alert("בעיית התחברות, הירשם או בדוק את פרטיך")
+        return
+      }
     } catch (error) {
-      console.log(error);
+      console.log(error, "בעיה בשליפת הפרטים");
     }
   }
 
@@ -192,19 +162,19 @@ export default function Login({ navigation }) {
               <TextInput
                 style={styles.input}
                 onChangeText={onChangeId}
-                value={PersonalId}
+                value={personalId}
                 placeholder="תעודת זהות"
               />
               <TextInput
                 style={styles.input}
                 onChangeText={onChangeEmail}
-                value={Email}
+                value={email}
                 placeholder="אימייל"
               />
               <TextInput
                 style={styles.input}
                 onChangeText={onChangePass}
-                value={Pass}
+                value={pass}
                 secureTextEntry={true}
                 placeholder="סיסמה"
               />
@@ -264,7 +234,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   button_text: {
-    fontSize: 18,
+    fontSize: 16,
     color: 'white',
     fontWeight: 'bold'
   },

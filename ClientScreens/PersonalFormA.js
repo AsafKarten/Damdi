@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Alert, Modal, View, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
+import RadioButtonGroup, { RadioButtonItem } from 'expo-radio-button';
 
 
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
-export default function PersonalFormA({ navigation, route }) {
 
+export default function PersonalFormA({ navigation, route }) {
+  console.log("route PersonalFormA", route);
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -21,53 +22,64 @@ export default function PersonalFormA({ navigation, route }) {
   const [modalUpdate, setModalUpdate] = useState(false);
   const [modalUpdateVisible, setModalUpdateVisible] = useState(false);
 
-  const [User, setUser] = useState(route.params.route)
-  const [First_name, onChangeFirst_name] = useState();
-  const [Last_name, onChangeLast_name] = useState();
-  const [Phone, onChangePhone] = useState();
-  const [Birthdate, onChangeBirthdate] = useState("");
+  const [User, setUser] = useState()
+  const [firstName, setFirstName] = useState(route.params.route.First_name);
+  const [lastName, setLastName] = useState(route.params.route.Last_name);
+  const [phone, setPhone] = useState(route.params.route.Phone);
+  const [birthdate, setBirthdate] = useState(route.params.route.Birthdate);
+  const [gender, setGender] = useState(route.params.route.Gender);
+  const [prevFirstName, setPrevFirstName] = useState(route.params.route.Prev_first_name);
+  const [prevLastName, setPrevLastName] = useState(route.params.route.Prev_last_name);
 
-  const [Gender, onChangeGender] = useState();
-  const [Prev_first_name, onChangePrev_first_name] = useState();
-  const [Prev_last_name, onChangePrev_last_name] = useState();
-
-  componentDidMount = () => {
-    this._unsubscribeFocus = this.props.navigation.addListener('focus', (payload) => {
-      console.log('will focus', payload);
-      this.setState({ stam: 'will focus ' + new Date().getSeconds() });
-    });
-  }
-  componentWillUnmount = () => {
-    this._unsubscribeFocus();
-  }
 
   useEffect(() => {
-    getUserInfo();
-  }, [])
+    getUserInfo()
+  },[])
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      checkStatusModal();
+      getUserInfo()
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
+
+  // componentDidMount = () => {
+  //   this._unsubscribeFocus = this.props.navigation.addListener('focus', (payload) => {
+  //     console.log('will focus', payload);
+  //     this.setState({ stam: 'will focus ' + new Date().getSeconds() });
+  //   });
+  // }
+  // componentWillUnmount = () => {
+  //   this._unsubscribeFocus();
+  // }
+
+  const checkStatusModal = () => {
+    if (Platform.OS !== 'web') {
+      if (route.params.modalStatus === 'info') {
+        setModalInfo(true);
+        setModalInfoVisible(true);
+      }
+      else if (route.params.modalStatus === 'update') {
+        setModalUpdate(true)
+        setTimeout(() => {
+          setModalUpdateVisible(true)
+        }, 500);
+      }
+      else {
+        console.log("no modals shows");
+        setModalInfo(false);
+        setModalInfoVisible(false);
+        setModalUpdate(false);
+        setModalUpdateVisible(false);
+      }
+    }
+  }
 
   const getUserInfo = async () => {
     try {
-      if (Platform.OS !== 'web') {
-        if (route.params.modalStatus === 'info') {
-          setModalInfo(true);
-          setModalInfoVisible(true);
-        }
-        else if (route.params.modalStatus === 'update') {
-          setModalUpdate(true)
-          setTimeout(() => {
-            setModalUpdateVisible(true)
-          }, 500);
-        }
-        else {
-          console.log("no modals shows");
-          setModalInfo(false);
-          setModalInfoVisible(false);
-          setModalUpdate(false);
-          setModalUpdateVisible(false);
-        }
-      }
-      console.log("Personal id", route.params.route.Personal_id);
       let result = await fetch(url + "api/user/info", {
         method: 'POST',
         headers: {
@@ -81,50 +93,32 @@ export default function PersonalFormA({ navigation, route }) {
       let full_user = await result.json();
       console.log("full user : ", full_user);
       setUser(full_user);
-      onChangeFirst_name(full_user.First_name)
-      onChangeLast_name(full_user.Last_name)
-      onChangePhone(full_user.Phone)
-      onChangeGender(full_user.Gender)
-      onChangeBirthdate(full_user.Birthdate.split(' ')[0])
-      onChangePrev_first_name(full_user.Prev_first_name)
-      onChangePrev_last_name(full_user.Prev_last_name)
-      if (
-        full_user.First_name === null ||
-        full_user.Last_name === null ||
-        full_user.Phone === null ||
-        full_user.Gender === null ||
-        full_user.Birthdate === null ||
-        full_user.City === null ||
-        full_user.Address === null ||
-        full_user.Postal_code === null ||
-        full_user.Mail_box === null ||
-        full_user.Telephone === null ||
-        full_user.Confirm_examination === null ||
-        full_user.Birth_land === null ||
-        full_user.Father_birth_land === null ||
-        full_user.Mother_birth_land === null) {
-        console.log("User is empty");
-        return
-      }
+      setFirstName(full_user.First_name)
+      setLastName(full_user.Last_name)
+      setPhone(full_user.Phone)
+      setGender(full_user.Gender)
+      setBirthdate(full_user.Birthdate.split(' ')[0])
+      setPrevFirstName(full_user.Prev_first_name)
+      setPrevLastName(full_user.Prev_last_name)
     } catch (error) {
       console.error('error with retrun full user');
     }
   }
 
   const PostPersonalForm = async () => {
-    if (First_name === "" || Last_name === "" || Phone === "" || Gender === "" || Birthdate === "" || Prev_first_name === "" || Prev_last_name === "") {
+    if (firstName === "" || lastName === "" || phone === "" || gender === "" || birthdate === "" || prevFirstName === "" || prevLastName === "") {
       Alert.alert('אנא מלא/י את כל הפרטים בבקשה')
       return
     }
     setLoading(true);
-    User.First_name = First_name;
-    User.Last_name = Last_name;
-    User.Phone = Phone;
-    User.Gender = Gender;
-    User.Birthdate = Birthdate;
-    User.Prev_first_name = Prev_first_name;
-    User.Prev_last_name = Prev_last_name;
-    console.log(User);
+    User.First_name = firstName;
+    User.Last_name = lastName;
+    User.Phone = phone;
+    User.Gender = gender;
+    User.Birthdate = birthdate;
+    User.Prev_first_name = prevFirstName;
+    User.Prev_last_name = prevLastName;
+    console.log("PersonalFormA ", User);
     navigation.navigate('PersonalFormB', { route: User })
   }
 
@@ -135,7 +129,7 @@ export default function PersonalFormA({ navigation, route }) {
     setDate(currentDate);
     let tempDate = new Date(currentDate);
     let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
-    onChangeBirthdate(fDate)
+    setBirthdate(fDate)
     setShow(false);
   };
 
@@ -164,36 +158,39 @@ export default function PersonalFormA({ navigation, route }) {
               <Text style={styles.lableText}> שם פרטי </Text>
               <TextInput
                 style={styles.input}
-                onChangeText={(text) => { onChangeFirst_name(text) }}
-                value={First_name}
+                onChangeText={setFirstName}
+                value={firstName}
                 placeholder="שם פרטי"
+                maxLength={15}
               />
             </View>
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>שם משפחה</Text>
               <TextInput
                 style={styles.input}
-                onChangeText={onChangeLast_name}
-                value={Last_name}
+                onChangeText={setLastName}
+                value={lastName}
                 placeholder="שם משפחה"
+                maxLength={15}
               />
             </View>
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>מס פלאפון</Text>
               <TextInput
                 style={styles.input}
-                onChangeText={onChangePhone}
-                value={Phone}
+                onChangeText={setPhone}
+                value={phone}
                 placeholder="מס פלאפון"
                 keyboardType='numeric'
+                maxLength={10}
               />
             </View>
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>מין</Text>
               <RadioButtonGroup
                 containerStyle={{ margin: 15, flexDirection: 'row' }}
-                selected={Gender}
-                onSelected={(value) => onChangeGender(value)}
+                selected={gender}
+                onSelected={setGender}
                 radioBackground="blue">
                 <RadioButtonItem value="נקבה" label="נקבה" />
                 <RadioButtonItem value="זכר" label="זכר" />
@@ -203,7 +200,7 @@ export default function PersonalFormA({ navigation, route }) {
               <Text style={styles.lableText}>תאריך לידה</Text>
               <TextInput onFocus={onFocus}
                 style={styles.input}
-                value={Birthdate}
+                value={birthdate}
                 placeholder="תאריך לידה"
               />
             </View>
@@ -211,18 +208,20 @@ export default function PersonalFormA({ navigation, route }) {
               <Text style={styles.lableText}>שם פרטי קודם</Text>
               <TextInput
                 style={styles.input}
-                onChangeText={onChangePrev_first_name}
-                value={Prev_first_name}
+                onChangeText={setPrevFirstName}
+                value={prevFirstName}
                 placeholder="שם פרטי קודם"
+                maxLength={15}
               />
             </View>
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>שם משפחה קודם</Text>
               <TextInput
                 style={styles.input}
-                onChangeText={onChangePrev_last_name}
-                value={Prev_last_name}
+                onChangeText={setPrevLastName}
+                value={prevLastName}
                 placeholder="שם משפחה קודם"
+                maxLength={15}
               />
             </View>
             <View style={styles.container_btn}>
@@ -256,7 +255,7 @@ export default function PersonalFormA({ navigation, route }) {
                     <View style={styles.modal_buttons}>
                       <Pressable
                         style={[styles.button, styles.buttonClose]}
-                        onPress={() => setModalUpdateVisible(!modalUpdateVisible)}>
+                        onPress={() => { setModalUpdateVisible(!modalUpdateVisible) }}>
                         <Text style={styles.textStyle}>כן</Text>
                       </Pressable>
                       <Pressable
@@ -306,7 +305,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   inner: {
-    padding: 8,
     flex: 1,
     justifyContent: "space-between"
   },

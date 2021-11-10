@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, Pressable } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, Pressable, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 var bcrypt = require('bcryptjs');
@@ -15,8 +15,6 @@ export default function PrivacyAndSecurity({ navigation, route }) {
   const [Salt, onChangeSalt] = useState();
   const [shouldShow, setShouldShow] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-
-
 
 
   const storeData = async (data) => {
@@ -59,41 +57,9 @@ export default function PrivacyAndSecurity({ navigation, route }) {
     }
   }
 
-  // const CheckDetails = async () => {
-  //   try {
-  //     if (Platform.OS !== 'web') {
-  //       setShouldShow(true)
-  //     }
-  //     let result = await fetch(url + "api/user", {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json; charset=UTF-8',
-  //         'Accept': 'application/json'
-  //       },
-  //       body: JSON.stringify({
-  //         Personal_id: prevDetails.Personal_id,
-  //         Email: prevDetails.Email
-  //       })
-  //     });
-  //     let currentUser = await result.json();
-  //     console.log(currentUser);
-  //     if (currentUser.Personal_id === prevDetails.Personal_id) {
-  //       postEditDetiles()
-  //     }
-  //     if (currentUser.Salted_hash === prevDetails.Salted_hash || currentUser.Email === prevDetails.Email && currentUser.Personal_id !== prevDetails.Personal_id) {
-  //       setModalVisible(true)
-  //     }
-  //     else {
-  //       postEditDetiles()
-  //     }
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // }
-
   const postEditDetiles = async () => {
     try {
-      if (!Pass === '') {
+      if (Pass !== "") {
         if (Pass === CPass) {
           let salt = bcrypt.genSaltSync(10);
           let saltedHash = bcrypt.hashSync(Pass, salt);
@@ -120,6 +86,7 @@ export default function PrivacyAndSecurity({ navigation, route }) {
       if (res == 'User updated successfully') {
         let updatedUser = await getUserInfo();
         await storeData(updatedUser);
+        Alert.alert("המשתמש עודכן בהצלחה")
         navigation.navigate("Profile", { route: updatedUser });
       }
     } catch (e) {
@@ -214,7 +181,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowRadius: 5,
   },
-  
+
   //Modal style
   modalView: {
     margin: 20,
