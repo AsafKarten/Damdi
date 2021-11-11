@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Share, View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
+import { Share, View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image, Modal } from 'react-native';
 
 const url = "http://proj13.ruppin-tech.co.il/"
 export default function Friends({ navigation, route }) {
@@ -51,7 +51,6 @@ export default function Friends({ navigation, route }) {
   );
 }
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     alignItems: 'center',
@@ -107,7 +106,7 @@ const styles = StyleSheet.create({
   },
 
   button_text: {
-    fontSize: 18,
+    fontSize: 14,
     color: 'white',
     fontWeight: 'bold'
   },

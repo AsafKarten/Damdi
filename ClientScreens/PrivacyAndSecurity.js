@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, Pressable, Alert } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, TextInput, View, TouchableOpacity, Modal, Pressable, Alert, Platform, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 var bcrypt = require('bcryptjs');
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
+//TODO: Fix modal view
 
 export default function PrivacyAndSecurity({ navigation, route }) {
   const [prevDetails, setPrev] = useState(route.params.route);
-  const [Email, onChangeEmail] = useState(prevDetails.Email);
-  const [Pass, onChangePass] = useState();
-  const [CPass, onChangeCPass] = useState();
-  const [Salt, onChangeSalt] = useState();
-  const [shouldShow, setShouldShow] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [email, onChangeEmail] = useState(prevDetails.Email);
+  const [pass, onChangePass] = useState();
+  const [cPass, onChangeCPass] = useState();
+  const [newSalt, onChangeSalt] = useState();
+  const [errorUpdate, setErrorUpdate] = useState(false);
+  const [successUpdate, setSuccessUpdate] = useState(false);
 
 
   const storeData = async (data) => {
@@ -57,19 +58,30 @@ export default function PrivacyAndSecurity({ navigation, route }) {
     }
   }
 
-  const postEditDetiles = async () => {
-    try {
-      if (Pass !== "") {
-        if (Pass === CPass) {
-          let salt = bcrypt.genSaltSync(10);
-          let saltedHash = bcrypt.hashSync(Pass, salt);
-          onChangeSalt(saltedHash);
-        }
+  const validationInput = async () => {
+    if (email == "" || pass == "" || cPass == "") {
+      Alert.alert('אנא מלא/י את כל הפרטים בבקשה')
+      return
+    }
+    if (pass !== "") {
+      if (pass === cPass) {
+        let salt = bcrypt.genSaltSync(10);
+        let saltedHash = bcrypt.hashSync(pass, salt);
+        onChangeSalt(saltedHash);
       }
       else {
         Alert.alert("הסיסמא אינה תואמת נסי/ה הזן שוב")
+        return
       }
+    }
+    else {
       await clearAsyncStorage("loggedUser");
+      postEditDetiles();
+    }
+  }
+
+  const postEditDetiles = async () => {
+    try {
       let result = await fetch(url + "api/edit/user", {
         method: 'POST',
         headers: {
@@ -78,16 +90,21 @@ export default function PrivacyAndSecurity({ navigation, route }) {
         },
         body: JSON.stringify({
           Personal_id: prevDetails.Personal_id,
-          Email: Email,
-          Salted_hash: Salt,
+          Email: email,
+          Salted_hash: newSalt,
         })
       });
       let res = await result.json();
-      if (res == 'User updated successfully') {
+      if (res === 'User updated successfully') {
+        console.log("success modal");
         let updatedUser = await getUserInfo();
         await storeData(updatedUser);
-        Alert.alert("המשתמש עודכן בהצלחה")
-        navigation.navigate("Profile", { route: updatedUser });
+        setSuccessUpdate(true);
+      }
+      else {
+        console.log("error modal");
+        setErrorUpdate(true);
+        return
       }
     } catch (e) {
       console.error(e)
@@ -96,39 +113,50 @@ export default function PrivacyAndSecurity({ navigation, route }) {
 
 
   return (
-    <View style={styles.container}>
-      <Text>עדכון אימייל וסיסמא</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeEmail}
-        value={Email}
-        placeholder="אימייל"
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangePass}
-        value={Pass}
-        secureTextEntry={true}
-        placeholder="סיסמא"
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeCPass}
-        secureTextEntry={true}
-        value={CPass}
-        placeholder="אשר סיסמא"
-      />
-      <TouchableOpacity onPress={() => postEditDetiles()}>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.lableText}>עדכון אימייל וסיסמא</Text>
+      <View style={styles.horizontalBox}>
+        <Text style={styles.lableText}>אימייל</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeEmail}
+          value={email}
+          placeholder="אימייל"
+        />
+      </View>
+      <View style={styles.horizontalBox}>
+        <Text style={styles.lableText}>סיסמא</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangePass}
+          value={pass}
+          secureTextEntry={true}
+          placeholder="סיסמא"
+          maxLength={8}
+        />
+      </View>
+      <View style={styles.horizontalBox}>
+        <Text style={styles.lableText}>אשר סיסמא</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeCPass}
+          secureTextEntry={true}
+          value={cPass}
+          placeholder="אשר סיסמא"
+          maxLength={8}
+        />
+      </View>
+      <TouchableOpacity onPress={() => validationInput()}>
         <View style={styles.button_normal}>
           <Text style={styles.button_text}>שמור</Text>
         </View>
       </TouchableOpacity>
-      {shouldShow ? (
+      {errorUpdate && (
         <View>
           <Modal
             animationType="slide"
             transparent={true}
-            visible={modalVisible}
+            visible={errorUpdate}
             onRequestClose={() => {
               console.log('Modal has been closed.');
             }}>
@@ -144,8 +172,32 @@ export default function PrivacyAndSecurity({ navigation, route }) {
             </View>
           </Modal>
         </View>
-      ) : null}
-    </View>
+      )}
+      {successUpdate && (
+        <View>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={successUpdate}
+            onRequestClose={() => {
+              console.log('Modal has been closed.');
+            }}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>!הפרטים התעדכנו בהצלחה</Text>
+              <View style={styles.modal_buttons}>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => {
+                    setModalVisible(!modalVisible)
+                  }}>
+                  <Text style={styles.textStyle}>אישור</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      )}
+    </SafeAreaView>
   );
 }
 
@@ -153,13 +205,16 @@ export default function PrivacyAndSecurity({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  inner: {
+    flex: 1,
+    justifyContent: "space-between"
+  },
   input: {
     height: 40,
-    width: 160,
+    width: 180,
     margin: 12,
     borderWidth: 1,
     borderRadius: 8,
@@ -181,8 +236,18 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowRadius: 5,
   },
-
-  //Modal style
+  horizontalBox: {
+    width: 300,
+    justifyContent: 'space-between',
+    flexDirection: 'row-reverse',
+    marginTop: 15,
+  },
+  lableText: {
+    marginTop: 17,
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
+  //Modal
   modalView: {
     margin: 20,
     backgroundColor: '#757c94',
@@ -204,10 +269,11 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   button: {
-    margin: 10,
+    marginLeft: 50,
+    marginRight: 50,
     borderRadius: 20,
-    padding: 10,
-    elevation: 2
+    padding: 15,
+    elevation: 2,
   },
   buttonOpen: {
     backgroundColor: "#F194FF",
@@ -218,7 +284,8 @@ const styles = StyleSheet.create({
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
+    fontSize: 20
   },
   modalText: {
     color: "white",

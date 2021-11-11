@@ -34,7 +34,7 @@ export default function PersonalFormA({ navigation, route }) {
 
   useEffect(() => {
     getUserInfo()
-  },[])
+  }, [])
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -119,6 +119,7 @@ export default function PersonalFormA({ navigation, route }) {
     User.Prev_first_name = prevFirstName;
     User.Prev_last_name = prevLastName;
     console.log("PersonalFormA ", User);
+    setModalUpdateVisible(false)
     navigation.navigate('PersonalFormB', { route: User })
   }
 
@@ -148,6 +149,13 @@ export default function PersonalFormA({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
+        {/* {
+          if (Platform.OS === 'ios'){
+            <Key
+          }
+        } */}
+
+
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
@@ -295,9 +303,8 @@ export default function PersonalFormA({ navigation, route }) {
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </SafeAreaView>
-  );
-
-}
+  )
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,

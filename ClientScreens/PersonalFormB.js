@@ -37,6 +37,7 @@ export default function PersonalFormB({ navigation, route }) {
     User.Telephone = telephone
     User.Work_telephone = workTelephone
     console.log("PersonalFormB",User);
+    setLoading(false);
     navigation.navigate('PersonalFormC', { route: User })
   }
 
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   input: {
-    width: 120,
+    width: 140,
     height: 40,
     margin: 12,
     borderWidth: 1,

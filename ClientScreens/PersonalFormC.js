@@ -93,6 +93,7 @@ export default function PersonalFormC({ navigation, route }) {
     User.Father_birth_land = fatherBirthLand
     User.Mother_birth_land = motherBirthLand
     await postDataToDB()
+    setLoading(false)
     navigation.navigate('Welcome', { route: User })
   }
 
@@ -191,11 +192,11 @@ export default function PersonalFormC({ navigation, route }) {
               <TouchableOpacity onPress={() =>
                 navigation.navigate('PersonalFormB')
               }>
-                {loading && <Spiner loading={loading} />}
                 <View style={styles.button_normal}>
                   <Text style={styles.button_text} >חזרה</Text>
                 </View>
               </TouchableOpacity>
+              {loading && <Spiner loading={loading} />}
             </View>
           </View>
         </TouchableWithoutFeedback>

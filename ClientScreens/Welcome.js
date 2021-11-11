@@ -52,7 +52,7 @@ export default function Welcome({ navigation, route }) {
 
       <Image source={BG} style={{ width: 360, height: 150, alignSelf: 'center', resizeMode: 'stretch' }}></Image>
 
-      <Text style={styles.welcome_text}> ברוך הבא לדאמדי {firstName} </Text>
+      <Text style={styles.welcome_text}> ברוך הבא {firstName} </Text>
 
       <TouchableOpacity onPress={() => {
         setLoading(false)

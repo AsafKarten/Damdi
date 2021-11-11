@@ -59,7 +59,7 @@ export default function StackNavigation() {
           }} />
         <Stack.Screen name="PersonalFormA" component={PersonalFormA}
           options={{
-            title: 'פרטים אישים',
+            title: 'פרטים אישיים - חלק א',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
@@ -71,7 +71,7 @@ export default function StackNavigation() {
           }} />
         <Stack.Screen name="PersonalFormB" component={PersonalFormB}
           options={{
-            title: 'פרטים אישים',
+            title: 'פרטים אישיים - חלק ב',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
@@ -83,7 +83,7 @@ export default function StackNavigation() {
           }} />
         <Stack.Screen name="PersonalFormC" component={PersonalFormC}
           options={{
-            title: 'פרטים אישים',
+            title: 'פרטים אישיים - חלק ג',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
