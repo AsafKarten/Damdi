@@ -124,35 +124,47 @@ export default function Registration({ navigation }) {
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
-            <TextInput
-              style={styles.input}
-              onChangeText={onChangeId}
-              value={personalId}
-              placeholder="תעודת זהות"
-              maxLength={9}
-            />
-            <TextInput
-              style={styles.input}
-              onChangeText={onChangeEmail}
-              value={email}
-              placeholder="אימייל"
-            />
-            <TextInput
-              style={styles.input}
-              onChangeText={onChangePass}
-              value={pass}
-              secureTextEntry={true}
-              placeholder="סיסמה"
-              maxLength={8}
-            />
-            <TextInput
-              style={styles.input}
-              onChangeText={onChangeCPass}
-              secureTextEntry={true}
-              value={confirmPass}
-              placeholder="אשר סיסמה"
-              maxLength={8}
-            />
+            <View style={styles.horizontalBox}>
+              <Text style={styles.lableText}> תעודת זהות </Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={onChangeId}
+                value={personalId}
+                placeholder="תעודת זהות"
+                maxLength={9}
+              />
+            </View>
+            <View style={styles.horizontalBox}>
+              <Text style={styles.lableText}> אימייל </Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={onChangeEmail}
+                value={email}
+                placeholder="אימייל"
+              />
+            </View>
+            <View style={styles.horizontalBox}>
+              <Text style={styles.lableText}> סיסמה </Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={onChangePass}
+                value={pass}
+                secureTextEntry={true}
+                placeholder="סיסמה"
+                maxLength={8}
+              />
+            </View>
+            <View style={styles.horizontalBox}>
+              <Text style={styles.lableText}> אשר סיסמה </Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={onChangeCPass}
+                secureTextEntry={true}
+                value={confirmPass}
+                placeholder="אשר סיסמה"
+                maxLength={8}
+              />
+            </View>
             <TouchableOpacity onPress={() => {
               setLoading(false)
               validationInput()
@@ -194,5 +206,16 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     backgroundColor: "#633689"
+  },
+  horizontalBox: {
+    width: 280,
+    justifyContent: 'space-between',
+    flexDirection: 'row-reverse',
+    marginTop: 15,
+  },
+  lableText: {
+    marginTop: 17,
+    fontSize: 16,
+    fontWeight: 'bold'
   },
 });
