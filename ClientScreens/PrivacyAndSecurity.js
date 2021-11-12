@@ -6,14 +6,13 @@ var bcrypt = require('bcryptjs');
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
-//TODO: Fix modal view
-
 export default function PrivacyAndSecurity({ navigation, route }) {
   const [prevDetails, setPrev] = useState(route.params.route);
   const [email, onChangeEmail] = useState(prevDetails.Email);
   const [pass, onChangePass] = useState();
   const [cPass, onChangeCPass] = useState();
-  const [newSalt, onChangeSalt] = useState();
+  const [userUpdated, onChangeUser] = useState();
+
   const [errorUpdate, setErrorUpdate] = useState(false);
   const [successUpdate, setSuccessUpdate] = useState(false);
 
@@ -59,28 +58,24 @@ export default function PrivacyAndSecurity({ navigation, route }) {
   }
 
   const validationInput = async () => {
-    if (email == "" || pass == "" || cPass == "") {
+    if (email === "" || pass === "" || cPass === "") {
       Alert.alert('אנא מלא/י את כל הפרטים בבקשה')
       return
     }
-    if (pass !== "") {
-      if (pass === cPass) {
-        let salt = bcrypt.genSaltSync(10);
-        let saltedHash = bcrypt.hashSync(pass, salt);
-        onChangeSalt(saltedHash);
-      }
-      else {
-        Alert.alert("הסיסמא אינה תואמת נסי/ה הזן שוב")
-        return
-      }
+    else if (pass === cPass) {
+      let salt = bcrypt.genSaltSync(10);
+      let saltedHash = bcrypt.hashSync(pass, salt);
+      await clearAsyncStorage("loggedUser");
+      await postEditDetiles(saltedHash);
     }
     else {
-      await clearAsyncStorage("loggedUser");
-      postEditDetiles();
+      Alert.alert("הסיסמא אינה תואמת נסי/ה הזן שוב")
+      return
     }
   }
 
-  const postEditDetiles = async () => {
+
+  const postEditDetiles = async (newSalt) => {
     try {
       let result = await fetch(url + "api/edit/user", {
         method: 'POST',
@@ -95,9 +90,11 @@ export default function PrivacyAndSecurity({ navigation, route }) {
         })
       });
       let res = await result.json();
+      console.log(res);
       if (res === 'User updated successfully') {
         console.log("success modal");
         let updatedUser = await getUserInfo();
+        onChangeUser(updatedUser);
         await storeData(updatedUser);
         setSuccessUpdate(true);
       }
@@ -165,7 +162,7 @@ export default function PrivacyAndSecurity({ navigation, route }) {
               <View style={styles.modal_buttons}>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}>
+                  onPress={() => setErrorUpdate(!errorUpdate)}>
                   <Text style={styles.textStyle}>סגור</Text>
                 </Pressable>
               </View>
@@ -176,11 +173,10 @@ export default function PrivacyAndSecurity({ navigation, route }) {
       {successUpdate && (
         <View>
           <Modal
-            animationType="slide"
+            animationType="none"
             transparent={true}
             visible={successUpdate}
             onRequestClose={() => {
-              console.log('Modal has been closed.');
             }}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>!הפרטים התעדכנו בהצלחה</Text>
@@ -188,7 +184,8 @@ export default function PrivacyAndSecurity({ navigation, route }) {
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => {
-                    setModalVisible(!modalVisible)
+                    setSuccessUpdate(!successUpdate),
+                      navigation.navigate("Profile", { route: userUpdated })
                   }}>
                   <Text style={styles.textStyle}>אישור</Text>
                 </Pressable>
