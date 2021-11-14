@@ -118,9 +118,10 @@ export default function PersonalFormA({ navigation, route }) {
     User.Birthdate = birthdate;
     User.Prev_first_name = prevFirstName;
     User.Prev_last_name = prevLastName;
-    console.log("PersonalFormA ", User);
+    var UserA = {Personal_id : route.params.route.Personal_id, First_name : firstName, Last_name: lastName,Phone:phone, Gender : gender, Birthdate: birthdate, Prev_first_name: prevFirstName, Prev_last_name: prevLastName }
+    console.log("PersonalFormA ", UserA);
     setModalUpdateVisible(false)
-    navigation.navigate('PersonalFormB', { route: User })
+    navigation.navigate('PersonalFormB', { route: UserA })
   }
 
 
