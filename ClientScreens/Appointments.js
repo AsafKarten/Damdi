@@ -11,7 +11,7 @@ export default function Appointments({ navigation, route }) {
 
       <View style={styles.ButtonContainer}>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
+        <TouchableOpacity onPress={() => navigation.navigate('maps', { route: User })}>
           <View style={styles.button_normal}>
             <Text style={styles.button_text} >נווט אל התחנה</Text>
           </View>
