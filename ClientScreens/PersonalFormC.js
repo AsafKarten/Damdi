@@ -35,7 +35,8 @@ export default function PersonalFormC({ navigation, route }) {
     setMotherBirthLand(User.Mother_birth_land)
   }, [])
 
-  const postDataToDB = async () => {
+  const postDataToDB = async (UserC) => {
+    console.log(UserC);
     try {
       let result = await fetch(url + "api/info/new", {
         method: 'POST',
@@ -44,6 +45,7 @@ export default function PersonalFormC({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
+<<<<<<< HEAD
           Personal_id: route.params.route.Personal_id,
           First_name: User.First_name,
           Last_name: User.Last_name,
@@ -66,6 +68,30 @@ export default function PersonalFormC({ navigation, route }) {
           Aliya_year: User.Aliya_year,
           Father_birth_land: User.Father_birth_land,
           Mother_birth_land: User.Mother_birth_land
+=======
+          Personal_id: UserC.Personal_id,
+          First_name: UserC.First_name,
+          Last_name: UserC.Last_name,
+          Phone: UserC.Phone,
+          Gender: UserC.Gender,
+          Birthdate: UserC.Birthdate,
+          Prev_first_name: UserC.Prev_first_name,
+          Prev_last_name: UserC.Prev_last_name,
+          City: UserC.City,
+          Address: UserC.Address,
+          Postal_code: UserC.Postal_code,
+          Mail_box: UserC.Mail_box,
+          Telephone: UserC.Telephone,
+          Work_telephone: UserC.Work_telephone,
+          Blood_group_member: UserC.Blood_group_member,
+          Personal_insurance: UserC.Personal_insurance,
+          Confirm_examination: UserC.Confirm_examination,
+          Agree_future_don: UserC.Agree_future_don,
+          Birth_land: UserC.Birth_land,
+          Aliya_year: UserC.Aliya_year,
+          Father_birth_land: UserC.Father_birth_land,
+          Mother_birth_land: UserC.Mother_birth_land
+>>>>>>> 9e3c2f89b414f99519307ae03c7d2a11f3c76a88
         })
       })
       let respone = await result.json()
@@ -92,7 +118,10 @@ export default function PersonalFormC({ navigation, route }) {
     User.Aliya_year = aliyaYear
     User.Father_birth_land = fatherBirthLand
     User.Mother_birth_land = motherBirthLand
-    await postDataToDB()
+    var UserC = {Personal_id : route.params.route.Personal_id, First_name : route.params.route.First_name, Last_name: route.params.route.Last_name,Phone:route.params.route.Phone, Gender : route.params.route.Gender, Birthdate: route.params.route.Birthdate, Prev_first_name: route.params.route.Prev_first_name, Prev_last_name: route.params.route.Prev_last_name,
+      City: route.params.route.City, Address: route.params.route.Address, Postal_code: route.params.route.Postal_code, Mail_box: route.params.route.Mail_box, Telephone: route.params.route.Telephone, Work_telephone: route.params.route.Work_telephone,
+      Blood_group_member: bloodGroupMember, Personal_insurance: personalInsurance, Confirm_examination: confirmExamination, Agree_future_don: agreeFutureDonation, Birth_land: birthLand, Aliya_year: aliyaYear, Father_birth_land: fatherBirthLand, Mother_birth_land:motherBirthLand }
+    await postDataToDB(UserC)
     setLoading(false)
     navigation.navigate('Welcome', { route: User })
   }

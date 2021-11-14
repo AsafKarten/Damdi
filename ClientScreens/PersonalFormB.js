@@ -36,9 +36,11 @@ export default function PersonalFormB({ navigation, route }) {
     User.Mail_box = mailBox
     User.Telephone = telephone
     User.Work_telephone = workTelephone
-    console.log("PersonalFormB",User);
+    var UserB = {Personal_id : route.params.route.Personal_id, First_name : route.params.route.First_name, Last_name: route.params.route.Last_name,Phone:route.params.route.Phone, Gender : route.params.route.Gender, Birthdate: route.params.route.Birthdate, Prev_first_name: route.params.route.Prev_first_name, Prev_last_name: route.params.route.Prev_last_name,
+      City: city, Address:address, Postal_code: postalCode, Mail_box:mailBox, Telephone:telephone, Work_telephone:workTelephone}
+    console.log("PersonalFormB",UserB);
     setLoading(false);
-    navigation.navigate('PersonalFormC', { route: User })
+    navigation.navigate('PersonalFormC', { route: UserB })
   }
 
 
