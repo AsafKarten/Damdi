@@ -45,30 +45,6 @@ export default function PersonalFormC({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-<<<<<<< HEAD
-          Personal_id: route.params.route.Personal_id,
-          First_name: User.First_name,
-          Last_name: User.Last_name,
-          Phone: User.Phone,
-          Gender: User.Gender,
-          Birthdate: User.Birthdate,
-          Prev_first_name: User.Prev_first_name,
-          Prev_last_name: User.Prev_last_name,
-          City: User.City,
-          Address: User.Address,
-          Postal_code: User.Postal_code,
-          Mail_box: User.Mail_box,
-          Telephone: User.Telephone,
-          Work_telephone: User.Work_telephone,
-          Blood_group_member: User.Blood_group_member,
-          Personal_insurance: User.Personal_insurance,
-          Confirm_examination: User.Confirm_examination,
-          Agree_future_don: User.Agree_future_don,
-          Birth_land: User.Birth_land,
-          Aliya_year: User.Aliya_year,
-          Father_birth_land: User.Father_birth_land,
-          Mother_birth_land: User.Mother_birth_land
-=======
           Personal_id: UserC.Personal_id,
           First_name: UserC.First_name,
           Last_name: UserC.Last_name,
@@ -91,7 +67,6 @@ export default function PersonalFormC({ navigation, route }) {
           Aliya_year: UserC.Aliya_year,
           Father_birth_land: UserC.Father_birth_land,
           Mother_birth_land: UserC.Mother_birth_land
->>>>>>> 9e3c2f89b414f99519307ae03c7d2a11f3c76a88
         })
       })
       let respone = await result.json()
