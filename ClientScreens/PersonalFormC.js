@@ -44,7 +44,7 @@ export default function PersonalFormC({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id: User.Personal_id,
+          Personal_id: route.params.route.Personal_id,
           First_name: User.First_name,
           Last_name: User.Last_name,
           Phone: User.Phone,

@@ -5,7 +5,7 @@ import ProgressBar from '../Componentes/ProgressBar.js'
 
 export default function Home({ navigation, route }) {
   const [User, onChangeId] = useState(route.params.route)
-
+  const [loading, setLoading] = useState(false)
   useEffect(() => {
     navigation.addListener('focus', async () => {
       setLoading(false);

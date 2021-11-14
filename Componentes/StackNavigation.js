@@ -22,6 +22,7 @@ import ScheduleAppointment from '../ClientScreens/ScheduleAppointment.js';
 import MedicalForm from '../ClientScreens/MedicalForm.js';
 import ValidationForm from '../ClientScreens/ValidationForm.js';
 import PrivacyAndSecurity from '../ClientScreens/PrivacyAndSecurity.js'
+import maps from '../ClientScreens/maps.js'
 
 const Stack = createStackNavigator();
 
@@ -32,8 +33,18 @@ export default function StackNavigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-
+      <Stack.Navigator initialRouteName="maps">
+        <Stack.Screen name="maps" component={maps}
+          options={{
+            title: 'מפה',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff',
+            headerLeft: () => {
+              return null;
+            },
+          }} />
         <Stack.Screen name="Login" component={Login}
           options={{
             title: 'התחברות',
