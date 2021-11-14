@@ -47,6 +47,27 @@ namespace DamdiServer.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/edit/user")]
+        public IHttpActionResult UpdateDetailsUser([FromBody] User user)
+        {
+            try
+            {
+                int res = Globals.UserDAL.UpdateUser(user);
+                Created(new Uri(Request.RequestUri.AbsoluteUri + user), res);
+                if (res == 1)
+                {
+                    return Ok("User updated successfully");
+                }
+                return BadRequest("User was not updated");
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+
         //Get User info from users table.
         [HttpPost]
         [Route("api/user/info")]
@@ -83,27 +104,27 @@ namespace DamdiServer.Controllers
             }
         }
 
-
+        //Add new mdical info donation to MedicalInfoDonation table.
         [HttpPost]
-        [Route("api/edit/user")]
-        public IHttpActionResult UpdateDetailsUser([FromBody] User user)
+        [Route("api/info/medical")]
+        public IHttpActionResult AddNewInfoDonation([FromBody] MedicalInfoDonation donInfo)
         {
             try
             {
-                int res = Globals.UserDAL.UpdateUser(user);
-                Created(new Uri(Request.RequestUri.AbsoluteUri + user), res);
+                int res = Globals.UserDAL.SetNewMedicalInfo(donInfo);
+                Created(new Uri(Request.RequestUri.AbsoluteUri + donInfo), res);
                 if (res == 1)
                 {
-                    return Ok("User updated successfully");
+                    return Ok("medical info added successfully");
                 }
-                return BadRequest("User was not updated");
+                return BadRequest("medical info not added");
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);
             }
         }
+
     }
 }
 
