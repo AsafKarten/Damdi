@@ -33,18 +33,7 @@ export default function StackNavigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="maps">
-        <Stack.Screen name="maps" component={maps}
-          options={{
-            title: 'מפה',
-            headerStyle: {
-              backgroundColor: '#7d91b0',
-            },
-            headerTintColor: '#fff',
-            headerLeft: () => {
-              return null;
-            },
-          }} />
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={Login}
           options={{
             title: 'התחברות',
@@ -237,6 +226,17 @@ export default function StackNavigation() {
             // headerLeft: () => {
             //   return null;
             // },
+          }} />
+        <Stack.Screen name="maps" component={maps}
+          options={{
+            title: 'מפה',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff',
+            headerLeft: () => {
+              return null;
+            },
           }} />
       </Stack.Navigator >
     </NavigationContainer >
