@@ -7,6 +7,7 @@ const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function MedicalForm({ navigation, route }) {
   const [User, onChangeUser] = useState(route.params.route);
+
   const [Q3_1, onChangeQ3_1] = useState(false)
   const togglenonChangeQ3_1 = () => onChangeQ3_1(previousState => !previousState);
   const [Q3_2, onChangeQ3_2] = useState(false)
@@ -65,28 +66,43 @@ export default function MedicalForm({ navigation, route }) {
 
 
   }
-  const CallJson = async () => {
-    var medicalForm = {
-      Q3_1: Q3_1,
-      Q3_2: Q3_2,
-      Q3_3: Q3_3,
-      Q3_4: Q3_4,
-      Q3_5: Q3_5,
-      Q3_7: Q3_7,
-      Q3_8: Q3_8,
-      Q3_9: Q3_9,
-      Q3_10: Q3_10
-      , Q3_11: Q3_11
-      , Q3_12: Q3_12
-      , Q3_13: Q3_13
-      , Q3_14: Q3_14
-      , Q3_15: Q3_15
-      , Q3_16: Q3_16
-      , Q3_17: Q3_17
-      , Q3_18: Q3_18
-      , Q3_19: Q3_19
-      , Q3_20: Q3_20
-      , Q3_21: Q3_21
+  const inserMedicalInfoDonation = async () => {
+    try {
+      let result = await fetch(url + "api/info/medical", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: route.params.route.Personal_id,
+          Answer_date: Date.now(),
+          Q3_1: Q3_1,
+          Q3_2: Q3_2,
+          Q3_3: Q3_3,
+          Q3_4: Q3_4,
+          Q3_5: Q3_5,
+          Q3_7: Q3_7,
+          Q3_8: Q3_8,
+          Q3_9: Q3_9,
+          Q3_10: Q3_10,
+          Q3_11: Q3_11,
+          Q3_12: Q3_12,
+          Q3_13: Q3_13,
+          Q3_14: Q3_14,
+          Q3_15: Q3_15,
+          Q3_16: Q3_16,
+          Q3_17: Q3_17,
+          Q3_18: Q3_18,
+          Q3_19: Q3_19,
+          Q3_20: Q3_20,
+          Q3_21: Q3_21,
+          Notes: notes
+        })
+      })
+      let respone = await result.json()
+    } catch (error) {
+      console.log('error with the send data to server ')
     }
     await navigation.navigate('ValidationForm', { route: User })
   }
@@ -384,7 +400,7 @@ export default function MedicalForm({ navigation, route }) {
                   />
                 </View>
               </View>
-              <TouchableOpacity onPress={() => CallJson()}>
+              <TouchableOpacity onPress={() => inserMedicalInfoDonation()}>
                 <View style={styles.button_normal}>
                   <Text style={styles.button_text} >סיום</Text>
                 </View>
