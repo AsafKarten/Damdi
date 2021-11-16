@@ -8,7 +8,10 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@emotion/react": "^11.6.0",
+    "@emotion/styled": "^11.6.0",
     "@expo-google-fonts/roboto": "^0.2.0",
+    "@mui/material": "^5.1.1",
     "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-native-community/datetimepicker": "3.5.2",
     "@react-native-community/masked-view": "^0.1.10",
@@ -16,7 +19,7 @@
     "@react-navigation/stack": "^5.14.5",
     "bcryptjs": "^2.4.3",
     "expo": "^43.0.0",
-    "expo-cli": "^4.12.12",
+    "expo-cli": "^4.13.0",
     "expo-file-system": "~13.0.3",
     "expo-image-picker": "~11.0.3",
     "expo-radio-button": "^1.0.8",
@@ -28,14 +31,14 @@
     "react-native-actionsheet": "^2.4.2",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-maps": "0.28.0",
     "react-native-modal": "^13.0.0",
     "react-native-progress": "^5.0.0",
     "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
     "react-native-vector-icons": "^8.1.0",
-    "react-native-web": "0.17.1",
-    "react-native-maps": "0.28.0"
+    "react-native-web": "0.17.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
