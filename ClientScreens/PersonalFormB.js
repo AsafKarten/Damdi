@@ -57,7 +57,7 @@ export default function PersonalFormB({ navigation, route }) {
   useEffect(() => {
     serachCity(city)
   }, [city])
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
@@ -81,81 +81,83 @@ export default function PersonalFormB({ navigation, route }) {
                   </TouchableOpacity>)
                   : null}
               </View>
+
+
+              <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>רחוב</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={setAddress}
+                  value={address}
+                  placeholder="רחוב"
+                  maxLength={30}
+                />
+              </View>
+              <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>מיקוד</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={setPostalCode}
+                  value={postalCode}
+                  placeholder="מיקוד"
+                  keyboardType='numeric'
+                  maxLength={7}
+                />
+              </View>
+              <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>תיבת דואר</Text>
+                <TextInput
+                  keyboardType='numeric'
+                  style={styles.input}
+                  onChangeText={setMailBox}
+                  value={mailBox}
+                  placeholder="תיבת דואר"
+                  maxLength={6}
+                />
+              </View>
+              <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>מס טלפון</Text>
+                <TextInput
+                  keyboardType='numeric'
+                  style={styles.input}
+                  onChangeText={setTelephone}
+                  value={telephone}
+                  placeholder="מס טלפון"
+                  maxLength={9}
+                />
+              </View>
+              <View style={styles.HorizontalBox}>
+                <Text style={styles.lableText}>מס טלפון בעבודה</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={setWorkTelephone}
+                  value={workTelephone}
+                  placeholder="מס טלפון בעבודה"
+                  keyboardType='numeric'
+                  maxLength={9}
+                />
+              </View>
+              <View style={styles.HorizontalBoxButtons}>
+                <TouchableOpacity onPress={() => {
+                  setLoading(false)
+                  PostPersonalFormB()
+                }}>
+                  <View style={styles.button_normal}>
+                    <Text style={styles.button_text} >הבא</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('PersonalFormA')} >
+                  <View style={styles.button_normal}>
+                    <Text style={styles.button_text} >חזרה</Text>
+                  </View>
+                </TouchableOpacity>
+                {loading && <Spiner loading={loading} />}
+              </View>
             </View>
+
           </View>
-          <View style={styles.HorizontalBox}>
-            <Text style={styles.lableText}>רחוב</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={setAddress}
-              value={address}
-              placeholder="רחוב"
-              maxLength={30}
-            />
-          </View>
-          <View style={styles.HorizontalBox}>
-            <Text style={styles.lableText}>מיקוד</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={setPostalCode}
-              value={postalCode}
-              placeholder="מיקוד"
-              keyboardType='numeric'
-              maxLength={7}
-            />
-          </View>
-          <View style={styles.HorizontalBox}>
-            <Text style={styles.lableText}>תיבת דואר</Text>
-            <TextInput
-              keyboardType='numeric'
-              style={styles.input}
-              onChangeText={setMailBox}
-              value={mailBox}
-              placeholder="תיבת דואר"
-              maxLength={6}
-            />
-          </View>
-          <View style={styles.HorizontalBox}>
-            <Text style={styles.lableText}>מס טלפון</Text>
-            <TextInput
-              keyboardType='numeric'
-              style={styles.input}
-              onChangeText={setTelephone}
-              value={telephone}
-              placeholder="מס טלפון"
-              maxLength={9}
-            />
-          </View>
-          <View style={styles.HorizontalBox}>
-            <Text style={styles.lableText}>מס טלפון בעבודה</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={setWorkTelephone}
-              value={workTelephone}
-              placeholder="מס טלפון בעבודה"
-              keyboardType='numeric'
-              maxLength={9}
-            />
-          </View>
-          <View style={styles.HorizontalBoxButtons}>
-            <TouchableOpacity onPress={() => {
-              setLoading(false)
-              PostPersonalFormB()
-            }}>
-              <View style={styles.button_normal}>
-                <Text style={styles.button_text} >הבא</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('PersonalFormA')} >
-              <View style={styles.button_normal}>
-                <Text style={styles.button_text} >חזרה</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-          {loading && <Spiner loading={loading} />}
-        </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </SafeAreaView >
   );
 
