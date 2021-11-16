@@ -14,7 +14,7 @@ namespace DamdiServer.Models
         TimeSpan end_time;
         string lat;
         string lng;
-        string days = "123456";
+        string days;
 
         public Stations(int station_code, string city, string f_address, TimeSpan start_time, TimeSpan end_time, string lat, string lng,string days)
         {
