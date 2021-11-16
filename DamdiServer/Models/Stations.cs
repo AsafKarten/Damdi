@@ -12,10 +12,10 @@ namespace DamdiServer.Models
         string f_address;
         DateTime start_time;
         DateTime end_time;
-        float lat;
-        float lng;
+        double lat;
+        double lng;
 
-        public Stations(int station_code, string city, string f_address, DateTime start_time, DateTime end_time, float lat, float lng)
+        public Stations(int station_code, string city, string f_address, DateTime start_time, DateTime end_time, double lat, double lng)
         {
             Station_code = station_code;
             City = city;
@@ -31,7 +31,7 @@ namespace DamdiServer.Models
         public string F_address { get => f_address; set => f_address = value; }
         public DateTime Start_time { get => start_time; set => start_time = value; }
         public DateTime End_time { get => end_time; set => end_time = value; }
-        public float Lat { get => lat; set => lat = value; }
-        public float Lng { get => lng; set => lng = value; }
+        public double Lat { get => lat; set => lat = value; }
+        public double Lng { get => lng; set => lng = value; }
     }
 }

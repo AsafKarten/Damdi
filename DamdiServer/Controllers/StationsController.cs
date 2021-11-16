@@ -23,14 +23,14 @@ namespace DamdiServer.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("api/search/stations")]
-        public IHttpActionResult GetProfileFeed([FromBody] Stations s)
+        [HttpGet]
+        [Route("api/all/stations")]
+        public IHttpActionResult GetAllStations()
         {
             try
             {
-                List<Stations> Stations = Globals.StationsDAL.GetStations(s.City, s.Start_time);
-                Created(new Uri(Request.RequestUri.AbsoluteUri + s), Stations);
+                List<Stations> Stations = Globals.StationsDAL.GetStationList();
+                Created(new Uri(Request.RequestUri.AbsoluteUri), Stations);
                 if (Stations != null)
                 {
                     return Ok(Stations);
