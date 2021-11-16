@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useAutocomplete } from '@mui/core/AutocompleteUnstyled'; 
+import Autocomplete from '@mui/core/AutocompleteUnstyled';
+import TextField from "@material-ui/core/TextField";
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
 //const ilCities = require('../assets/il.json');
@@ -87,13 +88,11 @@ export default function PersonalFormB({ navigation, route }) {
               <Autocomplete
                 disablePortal
                 id="combo-box-demo"
-                options={top100Films}
+                options={cities}
                 sx={{ width: 300 }}
-                renderInput={(params) => <TextField {...params} label="Movie" />}
+                renderInput={(params) => <TextField {...params} label="עיר" />}
               />
             </View>
-
-
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>רחוב</Text>
               <TextInput
