@@ -101,6 +101,7 @@ export default function MedicalForm({ navigation, route }) {
         })
       })
       let respone = await result.json()
+      console.log(respon);
     } catch (error) {
       console.log('error with the send data to server ')
     }
