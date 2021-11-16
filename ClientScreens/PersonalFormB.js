@@ -9,6 +9,7 @@ export default function PersonalFormB({ navigation, route }) {
   const [User, setUser] = useState(route.params.route)
 
   const [city, setCity] = useState();
+  const [cities, setCities] = useState([]);
   const [address, setAddress] = useState();
   const [postalCode, setPostalCode] = useState();
   const [mailBox, setMailBox] = useState();
@@ -43,7 +44,17 @@ export default function PersonalFormB({ navigation, route }) {
     navigation.navigate('PersonalFormC', { route: UserB })
   }
 
+    const serachCity = async (q) => {
+    let url = `https://data.gov.il/api/3/action/datastore_search?resource_id=351d4347-8ee0-4906-8e5b-9533aef13595&q=${q}`
+    let res = await fetch(url);
+    let data = await res.json();
+    console.log(data.result.records);
+    setCities(data.result.records)
+  }
 
+    useEffect(()=>{
+        serachCity(city)
+    },[city])
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
@@ -58,6 +69,13 @@ export default function PersonalFormB({ navigation, route }) {
                 placeholder="עיר"
                 maxLength={20}
               />
+            <View>
+                {cities.length >0 ? cities.map(item=>
+                <TouchableOpacity onPress={()=> setCity(item["שם יישוב"]) } >
+                <Text>{item["שם יישוב"]}</Text>
+                </TouchableOpacity> )
+                :null}
+            </View>
             </View>
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>רחוב</Text>

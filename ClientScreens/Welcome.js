@@ -37,8 +37,9 @@ export default function Welcome({ navigation, route }) {
   }
 
   const logoutUser = async () => {
-    await clearAsyncStorage("loggedUser")
     setLoading(true)
+    await clearAsyncStorage("loggedUser")
+    setLoading(false)
     navigation.navigate("Login");
   }
 

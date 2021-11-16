@@ -42,19 +42,11 @@ export default function PersonalFormA({ navigation, route }) {
       getUserInfo()
     });
 
+
     // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
   }, [navigation]);
 
-  // componentDidMount = () => {
-  //   this._unsubscribeFocus = this.props.navigation.addListener('focus', (payload) => {
-  //     console.log('will focus', payload);
-  //     this.setState({ stam: 'will focus ' + new Date().getSeconds() });
-  //   });
-  // }
-  // componentWillUnmount = () => {
-  //   this._unsubscribeFocus();
-  // }
 
   const checkStatusModal = () => {
     if (Platform.OS !== 'web') {
@@ -118,11 +110,13 @@ export default function PersonalFormA({ navigation, route }) {
     User.Birthdate = birthdate;
     User.Prev_first_name = prevFirstName;
     User.Prev_last_name = prevLastName;
-    var UserA = {Personal_id : route.params.route.Personal_id, First_name : firstName, Last_name: lastName,Phone:phone, Gender : gender, Birthdate: birthdate, Prev_first_name: prevFirstName, Prev_last_name: prevLastName }
+    var UserA = { Personal_id: route.params.route.Personal_id, First_name: firstName, Last_name: lastName, Phone: phone, Gender: gender, Birthdate: birthdate, Prev_first_name: prevFirstName, Prev_last_name: prevLastName }
     console.log("PersonalFormA ", UserA);
     setModalUpdateVisible(false)
     navigation.navigate('PersonalFormB', { route: UserA })
   }
+
+
 
 
   const onChange = (event, selectedDate) => {
@@ -150,7 +144,7 @@ export default function PersonalFormA({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-        {/* {
+      {/* {
           if (Platform.OS === 'ios'){
             <Key
           }
