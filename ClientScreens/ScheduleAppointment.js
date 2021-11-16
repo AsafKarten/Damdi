@@ -13,12 +13,13 @@ export default function ScheduleAppointment({ navigation, route }) {
   const [appointmentsTime, onChangeAppTime] = useState()
   const [shouldShow, setShouldShow] = useState(false);
   const [confirmModal, setConfirm] = useState(false);
-  const [Item, setItem] = useState({ date: "", time: 0 });
+  const [Item, setItem] = useState(route.params.route.Station);
 
   var today = new Date();
   var date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
   var time = today.getHours() + ":" + today.getMinutes();
   const dateTime = date + ' ' + time;
+
 
 
   const ScheduleApp = (item) => {
@@ -83,13 +84,29 @@ export default function ScheduleAppointment({ navigation, route }) {
             Alert.alert('Modal has been closed.');
           }}>
           <View >
-            <View >
-              <View style={styles.list}>
+            <View style={styles.modalBox}>
+              <View >
                 <View >
                   <Text >{Item.date + " " + Item.time}</Text>
-                  <Text>כאן יהיה אישור קביעת תור</Text>
+                  <Text>הזמנת תור לתרומת דם {"\n"} בתחנת: {route.params.route.Station.City}{"\n"} ברחוב: {route.params.route.Station.F_address}{"\n"} בשעה: {Item.time}</Text>
+                  <Text>לאישור התור לחץ</Text>
                   <TouchableHighlight
-                    style={{ backgroundColor: '#4d5b70' }}
+                    style={styles.closeBTN}
+                    onPress={() => {
+                      navigation.navigate('MedicalForm', { route: User })
+                    }}>
+                    <Text>אישור</Text>
+                  </TouchableHighlight>
+                  <Text>לביטול הפעולה</Text>
+                  <TouchableHighlight
+                    style={styles.closeBTN}
+
+                    onPress={() => { setConfirm(!confirmModal); }}>
+
+                    <Text>ביטול</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    style={styles.closeBTN}
                     onPress={() => {
                       navigation.navigate('MedicalForm', { route: User })
                     }}>
@@ -98,7 +115,7 @@ export default function ScheduleAppointment({ navigation, route }) {
                 </View>
               </View>
               <TouchableHighlight
-                style={{ backgroundColor: '#4d5b70' }}
+                style={styles.closeBTN}
                 onPress={() => { setConfirm(!confirmModal); }}>
                 <Text>סגור</Text>
               </TouchableHighlight>
@@ -155,5 +172,25 @@ const styles = StyleSheet.create({
   appText: {
     fontSize: 20,
     flexDirection: 'row-reverse',
+  },
+  modalBox: {
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    marginHorizontal: 10,
+    marginTop: 16,
+    padding: 28,
+    borderWidth: 1,
+    borderRadius: 9,
+    borderColor: 'grey',
+    backgroundColor: "#fcfff9",
+    color: "black",
+  },
+  closeBTN: {
+    marginLeft: 50,
+    marginRight: 50,
+    borderRadius: 20,
+    padding: 15,
+    elevation: 2,
+    backgroundColor: "#F194FF",
   },
 });

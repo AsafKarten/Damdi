@@ -24,6 +24,9 @@ export default function Stations({ navigation, route }) {
   // var time = today.getHours() + ":" + today.getMinutes();
   // const dateTime = date + ' ' + time;
 
+  useEffect(() => {
+  GetStationList()
+  }, [])
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS !== 'web');
@@ -52,6 +55,21 @@ export default function Stations({ navigation, route }) {
     var route = { User: User, Station: item, DateTime: AppointDate }
     navigation.navigate('ScheduleAppointment', { route: route })
   }
+
+  
+    const GetStationList  = async () => {
+      try {
+          let result = await fetch(url + "api/all/stations", {
+              method: 'GET'
+          });
+          let data = [...await result.json()];
+          setStations(data);
+      } catch (error) {
+          console.error(error)
+      }
+  }
+  
+
 
   const searchStation = async () => {
     try {
