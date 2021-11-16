@@ -10,12 +10,13 @@ namespace DamdiServer.Models
         int station_code;
         string city;
         string f_address;
-        DateTime start_time;
-        DateTime end_time;
-        double lat;
-        double lng;
+        TimeSpan start_time;
+        TimeSpan end_time;
+        string lat;
+        string lng;
+        string days = "123456";
 
-        public Stations(int station_code, string city, string f_address, DateTime start_time, DateTime end_time, double lat, double lng)
+        public Stations(int station_code, string city, string f_address, TimeSpan start_time, TimeSpan end_time, string lat, string lng,string days)
         {
             Station_code = station_code;
             City = city;
@@ -24,14 +25,16 @@ namespace DamdiServer.Models
             End_time = end_time;
             Lat = lat;
             Lng = lng;
+            Days = days;
         }
 
         public int Station_code { get => station_code; set => station_code = value; }
         public string City { get => city; set => city = value; }
         public string F_address { get => f_address; set => f_address = value; }
-        public DateTime Start_time { get => start_time; set => start_time = value; }
-        public DateTime End_time { get => end_time; set => end_time = value; }
-        public double Lat { get => lat; set => lat = value; }
-        public double Lng { get => lng; set => lng = value; }
+        public TimeSpan Start_time { get => start_time; set => start_time = value; }
+        public TimeSpan End_time { get => end_time; set => end_time = value; }
+        public string Lat { get => lat; set => lat = value; }
+        public string Lng { get => lng; set => lng = value; }
+        public string Days { get => days; set => days = value; }
     }
 }

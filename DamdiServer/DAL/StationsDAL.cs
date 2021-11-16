@@ -44,26 +44,28 @@ namespace DamdiServer.DAL
         {
             try
             {
+
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
+                    con.Open();
 
                     List<Stations> Stations = new List<Stations>();
                     Stations s = null;
-                    string query = "select * from Stations";
-                    SqlCommand cmd = new SqlCommand(query, con);
-                    cmd.Connection.Open();
+                    SqlCommand cmd = new SqlCommand("GetStations", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
                     SqlDataReader reader = cmd.ExecuteReader();
+
                     while (reader.Read())
                     {
                         s = new Stations(
-
                             Convert.ToInt32(reader["station_code"]),
                             Convert.ToString(reader["city"]),
                             Convert.ToString(reader["f_address"]),
-                            Convert.ToDateTime(reader["start_time"]),
-                            Convert.ToDateTime(reader["end_time"]),
-                            Convert.ToDouble(reader["lat"]),
-                            Convert.ToDouble(reader["lng"])
+                            reader.GetTimeSpan(reader.GetOrdinal("start_time")),
+                            reader.GetTimeSpan(reader.GetOrdinal("end_time")),
+                            Convert.ToString(reader["lat"]),
+                            Convert.ToString(reader["lng"]),
+                            Convert.ToString(reader["days"])
                             );
                         Stations.Add(s);
                     }
