@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Autocomplete from '@mui/core/AutocompleteUnstyled';
-import TextField from "@material-ui/core/TextField";
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import Autocomplete from '@mui/material/Autocomplete';
+
 import Spiner from '../Componentes/Spiner';
-//const ilCities = require('../assets/il.json');
 
 
 export default function PersonalFormB({ navigation, route }) {
