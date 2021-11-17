@@ -10,12 +10,9 @@ export default function Stations({ navigation, route }) {
   const [show, setShow] = useState(false);
 
   const [User, onChangeUser] = useState(route.params.route)
-  const [AppointDate, onChangeDate] = useState()
+  const [AppointDate, onChangeDate] = useState(new Date())
   const [City, onChangeCity] = useState()
-  const [Stations, setStations] = useState([
-    { Station_code: '1', City: 'רעננה', F_address: 'הנכשלים 8', Start_time: '8', End_time: '16', Lat: '65.5575', Lng: '68.77676' },
-    { Station_code: '2', City: 'רופין', F_address: 'חרוב 5', Start_time: '8', End_time: '12', Lat: '67.5775', Lng: '68.77676' },
-  ])
+  const [Stations, setStations] = useState()
 
 
 
@@ -52,7 +49,7 @@ export default function Stations({ navigation, route }) {
 
 
   const ScheduleAppointment = (item) => {
-    var route = { User: User, Station: item, DateTime: AppointDate }
+    var route = { User: User, Station: item, Date_Time: date }
     navigation.navigate('ScheduleAppointment', { route: route })
   }
 
@@ -85,7 +82,7 @@ export default function Stations({ navigation, route }) {
           },
           body: JSON.stringify({
             City: City,
-            Start_time: AppointDate
+            
           })
         });
         let data = [...await result.json()];
@@ -100,7 +97,7 @@ export default function Stations({ navigation, route }) {
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
           <View style={styles.inner}>
             <View style={styles.date_container}>
               <TouchableOpacity onPress={onFocus}>
@@ -130,6 +127,7 @@ export default function Stations({ navigation, route }) {
               keyExtractor={(item) => item.Station_code}
               renderItem={({ item }) => (
                 <View style={styles.list}>
+                  <Text>{item.Station_name}</Text>
                   <Text>{item.City}</Text>
                   <Text>{item.F_address}</Text>
                   <Text>{item.Start_time + " - " + item.End_time}</Text>
@@ -150,8 +148,9 @@ export default function Stations({ navigation, route }) {
               />
             )}
           </View>
-        </TouchableWithoutFeedback>
+        {/* </TouchableWithoutFeedback> */}
       </KeyboardAvoidingView>
+    
     </SafeAreaView>
   );
 }

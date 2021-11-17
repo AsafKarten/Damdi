@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
-import Autocomplete from '@mui/material/Autocomplete';
+
 
 import Spiner from '../Componentes/Spiner';
 
@@ -82,15 +82,6 @@ export default function PersonalFormB({ navigation, route }) {
                   </TouchableOpacity>)
                   : null}
               </View>
-            </View>
-            <View style={styles.HorizontalBox}>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={cities}
-                sx={{ width: 300 }}
-                renderInput={(params) => <TextField {...params} label="עיר" />}
-              />
             </View>
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>רחוב</Text>

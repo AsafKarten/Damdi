@@ -9,7 +9,7 @@ export default function ScheduleAppointment({ navigation, route }) {
   const [User, onChangeUser] = useState(route.params.route.User)
   const [AppointDate, onChangeDate] = useState(route.params.route.dateTime)
   const [Station, onChangeStation] = useState(route.params.route.Station)
-  const [Appointment, onChangeApp] = useState({ Station_code: Station.Station_code, Personal_id: User.Personal_id, App_time: AppointDate })
+  const [Appointment, onChangeApp] = useState()
   const [appointmentsTime, onChangeAppTime] = useState()
   const [shouldShow, setShouldShow] = useState(false);
   const [confirmModal, setConfirm] = useState(false);
@@ -25,6 +25,10 @@ export default function ScheduleAppointment({ navigation, route }) {
   const ScheduleApp = (item) => {
     setItem(item)
     setConfirm(true)
+    var appdate = new Date(item.date , item.time)
+    var appointment = {Station_code:route.params.route.Station.Station_code, Personal_id:route.params.route.User.Personal_id, App_time: appdate}
+    onChangeApp(appointment)
+    console.log(appointment);
     if (Platform.OS !== 'web') {
       setConfirm(true)
     }
@@ -51,12 +55,33 @@ export default function ScheduleAppointment({ navigation, route }) {
     var today = new Date();
     var date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
     for (var i = st; i <= et; i++) {
-      var app = { id: "" + id, date: date, time: i }
+      var app = { id: "" + id, date:date, time: i }
       id++
 
       times.push(app)
     }
     onChangeAppTime(times)
+  }
+
+  const PostAppointmentToDB = async () => {
+    try {
+      let result = await fetch(url + "api/appointment/post", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+         Station_code:Appointment.Station_code,
+         Personal_id:Appointment.Personal_id,
+         App_time:Appointment.app_time
+        })
+      })
+      let respone = await result.json()
+      console.log(respone);
+    } catch (error) {
+      console.log('error with the send data to server ')
+    }
   }
 
   return (
@@ -88,12 +113,12 @@ export default function ScheduleAppointment({ navigation, route }) {
               <View >
                 <View >
                   <Text >{Item.date + " " + Item.time}</Text>
-                  <Text>הזמנת תור לתרומת דם {"\n"} בתחנת: {route.params.route.Station.City}{"\n"} ברחוב: {route.params.route.Station.F_address}{"\n"} בשעה: {Item.time}</Text>
+                  <Text>הזמנת תור לתרומת דם {"\n"} בתחנת: {route.params.route.Station.Station_name}{"\n"} בכתובת:  {route.params.route.Station.F_address + " " + route.params.route.Station.City}{"\n"} בשעה: {Item.time}</Text>
                   <Text>לאישור התור לחץ</Text>
                   <TouchableHighlight
                     style={styles.closeBTN}
                     onPress={() => {
-                      navigation.navigate('MedicalForm', { route: User })
+                      PostAppointmentToDB()
                     }}>
                     <Text>אישור</Text>
                   </TouchableHighlight>
