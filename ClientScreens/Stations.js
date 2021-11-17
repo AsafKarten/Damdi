@@ -11,7 +11,7 @@ export default function Stations({ navigation, route }) {
 
   const [User, onChangeUser] = useState(route.params.route)
   const [AppointDate, onChangeDate] = useState(new Date())
-  const [City, onChangeCity] = useState()
+  const [city, onChangeCity] = useState()
   const [Stations, setStations] = useState()
 
 
@@ -22,8 +22,10 @@ export default function Stations({ navigation, route }) {
   // const dateTime = date + ' ' + time;
 
   useEffect(() => {
-  GetStationList()
+    GetStationList()
   }, [])
+
+
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS !== 'web');
@@ -53,39 +55,35 @@ export default function Stations({ navigation, route }) {
     navigation.navigate('ScheduleAppointment', { route: route })
   }
 
-  
-    const GetStationList  = async () => {
-      try {
-          let result = await fetch(url + "api/all/stations", {
-              method: 'GET'
-          });
-          let data = [...await result.json()];
-          setStations(data);
-      } catch (error) {
-          console.error(error)
-      }
+
+  const GetStationList = async () => {
+    try {
+      let result = await fetch(url + "api/all/stations", {
+        method: 'GET'
+      });
+      let data = [...await result.json()];
+      setStations(data);
+    } catch (error) {
+      console.error(error)
+    }
   }
-  
+
 
 
   const searchStation = async () => {
     try {
-      if (City == null || City == "" || AppointDate == null || AppointDate == "") {
+      if (city === null || city === "" || AppointDate === null || AppointDate === "") {
         Alert.alert('שגיאה', 'אנא מלא/י את כל פרטים כדי לאתר תחנות התרמה')
         return;
       } else {
         let result = await fetch(url + "api/search/stations", {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json'
-          },
+          method: 'GET',
           body: JSON.stringify({
-            City: City,
-            
+            City: city
           })
         });
         let data = [...await result.json()];
+        console.log(data);
         setStations(data);
       }
     } catch (error) {
@@ -97,60 +95,58 @@ export default function Stations({ navigation, route }) {
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
-        {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
-          <View style={styles.inner}>
-            <View style={styles.date_container}>
-              <TouchableOpacity onPress={onFocus}>
-                <View style={styles.button_normal}>
-                  <Text style={styles.button_text} > תאריך התרמה</Text>
-                </View>
-              </TouchableOpacity>
-              <TextInput
-                style={styles.input}
-                value={AppointDate}
-                placeholder="תאריך"
-              />
-            </View>
-            <TextInput
-              style={styles.input}
-              onChangeText={onChangeCity}
-              value={City}
-              placeholder="עיר/ישוב"
-            />
-            <TouchableOpacity onPress={() => searchStation()}>
+        <View style={styles.inner}>
+          <View style={styles.date_container}>
+            <TouchableOpacity onPress={onFocus}>
               <View style={styles.button_normal}>
-                <Text style={styles.button_text} >חיפוש</Text>
+                <Text style={styles.button_text} > תאריך התרמה</Text>
               </View>
             </TouchableOpacity>
-            <FlatList
-              data={Stations}
-              keyExtractor={(item) => item.Station_code}
-              renderItem={({ item }) => (
-                <View style={styles.list}>
-                  <Text>{item.Station_name}</Text>
-                  <Text>{item.City}</Text>
-                  <Text>{item.F_address}</Text>
-                  <Text>{item.Start_time + " - " + item.End_time}</Text>
-                  <TouchableOpacity onPress={() => ScheduleAppointment(item)}>
-                    <View style={styles.button_normal}>
-                      <Text style={styles.button_text} >הזמן/י תור</Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              )} />
-            {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                mode={mode}
-                display="default"
-                onChange={onChange}
-              />
-            )}
+            <TextInput
+              style={styles.input}
+              value={AppointDate}
+              placeholder="תאריך"
+            />
           </View>
-        {/* </TouchableWithoutFeedback> */}
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangeCity}
+            value={city}
+            placeholder="עיר/ישוב"
+          />
+          <TouchableOpacity onPress={() => searchStation()}>
+            <View style={styles.button_normal}>
+              <Text style={styles.button_text} >חיפוש</Text>
+            </View>
+          </TouchableOpacity>
+          <FlatList
+            data={Stations}
+            keyExtractor={(item) => item.Station_code}
+            renderItem={({ item }) => (
+              <View style={styles.list}>
+                <Text>{item.Station_name}</Text>
+                <Text>{item.City}</Text>
+                <Text>{item.F_address}</Text>
+                <Text>{item.Start_time + " - " + item.End_time}</Text>
+                <TouchableOpacity onPress={() => ScheduleAppointment(item)}>
+                  <View style={styles.button_normal}>
+                    <Text style={styles.button_text} >הזמן/י תור</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )} />
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode={mode}
+              display="default"
+              onChange={onChange}
+            />
+          )}
+        </View>
       </KeyboardAvoidingView>
-    
+
     </SafeAreaView>
   );
 }
