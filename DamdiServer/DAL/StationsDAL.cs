@@ -48,17 +48,16 @@ namespace DamdiServer.DAL
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
-
                     List<Stations> Stations = new List<Stations>();
                     Stations s = null;
                     SqlCommand cmd = new SqlCommand("GetStations", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     SqlDataReader reader = cmd.ExecuteReader();
-
                     while (reader.Read())
                     {
                         s = new Stations(
                             Convert.ToInt32(reader["station_code"]),
+                            Convert.ToString(reader["station_name"]),
                             Convert.ToString(reader["city"]),
                             Convert.ToString(reader["f_address"]),
                             reader.GetTimeSpan(reader.GetOrdinal("start_time")),
@@ -72,6 +71,44 @@ namespace DamdiServer.DAL
                     return Stations;
                 }
 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<Stations> GetStationsByCity(Stations station)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    List<Stations> Stations = new List<Stations>();
+                    Stations s = null;
+                    SqlCommand cmd = new SqlCommand("GetStationsByCity", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@city", SqlDbType.NVarChar).Value = station.City;
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        s = new Stations(
+                            Convert.ToInt32(reader["station_code"]),
+                            Convert.ToString(reader["station_name"]),
+                            Convert.ToString(reader["city"]),
+                            Convert.ToString(reader["f_address"]),
+                            reader.GetTimeSpan(reader.GetOrdinal("start_time")),
+                            reader.GetTimeSpan(reader.GetOrdinal("end_time")),
+                            Convert.ToString(reader["lat"]),
+                            Convert.ToString(reader["lng"]),
+                            Convert.ToString(reader["days"])
+                            );
+                        Stations.Add(s);
+                    }
+                    return Stations;
+
+                }
             }
             catch (Exception ex)
             {

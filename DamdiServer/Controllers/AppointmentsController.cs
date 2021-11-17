@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DamdiServer.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -12,12 +13,17 @@ namespace DamdiServer.Controllers
         //Add new appointment to Appointments table.
         [HttpPost]
         [Route("api/appointment/post")]
-        public IHttpActionResult AddNewDonator([FromBody] Models.Appointments app)
+        public IHttpActionResult AddNewAppointment([FromBody] Appointments app)
         {
             try
             {
-                Created(new Uri(Request.RequestUri.AbsoluteUri + app.Personal_id), Globals.AppointmentsDAL.SetNewAppointment(app));
-                return Ok("Appointment created successfully.");
+                int res = Globals.AppointmentsDAL.SetNewAppointment(app);
+                Created(new Uri(Request.RequestUri.AbsoluteUri + app.Personal_id), res);
+                if (res == 1)
+                {
+                    return Ok("Appointment created successfully.");
+                }
+                throw new Exception("Appointment not add");
             }
             catch (Exception ex)
             {

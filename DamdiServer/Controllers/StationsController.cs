@@ -10,7 +10,7 @@ namespace DamdiServer.Controllers
         //Add new station to station table.
         [HttpPost]
         [Route("api/station/post")]
-        public IHttpActionResult AddNewStation([FromBody] Models.Stations station)
+        public IHttpActionResult AddNewStation([FromBody] Stations station)
         {
             try
             {
@@ -36,6 +36,26 @@ namespace DamdiServer.Controllers
                     return Ok(Stations);
                 }
                 throw new Exception("Staions not found");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/search/stations")]
+        public IHttpActionResult GetStationsByCity(Stations s)
+        {
+            try
+            {
+                List<Stations> stations = Globals.StationsDAL.GetStationsByCity(s);
+                Created(new Uri(Request.RequestUri.AbsoluteUri), stations);
+                if (stations != null)
+                {
+                    return Ok(stations);
+                }
+                throw new Exception("Stations not found");
             }
             catch (Exception ex)
             {

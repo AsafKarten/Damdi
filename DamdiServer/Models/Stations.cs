@@ -8,6 +8,7 @@ namespace DamdiServer.Models
     public class Stations
     {
         int station_code;
+        string station_name;
         string city;
         string f_address;
         TimeSpan start_time;
@@ -16,9 +17,10 @@ namespace DamdiServer.Models
         string lng;
         string days;
 
-        public Stations(int station_code, string city, string f_address, TimeSpan start_time, TimeSpan end_time, string lat, string lng,string days)
+        public Stations(int station_code, string station_name, string city, string f_address, TimeSpan start_time, TimeSpan end_time, string lat, string lng,string days)
         {
             Station_code = station_code;
+            Station_name = station_name;
             City = city;
             F_address = f_address;
             Start_time = start_time;
@@ -36,5 +38,6 @@ namespace DamdiServer.Models
         public string Lat { get => lat; set => lat = value; }
         public string Lng { get => lng; set => lng = value; }
         public string Days { get => days; set => days = value; }
+        public string Station_name { get => station_name; set => station_name = value; }
     }
 }
