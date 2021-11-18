@@ -25,7 +25,7 @@ export default function Stations({ navigation, route }) {
     setShow(Platform.OS !== 'web');
     setDate(currentDate);
     let tempDate = new Date(currentDate);
-    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
+    let fDate =tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear() ;
     onChangeDate(fDate)
     setShow(false);
   };
@@ -45,7 +45,7 @@ export default function Stations({ navigation, route }) {
 
 
   const ScheduleAppointment = (item) => {
-    var route = { User: User, Station: item, Date_Time: AppointDate }
+    var route = { User: User, Station: item, Date_Time: date }
     navigation.navigate('ScheduleAppointment', { route: route })
   }
 
