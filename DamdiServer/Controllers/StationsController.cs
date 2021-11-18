@@ -43,7 +43,7 @@ namespace DamdiServer.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("api/search/stations")]
         public IHttpActionResult GetStationsByCity(Stations s)
         {
