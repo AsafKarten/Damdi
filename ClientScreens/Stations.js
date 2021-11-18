@@ -10,20 +10,14 @@ export default function Stations({ navigation, route }) {
   const [show, setShow] = useState(false);
 
   const [User, onChangeUser] = useState(route.params.route)
-  const [AppointDate, onChangeDate] = useState(new Date())
+  const [AppointDate, onChangeDate] = useState()
   const [city, onChangeCity] = useState()
   const [Stations, setStations] = useState()
 
 
-
-  // var today = new Date();
-  // var date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
-  // var time = today.getHours() + ":" + today.getMinutes();
-  // const dateTime = date + ' ' + time;
-
-  useEffect(() => {
-    GetStationList()
-  }, [])
+  // useEffect(() => {
+  //   GetStationList()
+  // }, [])
 
 
   const onChange = (event, selectedDate) => {
@@ -51,7 +45,7 @@ export default function Stations({ navigation, route }) {
 
 
   const ScheduleAppointment = (item) => {
-    var route = { User: User, Station: item, Date_Time: date }
+    var route = { User: User, Station: item, Date_Time: AppointDate }
     navigation.navigate('ScheduleAppointment', { route: route })
   }
 
@@ -72,12 +66,17 @@ export default function Stations({ navigation, route }) {
 
   const searchStation = async () => {
     try {
-      if (city === null || city === "" || AppointDate === null || AppointDate === "") {
+      console.log("here");
+      if (city == null || city == "" || AppointDate == null || AppointDate == "") {
         Alert.alert('שגיאה', 'אנא מלא/י את כל פרטים כדי לאתר תחנות התרמה')
         return;
       } else {
         let result = await fetch(url + "api/search/stations", {
-          method: 'GET',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json'
+          },
           body: JSON.stringify({
             City: city
           })
@@ -104,6 +103,7 @@ export default function Stations({ navigation, route }) {
             </TouchableOpacity>
             <TextInput
               style={styles.input}
+              onChangeText={onChangeDate}
               value={AppointDate}
               placeholder="תאריך"
             />
