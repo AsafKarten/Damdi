@@ -25,8 +25,8 @@ export default function ScheduleAppointment({ navigation, route }) {
   const ScheduleApp = (item) => {
     setItem(item)
     setConfirm(true)
-    var appdate = new Date(item.date , item.time)
-    var appointment = {Station_code:route.params.route.Station.Station_code, Personal_id:route.params.route.User.Personal_id, App_time: appdate}
+    var appdate = new Date(item.date, item.time)
+    var appointment = { Station_code: route.params.route.Station.Station_code, Personal_id: route.params.route.User.Personal_id, App_time: route.params.route.Date_Time }
     onChangeApp(appointment)
     console.log(appointment);
     if (Platform.OS !== 'web') {
@@ -40,28 +40,59 @@ export default function ScheduleAppointment({ navigation, route }) {
 
   useEffect(() => {
     (async () => {
-      SetTimes()
+      DayValidation()
       if (Platform.OS !== 'web') {
         setShouldShow(true)
       }
     })()
   }, [])
+  const DayValidation = () =>{
+    var dayCheck = new Date(route.params.route.Date_Time)
+    var intDay = dayCheck.getDay()
+    var workDays = route.params.route.Station.Days
+    let valid = false
+    for (let index = 0; index < workDays.length; index++) {
+      let currentDay = parseInt(workDays.charAt(index))
+      if (currentDay == intDay){
+        valid = true
+      } 
+    }
+    if(valid){
+      SetTimes()
+      console.log("day is currect" +" "+ intDay +" "+ workDays);
+    }
+    else{
+      console.log("the asked date is`nt a work day at the station plese try another date");
+    }
+  }
 
   const SetTimes = () => {
     let id = 0
     var times = []
     let st = parseInt(Station.Start_time)
     let et = parseInt(Station.End_time)
-    var today = new Date();
-    var date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
-    for (var i = st; i <= et; i++) {
-      var app = { id: "" + id, date:date, time: i }
-      id++
-
-      times.push(app)
+    console.log(Station.Start_time + " " + Station.End_time);
+    for (let index = st; index <= et; index++) {
+      
+      
     }
-    onChangeAppTime(times)
   }
+  // const SetTimes = () => {
+  //   let id = 0
+  //   var times = []
+  //   let st = parseInt(Station.Start_time)
+  //   let et = parseInt(Station.End_time)
+  //   var today = new Date();
+  //   var date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
+  //   for (var i = st; i <= et; i++) {
+  //     var app = { id: "" + id, date:date, time: i }
+  //     id++
+
+  //     times.push(app)
+  //   }
+  //   onChangeAppTime(times)
+   
+  // }
 
   const PostAppointmentToDB = async () => {
     try {
@@ -72,9 +103,9 @@ export default function ScheduleAppointment({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-         Station_code:Appointment.Station_code,
-         Personal_id:Appointment.Personal_id,
-         App_time:Appointment.app_time
+          Station_code: Appointment.Station_code,
+          Personal_id: Appointment.Personal_id,
+          App_time: Appointment.app_time
         })
       })
       let respone = await result.json()
