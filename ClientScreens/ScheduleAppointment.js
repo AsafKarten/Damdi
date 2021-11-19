@@ -89,7 +89,6 @@ export default function ScheduleAppointment({ navigation, route }) {
           baseTime.setMinutes(40)
         }
         console.log(id + " " + baseTime);
-        //var app_time = baseTime.getTime()
         var app_time = baseTime.getDate() + '/' + (baseTime.getMonth() + 1) + '/' + baseTime.getFullYear() + "   " + baseTime.getHours() + ':' + baseTime.getMinutes();
         var tempAppoint = { id: id, time: app_time }
         times.push(tempAppoint)
@@ -157,12 +156,15 @@ export default function ScheduleAppointment({ navigation, route }) {
                 <Text style={styles.modalText}>הזמנת תור לתרומת דם {"\n"}
                   בתחנת: {route.params.route.Station.Station_name}{"\n"}
                   בכתובת:  {route.params.route.Station.F_address + " " + route.params.route.Station.City}{"\n"}
-                  בשעה: {Item.time}</Text>
+                  בשעה: {Item.time}{"\n"}
+                  אנא וודא\י שפרטיך הרפואיים מעודכנים בסמוך למועד התור שקבעת
+                </Text>
                 <Text style={styles.modalText}>לאישור התור לחץ</Text>
                 <TouchableHighlight
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => {
                     PostAppointmentToDB()
+                    navigation.navigate("MedicalForm", { route: User })
                   }}>
                   <Text style={styles.modalText}>אישור</Text>
                 </TouchableHighlight>
@@ -172,13 +174,13 @@ export default function ScheduleAppointment({ navigation, route }) {
                   onPress={() => { setConfirm(!confirmModal); }}>
                   <Text style={styles.modalText}>ביטול</Text>
                 </TouchableHighlight>
-                <TouchableHighlight
+                {/* <TouchableHighlight
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => {
                     navigation.navigate('MedicalForm', { route: User })
                   }}>
                   <Text style={styles.modalText}>למילוי שאלון רפואי</Text>
-                </TouchableHighlight>
+                </TouchableHighlight> */}
               </View>
               <TouchableHighlight
                 style={[styles.button, styles.buttonClose]}
@@ -284,7 +286,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     textAlign: "center"
   },
-  modalTextCancel:{
+  modalTextCancel: {
     color: "red",
     fontSize: 18,
     marginBottom: 10,

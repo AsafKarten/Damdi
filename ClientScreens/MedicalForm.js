@@ -100,8 +100,8 @@ export default function MedicalForm({ navigation, route }) {
           Notes: notes
         })
       })
-      let respone = await result.json()
-      console.log(respon);
+      let response = await result.json()
+      console.log(response);
     } catch (error) {
       console.log('error with the send data to server ')
     }
@@ -111,7 +111,6 @@ export default function MedicalForm({ navigation, route }) {
   //חלק ג של השאלון בשרת זה MedicalInfoDonation
   return (
     <SafeAreaView style={styles.container}>
-
       <ScrollView >
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
