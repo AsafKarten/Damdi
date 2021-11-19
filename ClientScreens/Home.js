@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Image } from 'react-native';
+import { Text,View, SafeAreaView, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native';
+
 import BG from '../assets/LOGO_ONLY_PNG.png'
 import ProgressBar from '../Componentes/ProgressBar.js'
 
@@ -15,7 +16,7 @@ export default function Home({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image source={BG} style={styles.header_img}></Image>
+      <Image source={BG} style={styles.header_img} />
 
       <ProgressBar />
 

@@ -11,7 +11,6 @@ export default function ScheduleAppointment({ navigation, route }) {
   const [Station, onChangeStation] = useState(route.params.route.Station)
   const [Appointment, onChangeApp] = useState()
   const [appointmentsTime, onChangeAppTime] = useState()
-  const [shouldShow, setShouldShow] = useState(false);
   const [confirmModal, setConfirm] = useState(false);
   const [Item, setItem] = useState(route.params.route.Station);
 
@@ -34,13 +33,9 @@ export default function ScheduleAppointment({ navigation, route }) {
   }
 
   useEffect(() => {
-    (async () => {
-      DayValidation()
-      if (Platform.OS !== 'web') {
-        setShouldShow(true)
-      }
-    })()
+    DayValidation()
   }, [])
+
   const DayValidation = () => {
     var dayCheck = new Date(route.params.route.Date_Time)
     var intDay = dayCheck.getDay()
@@ -142,7 +137,7 @@ export default function ScheduleAppointment({ navigation, route }) {
           </View>
         )} />
 
-      {shouldShow ? (
+      {confirmModal ? (
         <Modal
           animationType="slide"
           transparent={true}
@@ -157,7 +152,7 @@ export default function ScheduleAppointment({ navigation, route }) {
                   בתחנת: {route.params.route.Station.Station_name}{"\n"}
                   בכתובת:  {route.params.route.Station.F_address + " " + route.params.route.Station.City}{"\n"}
                   בשעה: {Item.time}{"\n"}
-                  אנא וודא\י שפרטיך הרפואיים מעודכנים בסמוך למועד התור שקבעת
+                  אנא וודא\י שפרטיך הרפואיים מעודכנים בסמוך למועד התור.
                 </Text>
                 <Text style={styles.modalText}>לאישור התור לחץ</Text>
                 <TouchableHighlight
@@ -166,13 +161,13 @@ export default function ScheduleAppointment({ navigation, route }) {
                     PostAppointmentToDB()
                     navigation.navigate("MedicalForm", { route: User })
                   }}>
-                  <Text style={styles.modalText}>אישור</Text>
+                  <Text style={styles.modal_butons_text}>אישור</Text>
                 </TouchableHighlight>
                 <Text style={styles.modalTextCancel}>לביטול הפעולה</Text>
                 <TouchableHighlight
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => { setConfirm(!confirmModal); }}>
-                  <Text style={styles.modalText}>ביטול</Text>
+                  <Text style={styles.modal_butons_text}>ביטול</Text>
                 </TouchableHighlight>
                 {/* <TouchableHighlight
                   style={[styles.button, styles.buttonClose]}
@@ -185,7 +180,7 @@ export default function ScheduleAppointment({ navigation, route }) {
               <TouchableHighlight
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => { setConfirm(!confirmModal); }}>
-                <Text style={styles.modalText}>סגור</Text>
+                <Text style={styles.modal_butons_text}>סגור</Text>
               </TouchableHighlight>
             </View>
           </View>
@@ -242,7 +237,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row-reverse',
   },
 
-  //Style for modal
+  // Modal
   modalView: {
     margin: 20,
     backgroundColor: '#757c94',
@@ -263,11 +258,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     margin: 10,
   },
+  modal_butons_text: {
+    fontWeight: 'bold',
+    color: "white",
+    fontSize: 18,
+    textAlign: "center",
+  },
   button: {
     margin: 5,
     borderRadius: 20,
     padding: 15,
-    elevation: 1
+    elevation: 1,
+    alignItems: "center",
   },
   buttonOpen: {
     backgroundColor: "#F194FF",
@@ -282,9 +284,9 @@ const styles = StyleSheet.create({
   },
   modalText: {
     color: "white",
-    fontSize: 18,
+    fontSize: 19,
     marginBottom: 5,
-    textAlign: "center"
+    textAlign: "center",
   },
   modalTextCancel: {
     color: "red",
