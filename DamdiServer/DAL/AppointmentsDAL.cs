@@ -26,7 +26,7 @@ namespace DamdiServer.DAL
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@station_code", SqlDbType.Int).Value = app.Station_code;
                     cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = app.Personal_id;
-                    cmd.Parameters.AddWithValue("@app_time", SqlDbType.DateTime).Value = app.App_time;
+                    cmd.Parameters.AddWithValue("@app_time", SqlDbType.DateTime).Value = Convert.ToDateTime(app.App_time);
                     int res = cmd.ExecuteNonQuery();
                     return res;
                 }
