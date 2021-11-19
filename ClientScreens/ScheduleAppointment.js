@@ -15,18 +15,13 @@ export default function ScheduleAppointment({ navigation, route }) {
   const [confirmModal, setConfirm] = useState(false);
   const [Item, setItem] = useState(route.params.route.Station);
 
-  var today = new Date();
-  var date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
-  var time = today.getHours() + ":" + today.getMinutes();
-  const dateTime = date + ' ' + time;
-
-
 
   const ScheduleApp = (item) => {
     setItem(item)
     setConfirm(true)
-    var appdate = new Date(item.date, item.time)
-    var appointment = { Station_code: route.params.route.Station.Station_code, Personal_id: route.params.route.User.Personal_id, App_time: route.params.route.Date_Time }
+    let tempDate = new Date(route.params.route.Date_Time);
+    let fDate = (tempDate.getMonth() + 1) + '/' + tempDate.getDate() + '/' + tempDate.getFullYear() + " " + tempDate.getHours() + ':' + tempDate.getMinutes();
+    var appointment = { Station_code: route.params.route.Station.Station_code, Personal_id: route.params.route.User.Personal_id, App_time: fDate }
     onChangeApp(appointment)
     console.log(appointment);
     if (Platform.OS !== 'web') {
@@ -46,22 +41,23 @@ export default function ScheduleAppointment({ navigation, route }) {
       }
     })()
   }, [])
-  const DayValidation = () =>{
+  const DayValidation = () => {
     var dayCheck = new Date(route.params.route.Date_Time)
     var intDay = dayCheck.getDay()
     var workDays = route.params.route.Station.Days
     let valid = false
     for (let index = 0; index < workDays.length; index++) {
       let currentDay = parseInt(workDays.charAt(index))
-      if (currentDay == intDay){
+      if (currentDay == intDay) {
         valid = true
-      } 
+      }
     }
-    if(valid){
+    if (valid) {
       SetTimes()
-      console.log("day is currect" +" "+ intDay +" "+ workDays);
+      console.log("day is currect" + " " + intDay + " " + workDays);
     }
-    else{
+    else {
+      Alert.alert("התחנה לא עובדת בתאריך שבחרת, נסה תאריך אחר בבקשה")
       console.log("the asked date is`nt a work day at the station plese try another date");
     }
   }
@@ -73,58 +69,42 @@ export default function ScheduleAppointment({ navigation, route }) {
     console.log(st);
     let et = parseInt(Station.End_time)
     console.log(Station.Start_time + " " + Station.End_time);
-    baseTime = new Date(route.params.route.Date_Time)
-    baseTime.setHours(st) 
+    var baseTime = new Date(route.params.route.Date_Time)
+    baseTime.setHours(st)
     baseTime.setMinutes(0)
     baseTime.setSeconds(0)
-    
-    for (let index = st; index <= et; index++) {
-     
-      for (let i = 0 ; i < 3 ; i++ ){
 
-          
-          if(i == 0 ){
-            baseTime.setMinutes(0)
-          }
-          else if (i == 1 ){
-            baseTime.setMinutes(20)
-          }
-          else{
-            baseTime.setMinutes(40)
-          }
-          console.log(id +" " + baseTime);
-          //var app_time = baseTime.getTime()
-           var app_time = baseTime.getDate() + '/' + (baseTime.getMonth() + 1) + '/' + baseTime.getFullYear() + "   " + baseTime.getHours()+':'+baseTime.getMinutes() ;
-          var tempAppoint = {id:id, time: app_time}
-          times.push(tempAppoint)
-          id++
-          if(i==2){
-          baseTime.setHours(index+1)
+    for (let index = st; index <= et; index++) {
+
+      for (let i = 0; i < 3; i++) {
+
+
+        if (i == 0) {
+          baseTime.setMinutes(0)
+        }
+        else if (i == 1) {
+          baseTime.setMinutes(20)
+        }
+        else {
+          baseTime.setMinutes(40)
+        }
+        console.log(id + " " + baseTime);
+        //var app_time = baseTime.getTime()
+        var app_time = baseTime.getDate() + '/' + (baseTime.getMonth() + 1) + '/' + baseTime.getFullYear() + "   " + baseTime.getHours() + ':' + baseTime.getMinutes();
+        var tempAppoint = { id: id, time: app_time }
+        times.push(tempAppoint)
+        id++
+        if (i == 2) {
+          baseTime.setHours(index + 1)
           baseTime.setMinutes(0)
           baseTime.setSeconds(0)
-          }
+        }
       }
-      
     }
     onChangeAppTime(times)
     console.log(times);
   }
-  // const SetTimes = () => {
-  //   let id = 0
-  //   var times = []
-  //   let st = parseInt(Station.Start_time)
-  //   let et = parseInt(Station.End_time)
-  //   var today = new Date();
-  //   var date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
-  //   for (var i = st; i <= et; i++) {
-  //     var app = { id: "" + id, date:date, time: i }
-  //     id++
 
-  //     times.push(app)
-  //   }
-  //   onChangeAppTime(times)
-   
-  // }
 
   const PostAppointmentToDB = async () => {
     try {
@@ -137,7 +117,7 @@ export default function ScheduleAppointment({ navigation, route }) {
         body: JSON.stringify({
           Station_code: Appointment.Station_code,
           Personal_id: Appointment.Personal_id,
-          App_time: Appointment.app_time
+          App_time: Appointment.App_time
         })
       })
       let respone = await result.json()
@@ -172,40 +152,38 @@ export default function ScheduleAppointment({ navigation, route }) {
             Alert.alert('Modal has been closed.');
           }}>
           <View >
-            <View style={styles.modalBox}>
+            <View style={styles.modalView}>
               <View >
-                <View >
-                  <Text >{Item.date + " " + Item.time}</Text>
-                  <Text>הזמנת תור לתרומת דם {"\n"} בתחנת: {route.params.route.Station.Station_name}{"\n"} בכתובת:  {route.params.route.Station.F_address + " " + route.params.route.Station.City}{"\n"} בשעה: {Item.time}</Text>
-                  <Text>לאישור התור לחץ</Text>
-                  <TouchableHighlight
-                    style={styles.closeBTN}
-                    onPress={() => {
-                      PostAppointmentToDB()
-                    }}>
-                    <Text>אישור</Text>
-                  </TouchableHighlight>
-                  <Text>לביטול הפעולה</Text>
-                  <TouchableHighlight
-                    style={styles.closeBTN}
-
-                    onPress={() => { setConfirm(!confirmModal); }}>
-
-                    <Text>ביטול</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight
-                    style={styles.closeBTN}
-                    onPress={() => {
-                      navigation.navigate('MedicalForm', { route: User })
-                    }}>
-                    <Text>למילוי שאלון רפואי</Text>
-                  </TouchableHighlight>
-                </View>
+                <Text style={styles.modalText}>הזמנת תור לתרומת דם {"\n"}
+                  בתחנת: {route.params.route.Station.Station_name}{"\n"}
+                  בכתובת:  {route.params.route.Station.F_address + " " + route.params.route.Station.City}{"\n"}
+                  בשעה: {Item.time}</Text>
+                <Text style={styles.modalText}>לאישור התור לחץ</Text>
+                <TouchableHighlight
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => {
+                    PostAppointmentToDB()
+                  }}>
+                  <Text style={styles.modalText}>אישור</Text>
+                </TouchableHighlight>
+                <Text style={styles.modalTextCancel}>לביטול הפעולה</Text>
+                <TouchableHighlight
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => { setConfirm(!confirmModal); }}>
+                  <Text style={styles.modalText}>ביטול</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => {
+                    navigation.navigate('MedicalForm', { route: User })
+                  }}>
+                  <Text style={styles.modalText}>למילוי שאלון רפואי</Text>
+                </TouchableHighlight>
               </View>
               <TouchableHighlight
-                style={styles.closeBTN}
+                style={[styles.button, styles.buttonClose]}
                 onPress={() => { setConfirm(!confirmModal); }}>
-                <Text>סגור</Text>
+                <Text style={styles.modalText}>סגור</Text>
               </TouchableHighlight>
             </View>
           </View>
@@ -261,24 +239,56 @@ const styles = StyleSheet.create({
     fontSize: 20,
     flexDirection: 'row-reverse',
   },
-  modalBox: {
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    marginHorizontal: 10,
-    marginTop: 16,
-    padding: 28,
-    borderWidth: 1,
-    borderRadius: 9,
-    borderColor: 'grey',
-    backgroundColor: "#fcfff9",
-    color: "black",
+
+  //Style for modal
+  modalView: {
+    margin: 20,
+    backgroundColor: '#757c94',
+    borderRadius: 20,
+    padding: 25,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
   },
-  closeBTN: {
-    marginLeft: 50,
-    marginRight: 50,
+  modal_buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin: 10,
+  },
+  button: {
+    margin: 5,
     borderRadius: 20,
     padding: 15,
-    elevation: 2,
+    elevation: 1
+  },
+  buttonOpen: {
     backgroundColor: "#F194FF",
   },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    color: "white",
+    fontSize: 18,
+    marginBottom: 5,
+    textAlign: "center"
+  },
+  modalTextCancel:{
+    color: "red",
+    fontSize: 18,
+    marginBottom: 10,
+    textAlign: "center",
+    fontWeight: "bold"
+  }
 });
