@@ -15,17 +15,12 @@ export default function Stations({ navigation, route }) {
   const [Stations, setStations] = useState()
 
 
-  // useEffect(() => {
-  //   GetStationList()
-  // }, [])
-
-
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS !== 'web');
     setDate(currentDate);
     let tempDate = new Date(currentDate);
-    let fDate =tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear() ;
+    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
     onChangeDate(fDate)
     setShow(false);
   };
@@ -96,24 +91,22 @@ export default function Stations({ navigation, route }) {
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={styles.inner}>
           <View style={styles.date_container}>
-            <TouchableOpacity onPress={onFocus}>
-              <View style={styles.button_normal}>
-                <Text style={styles.button_text} > תאריך התרמה</Text>
-              </View>
-            </TouchableOpacity>
+            <View style={styles.HorizontalBox}>
+              <Text style={styles.lableText}>בחר תאריך</Text>
+              <TextInput onFocus={onFocus}
+                style={styles.input}
+                value={AppointDate}
+                placeholder="תאריך" />
+            </View>
+          </View>
+          <View style={styles.HorizontalBox}>
+            <Text style={styles.lableText}>עיר/ישוב</Text>
             <TextInput
               style={styles.input}
-              onChangeText={onChangeDate}
-              value={AppointDate}
-              placeholder="תאריך"
-            />
+              onChangeText={onChangeCity}
+              value={city}
+              placeholder="עיר/ישוב" />
           </View>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeCity}
-            value={city}
-            placeholder="עיר/ישוב"
-          />
           <TouchableOpacity onPress={() => searchStation()}>
             <View style={styles.button_normal}>
               <Text style={styles.button_text} >חיפוש</Text>
@@ -167,6 +160,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     textAlign: 'center',
+  },
+  HorizontalBox: {
+    width: 280,
+    justifyContent: 'space-between',
+    flexDirection: 'row-reverse',
+    marginTop: 15,
+  },
+  lableText: {
+    marginTop: 17,
+    fontSize: 16,
+    fontWeight: 'bold'
   },
   text: {
     borderBottomColor: 'black',
