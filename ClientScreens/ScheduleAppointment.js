@@ -112,7 +112,6 @@ export default function ScheduleAppointment({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          App_id:0,
           Station_code: route.params.route.Station.Station_code,
           Personal_id: route.params.route.User.Personal_id,
           App_time: time
@@ -173,13 +172,6 @@ export default function ScheduleAppointment({ navigation, route }) {
                   onPress={() => { setConfirm(!confirmModal); }}>
                   <Text style={styles.modal_butons_text}>ביטול</Text>
                 </TouchableHighlight>
-                {/* <TouchableHighlight
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => {
-                    navigation.navigate('MedicalForm', { route: User })
-                  }}>
-                  <Text style={styles.modalText}>למילוי שאלון רפואי</Text>
-                </TouchableHighlight> */}
               </View>
               <TouchableHighlight
                 style={[styles.button, styles.buttonClose]}
@@ -197,9 +189,7 @@ export default function ScheduleAppointment({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    //alignItems: 'center',
-    //justifyContent: 'center',
+    padding: 10
   },
   input: {
     height: 40,
