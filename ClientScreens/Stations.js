@@ -61,7 +61,6 @@ export default function Stations({ navigation, route }) {
 
   const searchStation = async () => {
     try {
-      console.log("here");
       if (city == null || city == "" || AppointDate == null || AppointDate == "") {
         Alert.alert('שגיאה', 'אנא מלא/י את כל פרטים כדי לאתר תחנות התרמה')
         return;
@@ -81,7 +80,8 @@ export default function Stations({ navigation, route }) {
         setStations(data);
       }
     } catch (error) {
-
+      Alert.alert("תקלה עם שליפת תחנות התרמה מהשרת, נסה מאוחר יותר","אופס")
+      console.log("תקלה עם שליפת תחנות מהשרת");
     }
   }
 
