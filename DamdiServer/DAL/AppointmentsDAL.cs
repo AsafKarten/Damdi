@@ -36,5 +36,30 @@ namespace DamdiServer.DAL
                 throw new Exception(ex.Message);
             }
         }
+
+        public Appointments GetUserAppointment(User user)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    Appointments existApp = null;
+                    SqlCommand cmd = new SqlCommand("GetInfoAppById", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = user.Personal_id;
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        existApp = new Appointments(Convert.ToInt32(reader["app_id"]), Convert.ToString(reader["station_name"]), Convert.ToInt32(reader["station_code"]), Convert.ToString(reader["personal_id"]), Convert.ToString(reader["app_time"]));
+                    }
+                    return existApp;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

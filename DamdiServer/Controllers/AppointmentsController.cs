@@ -30,5 +30,23 @@ namespace DamdiServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("api/user/app")]
+        public IHttpActionResult GetAppointmentById([FromBody] User user)
+        {
+            try
+            {
+                Appointments existApp = null;
+                existApp = Globals.AppointmentsDAL.GetUserAppointment(user);
+                if (existApp != null)
+                    return Ok(existApp);
+                return Content(HttpStatusCode.NotFound, $"Appintment of {user.Personal_id} not found");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
