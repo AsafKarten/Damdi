@@ -41,7 +41,7 @@ namespace DamdiServer.Controllers
                 existApp = Globals.AppointmentsDAL.GetUserAppointment(user);
                 if (existApp != null)
                     return Ok(existApp);
-                return Content(HttpStatusCode.NotFound, $"Appintment of {user.Personal_id} not found");
+                return Content(HttpStatusCode.NotFound, "Appintment not found");
             }
             catch (Exception ex)
             {

@@ -107,7 +107,42 @@ namespace DamdiServer.DAL
                         Stations.Add(s);
                     }
                     return Stations;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
+
+        public Stations getStationCode(Stations s)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    Stations station = null;
+                    SqlCommand cmd = new SqlCommand("GetStationsByCode", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@station_code", SqlDbType.NVarChar).Value = s.Station_code;
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        station = new Stations(
+                            Convert.ToInt32(reader["station_code"]),
+                            Convert.ToString(reader["station_name"]),
+                            Convert.ToString(reader["city"]),
+                            Convert.ToString(reader["f_address"]),
+                            reader.GetTimeSpan(reader.GetOrdinal("start_time")),
+                            reader.GetTimeSpan(reader.GetOrdinal("end_time")),
+                            Convert.ToString(reader["lat"]),
+                            Convert.ToString(reader["lng"]),
+                            Convert.ToString(reader["days"])
+                            );
+                    }
+                    return station;
                 }
             }
             catch (Exception ex)

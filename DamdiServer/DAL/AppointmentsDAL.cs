@@ -51,7 +51,7 @@ namespace DamdiServer.DAL
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        existApp = new Appointments(Convert.ToInt32(reader["app_id"]), Convert.ToString(reader["station_name"]), Convert.ToInt32(reader["station_code"]), Convert.ToString(reader["personal_id"]), Convert.ToString(reader["app_time"]));
+                        existApp = new Appointments(Convert.ToInt32(reader["station_code"]), Convert.ToString(reader["personal_id"]), Convert.ToString(reader["app_time"]));
                     }
                     return existApp;
                 }

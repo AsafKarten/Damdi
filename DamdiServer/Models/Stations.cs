@@ -17,11 +17,6 @@ namespace DamdiServer.Models
         string lng;
         string days;
 
-        public Stations()
-        {
-            Station_name = station_name;
-        }
-
         public Stations(int station_code, string station_name, string city, string f_address, TimeSpan start_time, TimeSpan end_time, string lat, string lng,string days)
         {
             Station_code = station_code;
