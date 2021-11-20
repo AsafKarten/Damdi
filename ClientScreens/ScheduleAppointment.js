@@ -92,7 +92,7 @@ export default function ScheduleAppointment({ navigation, route }) {
         }
        let time = route.params.route.Date_Time
        var app_time = time.getDate() + '/' + (time.getMonth() + 1) + '/' + time.getFullYear();
-        var tempAppoint = { id: id,date:app_time, hour:index,Minutes:min, }
+        var tempAppoint = { id: id,date:app_time, hour:index, Minutes:min}
         times.push(tempAppoint)
         id++
      
