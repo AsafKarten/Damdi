@@ -18,9 +18,9 @@ export default function ScheduleAppointment({ navigation, route }) {
   const ScheduleApp = (item) => {
     setItem(item)
     setConfirm(true)
-    let tempDate = new Date(route.params.route.Date_Time);
-    let fDate = (tempDate.getMonth() + 1) + '/' + tempDate.getDate() + '/' + tempDate.getFullYear() + " " + tempDate.getHours() + ':' + tempDate.getMinutes();
-    var appointment = { Station_code: route.params.route.Station.Station_code, Personal_id: route.params.route.User.Personal_id, App_time: fDate }
+    let time = new Date(item.time)
+   
+    var appointment = { Station_code: route.params.route.Station.Station_code, Personal_id: route.params.route.User.Personal_id, App_time: time }
     onChangeApp(appointment)
     console.log(appointment);
     if (Platform.OS !== 'web') {
@@ -85,7 +85,7 @@ export default function ScheduleAppointment({ navigation, route }) {
         }
         console.log(id + " " + baseTime);
         var app_time = baseTime.getDate() + '/' + (baseTime.getMonth() + 1) + '/' + baseTime.getFullYear() + "   " + baseTime.getHours() + ':' + baseTime.getMinutes();
-        var tempAppoint = { id: id, time: app_time }
+        var tempAppoint = { id: id, time:baseTime,str_time: app_time }
         times.push(tempAppoint)
         id++
         if (i == 2) {
@@ -101,6 +101,7 @@ export default function ScheduleAppointment({ navigation, route }) {
 
 
   const PostAppointmentToDB = async () => {
+    let time = new Date(Appointment.App_time)
     try {
       let result = await fetch(url + "api/appointment/post", {
         method: 'POST',
@@ -111,7 +112,7 @@ export default function ScheduleAppointment({ navigation, route }) {
         body: JSON.stringify({
           Station_code: Appointment.Station_code,
           Personal_id: Appointment.Personal_id,
-          App_time: Appointment.App_time
+          App_time: time
         })
       })
       let respone = await result.json()
@@ -128,7 +129,7 @@ export default function ScheduleAppointment({ navigation, route }) {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.list}>
-            <Text style={styles.appText}>{"בתאריך " + item.time + "            " + "בשעה: " + item.time}</Text>
+            <Text style={styles.appText}>{"בתאריך " + item.str_time + "            " + "בשעה: " + item.str_time}</Text>
             <TouchableOpacity onPress={() => ScheduleApp(item)}>
               <View style={styles.button_normal}>
                 <Text style={styles.button_text} >הזמן/י תור</Text>
@@ -151,7 +152,7 @@ export default function ScheduleAppointment({ navigation, route }) {
                 <Text style={styles.modalText}>הזמנת תור לתרומת דם {"\n"}
                   בתחנת: {route.params.route.Station.Station_name}{"\n"}
                   בכתובת:  {route.params.route.Station.F_address + " " + route.params.route.Station.City}{"\n"}
-                  בשעה: {Item.time}{"\n"}
+                  בשעה: {Item.str_time}{"\n"}
                   אנא וודא\י שפרטיך הרפואיים מעודכנים בסמוך למועד התור.
                 </Text>
                 <Text style={styles.modalText}>לאישור התור לחץ</Text>
