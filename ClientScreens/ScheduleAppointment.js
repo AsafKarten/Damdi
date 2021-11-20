@@ -7,22 +7,23 @@ const url = "http://proj13.ruppin-tech.co.il/"
 export default function ScheduleAppointment({ navigation, route }) {
 
   const [User, onChangeUser] = useState(route.params.route.User)
-  const [AppointDate, onChangeDate] = useState(route.params.route.dateTime)
+  const [AppointDate, onChangeDate] = useState()
   const [Station, onChangeStation] = useState(route.params.route.Station)
-  const [Appointment, onChangeApp] = useState()
+  const [Appointment, onChangeApp] = useState({})
   const [appointmentsTime, onChangeAppTime] = useState()
   const [confirmModal, setConfirm] = useState(false);
   const [Item, setItem] = useState(route.params.route.Station);
 
 
-  const ScheduleApp = (item) => {
+  const ScheduleApp = async(item) => {
     setItem(item)
     setConfirm(true)
-    let time = new Date(item.time)
-   
-    var appointment = { Station_code: route.params.route.Station.Station_code, Personal_id: route.params.route.User.Personal_id, App_time: time }
-    onChangeApp(appointment)
+    let time = item.str_time
+    onChangeDate(time)
+    const appointment = { Station_code: route.params.route.Station.Station_code, Personal_id: route.params.route.User.Personal_id, App_time: time }
+    await onChangeApp(appointment)
     console.log(appointment);
+    console.log(Appointment);
     if (Platform.OS !== 'web') {
       setConfirm(true)
     }
@@ -101,7 +102,8 @@ export default function ScheduleAppointment({ navigation, route }) {
 
 
   const PostAppointmentToDB = async () => {
-    let time = new Date(Appointment.App_time)
+    let time = AppointDate
+    console.log(time);
     try {
       let result = await fetch(url + "api/appointment/post", {
         method: 'POST',
@@ -110,8 +112,9 @@ export default function ScheduleAppointment({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Station_code: Appointment.Station_code,
-          Personal_id: Appointment.Personal_id,
+          App_id:0,
+          Station_code: route.params.route.Station.Station_code,
+          Personal_id: route.params.route.User.Personal_id,
           App_time: time
         })
       })
