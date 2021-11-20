@@ -15,13 +15,16 @@ export default function ScheduleAppointment({ navigation, route }) {
   const [Item, setItem] = useState(route.params.route.Station);
 
 
-  const ScheduleApp = async(item) => {
+  const ScheduleApp = (item) => {
     setItem(item)
     setConfirm(true)
-    let time = item.str_time
+    let time = new Date()
+    time = route.params.route.Date_Time
+    time.setHours(item.hour,item.Minutes,0,0)
+    console.log(time);
     onChangeDate(time)
     const appointment = { Station_code: route.params.route.Station.Station_code, Personal_id: route.params.route.User.Personal_id, App_time: time }
-    await onChangeApp(appointment)
+   onChangeApp(appointment)
     console.log(appointment);
     console.log(Appointment);
     if (Platform.OS !== 'web') {
@@ -65,40 +68,81 @@ export default function ScheduleAppointment({ navigation, route }) {
     console.log(st);
     let et = parseInt(Station.End_time)
     console.log(Station.Start_time + " " + Station.End_time);
-    var baseTime = new Date(route.params.route.Date_Time)
-    baseTime.setHours(st)
-    baseTime.setMinutes(0)
-    baseTime.setSeconds(0)
-
+    
     for (let index = st; index <= et; index++) {
 
       for (let i = 0; i < 3; i++) {
-
+        let min = 0
 
         if (i == 0) {
-          baseTime.setMinutes(0)
+         min = '00'
         }
         else if (i == 1) {
-          baseTime.setMinutes(20)
+         
+          min = 20
         }
         else {
-          baseTime.setMinutes(40)
+         if(index==et ){
+          min = 30
+         }
+         else{
+            min = 40
+         }
+         
         }
-        console.log(id + " " + baseTime);
-        var app_time = baseTime.getDate() + '/' + (baseTime.getMonth() + 1) + '/' + baseTime.getFullYear() + "   " + baseTime.getHours() + ':' + baseTime.getMinutes();
-        var tempAppoint = { id: id, time:baseTime,str_time: app_time }
+       let time = route.params.route.Date_Time
+       var app_time = time.getDate() + '/' + (time.getMonth() + 1) + '/' + time.getFullYear();
+        var tempAppoint = { id: id,date:app_time, hour:index,Minutes:min, }
         times.push(tempAppoint)
         id++
-        if (i == 2) {
-          baseTime.setHours(index + 1)
-          baseTime.setMinutes(0)
-          baseTime.setSeconds(0)
-        }
+     
       }
     }
     onChangeAppTime(times)
     console.log(times);
   }
+
+  // const SetTimes = () => {
+  //   let id = 0
+  //   var times = []
+  //   let st = parseInt(Station.Start_time)
+  //   console.log(st);
+  //   let et = parseInt(Station.End_time)
+  //   console.log(Station.Start_time + " " + Station.End_time);
+  //   var baseTime = new Date(route.params.route.Date_Time)
+  //   baseTime.setHours(st)
+  //   baseTime.setMinutes(0)
+  //   baseTime.setSeconds(0)
+
+  //   for (let index = st; index <= et; index++) {
+
+  //     for (let i = 0; i < 3; i++) {
+
+
+  //       if (i == 0) {
+  //         baseTime.setMinutes(0)
+  //       }
+  //       else if (i == 1) {
+  //         baseTime.setMinutes(20)
+  //       }
+  //       else {
+  //         baseTime.setMinutes(40)
+  //       }
+  //       console.log(id + " " + baseTime);
+  //       var app_time = baseTime.getDate() + '/' + (baseTime.getMonth() + 1) + '/' + baseTime.getFullYear() + "   " + baseTime.getHours() + ':' + baseTime.getMinutes();
+  //       var tempAppoint = { id: id, time:baseTime,str_time: app_time }
+  //       times.push(tempAppoint)
+  //       id++
+  //       if (i == 2) {
+  //         baseTime.setHours(index + 1)
+  //         baseTime.setMinutes(0)
+  //         baseTime.setSeconds(0)
+  //       }
+  //     }
+  //   }
+  //   onChangeAppTime(times)
+  //   console.log(times);
+  // }
 
 
   const PostAppointmentToDB = async () => {
@@ -112,7 +156,6 @@ export default function ScheduleAppointment({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          App_id:0,
           Station_code: route.params.route.Station.Station_code,
           Personal_id: route.params.route.User.Personal_id,
           App_time: time
@@ -132,7 +175,7 @@ export default function ScheduleAppointment({ navigation, route }) {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.list}>
-            <Text style={styles.appText}>{"בתאריך " + item.str_time + "            " + "בשעה: " + item.str_time}</Text>
+            <Text style={styles.appText}>{"בתאריך " + item.date + "            " + "בשעה: " + item.hour +":"+ item.Minutes}</Text>
             <TouchableOpacity onPress={() => ScheduleApp(item)}>
               <View style={styles.button_normal}>
                 <Text style={styles.button_text} >הזמן/י תור</Text>
@@ -155,7 +198,7 @@ export default function ScheduleAppointment({ navigation, route }) {
                 <Text style={styles.modalText}>הזמנת תור לתרומת דם {"\n"}
                   בתחנת: {route.params.route.Station.Station_name}{"\n"}
                   בכתובת:  {route.params.route.Station.F_address + " " + route.params.route.Station.City}{"\n"}
-                  בשעה: {Item.str_time}{"\n"}
+                  בשעה: {Item.hour+":"+Item.Minutes}{"\n"}
                   אנא וודא\י שפרטיך הרפואיים מעודכנים בסמוך למועד התור.
                 </Text>
                 <Text style={styles.modalText}>לאישור התור לחץ</Text>

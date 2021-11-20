@@ -36,6 +36,7 @@ export default function Stations({ navigation, route }) {
 
   const onFocus = () => {
     showDatepicker()
+    GetStationList()
   }
 
 
@@ -82,6 +83,7 @@ export default function Stations({ navigation, route }) {
     } catch (error) {
       Alert.alert("תקלה עם שליפת תחנות התרמה מהשרת, נסה מאוחר יותר","אופס")
       console.log("תקלה עם שליפת תחנות מהשרת");
+    console.log(error);
     }
   }
 
