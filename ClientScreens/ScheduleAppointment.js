@@ -15,16 +15,20 @@ export default function ScheduleAppointment({ navigation, route }) {
   const [Item, setItem] = useState(route.params.route.Station);
 
 
+  useEffect(() => {
+    DayValidation()
+  }, [])
+
   const ScheduleApp = (item) => {
     setItem(item)
     setConfirm(true)
     let time = new Date()
     time = route.params.route.Date_Time
-    time.setHours(item.hour,item.Minutes,0,0)
+    time.setHours(item.hour, item.Minutes, 0, 0)
     console.log(time);
     onChangeDate(time)
     const appointment = { Station_code: route.params.route.Station.Station_code, Personal_id: route.params.route.User.Personal_id, App_time: time }
-   onChangeApp(appointment)
+    onChangeApp(appointment)
     console.log(appointment);
     console.log(Appointment);
     if (Platform.OS !== 'web') {
@@ -33,12 +37,7 @@ export default function ScheduleAppointment({ navigation, route }) {
     else {
       console.log(item.date + " " + item.time)
     }
-
   }
-
-  useEffect(() => {
-    DayValidation()
-  }, [])
 
   const DayValidation = () => {
     var dayCheck = new Date(route.params.route.Date_Time)
@@ -68,34 +67,33 @@ export default function ScheduleAppointment({ navigation, route }) {
     console.log(st);
     let et = parseInt(Station.End_time)
     console.log(Station.Start_time + " " + Station.End_time);
-    
-    for (let index = st; index <= et; index++) {
 
+    for (let index = st; index <= et; index++) {
       for (let i = 0; i < 3; i++) {
         let min = 0
 
         if (i == 0) {
-         min = '00'
+          min = '00'
         }
         else if (i == 1) {
-         
+
           min = 20
         }
         else {
-         if(index==et ){
-          min = 30
-         }
-         else{
+          if (index == et) {
+            min = 30
+          }
+          else {
             min = 40
-         }
-         
+          }
+
         }
-       let time = route.params.route.Date_Time
-       var app_time = time.getDate() + '/' + (time.getMonth() + 1) + '/' + time.getFullYear();
-        var tempAppoint = { id: id,date:app_time, hour:index, Minutes:min}
+        let time = route.params.route.Date_Time
+        var app_time = time.getDate() + '/' + (time.getMonth() + 1) + '/' + time.getFullYear();
+        var tempAppoint = { id: id, date: app_time, hour: index, Minutes: min }
         times.push(tempAppoint)
         id++
-     
+
       }
     }
     onChangeAppTime(times)
@@ -175,7 +173,7 @@ export default function ScheduleAppointment({ navigation, route }) {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.list}>
-            <Text style={styles.appText}>{"בתאריך " + item.date + "            " + "בשעה: " + item.hour +":"+ item.Minutes}</Text>
+            <Text style={styles.appText}>{"בתאריך " + item.date + "            " + "בשעה: " + item.hour + ":" + item.Minutes}</Text>
             <TouchableOpacity onPress={() => ScheduleApp(item)}>
               <View style={styles.button_normal}>
                 <Text style={styles.button_text} >הזמן/י תור</Text>
@@ -198,7 +196,7 @@ export default function ScheduleAppointment({ navigation, route }) {
                 <Text style={styles.modalText}>הזמנת תור לתרומת דם {"\n"}
                   בתחנת: {route.params.route.Station.Station_name}{"\n"}
                   בכתובת:  {route.params.route.Station.F_address + " " + route.params.route.Station.City}{"\n"}
-                  בשעה: {Item.hour+":"+Item.Minutes}{"\n"}
+                  בשעה: {Item.hour + ":" + Item.Minutes}{"\n"}
                   אנא וודא\י שפרטיך הרפואיים מעודכנים בסמוך למועד התור.
                 </Text>
                 <Text style={styles.modalText}>לאישור התור לחץ</Text>

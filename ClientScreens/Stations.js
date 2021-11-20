@@ -81,9 +81,9 @@ export default function Stations({ navigation, route }) {
         setStations(data);
       }
     } catch (error) {
-      Alert.alert("תקלה עם שליפת תחנות התרמה מהשרת, נסה מאוחר יותר","אופס")
+      Alert.alert("תקלה עם שליפת תחנות התרמה מהשרת, נסה מאוחר יותר", "אופס")
       console.log("תקלה עם שליפת תחנות מהשרת");
-    console.log(error);
+      console.log(error);
     }
   }
 
