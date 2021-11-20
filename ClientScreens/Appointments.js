@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert } from 'react-native'
+import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Modal, Pressable } from 'react-native'
 import { Card } from 'react-native-elements';
 
 //Fix card style and show it if only hae a active appintment
@@ -11,6 +11,7 @@ export default function Appointments({ navigation, route }) {
   const [dateApp, setDateApp] = useState()
   const [timeApp, setTimeApp] = useState()
   const [locationApp, setLocation] = useState()
+  const [modalInfo, setModalInfo] = useState(false);
 
   var customDate = new Date(dateApp)
   var fDate = customDate.getDate() + '/' + (customDate.getMonth() + 1) + '/' + customDate.getFullYear()
@@ -40,8 +41,7 @@ export default function Appointments({ navigation, route }) {
         setLocation(stationData.Station_name)
       }
     } catch (error) {
-      Alert.alert("getStationName")
-      console.log("תקלה עם שליפת תחנות מהשרת");
+      console.log(error, "לא נמצאה תחנת תרמה עם קוד זה");
     }
   }
 
@@ -60,11 +60,16 @@ export default function Appointments({ navigation, route }) {
       });
       let appintment = await result.json()
       console.log(appintment);
-      if (appintment !== null) {
+      if (appintment !== "Appintment not found") {
         onChangeHasApp(true);
         setDateApp(appintment.App_time.split(" ")[0])
         setTimeApp(appintment.App_time.split(" ")[1])
         await getStationName(appintment.Station_code)
+      }
+      else {
+        setModalInfo(true)
+        onChangeHasApp(false);
+        return
       }
     } catch (error) {
       Alert.alert("תקלה עם שליפת תחנות התרמה מהשרת, נסה מאוחר יותר")
@@ -126,6 +131,31 @@ export default function Appointments({ navigation, route }) {
             </View>
           </TouchableOpacity>
         </View>
+        {modalInfo && (
+          <View>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalInfo}
+              onRequestClose={() => { console.log('Modal has been closed.'); }}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>אין לך תור פעיל במערכת כרגע, אם חלפו 3 חודשים מהתרומה האחרונה, קבע\י תור חדש</Text>
+                <View style={styles.modal_buttons}>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => setModalInfo(!modalInfo)}>
+                    <Text style={styles.textStyle}>סגור</Text>
+                  </Pressable>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => navigation.navigate("Stations", { route: User })}>
+                    <Text style={styles.textStyle}>קבע תור חדש</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </Modal>
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -185,4 +215,50 @@ const styles = StyleSheet.create({
     color: 'black',
 
   },
+
+  modalView: {
+    margin: 20,
+    backgroundColor: '#757c94',
+    borderRadius: 20,
+    padding: 25,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  modal_buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin: 10,
+  },
+  button: {
+    marginLeft: 25,
+    marginRight: 25,
+    borderRadius: 20,
+    padding: 15,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 20
+  },
+  modalText: {
+    color: "white",
+    fontSize: 22,
+    marginBottom: 10,
+    textAlign: "center"
+  }
 });
