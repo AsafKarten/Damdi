@@ -66,7 +66,7 @@ export default function Stations({ navigation, route }) {
         Alert.alert('שגיאה', 'אנא מלא/י את כל פרטים כדי לאתר תחנות התרמה')
         return;
       } else {
-        let result = await fetch(url + "api/search/stations", {
+        let result = await fetch(url + "api/search/stations/city", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

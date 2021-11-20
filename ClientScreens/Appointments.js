@@ -13,14 +13,38 @@ export default function Appointments({ navigation, route }) {
   const [locationApp, setLocation] = useState()
 
   var customDate = new Date(dateApp)
-  var fDate = customDate.getDate() + '/' + (customDate.getMonth() + 1) + '/'  + customDate.getFullYear()
-  
-  
+  var fDate = customDate.getDate() + '/' + (customDate.getMonth() + 1) + '/' + customDate.getFullYear()
+
+
   useEffect(() => {
     (async () => {
       await checkActiveAppinment()
     })()
   }, [navigation])
+
+  const getStationName = async (stationCode) => {
+    try {
+      let result = await fetch(url + "api/search/stations/code", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Station_code: stationCode
+        })
+      });
+      let stationData = await result.json()
+      console.log(stationData);
+      if (stationData !== null) {
+        setLocation(stationData.Station_name)
+      }
+    } catch (error) {
+      Alert.alert("getStationName")
+      console.log("תקלה עם שליפת תחנות מהשרת");
+    }
+  }
+
 
   const checkActiveAppinment = async () => {
     try {
@@ -35,14 +59,15 @@ export default function Appointments({ navigation, route }) {
         })
       });
       let appintment = await result.json()
+      console.log(appintment);
       if (appintment !== null) {
         onChangeHasApp(true);
-        setLocation(appintment.Station.Station_name)
         setDateApp(appintment.App_time.split(" ")[0])
         setTimeApp(appintment.App_time.split(" ")[1])
+        await getStationName(appintment.Station_code)
       }
     } catch (error) {
-      Alert.alert("תקלה עם שליפת תחנות התרמה מהשרת, נסה מאוחר יותר", "אופס")
+      Alert.alert("תקלה עם שליפת תחנות התרמה מהשרת, נסה מאוחר יותר")
       console.log("תקלה עם שליפת תחנות מהשרת");
     }
   }
@@ -54,7 +79,7 @@ export default function Appointments({ navigation, route }) {
       {hasApp && (
         <View style={styles.topContainer}>
           <Card elevation={7}>
-            <Text style={styles.paragraph} >תור פעיל{"\n"}
+            <Text style={styles.paragraph} >תור פעיל 1{"\n"}
               מיקום התחנה: {locationApp}{"\n"}
               בתאריך: {fDate}{"\n"}
               בשעה: {timeApp}
