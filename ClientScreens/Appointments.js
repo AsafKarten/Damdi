@@ -8,6 +8,7 @@ const url = "http://proj13.ruppin-tech.co.il/"
 export default function Appointments({ navigation, route }) {
   const [User, onChangeId] = useState(route.params.route)
   const [hasApp, onChangeHasApp] = useState(false);
+  const [app_id, setAppintmentId] = useState();
   const [dateApp, setDateApp] = useState()
   const [timeApp, setTimeApp] = useState()
   const [locationApp, setLocation] = useState()
@@ -61,6 +62,7 @@ export default function Appointments({ navigation, route }) {
       let appintment = await result.json()
       console.log(appintment);
       if (appintment !== "Appintment not found") {
+        setAppintmentId(appintment.App_id)
         onChangeHasApp(true);
         setDateApp(appintment.App_time.split(" ")[0])
         setTimeApp(appintment.App_time.split(" ")[1])
@@ -76,6 +78,27 @@ export default function Appointments({ navigation, route }) {
       console.log("תקלה עם שליפת תחנות מהשרת");
     }
   }
+
+  const deleteExistAppointment = () => {
+    try {
+      let result = await fetch(url + "api/del/app", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          App_id: app_id
+        })
+      });
+      let response = await result.json()
+      console.log(response);
+    } catch (error) {
+      console.log("Failed to delete Exist Appointment");
+    }
+  }
+
+
 
 
   return (
@@ -109,7 +132,7 @@ export default function Appointments({ navigation, route }) {
           </TouchableOpacity>
         </View>
         <View style={styles.ButtonContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
+          <TouchableOpacity onPress={() => deleteExistAppointment()}>
             <View style={styles.button_normal}>
               <Text style={styles.button_text} >ביטול תור</Text>
             </View>
