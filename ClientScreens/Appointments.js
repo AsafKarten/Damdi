@@ -8,11 +8,12 @@ const url = "http://proj13.ruppin-tech.co.il/"
 export default function Appointments({ navigation, route }) {
   const [User, onChangeId] = useState(route.params.route)
   const [hasApp, onChangeHasApp] = useState(false);
+  const [app_id, setAppintmentId] = useState();
   const [dateApp, setDateApp] = useState()
   const [timeApp, setTimeApp] = useState()
   const [locationApp, setLocation] = useState()
   const [modalInfo, setModalInfo] = useState(false);
-
+  const [stationCode, setStationCode] = useState()
   var customDate = new Date(dateApp)
   var fDate = customDate.getDate() + '/' + (customDate.getMonth() + 1) + '/' + customDate.getFullYear()
 
@@ -22,6 +23,13 @@ export default function Appointments({ navigation, route }) {
       await checkActiveAppinment()
     })()
   }, [navigation])
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      checkActiveAppinment()
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const getStationName = async (stationCode) => {
     try {
@@ -61,11 +69,11 @@ export default function Appointments({ navigation, route }) {
       let appintment = await result.json()
       console.log(appintment);
       if (appintment !== "Appintment not found") {
-        onChangeHasApp(true);
+        setAppintmentId(appintment.App_id)
         setDateApp(appintment.App_time.split(" ")[0])
         setTimeApp(appintment.App_time.split(" ")[1])
-
         await getStationName(appintment.Station_code)
+        onChangeHasApp(true);
       }
       else {
         setModalInfo(true)
@@ -78,6 +86,26 @@ export default function Appointments({ navigation, route }) {
     }
   }
 
+  const deleteExistAppointment = async () => {
+    try {
+      let result = await fetch(url + "api/del/app", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          App_id: app_id
+        })
+      });
+      let response = await result.json()
+      console.log(response);
+      Alert.alert("הודעת מערכת", "תור הוסר בהצלחה,תזכרו תרומת דם מצילה חיים!")
+      onChangeHasApp(false)
+    } catch (error) {
+      console.log("Failed to delete Exist Appointment");
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -110,13 +138,13 @@ export default function Appointments({ navigation, route }) {
           </TouchableOpacity>
         </View>
         <View style={styles.ButtonContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
+          <TouchableOpacity onPress={() => deleteExistAppointment()}>
             <View style={styles.button_normal}>
               <Text style={styles.button_text} >ביטול תור</Text>
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
+          <TouchableOpacity onPress={() => navigation.navigate('Stations', { route: User })}>
             <View style={styles.button_normal}>
               <Text style={styles.button_text} >עדכון תור</Text>
             </View>
