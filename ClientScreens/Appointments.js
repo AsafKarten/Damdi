@@ -13,9 +13,8 @@ export default function Appointments({ navigation, route }) {
   const [timeApp, setTimeApp] = useState()
   const [locationApp, setLocation] = useState()
   const [modalInfo, setModalInfo] = useState(false);
-  const [stationCode, setStationCode] = useState()
-  const [appData, setAppData] = useState();
   var customDate = new Date(dateApp)
+  
   var fDate = customDate.getDate() + '/' + (customDate.getMonth() + 1) + '/' + customDate.getFullYear()
 
 
