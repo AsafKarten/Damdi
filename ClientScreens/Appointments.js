@@ -66,6 +66,7 @@ export default function Appointments({ navigation, route }) {
         onChangeHasApp(true);
         setDateApp(appintment.App_time.split(" ")[0])
         setTimeApp(appintment.App_time.split(" ")[1])
+
         await getStationName(appintment.Station_code)
       }
       else {
