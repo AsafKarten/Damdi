@@ -6,7 +6,7 @@ const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function Stations({ navigation, route }) {
   const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState('date');
+  const [mode, setMode] = useState('datetime');
   const [show, setShow] = useState(false);
 
   const [User, onChangeUser] = useState(route.params.route)
