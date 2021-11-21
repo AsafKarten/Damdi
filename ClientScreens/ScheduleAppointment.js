@@ -24,11 +24,7 @@ export default function ScheduleAppointment({ navigation, route }) {
     setConfirm(true)
     let time = new Date()
     time = route.params.route.Date_Time
-    let fixedHour = time.getUTCHours()
-    //fixedHour -=3;
     time.setUTCHours(item.hour+8, item.Minutes, 0, 0)
-    console.log("##############################################################################################");
-    console.log(time);
     onChangeDate(time)
     const appointment = { Station_code: route.params.route.Station.Station_code, Personal_id: route.params.route.User.Personal_id, App_time: time }
     onChangeApp(appointment)
