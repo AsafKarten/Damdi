@@ -14,6 +14,7 @@ export default function Appointments({ navigation, route }) {
   const [locationApp, setLocation] = useState()
   const [modalInfo, setModalInfo] = useState(false);
   const [stationCode, setStationCode] = useState()
+  const [appData, setAppData] = useState();
   var customDate = new Date(dateApp)
   var fDate = customDate.getDate() + '/' + (customDate.getMonth() + 1) + '/' + customDate.getFullYear()
 
@@ -107,6 +108,11 @@ export default function Appointments({ navigation, route }) {
     }
   }
 
+  const moveToReminder = () => {
+    var data = { title: "תור לתרומת דם", location: locationApp, date: fDate, time: timeApp }
+    navigation.navigate('ReminderScreen', { route: data })
+  }
+
   return (
     <SafeAreaView style={styles.container}>
 
@@ -131,7 +137,7 @@ export default function Appointments({ navigation, route }) {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
+          <TouchableOpacity onPress={() => moveToReminder()}>
             <View style={styles.button_normal}>
               <Text style={styles.button_text} >הוסף תזכורת</Text>
             </View>

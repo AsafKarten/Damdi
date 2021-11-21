@@ -42,8 +42,6 @@ export default function PersonalFormA({ navigation, route }) {
       getUserInfo()
     });
 
-
-    // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
   }, [navigation]);
 

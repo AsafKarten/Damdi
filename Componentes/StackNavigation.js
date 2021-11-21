@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Feather from 'react-native-vector-icons/Feather';
 
 
 import Registration from '../ClientScreens/Registration'
@@ -23,13 +22,11 @@ import MedicalForm from '../ClientScreens/MedicalForm.js';
 import ValidationForm from '../ClientScreens/ValidationForm.js';
 import PrivacyAndSecurity from '../ClientScreens/PrivacyAndSecurity.js'
 import maps from '../ClientScreens/maps.js'
+import ReminderScreen from '../ClientScreens/ReminderScreen.js';
 
 const Stack = createStackNavigator();
 
 export default function StackNavigation() {
-
-
-
 
   return (
     <NavigationContainer>
@@ -48,6 +45,19 @@ export default function StackNavigation() {
         <Stack.Screen name="Registration" component={Registration}
           options={{
             title: 'הרשמה',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('Registration')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+
+        <Stack.Screen name="ReminderScreen" component={ReminderScreen}
+          options={{
+            title: 'הוספת תזכורת',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
