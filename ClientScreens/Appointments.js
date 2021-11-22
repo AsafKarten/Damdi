@@ -13,8 +13,8 @@ export default function Appointments({ navigation, route }) {
   const [timeApp, setTimeApp] = useState()
   const [locationApp, setLocation] = useState()
   const [modalInfo, setModalInfo] = useState(false);
+  const [fullDate,setFullDate] = useState();
   var customDate = new Date(dateApp)
-  
   var fDate = customDate.getDate() + '/' + (customDate.getMonth() + 1) + '/' + customDate.getFullYear()
 
 
@@ -69,6 +69,7 @@ export default function Appointments({ navigation, route }) {
       let appintment = await result.json()
       console.log(appintment);
       if (appintment !== "Appintment not found") {
+        setFullDate(appintment.App_time)
         setAppintmentId(appintment.App_id)
         setDateApp(appintment.App_time.split(" ")[0])
         setTimeApp(appintment.App_time.split(" ")[1])
@@ -108,7 +109,7 @@ export default function Appointments({ navigation, route }) {
   }
 
   const moveToReminder = () => {
-    var data = { title: "תור לתרומת דם", location: locationApp, date: fDate, time: timeApp }
+    var data = { location: locationApp, date: fullDate }
     navigation.navigate('ReminderScreen', { route: data })
   }
 
@@ -118,12 +119,18 @@ export default function Appointments({ navigation, route }) {
       {hasApp && (
         <View style={styles.topContainer}>
           <Card elevation={7}>
-            <Text style={styles.paragraph} >תור פעיל 1{"\n"}
+            <Text style={styles.paragraph} >תור פעיל{"\n"}
               מיקום התחנה: {locationApp}{"\n"}
               בתאריך: {fDate}{"\n"}
               בשעה: {timeApp}
             </Text>
           </Card>
+          <Text style={styles.textUnderCard}>לא לשכוח למלא את הטופס הרפואי בסמוך למועד התור</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('MedicalForm', { route: User })}>
+            <View style={styles.medical_button}>
+              <Text style={styles.button_text} >מילוי שאלון רפואי</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       )}
 
@@ -226,8 +233,26 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowRadius: 5
   },
+  medical_button:{
+    alignItems: 'center',
+    width: 160,
+    margin: 15,
+    borderRadius: 8,
+    padding: 10,
+    backgroundColor: "#757c94",
+    opacity: 0.8,
+    shadowColor: 'black',
+    shadowRadius: 5,
+    marginLeft: 100,
+    marginRight: 100
+  },
+  textUnderCard:{
+    textAlign: 'center',
+    fontSize:18,
+    fontWeight: 'bold',
+  },
   button_text: {
-    fontSize: 18,
+    fontSize: 16,
     color: 'white',
     fontWeight: 'bold'
   },
@@ -248,7 +273,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'black',
 
-  },
+  }, 
+
 
   modalView: {
     margin: 20,
@@ -294,5 +320,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginBottom: 10,
     textAlign: "center"
-  }
+  },
+
 });

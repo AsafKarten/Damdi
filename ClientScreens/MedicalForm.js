@@ -68,7 +68,7 @@ export default function MedicalForm({ navigation, route }) {
   }
   const inserMedicalInfoDonation = async () => {
     try {
-      let result = await fetch(url + "api/info/medical", {
+      let result = await fetch(url + "api/post/info/medical", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
@@ -102,13 +102,16 @@ export default function MedicalForm({ navigation, route }) {
       })
       let response = await result.json()
       console.log(response);
+      if (condition) {
+        
+      }
+      await navigation.navigate('ValidationForm', { route: User })
+
     } catch (error) {
       console.log('error with the send data to server ')
     }
-    await navigation.navigate('ValidationForm', { route: User })
   }
 
-  //חלק ג של השאלון בשרת זה MedicalInfoDonation
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView >

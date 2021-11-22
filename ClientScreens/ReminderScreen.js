@@ -1,200 +1,79 @@
-// import React in our code
-import React, { useState } from 'react';
-
-// import all the components we are going to use
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
-
-//Import library for AddCalendarEvent
-import * as AddCalendarEvent from 'react-native-add-calendar-event';
-
-//Import moment.js to deal with time
-import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, Button, Platform, Alert } from 'react-native';
+import * as Calendar from 'expo-calendar';
 
 
-export default function ReminderScreen({ navigation, route }) {
-  const [appInfo, setAppinfo] = useState(route.params.route)
-  console.log(route);
-  const [text, setText] = useState('');
-  const EVENT_TITLE = 'Lunch';
-  const TIME_NOW_IN_UTC = moment.utc();
+export default function ReminderScreen({ route }) {
+  const [appInfo, SetAppInfo] = useState(route.params.route);
+  console.log(appInfo);
 
-  const utcDateToString = (momentInUTC) => {
-    let s = moment.utc(momentInUTC)
-      .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-    return s;
-  };
+  useEffect(() => {
+    (async () => {
+      const { status } = await Calendar.requestCalendarPermissionsAsync();
+      if (status === 'granted') {
+        const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
+      }
+    })();
+  }, []);
 
-  const addToCalendar = (title, startDateUTC) => {
-    const eventConfig = {
-      title,
-      startDate: utcDateToString(startDateUTC),
-      endDate:
-        utcDateToString(moment.utc(startDateUTC).add(1, 'hours')),
-      notes: 'tasty!',
-      navigationBarIOS: {
-        tintColor: 'orange',
-        backgroundColor: 'green',
-        titleColor: 'blue',
-      },
-    };
-
-    AddCalendarEvent.presentEventCreatingDialog(eventConfig)
-      .then((eventInfo) => {
-        alert('eventInfo -> ' + JSON.stringify(eventInfo));
+  const addEventToCalendar = async () => {
+    let appDate = new Date(appInfo.date)
+    let endTime = new Date(appInfo.date)
+    try {
+      
+      let result = await Calendar.createEventAsync("3", {//TODO Function to get id defult calendar
+        startDate: new Date(appDate),
+        endDate: new Date(endTime.setHours(endTime.getHours() + 1)),
+        location: appInfo.location,
+        title: "תרומת דם",
+        timeZone: "GMT+2",
+        alarms: [],//TODO: check how to add alarm
       })
-      .catch((error) => {
-        // handle error such as when user rejected permissions
-        alert('Error -> ' + error);
-      });
-  };
-
-  const editCalendarEventWithId = (eventId) => {
-    if (!eventId) {
-      alert('Please Insert Event Id');
-      return;
+      let event = await result
+      if (event != null) {
+        Alert.alert("האירוע נוסף ללוח השנה בהצלחה")
+        Calendar.openEventInCalendar(event)//TODO that will give the user the ability to access the event in phone calendar, check the function
+      }
+    } catch (error) {
+      console.log('failure', error);
     }
-    const eventConfig = {
-      eventId,
-    };
+  }
 
-    AddCalendarEvent.presentEventEditingDialog(eventConfig)
-      .then((eventInfo) => {
-        alert('eventInfo -> ' + JSON.stringify(eventInfo));
-      })
-      .catch((error) => {
-        alert('Error -> ' + error);
-      });
-  };
-
-  const showCalendarEventWithId = (eventId) => {
-    if (!eventId) {
-      alert('Please Insert Event Id');
-      return;
-    }
-    const eventConfig = {
-      eventId,
-      allowsEditing: true,
-      allowsCalendarPreview: true,
-      navigationBarIOS: {
-        tintColor: 'orange',
-        backgroundColor: 'green',
-      },
-    };
-
-    AddCalendarEvent.presentEventViewingDialog(eventConfig)
-      .then((eventInfo) => {
-        alert('eventInfo -> ' + JSON.stringify(eventInfo));
-      })
-      .catch((error) => {
-        alert('Error -> ' + error);
-      });
-  };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <Text style={styles.titleStyle}>
-          Example to Add Event in Google Calendar
-          from React Native App
-        </Text>
-        <Text style={styles.heading}>
-          Event title: {EVENT_TITLE}
-          {'\n'}
-          Event Date Time: {
-            moment.utc(TIME_NOW_IN_UTC).local().format('lll')
-          }
-        </Text>
-        <TouchableOpacity
-          style={[styles.buttonStyle, { minWidth: '100%' }]}
-          onPress={() => {
-            addToCalendar(EVENT_TITLE, TIME_NOW_IN_UTC);
-          }}>
-          <Text style={styles.buttonTextStyle}>
-            Add Event to Calendar
-          </Text>
-        </TouchableOpacity>
-        <TextInput
-          style={styles.inputStyle}
-          placeholder="enter event id"
-          onChangeText={(text) => setText(text)}
-          value={text}
-        />
-        <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity
-            style={styles.buttonStyle}
-            onPress={() => {
-              editCalendarEventWithId(text);
-            }}>
-            <Text style={styles.buttonTextStyle}>
-              Edit Event
-            </Text>
-          </TouchableOpacity>
-          <View style={{ margin: 5 }} />
-          <TouchableOpacity
-            style={styles.buttonStyle}
-            onPress={() => {
-              showCalendarEventWithId(text);
-            }}>
-            <Text style={styles.buttonTextStyle}>
-              View Event
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <Button title="הוסף תזכורת ללוח השנה שלך" onPress={() => addEventToCalendar()} />
+    </View>
   );
-};
+}
 
+async function getDefaultCalendarSource() {
+  const defaultCalendar = await Calendar.getDefaultCalendarAsync();
+  return defaultCalendar.source;
+}
+
+// async function createCalendar() {
+//   const defaultCalendarSource =
+//     Platform.OS === 'ios'
+//       ? await getDefaultCalendarSource()
+//       : { isLocalAccount: true, name: 'Expo Calendar' };
+//   const newCalendarID = await Calendar.createCalendarAsync({
+//     title: 'Expo Calendar',
+//     color: 'blue',
+//     entityType: Calendar.EntityTypes.EVENT,
+//     sourceId: defaultCalendarSource.id,
+//     source: defaultCalendarSource,
+//     name: 'internalCalendarName',
+//     ownerAccount: 'personal',
+//     accessLevel: Calendar.CalendarAccessLevel.OWNER,
+//   });
+//   console.log(`Your new calendar ID is: ${newCalendarID}`);
+// }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#307ecc',
-    padding: 16,
   },
-  heading: {
-    color: 'white',
-    fontSize: 16,
-    textAlign: 'center',
-    margin: 10,
-  },
-  buttonStyle: {
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    backgroundColor: '#f5821f',
-    margin: 15,
-  },
-  buttonTextStyle: {
-    color: 'white',
-    textAlign: 'center',
-  },
-  buttonHalfStyle: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    flex: 1,
-  },
-  titleStyle: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 20,
-    marginBottom: 20,
-  },
-  inputStyle: {
-    height: 40,
-    minWidth: '100%',
-    marginBottom: 10,
-    marginTop: 30,
-    padding: 10,
-    backgroundColor: '#ffe6e6',
-  },
-});
+})
