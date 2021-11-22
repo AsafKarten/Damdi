@@ -99,49 +99,6 @@ export default function ScheduleAppointment({ navigation, route }) {
     console.log(times);
   }
 
-  // const SetTimes = () => {
-  //   let id = 0
-  //   var times = []
-  //   let st = parseInt(Station.Start_time)
-  //   console.log(st);
-  //   let et = parseInt(Station.End_time)
-  //   console.log(Station.Start_time + " " + Station.End_time);
-  //   var baseTime = new Date(route.params.route.Date_Time)
-  //   baseTime.setHours(st)
-  //   baseTime.setMinutes(0)
-  //   baseTime.setSeconds(0)
-
-  //   for (let index = st; index <= et; index++) {
-
-  //     for (let i = 0; i < 3; i++) {
-
-
-  //       if (i == 0) {
-  //         baseTime.setMinutes(0)
-  //       }
-  //       else if (i == 1) {
-  //         baseTime.setMinutes(20)
-  //       }
-  //       else {
-  //         baseTime.setMinutes(40)
-  //       }
-  //       console.log(id + " " + baseTime);
-  //       var app_time = baseTime.getDate() + '/' + (baseTime.getMonth() + 1) + '/' + baseTime.getFullYear() + "   " + baseTime.getHours() + ':' + baseTime.getMinutes();
-  //       var tempAppoint = { id: id, time:baseTime,str_time: app_time }
-  //       times.push(tempAppoint)
-  //       id++
-  //       if (i == 2) {
-  //         baseTime.setHours(index + 1)
-  //         baseTime.setMinutes(0)
-  //         baseTime.setSeconds(0)
-  //       }
-  //     }
-  //   }
-  //   onChangeAppTime(times)
-  //   console.log(times);
-  // }
-
-
   const PostAppointmentToDB = async () => {
     let time = AppointDate
     console.log(time);
