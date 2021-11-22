@@ -258,12 +258,14 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
+    <Compile Include="Controllers\MedicalFormController.cs" />
     <Compile Include="Controllers\StationsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DAL\AppointmentsDAL.cs" />
     <Compile Include="DAL\DonatorsDAL.cs" />
     <Compile Include="DAL\AdminDAL.cs" />
+    <Compile Include="DAL\MedicalInfoDAL.cs" />
     <Compile Include="DAL\StationsDAL.cs" />
     <Compile Include="DAL\UserDAL.cs" />
     <Compile Include="Global.asax.cs">

@@ -23,7 +23,7 @@ namespace DamdiServer.Controllers
                 {
                     return Ok("Appointment created successfully.");
                 }
-                throw new Exception("Appointment not add");
+                return BadRequest("Appointment not added");
             }
             catch (Exception ex)
             {
@@ -42,6 +42,25 @@ namespace DamdiServer.Controllers
                 if (existApp != null)
                     return Ok(existApp);
                 return Content(HttpStatusCode.NotFound, "Appintment not found");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("api/del/app")]
+        public IHttpActionResult DeleteAppoByPersonalId([FromBody] Appointments app)
+        {
+            try
+            {
+                int res = Globals.AppointmentsDAL.DeleteExistApp(app);
+                Created(new Uri(Request.RequestUri.AbsoluteUri + app), res);
+                if (res == 1)
+                    return Ok("Appointment deleted successfully");
+                return BadRequest("Error, Appointment not deleted.");
             }
             catch (Exception ex)
             {

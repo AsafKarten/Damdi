@@ -103,28 +103,6 @@ namespace DamdiServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        //Add new mdical info donation to MedicalInfoDonation table.
-        [HttpPost]
-        [Route("api/info/medical")]
-        public IHttpActionResult AddNewInfoDonation([FromBody] MedicalInfoDonation donInfo)
-        {
-            try
-            {
-                int res = Globals.UserDAL.SetNewMedicalInfo(donInfo);
-                Created(new Uri(Request.RequestUri.AbsoluteUri + donInfo), res);
-                if (res == 1)
-                {
-                    return Ok("medical info added successfully");
-                }
-                return BadRequest("medical info not added");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
     }
 }
 

@@ -12,8 +12,9 @@ namespace DamdiServer.Models
         string personal_id;
         string app_time;
 
-        public Appointments(int station_code, string personal_id, string app_time)
+        public Appointments(int app_id,int station_code, string personal_id, string app_time)
         {
+            App_id = app_id;
             Station_code = station_code;
             Personal_id = personal_id;
             App_time = app_time;

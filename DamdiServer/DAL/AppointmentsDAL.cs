@@ -51,7 +51,7 @@ namespace DamdiServer.DAL
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        existApp = new Appointments(Convert.ToInt32(reader["station_code"]), Convert.ToString(reader["personal_id"]), Convert.ToString(reader["app_time"]));
+                        existApp = new Appointments(Convert.ToInt32(reader["app_id"]),Convert.ToInt32(reader["station_code"]), Convert.ToString(reader["personal_id"]), Convert.ToString(reader["app_time"]));
                     }
                     return existApp;
                 }
@@ -59,6 +59,19 @@ namespace DamdiServer.DAL
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+
+        public int DeleteExistApp(Appointments app)
+        {
+            using (SqlConnection con = new SqlConnection(conStr))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("DeleteExistAppointment", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@appId", SqlDbType.NVarChar).Value = app.App_id;
+                int res = cmd.ExecuteNonQuery();
+                return res;
             }
         }
     }
