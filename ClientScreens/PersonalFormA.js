@@ -40,6 +40,7 @@ export default function PersonalFormA({ navigation, route }) {
     const unsubscribe = navigation.addListener('focus', () => {
       checkStatusModal();
       getUserInfo()
+      setLoading(false)
     });
 
     return unsubscribe;
