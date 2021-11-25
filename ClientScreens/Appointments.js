@@ -12,14 +12,18 @@ export default function Appointments({ navigation, route }) {
   const [dateApp, setDateApp] = useState()
   const [timeApp, setTimeApp] = useState()
   const [locationApp, setLocation] = useState()
+
+  const [modalDel, setModalDelete] = useState(false)
   const [modalInfo, setModalInfo] = useState(false);
-  const [fullDate,setFullDate] = useState();
+
+  const [fullDate, setFullDate] = useState();
   var customDate = new Date(dateApp)
   var fDate = customDate.getDate() + '/' + (customDate.getMonth() + 1) + '/' + customDate.getFullYear()
 
 
   useEffect(() => {
     (async () => {
+      setModalDelete(false)
       await checkActiveAppinment()
     })()
   }, [navigation])
@@ -27,6 +31,7 @@ export default function Appointments({ navigation, route }) {
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       checkActiveAppinment()
+      setModalDelete(false)
     });
     return unsubscribe;
   }, [navigation]);
@@ -150,7 +155,7 @@ export default function Appointments({ navigation, route }) {
           </TouchableOpacity>
         </View>
         <View style={styles.ButtonContainer}>
-          <TouchableOpacity onPress={() => deleteExistAppointment()}>
+          <TouchableOpacity onPress={() => hasApp ? setModalDelete(true) : setModalInfo(true)}>
             <View style={styles.button_normal}>
               <Text style={styles.button_text} >ביטול תור</Text>
             </View>
@@ -161,17 +166,44 @@ export default function Appointments({ navigation, route }) {
               <Text style={styles.button_text} >עדכון תור</Text>
             </View>
           </TouchableOpacity>
-
         </View>
-
-
-        <View style={styles.line}>
+        <View>
           <TouchableOpacity onPress={() => navigation.navigate('AppointmentsHistory', { route: User })}>
             <View style={styles.button_normal}>
               <Text style={styles.button_text}>היסטורית התורים שלך</Text>
             </View>
           </TouchableOpacity>
         </View>
+        {modalDel && (
+          <View>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalDel}
+              onRequestClose={() => {
+                console.log('Modal has been closed.');
+              }}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>האם אתה בטוח\ה שתרצה\י לבטל את התור ?</Text>
+                <View style={styles.modal_buttons}>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => {
+                      setModalDelete(false),
+                        deleteExistAppointment()
+                    }}>
+                    <Text style={styles.textStyle}>כן</Text>
+                  </Pressable>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => setModalDelete(false)}>
+                    <Text style={styles.textStyle}>לא</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </Modal>
+          </View>
+        )}
         {modalInfo && (
           <View>
             <Modal
@@ -233,7 +265,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowRadius: 5
   },
-  medical_button:{
+  medical_button: {
     alignItems: 'center',
     width: 160,
     margin: 15,
@@ -246,9 +278,9 @@ const styles = StyleSheet.create({
     marginLeft: 100,
     marginRight: 100
   },
-  textUnderCard:{
+  textUnderCard: {
     textAlign: 'center',
-    fontSize:18,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   button_text: {
@@ -273,7 +305,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'black',
 
-  }, 
+  },
 
 
   modalView: {

@@ -43,20 +43,7 @@ export default function Home({ navigation, route }) {
         </TouchableOpacity>
 
       </View>
-      <View style={styles.ButtonContainer}>
 
-        <TouchableOpacity onPress={() => navigation.navigate('BloodInfo', { route: User })}>
-          <View style={styles.button_normal}>
-            <Text style={styles.button_text} >מידע על תרומות הדם</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Friends', { route: User })}>
-          <View style={styles.button_normal}>
-            <Text style={styles.button_text} >החברים שלי</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
     </SafeAreaView >
   );
 }

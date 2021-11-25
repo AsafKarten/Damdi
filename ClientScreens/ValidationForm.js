@@ -259,7 +259,7 @@ export default function ValidationFrom({ navigation, route }) {
             visible={modalInfo}
             onRequestClose={() => { console.log('Modal has been closed.'); }}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>פרטיך נקלטו בהצלחה במערכת,לנוחיותך הנך יכול\ה להוסיף תזכורת לפני מועד ההתרמה, בלחיצה על הכפתור "התורים שלך"</Text>
+              <Text style={styles.modalText}>פרטיך נקלטו בהצלחה במערכת,לנוחיותך הנך יכול\ה להוסיף תזכורת לפני מועד ההתרמה, בלחיצה על הכפתור "התורים שלי"</Text>
               <View style={styles.modal_buttons}>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
@@ -276,7 +276,7 @@ export default function ValidationFrom({ navigation, route }) {
                     navigation.navigate('Appointments', { route: User })
                   }
                   }>
-                  <Text style={styles.textStyle}>התורים שלך</Text>
+                  <Text style={styles.textStyle}>התורים שלי</Text>
                 </Pressable>
               </View>
             </View>
