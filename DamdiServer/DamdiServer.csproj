@@ -268,6 +268,7 @@
     <Compile Include="DAL\MedicalInfoDAL.cs" />
     <Compile Include="DAL\StationsDAL.cs" />
     <Compile Include="DAL\UserDAL.cs" />
+    <Compile Include="DAL\ValidFormDAL.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -282,6 +283,7 @@
     <Compile Include="Models\Server.cs" />
     <Compile Include="Models\Stations.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\ValidForm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

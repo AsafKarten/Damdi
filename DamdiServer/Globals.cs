@@ -26,6 +26,7 @@ namespace DamdiServer
             AppointmentsDAL = new AppointmentsDAL(conStr);
             StationsDAL = new StationsDAL(conStr);
             MedicalInfoDAL = new MedicalInfoDAL(conStr);
+            ValidFormDAL = new ValidFormDAL(conStr);
         }
         #endregion
 
@@ -36,7 +37,7 @@ namespace DamdiServer
         public static StationsDAL StationsDAL { get; set; }
         public static AppointmentsDAL AppointmentsDAL { get; set; }
         public static MedicalInfoDAL MedicalInfoDAL { get; set; }
-
+        public static ValidFormDAL ValidFormDAL { get; set; }
 
         #endregion
 
