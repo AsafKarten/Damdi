@@ -6,6 +6,8 @@ const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function ValidationFrom({ navigation, route }) {
   const [shouldShow, setShouldShow] = useState(false);
+  const [modalInfo, setModalInfo] = useState(false);
+
   const [notForUse, onChangeNFU] = useState(false);
   const togglenotForUse = () => onChangeNFU(previousState => !previousState);
 
@@ -102,7 +104,7 @@ export default function ValidationFrom({ navigation, route }) {
       })
       let rsponse = await result.json()
       if (rsponse == 'form send successfully') {
-        await navigation.navigate('Home', { route: route.params.route })
+        setModalInfo(true)
       }
     }
     catch (error) {
@@ -212,7 +214,7 @@ export default function ValidationFrom({ navigation, route }) {
           </View>
         </TouchableOpacity>
       </ScrollView>
-      {shouldShow ? (
+      {shouldShow && (
         <Modal
           animationType="slide"
           transparent={true}
@@ -235,14 +237,37 @@ export default function ValidationFrom({ navigation, route }) {
               <TouchableHighlight
                 style={{ backgroundColor: '#4d5b70' }}
                 onPress={() => {
-                  setConfirm(!confirmModal);
+                  setShouldShow(!shouldShow);
                 }}>
                 <Text style={styles.text} >סגור</Text>
               </TouchableHighlight>
             </View>
           </View>
         </Modal>
-      ) : null}
+      )}
+      {modalInfo && (
+        <View>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalInfo}
+            onRequestClose={() => { console.log('Modal has been closed.'); }}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>אנא מלאו את הפרטים האישיים פעם אחת כדי שנוכל לתת לכם אפשרות לתרום דם !</Text>
+              <View style={styles.modal_buttons}>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => {
+                    navigation.navigate('Home', { route: User })
+                    setModalInfoVisible(!modalInfo)
+                  }}>
+                  <Text style={styles.textStyle}>סגור</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      )}
     </View>
   );
 }
@@ -283,4 +308,50 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold'
   },
+  //Modal
+  modalView: {
+    margin: 20,
+    backgroundColor: '#757c94',
+    borderRadius: 20,
+    padding: 25,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  modal_buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin: 10,
+  },
+  button: {
+    marginLeft: 50,
+    marginRight: 50,
+    borderRadius: 20,
+    padding: 15,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 20
+  },
+  modalText: {
+    color: "white",
+    fontSize: 22,
+    marginBottom: 10,
+    textAlign: "center"
+  }
 });
