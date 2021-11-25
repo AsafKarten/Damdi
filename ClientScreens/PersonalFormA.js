@@ -53,15 +53,13 @@ export default function PersonalFormA({ navigation, route }) {
       else if (route.params.modalStatus === 'update') {
         setModalUpdate(true)
         setTimeout(() => {
-          setModalUpdateVisible(true)
+          setModalUpdate(true)
         }, 500);
       }
       else {
         console.log("no modals shows");
         setModalInfo(false);
-        setModalInfoVisible(false);
         setModalUpdate(false);
-        setModalUpdateVisible(false);
       }
     }
   }
@@ -108,7 +106,6 @@ export default function PersonalFormA({ navigation, route }) {
     User.Prev_last_name = prevLastName;
     var UserA = { Personal_id: route.params.route.Personal_id, First_name: firstName, Last_name: lastName, Phone: phone, Gender: gender, Birthdate: birthdate, Prev_first_name: prevFirstName, Prev_last_name: prevLastName }
     console.log("PersonalFormA ", UserA);
-    setModalUpdateVisible(false)
     setLoading(false);
     navigation.navigate('PersonalFormB', { route: UserA })
   }

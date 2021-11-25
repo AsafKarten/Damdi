@@ -118,9 +118,9 @@ export default function MedicalForm({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView >
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView>
             <View style={styles.inner}>
               <View style={styles.Qcontainer}>
                 <View style={styles.HorizontalBox}>
@@ -413,22 +413,21 @@ export default function MedicalForm({ navigation, route }) {
               </TouchableOpacity>
               {loading && <Spiner loading={loading} />}
             </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-      </ScrollView>
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
-
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    //alignItems: 'center',
+    alignItems: 'center',
     justifyContent: 'center',
   },
   inner: {
-    padding: 55,
+    padding: 50,
     flex: 1,
+    justifyContent: "space-between",
   },
   questuonBox: {
 
@@ -436,34 +435,31 @@ const styles = StyleSheet.create({
   checkbox: {
     // alignSelf: "center",
     marginRight: 5,
+    alignItems: "center",
     //marginLeft:50,
   },
   Qcontainer: {
-
     borderBottomColor: 'grey',
     borderBottomWidth: 2,
-
   },
   HorizontalBox: {
     alignSelf: 'center',
-    width: 380,
+    width: 350,
     flexDirection: 'row-reverse',
-    padding: 35,
+    padding: 45,
     marginTop: 22,
     justifyContent: 'space-between',
-
   },
   textBox: {
-    fontSize: 20,
+    fontSize: 18,
   },
   HorizontalBoxButtons: {
     flexDirection: 'row',
-
   },
   input: {
     width: 300,
     height: 40,
-    margin: 12,
+    margin: 8,
     borderWidth: 1,
     borderRadius: 8,
     textAlign: 'center',
@@ -484,6 +480,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
     fontWeight: 'bold'
-  },
-
+  }
 });

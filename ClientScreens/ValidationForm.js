@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Spiner from '../Componentes/Spiner';
-import { View, ScrollView, StyleSheet, Text, TouchableOpacity, Alert, Switch, Modal, TouchableHighlight, Platform, } from 'react-native';
-
+import { View, ScrollView, StyleSheet, Text, TouchableOpacity, Alert, Switch, Modal, TouchableHighlight, Platform, Pressable } from 'react-native';
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
@@ -27,7 +26,7 @@ export default function ValidationFrom({ navigation, route }) {
   const toggle5 = () => onChangeNFU5(previousState => !previousState);
   const toggle6 = () => onChangeNFU6(previousState => !previousState);
   const [User, onChangeUser] = useState()
-  const [formNote, onChangeNote] = useState("")
+  const [formNote, onChangeNote] = useState()
 
 
   useEffect(() => {
@@ -77,13 +76,10 @@ export default function ValidationFrom({ navigation, route }) {
     if (note == "") {
       note = "לא קיימים סעיפים חריגים"
     }
-    onChangeNote(note)
-    console.log("note:" + note);
-    console.log("Note:" + formNote);
-    sendValidationForm();
+    sendValidationForm(note);
   }
 
-  const sendValidationForm = async () => {
+  const sendValidationForm = async (notes) => {
     try {
       let today = new Date();
       let result = await fetch(url + "api/add/valid_form", {
@@ -101,13 +97,19 @@ export default function ValidationFrom({ navigation, route }) {
           Valid4: notForUse4,
           Valid5: notForUse5,
           Valid6: notForUse6,
-          Note: formNote
+          Note: notes
         })
       })
       let rsponse = await result.json()
       if (rsponse == 'form send successfully') {
+        console.log(rsponse);
         setModalInfo(true)
         setLoading(false)
+        notes = ""
+      }
+      else {
+        Alert.alert("בעיה בשליחת הפרטים לשרת, נסה/י מאוחר יותר")
+        setLoading(false);
       }
     }
     catch (error) {
@@ -257,15 +259,24 @@ export default function ValidationFrom({ navigation, route }) {
             visible={modalInfo}
             onRequestClose={() => { console.log('Modal has been closed.'); }}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>אנא מלאו את הפרטים האישיים פעם אחת כדי שנוכל לתת לכם אפשרות לתרום דם !</Text>
+              <Text style={styles.modalText}>פרטיך נקלטו בהצלחה במערכת,לנוחיותך הנך יכול\ה להוסיף תזכורת לפני מועד ההתרמה, בלחיצה על הכפתור "התורים שלך"</Text>
               <View style={styles.modal_buttons}>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => {
+                    setModalInfo(!modalInfo)
                     navigation.navigate('Home', { route: User })
-                    setModalInfoVisible(!modalInfo)
-                  }}>
+                  }
+                  }>
                   <Text style={styles.textStyle}>סגור</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => {
+                    navigation.navigate('Appointments', { route: User })
+                  }
+                  }>
+                  <Text style={styles.textStyle}>התורים שלך</Text>
                 </Pressable>
               </View>
             </View>
