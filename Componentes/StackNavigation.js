@@ -15,8 +15,6 @@ import Home from '../ClientScreens/Home.js';
 import Stations from '../ClientScreens/Stations.js';
 import Profile from '../ClientScreens/Profile.js';
 import Appointments from '../ClientScreens/Appointments.js';
-import Friends from '../ClientScreens/Friends.js';
-import BloodInfo from '../ClientScreens/BloodInfo.js';
 import ScheduleAppointment from '../ClientScreens/ScheduleAppointment.js';
 import MedicalForm from '../ClientScreens/MedicalForm.js';
 import ValidationForm from '../ClientScreens/ValidationForm.js';
@@ -172,30 +170,6 @@ export default function StackNavigation() {
             },
             headerTintColor: '#fff'
             // headerRight: () => <Feather onPress={() => backPage('Appointments')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
-            // headerLeft: () => {
-            //   return null;
-            // },
-          }} />
-        < Stack.Screen name="Friends" component={Friends}
-          options={{
-            title: 'החברים שלי',
-            headerStyle: {
-              backgroundColor: '#7d91b0',
-            },
-            headerTintColor: '#fff'
-            // headerRight: () => <Feather onPress={() => backPage('Friends')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
-            // headerLeft: () => {
-            //   return null;
-            // },
-          }} />
-        < Stack.Screen name="BloodInfo" component={BloodInfo}
-          options={{
-            title: 'פרטי הדם שלי',
-            headerStyle: {
-              backgroundColor: '#7d91b0',
-            },
-            headerTintColor: '#fff'
-            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
             // headerLeft: () => {
             //   return null;
             // },

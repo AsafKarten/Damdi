@@ -8,10 +8,12 @@ export default function Stations({ navigation, route }) {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('datetime');
   const [show, setShow] = useState(false);
+  const [showCityList, setShowList] = useState(true);
 
   const [User, onChangeUser] = useState(route.params.route)
   const [AppointDate, onChangeDate] = useState()
-  const [city, onChangeCity] = useState()
+  const [city, setCity] = useState();
+  const [cities, setCities] = useState([]);
   const [Stations, setStations] = useState()
 
 
@@ -38,6 +40,23 @@ export default function Stations({ navigation, route }) {
     showDatepicker()
     GetStationList()
   }
+
+  const serachCity = async (q) => {
+    let url = `https://data.gov.il/api/3/action/datastore_search?resource_id=351d4347-8ee0-4906-8e5b-9533aef13595&q=${q}`
+    let res = await fetch(url);
+    let data = await res.json();
+    console.log(data.result.records);
+    setCities(data.result.records)
+  }
+
+  const onFocusCity = () => {
+    setShowList(true);
+    setCities([])
+  }
+
+  useEffect(() => {
+    serachCity(city)
+  }, [city])
 
 
   const ScheduleAppointment = (item) => {
@@ -102,12 +121,27 @@ export default function Stations({ navigation, route }) {
             </View>
           </View>
           <View style={styles.HorizontalBox}>
-            <Text style={styles.lableText}>עיר/ישוב</Text>
+            <Text style={styles.lableText}>עיר</Text>
             <TextInput
+              onFocus={onFocusCity}
               style={styles.input}
-              onChangeText={onChangeCity}
+              onChangeText={setCity}
               value={city}
-              placeholder="עיר/ישוב" />
+              placeholder="עיר"
+              maxLength={20}
+            />
+          </View>
+          <View style={styles.container_city_list}>
+            {cities.length > 0 ? cities.map(item =>
+              <TouchableOpacity onPress={() => {
+                setCity(item["שם יישוב"])
+                setShowList(false)
+              }} >
+                {showCityList && <View style={styles.button_city_list}>
+                  <Text style={styles.text_city_list}>{item["שם יישוב"]}</Text>
+                </View>}
+              </TouchableOpacity>)
+              : null}
           </View>
           <TouchableOpacity onPress={() => searchStation()}>
             <View style={styles.button_normal}>
@@ -187,6 +221,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 160,
     margin: 15,
+    marginLeft: 50,
     borderRadius: 8,
     padding: 10,
     backgroundColor: "#757c94",
@@ -210,4 +245,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfff9",
     color: "black",
   },
+  container_city_list: {
+    marginRight: 100,
+  },
+  button_city_list: {
+    borderWidth: 2
+  },
+  text_city_list: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    alignItems: 'center',
+  }
 });

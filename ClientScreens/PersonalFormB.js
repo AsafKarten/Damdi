@@ -7,6 +7,7 @@ import Spiner from '../Componentes/Spiner';
 
 export default function PersonalFormB({ navigation, route }) {
   const [loading, setLoading] = useState(false);
+  const [showCityList, setShowList] = useState(true);
   const [User, setUser] = useState(route.params.route)
 
   const [city, setCity] = useState();
@@ -55,6 +56,11 @@ export default function PersonalFormB({ navigation, route }) {
     setCities(data.result.records)
   }
 
+  const onFocus = () => {
+    setShowList(true);
+    setCities([])
+  }
+
   useEffect(() => {
     serachCity(city)
   }, [city])
@@ -67,21 +73,25 @@ export default function PersonalFormB({ navigation, route }) {
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>עיר</Text>
               <TextInput
+                onFocus={onFocus}
                 style={styles.input}
                 onChangeText={setCity}
                 value={city}
                 placeholder="עיר"
                 maxLength={20}
               />
-              <View>
-                {cities.length > 0 ? cities.map(item =>
-                  <TouchableOpacity onPress={() => setCity(item["שם יישוב"])} >
-                    <View style={styles.button_normal}>
-                      <Text style={styles.button_text}>{item["שם יישוב"]}</Text>
-                    </View>
-                  </TouchableOpacity>)
-                  : null}
-              </View>
+            </View>
+            <View style={styles.container_city_list}>
+              {cities.length > 0 ? cities.map(item =>
+                <TouchableOpacity onPress={() => {
+                  setCity(item["שם יישוב"])
+                  setShowList(false)
+                }} >
+                  {showCityList && <View style={styles.button_city_list}>
+                    <Text style={styles.text_city_list}>{item["שם יישוב"]}</Text>
+                  </View>}
+                </TouchableOpacity>)
+                : null}
             </View>
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>רחוב</Text>
@@ -208,4 +218,15 @@ const styles = StyleSheet.create({
     marginTop: 17,
     fontWeight: 'bold'
   },
+  container_city_list: {
+    marginRight: 125,
+  },
+  button_city_list: {
+    borderWidth: 2
+  },
+  text_city_list: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    alignItems: 'center',
+  }
 });

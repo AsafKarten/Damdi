@@ -126,6 +126,7 @@ export default function PersonalFormA({ navigation, route }) {
   const showMode = (currentMode) => {
     setShow(true);
     setMode(currentMode);
+    setShow(false);
   };
 
   const showDatepicker = () => {
