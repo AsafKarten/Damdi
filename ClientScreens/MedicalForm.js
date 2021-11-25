@@ -51,7 +51,7 @@ export default function MedicalForm({ navigation, route }) {
   const [Q3_21, onChangeQ3_21] = useState(false)
   const togglenonChangeQ3_21 = () => onChangeQ3_21(previousState => !previousState);
 
-  const [notes, onChangeNotes] = useState([])
+  const [notes, onChangeNotes] = useState("")
   const [textInput, onChangeTextInput] = useState()
 
   const AddToNotes = (str) => {
@@ -68,6 +68,7 @@ export default function MedicalForm({ navigation, route }) {
   }
   const inserMedicalInfoDonation = async () => {
     try {
+      let today = new Date()
       let result = await fetch(url + "api/post/info/medical", {
         method: 'POST',
         headers: {
@@ -76,7 +77,7 @@ export default function MedicalForm({ navigation, route }) {
         },
         body: JSON.stringify({
           Personal_id: route.params.route.Personal_id,
-          Answer_date: Date.now(),
+          Answer_date: today,
           Q3_1: Q3_1,
           Q3_2: Q3_2,
           Q3_3: Q3_3,
@@ -102,13 +103,11 @@ export default function MedicalForm({ navigation, route }) {
       })
       let response = await result.json()
       console.log(response);
-      if (condition) {
-        
-      }
       await navigation.navigate('ValidationForm', { route: User })
 
     } catch (error) {
       console.log('error with the send data to server ')
+      console.log(error);
     }
   }
 

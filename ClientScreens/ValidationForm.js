@@ -6,8 +6,22 @@ export default function ValidationFrom({ navigation, route }) {
   const [confirmModal, setConfirm] = useState(false);
   const [notForUse, onChangeNFU] = useState(false);
   const togglenotForUse = () => onChangeNFU(previousState => !previousState);
-
+  
+  const [notForUse1, onChangeNFU1] = useState(false);
+  const [notForUse2, onChangeNFU2] = useState(false);
+  const [notForUse3, onChangeNFU3] = useState(false);
+  const [notForUse4, onChangeNFU4] = useState(false);
+  const [notForUse5, onChangeNFU5] = useState(false);
+  const [notForUse6, onChangeNFU6] = useState(false);
+  const toggle1 = () => onChangeNFU1(previousState => !previousState);
+  const toggle2 = () => onChangeNFU2(previousState => !previousState);
+  const toggle3 = () => onChangeNFU3(previousState => !previousState);
+  const toggle4 = () => onChangeNFU4(previousState => !previousState);
+  const toggle5 = () => onChangeNFU5(previousState => !previousState);
+  const toggle6 = () => onChangeNFU6(previousState => !previousState);
   const [User, onChangeUser] = useState(route.params.route)
+  const [formNote, onChangeNote] = useState("")
+
 
   useEffect(() => {
     (async () => {
@@ -18,6 +32,57 @@ export default function ValidationFrom({ navigation, route }) {
     })()
   }, [])
 
+  const SendValidationForm = async ()=>{
+    try{
+      let note = ""
+      if(notForUse1==true){
+        onChangeNFU(true)
+        note = "קיבלת טיפול בהורמון גדילה ממקור אנושי או עברת השתלת קרומי מח או קרנית, ממקור אנושי"
+      }
+      if(notForUse2==true){
+        onChangeNFU(true)
+        note += " , " + "במשפחתי הקרובה יש מחלת עצבים בשם: 'קרויצפלד-יעקב' או נאמר לי שבמשפחתי קיים סיכון למחלה זו"
+      } 
+      if(notForUse3==true){
+        onChangeNFU(true)
+        note += " , " + "שהיתי בבריטניה בפרק זמן מצטבר של 6 חודשים בין השנים 1980 – 1996 או קיבלת עירוי דם"
+      }
+      if(notForUse4==true){
+        onChangeNFU(true)
+        note += " , " + ":חיובי/ת לאחד או יותר מן הסעיפים"
+        note += ", קבלת תשלום עבור יחסי מין"
+        note += ", את/ה או בן/בת זוגך נבדקתם ונמצאתם חיובים לנוכחות נגיף האיידס (HIV)"
+        note += ", את/ה חולה המופיליה"
+        note += ", הזרקת תרופות ללא מרשם רופא (כולל סטרואידים אנבולים) "
+        note += "'שימוש בסמים בהזרקה או ב'הסנפה"
+        note += "את/ה נשא/ית של דלקת כבד (הפטיטיס-'צהבת') מסוג B או C"
+      }
+      if(notForUse5==true){
+        onChangeNFU(true)
+        note += " , " + "שהייה מעל שנה בארץ בה שכיחות האיידס גבוהה וטרם עברו 12 חודשים מאז עזיבת האזור האנדמי או קיום יחסי מין בין גברים ב 12 החודשים האחרונים"
+     
+      }
+      if(notForUse6==true){
+        onChangeNFU(true)
+        note += " , " + "קיימות סיבות אישיות או אחרות, שבגללן לא ניתן להשתמש במנת הדם שתתרום לעירוי לחולה"
+      }
+
+      if ( note == ""){
+        note = "לא קיימים סעיפים חריגים"
+      }
+
+      await onChangeNote(note)
+      console.log("note:" + note);
+      console.log("Note:" + formNote);
+      await navigation.navigate('Home', { route: route.params.route })
+    
+
+    }
+    catch (error) {
+
+    }
+  }
+
   return (
     <View>
       <ScrollView>
@@ -27,8 +92,8 @@ export default function ValidationFrom({ navigation, route }) {
           </View>
           <View style={styles.checkboxContainer}>
             <Switch
-              onValueChange={togglenotForUse}
-              value={notForUse}
+              onValueChange={toggle1}
+              value={notForUse1}
             />
           </View>
         </View>
@@ -39,8 +104,8 @@ export default function ValidationFrom({ navigation, route }) {
           </View>
           <View style={styles.checkboxContainer}>
             <Switch
-              onValueChange={togglenotForUse}
-              value={notForUse}
+              onValueChange={toggle2}
+              value={notForUse2}
             />
           </View>
         </View>
@@ -51,8 +116,8 @@ export default function ValidationFrom({ navigation, route }) {
           </View>
           <View style={styles.checkboxContainer}>
             <Switch
-              onValueChange={togglenotForUse}
-              value={notForUse}
+              onValueChange={toggle3}
+              value={notForUse3}
             />
           </View>
         </View>
@@ -76,8 +141,8 @@ export default function ValidationFrom({ navigation, route }) {
           </View>
           <View style={styles.checkboxContainer}>
             <Switch
-              onValueChange={togglenotForUse}
-              value={notForUse}
+              onValueChange={toggle4}
+              value={notForUse4}
             />
           </View>
         </View>
@@ -94,8 +159,8 @@ export default function ValidationFrom({ navigation, route }) {
           </View>
           <View style={styles.checkboxContainer}>
             <Switch
-              onValueChange={togglenotForUse}
-              value={notForUse}
+              onValueChange={toggle5}
+              value={notForUse5}
             />
           </View>
         </View>
@@ -107,13 +172,13 @@ export default function ValidationFrom({ navigation, route }) {
           <View style={styles.checkboxContainer}>
             <Text>לא לעירוי!</Text>
             <Switch
-              onValueChange={togglenotForUse}
-              value={notForUse}
+              onValueChange={toggle6}
+              value={notForUse6}
             />
           </View>
         </View>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Home', { route: User })}>
+        <TouchableOpacity onPress={() => SendValidationForm()}>
           <View style={styles.button_normal}>
             <Text style={styles.button_text} >סיום</Text>
           </View>
