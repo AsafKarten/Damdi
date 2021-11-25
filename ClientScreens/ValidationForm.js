@@ -6,7 +6,6 @@ const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function ValidationFrom({ navigation, route }) {
   const [shouldShow, setShouldShow] = useState(false);
-  const [confirmModal, setConfirm] = useState(false);
   const [notForUse, onChangeNFU] = useState(false);
   const togglenotForUse = () => onChangeNFU(previousState => !previousState);
 
@@ -16,23 +15,23 @@ export default function ValidationFrom({ navigation, route }) {
   const [notForUse4, onChangeNFU4] = useState(false);
   const [notForUse5, onChangeNFU5] = useState(false);
   const [notForUse6, onChangeNFU6] = useState(false);
+
   const toggle1 = () => onChangeNFU1(previousState => !previousState);
   const toggle2 = () => onChangeNFU2(previousState => !previousState);
   const toggle3 = () => onChangeNFU3(previousState => !previousState);
   const toggle4 = () => onChangeNFU4(previousState => !previousState);
   const toggle5 = () => onChangeNFU5(previousState => !previousState);
   const toggle6 = () => onChangeNFU6(previousState => !previousState);
-  const [User, onChangeUser] = useState(route.params.route)
+  const [User, onChangeUser] = useState()
   const [formNote, onChangeNote] = useState("")
 
 
   useEffect(() => {
-    (async () => {
-      if (Platform.OS !== 'web') {
-        setShouldShow(true)
-        setConfirm(true)
-      }
-    })()
+    if (Platform.OS !== 'web') {
+      onChangeUser(route.params.route)
+      setShouldShow(false);
+      setLoading(false);
+    }
   }, [])
 
   const validationForm = () => {
@@ -65,7 +64,6 @@ export default function ValidationFrom({ navigation, route }) {
     if (notForUse5 == true) {
       onChangeNFU(true)
       note += " , " + "שהייה מעל שנה בארץ בה שכיחות האיידס גבוהה וטרם עברו 12 חודשים מאז עזיבת האזור האנדמי או קיום יחסי מין בין גברים ב 12 החודשים האחרונים"
-
     }
     if (notForUse6 == true) {
       onChangeNFU(true)
@@ -75,7 +73,6 @@ export default function ValidationFrom({ navigation, route }) {
     if (note == "") {
       note = "לא קיימים סעיפים חריגים"
     }
-
     onChangeNote(note)
     console.log("note:" + note);
     console.log("Note:" + formNote);
@@ -92,7 +89,7 @@ export default function ValidationFrom({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id: route.params.route.Personal_id,
+          Personal_id: User.Personal_id,
           DateForm: today,
           Valid1: notForUse1,
           Valid2: notForUse2,
@@ -219,7 +216,7 @@ export default function ValidationFrom({ navigation, route }) {
         <Modal
           animationType="slide"
           transparent={true}
-          visible={confirmModal}
+          visible={shouldShow}
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
           }}>
