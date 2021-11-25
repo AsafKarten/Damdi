@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Spiner from '../Componentes/Spiner';
 import { View, ScrollView, StyleSheet, Text, TouchableOpacity, Alert, Switch, Modal, TouchableHighlight, Platform, } from 'react-native';
 
 
@@ -7,6 +8,7 @@ const url = "http://proj13.ruppin-tech.co.il/"
 export default function ValidationFrom({ navigation, route }) {
   const [shouldShow, setShouldShow] = useState(false);
   const [modalInfo, setModalInfo] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [notForUse, onChangeNFU] = useState(false);
   const togglenotForUse = () => onChangeNFU(previousState => !previousState);
@@ -105,6 +107,7 @@ export default function ValidationFrom({ navigation, route }) {
       let rsponse = await result.json()
       if (rsponse == 'form send successfully') {
         setModalInfo(true)
+        setLoading(false)
       }
     }
     catch (error) {
@@ -214,6 +217,7 @@ export default function ValidationFrom({ navigation, route }) {
           </View>
         </TouchableOpacity>
       </ScrollView>
+      {loading && <Spiner loading={loading} />}
       {shouldShow && (
         <Modal
           animationType="slide"

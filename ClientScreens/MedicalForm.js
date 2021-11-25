@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Spiner from '../Componentes/Spiner';
 
 import { View, ScrollView, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Switch, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 
@@ -7,6 +8,7 @@ const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function MedicalForm({ navigation, route }) {
   const [User, onChangeUser] = useState(route.params.route);
+  const [loading, setLoading] = useState(false);
 
   const [Q3_1, onChangeQ3_1] = useState(false)
   const togglenonChangeQ3_1 = () => onChangeQ3_1(previousState => !previousState);
@@ -60,7 +62,7 @@ export default function MedicalForm({ navigation, route }) {
     }
     else {
       str = str + ":" + textInput
-      notes.push(str)
+      notes.concat(str)
       onChangeTextInput("")
     }
 
@@ -68,6 +70,9 @@ export default function MedicalForm({ navigation, route }) {
   }
   const inserMedicalInfoDonation = async () => {
     try {
+      if (Platform.OS !== 'web') {
+        setLoading(true);
+      }
       let today = new Date()
       let result = await fetch(url + "api/post/info/medical", {
         method: 'POST',
@@ -103,8 +108,8 @@ export default function MedicalForm({ navigation, route }) {
       })
       let response = await result.json()
       console.log(response);
+      setLoading(false);
       await navigation.navigate('ValidationForm', { route: User })
-
     } catch (error) {
       console.log('error with the send data to server ')
       console.log(error);
@@ -117,7 +122,6 @@ export default function MedicalForm({ navigation, route }) {
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.inner}>
-
               <View style={styles.Qcontainer}>
                 <View style={styles.HorizontalBox}>
                   <Text style={styles.textBox}>אני בריא/ה וחש בטוב היום</Text>
@@ -134,9 +138,9 @@ export default function MedicalForm({ navigation, route }) {
                     onValueChange={togglenonChangeQ3_2}
                     value={Q3_2}
                   />
-                </View></View>
+                </View>
+              </View>
               <View style={styles.Qcontainer}>
-
                 <View style={styles.HorizontalBox}>
                   <Text style={styles.textBox}>נטלתי תרופות בחודש האחרון (כולל משככי כאבים, אספירין, ברזל וויטמינים).פרט/י</Text>
                   <Switch
@@ -407,6 +411,7 @@ export default function MedicalForm({ navigation, route }) {
                   <Text style={styles.button_text} >סיום</Text>
                 </View>
               </TouchableOpacity>
+              {loading && <Spiner loading={loading} />}
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -417,9 +422,9 @@ export default function MedicalForm({ navigation, route }) {
 }
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     //alignItems: 'center',
-    // justifyContent: 'center',
+    justifyContent: 'center',
   },
   inner: {
     padding: 55,
@@ -456,15 +461,15 @@ const styles = StyleSheet.create({
 
   },
   input: {
-    width: 350,
+    width: 300,
     height: 40,
     margin: 12,
     borderWidth: 1,
     borderRadius: 8,
     textAlign: 'center',
+    alignItems: 'center',
   },
   button_normal: {
-
     alignItems: 'center',
     width: 160,
     margin: 15,

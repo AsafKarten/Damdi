@@ -17,10 +17,7 @@ export default function PersonalFormA({ navigation, route }) {
   const [loading, setLoading] = useState(false);
 
   const [modalInfo, setModalInfo] = useState(false);
-  const [modalInfoVisible, setModalInfoVisible] = useState(false);
-
   const [modalUpdate, setModalUpdate] = useState(false);
-  const [modalUpdateVisible, setModalUpdateVisible] = useState(false);
 
   const [User, setUser] = useState()
   const [firstName, setFirstName] = useState(route.params.route.First_name);
@@ -233,8 +230,8 @@ export default function PersonalFormA({ navigation, route }) {
                   <Text style={styles.button_text} >הבא</Text>
                 </View>
               </TouchableOpacity>
+              {loading && <Spiner loading={loading} />}
             </View>
-            {loading && <Spiner loading={loading} />}
             {show && (
               <DateTimePicker
                 testID="dateTimePicker"
@@ -249,7 +246,7 @@ export default function PersonalFormA({ navigation, route }) {
                 <Modal
                   animationType="slide"
                   transparent={true}
-                  visible={modalUpdateVisible}
+                  visible={modalUpdate}
                   onRequestClose={() => {
                     console.log('Modal has been closed.');
                   }}>
@@ -258,7 +255,7 @@ export default function PersonalFormA({ navigation, route }) {
                     <View style={styles.modal_buttons}>
                       <Pressable
                         style={[styles.button, styles.buttonClose]}
-                        onPress={() => { setModalUpdateVisible(!modalUpdateVisible) }}>
+                        onPress={() => { setModalUpdate(!modalUpdate) }}>
                         <Text style={styles.textStyle}>כן</Text>
                       </Pressable>
                       <Pressable
@@ -279,14 +276,14 @@ export default function PersonalFormA({ navigation, route }) {
                 <Modal
                   animationType="slide"
                   transparent={true}
-                  visible={modalInfoVisible}
+                  visible={modalInfo}
                   onRequestClose={() => { console.log('Modal has been closed.'); }}>
                   <View style={styles.modalView}>
                     <Text style={styles.modalText}>אנא מלאו את הפרטים האישיים פעם אחת כדי שנוכל לתת לכם אפשרות לתרום דם !</Text>
                     <View style={styles.modal_buttons}>
                       <Pressable
                         style={[styles.button, styles.buttonClose]}
-                        onPress={() => setModalInfoVisible(!modalInfoVisible)}>
+                        onPress={() => setModalInfo(!modalInfo)}>
                         <Text style={styles.textStyle}>סגור</Text>
                       </Pressable>
                     </View>
