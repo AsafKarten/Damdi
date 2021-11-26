@@ -9,6 +9,7 @@
       "image": "./assets/LOGO_ONLY_PNG.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
+      
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -22,7 +23,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF",
+        "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
