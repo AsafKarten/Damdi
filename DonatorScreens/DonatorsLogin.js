@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View,ImageBackground, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
+import { Image, View, ImageBackground, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
 import Spiner from '../Componentes/Spiner';
 import BG_ONLY from '../assets/BG_ONLY.jpg';
+import BG_LOGO_ONLY from '../assets/LOGO_ONLY_PNG.png';
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
@@ -14,11 +15,11 @@ bcrypt.setRandomFallback((len) => {
 
 export default function DonatorsLogin({ navigation }) {
   const [loading, setLoading] = useState(false);
-  const [PersonalId, onChangeId] = useState();
-  const [Pass, onChangePass] = useState();
+  const [personalId, onChangeId] = useState();
+  const [pass, onChangePass] = useState();
 
 
-  const getAutenticateDonator = async (id) => {
+  const getAutenticateDonator = async () => {
     try {
       if (Platform.OS !== 'web') {
         setLoading(true);
@@ -30,7 +31,7 @@ export default function DonatorsLogin({ navigation }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id_worker: id,
+          Personal_id_worker: personalId,
         })
       });
       let donator = await result.json();
@@ -39,44 +40,60 @@ export default function DonatorsLogin({ navigation }) {
         return donator
       }
     } catch (error) {
-      console.error('donator not authenticated');
+      console.error(error, 'בעיה בשליפת פרטים של המשתמש בעת התחברות');
+    }
+  }
+
+  const validationInput = (loadedUser) => {
+    if (Platform.OS !== 'web') {
+      setLoading(true);
+    }
+    if (personalId === "" || pass === "") {
+      Alert.alert("שגיאת התחברות", "אנא מלא/י את כל פרטים !")
+      console.log('====================================');
+      console.log("Error, Empty fields");
+      console.log('====================================');
+      return
+    }
+    if (personalId !== loadedUser.Personal_id_worker) {
+      setLoading(false);
+      console.log("error with email or id");
+      return;
+    }
+    var correct = bcrypt.compareSync(pass, loadedUser.Salted_hash)
+    if (!correct) {
+      setLoading(false);
+      console.log("error with password");
+      return;
+    }
+    else {
+      return "correct"
     }
   }
 
 
+
   const donatorLogin = async () => {
     try {
-      if (PersonalId === "" || Pass === "") {
-        Alert.alert("שגיאת התחברות", "אנא מלא/י את כל פרטים !")
-        console.log('====================================');
-        console.log("Error, Empty fields");
-        console.log('====================================');
-        return
-      }
-      const donator = await getAutenticateDonator(PersonalId);
+      let donator = await getAutenticateDonator();
       if (donator !== undefined || donator !== null) {
-        if (PersonalId !== donator.Personal_id_worker) {
+        let result = validationInput(donator);
+        if (result === 'correct') {
           setLoading(false);
-          Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
-          console.log("error with id");
-          return;
+          navigation.navigate('DHome', { route: donator })
         }
-        const correct = bcrypt.compareSync(Pass, donator.Salted_hash)
-        if (!correct) {
-          setLoading(false);
+        else {
           Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
-          console.log("error with password");
-          return;
+          return
         }
-        navigation.navigate('DHome', { route: donator })
       }
       else {
         setLoading(false);
-        Alert.alert("בעיית התחברות, בדוק את פרטיך")
+        Alert.alert("בעיית התחברות, הירשם או בדוק את פרטיך")
         return
       }
     } catch (error) {
-      console.log(error);
+      console.log(error, "בעיה בשליפת הפרטים");
     }
   }
 
@@ -87,24 +104,29 @@ export default function DonatorsLogin({ navigation }) {
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.inner}>
-              <TextInput
-                style={styles.input}
-                onChangeText={onChangeId}
-                value={PersonalId}
-                placeholder="תעודת זהות"
-              />
-              <TextInput
-                style={styles.input}
-                onChangeText={onChangePass}
-                value={Pass}
-                secureTextEntry={true}
-                placeholder="סיסמה"
-              />
-              <TouchableOpacity onPress={() => donatorLogin(PersonalId, Pass)}>
-                <View style={styles.button_normal}>
-                  <Text style={styles.button_text}>התחברות</Text>
-                </View>
-              </TouchableOpacity>
+              <View style={styles.container}>
+                <Image source={BG_LOGO_ONLY} style={styles.header_img} />
+                <Text style={styles.title_text}>כניסת מתרימים</Text>
+
+                <TextInput
+                  style={styles.input}
+                  onChangeText={onChangeId}
+                  value={personalId}
+                  placeholder="תעודת זהות"
+                />
+                <TextInput
+                  style={styles.input}
+                  onChangeText={onChangePass}
+                  value={pass}
+                  secureTextEntry={true}
+                  placeholder="סיסמה"
+                />
+                <TouchableOpacity onPress={() => donatorLogin(personalId, pass)}>
+                  <View style={styles.button_normal}>
+                    <Text style={styles.button_text}>התחבר/י</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
               <Spiner loading={loading} />
             </View>
           </TouchableWithoutFeedback>
@@ -129,17 +151,23 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     justifyContent: 'center',
   },
+  title_text:{
+      fontWeight: 'bold',
+      fontSize: 34
+  },
   input: {
     height: 40,
-    width: 160,
-    margin: 12,
-    borderWidth: 1,
+    width: 220,
+    margin: 14,
+    borderWidth: 2,
     borderRadius: 8,
     textAlign: 'center',
+    fontWeight: 'bold',
   },
   button_normal: {
     alignItems: 'center',
     width: 160,
+    height: 50,
     margin: 15,
     borderRadius: 8,
     padding: 10,
@@ -149,8 +177,15 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    fontSize: 18,
+    fontSize: 20,
     color: 'white',
     fontWeight: 'bold'
   },
+  header_img: {
+    marginBottom: 20,
+    width: 310,
+    height: 100,
+    alignSelf: 'center',
+    resizeMode: 'stretch'
+  }
 });

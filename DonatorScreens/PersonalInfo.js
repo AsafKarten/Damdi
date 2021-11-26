@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Modal, TouchableHighlight, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image, FlatList } from 'react-native';
+import { View, Modal, TouchableHighlight, Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Image, FlatList } from 'react-native';
 
 
 export default function PersonalInfo({ navigation, route }) {
-
   const [Donator, setDonator] = useState(route.params.route.Donator);
   const [donor, setDonor] = useState(route.params.route.Donor);
 
@@ -15,7 +14,7 @@ export default function PersonalInfo({ navigation, route }) {
         <Text>{donor.Personal_id}</Text>
         <Text>{donor.Gender}</Text>
         <Text>{donor.Birth_land}</Text>
-        <Text>{donor.Father_birth_landGender}</Text>
+        <Text>{donor.Father_birth_land}</Text>
         <Text>{donor.Mother_birth_land}</Text>
 
       </View>

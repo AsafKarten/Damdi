@@ -6,21 +6,12 @@ const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function UnitThree({ navigation, route }) {
   const [Donator, onChangeDonator] = useState(route.params.route)
-  const [shouldShow, setShouldShow] = useState(false);
   const [roleModal, setRoleModal] = useState(false);
 
-  useEffect(() => {
-    (async () => {
 
-      if (Platform.OS !== 'web') {
-        setShouldShow(true)
-      }
-    })()
-  }, [])
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image source={BG} style={styles.header_img}></Image>
 
       <TouchableOpacity onPress={() => setRoleModal(true)}>
         <View style={styles.button_normal}>
@@ -35,7 +26,7 @@ export default function UnitThree({ navigation, route }) {
         </View>
       </TouchableOpacity>
 
-      {shouldShow ? (
+      {roleModal ? (
         <Modal
           animationType="slide"
           transparent={true}
@@ -49,17 +40,17 @@ export default function UnitThree({ navigation, route }) {
                 <View >
                   <Text >{Donator.First_name + " " + Donator.Last_name}</Text>
                   <Text>בחר עמדה</Text>
-                  <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
+                  <TouchableOpacity onPress={() => navigation.navigate('UnitOne', { route: Donator })}>
                     <View style={styles.button_normal}>
                       <Text style={styles.button_text} >עמדה 1</Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
+                  <TouchableOpacity onPress={() => navigation.navigate('UnitTwo', { route: Donator })}>
                     <View style={styles.button_normal}>
                       <Text style={styles.button_text} >עמדה 2</Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
+                  <TouchableOpacity onPress={() => navigation.navigate('UnitThree', { route: Donator })}>
                     <View style={styles.button_normal}>
                       <Text style={styles.button_text} >עמדה 3</Text>
                     </View>

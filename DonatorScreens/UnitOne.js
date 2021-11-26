@@ -51,7 +51,6 @@ export default function UnitOne({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image source={BG} style={styles.header_img} />
 
       <TextInput
         style={styles.input}
