@@ -7,8 +7,7 @@ export default function MainScreen({ navigation }) {
 
   useEffect(() => {
     const backAction = () => {
-      Alert.alert("בטוח שאת\ה רוצה לצאת מהאפליקציה?!"
-      [
+      Alert.alert("רגע רגע", "בטוח שאת/ה רוצה לצאת מהאפליקציה?!", [
         {
           text: "ביטול",
           onPress: () => null,
@@ -69,7 +68,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    fontSize: 14,
+    fontSize: 15,
     color: 'white',
     fontWeight: 'bold'
   },

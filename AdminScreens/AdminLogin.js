@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
+import { View, SafeAreaView, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
 import Spiner from '../Componentes/Spiner';
+import BG_ONLY from '../assets/BG_ONLY.jpg';
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
@@ -81,39 +82,46 @@ export default function AdminLogin({ navigation }) {
 
 
   return (
-    <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.inner}>
-            <TextInput
-              style={styles.input}
-              onChangeText={onChangeId}
-              value={PersonalId}
-              placeholder="תעודת זהות"
-            />
-            <TextInput
-              style={styles.input}
-              onChangeText={onChangePass}
-              value={Pass}
-              secureTextEntry={true}
-              placeholder="סיסמה"
-            />
-            <TouchableOpacity onPress={() => adminLogin(PersonalId, Pass)}>
-              <View style={styles.button_normal}>
-                <Text style={styles.button_text}>התחברות</Text>
-              </View>
-            </TouchableOpacity>
-            <Spiner loading={loading} />
-          </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+    <ImageBackground source={BG_ONLY} style={styles.BGimage}>
+      <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.inner}>
+              <TextInput
+                style={styles.input}
+                onChangeText={onChangeId}
+                value={PersonalId}
+                placeholder="תעודת זהות"
+              />
+              <TextInput
+                style={styles.input}
+                onChangeText={onChangePass}
+                value={Pass}
+                secureTextEntry={true}
+                placeholder="סיסמה"
+              />
+              <TouchableOpacity onPress={() => adminLogin(PersonalId, Pass)}>
+                <View style={styles.button_normal}>
+                  <Text style={styles.button_text}>התחברות</Text>
+                </View>
+              </TouchableOpacity>
+              <Spiner loading={loading} />
+            </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  BGimage: {
+    flex: 1,
+    resizeMode: 'cover',
     justifyContent: 'center',
   },
   inner: {
@@ -141,7 +149,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    fontSize: 14,
+    fontSize: 18,
     color: 'white',
     fontWeight: 'bold'
   },

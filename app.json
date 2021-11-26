@@ -4,9 +4,9 @@
     "slug": "DamdiCore",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon-of-padlock-coloured-in-red.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/icon-of-padlock-coloured-in-red.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

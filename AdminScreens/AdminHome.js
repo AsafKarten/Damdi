@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
 
   },
   button_text: {
-    fontSize: 14,
+    fontSize: 18,
     color: 'white',
     fontWeight: 'bold'
   },

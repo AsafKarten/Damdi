@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    fontSize: 14,
+    fontSize: 18,
     color: 'white',
     fontWeight: 'bold'
   },
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     resizeMode: 'stretch'
   },
   button_text: {
-    fontSize: 14,
+    fontSize: 18,
     color: 'white',
     fontWeight: 'bold'
   },

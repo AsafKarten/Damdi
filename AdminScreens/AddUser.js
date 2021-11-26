@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    fontSize: 13,
+    fontSize: 18,
     color: 'white',
     fontWeight: 'bold'
   },
