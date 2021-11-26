@@ -67,7 +67,7 @@ export default function StackNavigation() {
           }} />
         <Stack.Screen name="PersonalFormA" component={PersonalFormA}
           options={{
-            title: 'פרטים אישיים - חלק א',
+            title:    'פרטים אישיים - 1/3 ',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
@@ -79,7 +79,7 @@ export default function StackNavigation() {
           }} />
         <Stack.Screen name="PersonalFormB" component={PersonalFormB}
           options={{
-            title: 'פרטים אישיים - חלק ב',
+            title: 'פרטים אישיים - 2/3 ',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
@@ -91,7 +91,7 @@ export default function StackNavigation() {
           }} />
         <Stack.Screen name="PersonalFormC" component={PersonalFormC}
           options={{
-            title: 'פרטים אישיים - חלק ג',
+            title: 'פרטים אישיים - 3/3 ',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
@@ -177,7 +177,7 @@ export default function StackNavigation() {
 
         < Stack.Screen name="ValidationForm" component={ValidationForm}
           options={{
-            title: 'טופס אימות',
+            title: 'המצבים בהם אסור לתרום',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
@@ -201,7 +201,7 @@ export default function StackNavigation() {
           }} />
         < Stack.Screen name="MedicalForm" component={MedicalForm}
           options={{
-            title: 'טופס רפואי',
+            title: 'מידע רפואי',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },

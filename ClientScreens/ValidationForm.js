@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Spiner from '../Componentes/Spiner';
 import { View, ScrollView, StyleSheet, Text, TouchableOpacity, Alert, Switch, Modal, TouchableHighlight, Platform, Pressable } from 'react-native';
+import { borderRadius } from '@mui/system';
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
@@ -32,7 +33,7 @@ export default function ValidationFrom({ navigation, route }) {
   useEffect(() => {
     if (Platform.OS !== 'web') {
       onChangeUser(route.params.route)
-      setShouldShow(false);
+      setShouldShow(true);
       setLoading(false);
     }
   }, [])
@@ -239,14 +240,16 @@ export default function ValidationFrom({ navigation, route }) {
                     {"\n"}
                     זכאותך לביטוח דם תשמר, כמקובל.</Text>
                 </View>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => {
+                    setShouldShow(!shouldShow);
+                  }
+                  }>     
+                   <Text style={styles.textStyle}>סגור</Text>
+                  </Pressable>
+
               </View>
-              <TouchableHighlight
-                style={{ backgroundColor: '#4d5b70' }}
-                onPress={() => {
-                  setShouldShow(!shouldShow);
-                }}>
-                <Text style={styles.text} >סגור</Text>
-              </TouchableHighlight>
             </View>
           </View>
         </Modal>
@@ -304,8 +307,14 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   modal: {
+    marginTop:50,
+    marginLeft:15,
+    marginRight:15,
+    padding:25,
+    height:500,
     fontSize: 20,
-    backgroundColor: '#eee'
+    backgroundColor: '#eee',
+    //borderRadius:9
   },
   button_normal: {
     alignItems: 'center',
@@ -345,6 +354,14 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   button: {
+    marginTop:50,
+    marginLeft: 50,
+    marginRight: 50,
+    borderRadius: 20,
+    padding: 15,
+    elevation: 2,
+  },
+  buttonModalOnLoad:{
     marginLeft: 50,
     marginRight: 50,
     borderRadius: 20,

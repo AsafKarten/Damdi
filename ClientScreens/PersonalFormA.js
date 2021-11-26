@@ -319,10 +319,9 @@ const styles = StyleSheet.create({
     margin: 25,
     borderRadius: 8,
     padding: 10,
-    backgroundColor: "#757c94",
-    opacity: 0.8,
-    shadowColor: 'black',
-    shadowRadius: 5,
+    backgroundColor: "#757c94", 
+    opacity:0.7,
+    
   },
   button_text: {
     fontSize: 18,
@@ -365,8 +364,9 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   button: {
-    marginLeft: 50,
-    marginRight: 50,
+    marginTop:50,
+    marginLeft: 20,
+    marginRight: 20,
     borderRadius: 20,
     padding: 15,
     elevation: 2,
@@ -375,7 +375,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#F194FF",
   },
   buttonClose: {
+    width:  120,
     backgroundColor: "#2196F3",
+    opacity:0.8,
+    
   },
   textStyle: {
     color: "white",
