@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import { View, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 
 
 import Spiner from '../Componentes/Spiner';
@@ -7,11 +7,13 @@ import Spiner from '../Componentes/Spiner';
 
 export default function PersonalFormB({ navigation, route }) {
   const [loading, setLoading] = useState(false);
-  const [showCityList, setShowList] = useState(true);
+  const [showCityList, setShowCityList] = useState(true);
+  const [showAddressList, setShowAddressList] = useState(true);
   const [User, setUser] = useState(route.params.route)
 
   const [city, setCity] = useState();
   const [cities, setCities] = useState([]);
+  const [addresses, setAddresses] = useState([]);
   const [address, setAddress] = useState();
   const [postalCode, setPostalCode] = useState();
   const [mailBox, setMailBox] = useState();
@@ -48,6 +50,23 @@ export default function PersonalFormB({ navigation, route }) {
     navigation.navigate('PersonalFormC', { route: UserB })
   }
 
+  const searchAddress = async (q) => {
+    let url = `https://data.gov.il/api/3/action/datastore_search?resource_id=bf185c7f-1a4e-4662-88c5-fa118a244bda&q=${q}`
+    let res = await fetch(url);
+    let data = await res.json();
+    console.log(data.result.records);
+    setAddresses(data.result.records)
+  }
+
+  const onFocusAddress = () => {
+    setShowAddressList(true);
+    setAddresses([])
+  }
+
+  useEffect(() => {
+    searchAddress(address)
+  }, [address])
+
   const serachCity = async (q) => {
     let url = `https://data.gov.il/api/3/action/datastore_search?resource_id=351d4347-8ee0-4906-8e5b-9533aef13595&q=${q}`
     let res = await fetch(url);
@@ -56,8 +75,9 @@ export default function PersonalFormB({ navigation, route }) {
     setCities(data.result.records)
   }
 
-  const onFocus = () => {
-    setShowList(true);
+  const onFocusCities = () => {
+    setShowAddressList(false);
+    setShowCityList(true);
     setCities([])
   }
 
@@ -73,7 +93,7 @@ export default function PersonalFormB({ navigation, route }) {
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>עיר</Text>
               <TextInput
-                onFocus={onFocus}
+                onFocus={onFocusCities}
                 style={styles.input}
                 onChangeText={setCity}
                 value={city}
@@ -85,7 +105,7 @@ export default function PersonalFormB({ navigation, route }) {
               {cities.length > 0 ? cities.map(item =>
                 <TouchableOpacity onPress={() => {
                   setCity(item["שם יישוב"])
-                  setShowList(false)
+                  setShowCityList(false)
                 }} >
                   {showCityList && <View style={styles.button_city_list}>
                     <Text style={styles.text_city_list}>{item["שם יישוב"]}</Text>
@@ -96,12 +116,27 @@ export default function PersonalFormB({ navigation, route }) {
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>רחוב</Text>
               <TextInput
+                onFocus={onFocusAddress}
                 style={styles.input}
                 onChangeText={setAddress}
                 value={address}
                 placeholder="רחוב"
                 maxLength={30}
               />
+            </View>
+            <View style={styles.container_city_list}>
+              {addresses.length > 0 ? addresses.map(item =>
+                <TouchableOpacity onPress={() => {
+                  setAddress(item["street_name"])
+                  setShowAddressList(false)
+                }} >
+                  {showAddressList && <View style={styles.button_city_list}>
+                    <ScrollView>
+                      <Text style={styles.text_city_list}>{item["street_name"]}</Text>
+                    </ScrollView>
+                  </View>}
+                </TouchableOpacity>)
+                : null}
             </View>
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>מיקוד</Text>

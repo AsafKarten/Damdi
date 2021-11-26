@@ -111,9 +111,8 @@ export default function PersonalFormC({ navigation, route }) {
             <View style={styles.HorizontalBox}>
               <Text>חבר ארגון תורמי דם?</Text>
               <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={bloodGroupMember ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
+                trackColor={{ false: "#", true: "#" }}
+                thumbColor={confirmExamination ? "#" : "#"}
                 onValueChange={toggleGroupMember}
                 value={bloodGroupMember}
               />
@@ -121,9 +120,8 @@ export default function PersonalFormC({ navigation, route }) {
             <View style={styles.HorizontalBox}>
               <Text>ביטוח אישי</Text>
               <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={personalInsurance ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
+                trackColor={{ false: "#", true: "#" }}
+                thumbColor={confirmExamination ? "#" : "#"}
                 onValueChange={togglePersonalInsurance}
                 value={personalInsurance}
               />
@@ -131,9 +129,8 @@ export default function PersonalFormC({ navigation, route }) {
             <View style={styles.HorizontalBox}>
               <Text>מסכים לשימוש בניסויים</Text>
               <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={confirmExamination ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
+                trackColor={{ false: "#", true: "#" }}
+                thumbColor={confirmExamination ? "#" : "#"}
                 onValueChange={toggleConfirmExamination}
                 value={confirmExamination}
               />
@@ -141,9 +138,8 @@ export default function PersonalFormC({ navigation, route }) {
             <View style={styles.HorizontalBox}>
               <Text>מסכים לקבלת הזמנות לתרום דם בעתיד</Text>
               <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={agreeFutureDonation ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
+                trackColor={{ false: "#", true: "#" }}
+                thumbColor={confirmExamination ? "#" : "#"}
                 onValueChange={toggleAgreeFutureDonation}
                 value={agreeFutureDonation}
               />
