@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Modal, Pressable } from 'react-native'
+import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Modal, Pressable, Share } from 'react-native'
 import { Card } from 'react-native-elements';
 
 //Fix card style and show it if only hae a active appintment
 const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function Appointments({ navigation, route }) {
-  const [User, onChangeId] = useState(route.params.route)
   const [hasApp, onChangeHasApp] = useState(false);
-  const [app_id, setAppintmentId] = useState();
-  const [dateApp, setDateApp] = useState()
-  const [timeApp, setTimeApp] = useState()
-  const [locationApp, setLocation] = useState()
-
   const [modalDel, setModalDelete] = useState(false)
   const [modalInfo, setModalInfo] = useState(false);
 
+  const [User, onChangeId] = useState(route.params.route)
+  const [app_id, setAppintmentId] = useState();
+  const [locationApp, setLocation] = useState()
   const [fullDate, setFullDate] = useState();
-  var customDate = new Date(dateApp)
+
+
+
+  var customDate = new Date(fullDate)
   var fDate = customDate.getDate() + '/' + (customDate.getMonth() + 1) + '/' + customDate.getFullYear()
+
+  var customTime = new Date(fullDate)
+  var fTime = customTime.getHours() + ":" + customTime.getMinutes()
 
 
   useEffect(() => {
@@ -76,8 +79,6 @@ export default function Appointments({ navigation, route }) {
       if (appintment !== "Appintment not found") {
         setFullDate(appintment.App_time)
         setAppintmentId(appintment.App_id)
-        setDateApp(appintment.App_time.split(" ")[0])
-        setTimeApp(appintment.App_time.split(" ")[1])
         await getStationName(appintment.Station_code)
         onChangeHasApp(true);
       }
@@ -118,6 +119,28 @@ export default function Appointments({ navigation, route }) {
     navigation.navigate('ReminderScreen', { route: data })
   }
 
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          `רציתי להזמין אותך לתרום דם יחד, תוריד את האפליקציה Damdi ואזמן תור בקלות ובמהירות, אזמן תור לתאריך ${fDate} בשעה ${fTime} ב${locationApp} `,
+      });
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+
   return (
     <SafeAreaView style={styles.container}>
 
@@ -127,9 +150,10 @@ export default function Appointments({ navigation, route }) {
             <Text style={styles.paragraph} >תור פעיל{"\n"}
               מיקום התחנה: {locationApp}{"\n"}
               בתאריך: {fDate}{"\n"}
-              בשעה: {timeApp}
+              בשעה: {fTime}
             </Text>
           </Card>
+          <Text style={styles.textUnderCard}>שים לב !</Text>
           <Text style={styles.textUnderCard}>לא לשכוח למלא את הטופס הרפואי בסמוך למועד התור</Text>
           <TouchableOpacity onPress={() => navigation.navigate('MedicalForm', { route: User })}>
             <View style={styles.medical_button}>
@@ -168,9 +192,9 @@ export default function Appointments({ navigation, route }) {
           </TouchableOpacity>
         </View>
         <View>
-          <TouchableOpacity onPress={() => navigation.navigate('AppointmentsHistory', { route: User })}>
+          <TouchableOpacity onPress={() => onShare()}>
             <View style={styles.button_normal}>
-              <Text style={styles.button_text}>היסטורית התורים שלך</Text>
+              <Text style={styles.button_text}>הזמן חבר לתרום</Text>
             </View>
           </TouchableOpacity>
         </View>

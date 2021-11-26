@@ -132,6 +132,7 @@ export default function Login({ navigation }) {
       if (updatedUser !== undefined || updatedUser !== null) {
         let result = validationInput(updatedUser)
         if (result === 'correct') {
+          setLoading(false);
           await storeData(updatedUser)
           navigation.navigate('PersonalFormA', { route: updatedUser, modalStatus: 'update' })
         }
