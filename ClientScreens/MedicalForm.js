@@ -444,7 +444,7 @@ const styles = StyleSheet.create({
   },
   HorizontalBox: {
     alignSelf: 'center',
-    width: 350,
+    width: 345,
     flexDirection: 'row-reverse',
     padding: 45,
     marginTop: 22,
@@ -452,6 +452,7 @@ const styles = StyleSheet.create({
   },
   textBox: {
     fontSize: 18,
+    fontWeight: 'bold',
   },
   HorizontalBoxButtons: {
     flexDirection: 'row',
@@ -459,11 +460,13 @@ const styles = StyleSheet.create({
   input: {
     width: 300,
     height: 40,
-    margin: 8,
-    borderWidth: 1,
+    
+    marginRight: 10,
+    borderWidth: 2,
     borderRadius: 8,
     textAlign: 'center',
     alignItems: 'center',
+    fontWeight: 'bold'
   },
   button_normal: {
     alignItems: 'center',

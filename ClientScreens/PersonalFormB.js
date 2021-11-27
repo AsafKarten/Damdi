@@ -7,8 +7,8 @@ import { View, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableO
 
 export default function PersonalFormB({ navigation, route }) {
   const [loading, setLoading] = useState(false);
-  const [showCityList, setShowCityList] = useState(true);
-  const [showAddressList, setShowAddressList] = useState(true);
+  const [showCityList, setShowCityList] = useState(false);
+  const [showAddressList, setShowAddressList] = useState(false);
   const [User, setUser] = useState(route.params.route)
 
   const [city, setCity] = useState();
@@ -217,12 +217,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   input: {
-    width: 140,
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
+    height: 35,
+    width: 160,
+    margin: 10,
+    borderWidth: 2,
     borderRadius: 8,
     textAlign: 'center',
+    fontWeight: 'bold',
   },
   button_normal: {
     alignItems: 'center',
@@ -241,13 +242,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   HorizontalBox: {
-    width: 280,
+    width: 315,
     justifyContent: 'space-between',
     flexDirection: 'row-reverse',
+    marginTop: 15,
   },
   HorizontalBoxButtons: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginLeft: 15, 
   },
   lableText: {
     marginTop: 17,

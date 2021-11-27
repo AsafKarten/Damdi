@@ -230,9 +230,9 @@ export default function ValidationFrom({ navigation, route }) {
           }}>
           <View >
             <View >
-              <View style={styles.modal}>
+              <View style={styles.modalView}>
                 <View >
-                  <Text style={styles.text}>חלק ב' המצבים בהם אסור להשתמש במנת הדם:
+                  <Text style={styles.modalText}>חלק ב' המצבים בהם אסור להשתמש במנת הדם:
                     {"\n"}
                     אם אחד המצבים המפורטים בהמשך חל עליך, אל תתרום/תתרמי דם או סמן/י בהמשך שהמנה לא לעירוי.
                     מנה זו לא תינתן לחולה כדי לא לסכן את בריאותו.
@@ -261,7 +261,7 @@ export default function ValidationFrom({ navigation, route }) {
             visible={modalInfo}
             onRequestClose={() => { console.log('Modal has been closed.'); }}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>פרטיך נקלטו בהצלחה במערכת,לנוחיותך הנך יכול\ה להוסיף תזכורת לפני מועד ההתרמה, בלחיצה על הכפתור "התורים שלי"</Text>
+              <Text style={styles.modalText}>פרטיך נקלטו בהצלחה במערכת, לנוחיותך הנך יכול\ה להוסיף תזכורת לפני מועד ההתרמה, בלחיצה על הכפתור "התורים שלי"</Text>
               <View style={styles.modal_buttons}>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
@@ -371,10 +371,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#F194FF",
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "white",
   },
   textStyle: {
-    color: "white",
+    color: "black",
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 20

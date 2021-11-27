@@ -202,19 +202,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
   },
   inner: {
     flex: 1,
     justifyContent: "space-between"
   },
   input: {
-    height: 40,
-    width: 180,
-    margin: 12,
-    borderWidth: 1,
+    height: 35,
+    width: 200,
+    margin: 10,
+    borderWidth: 2,
     borderRadius: 8,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   button_text: {
     fontSize: 18,
@@ -232,15 +233,15 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowRadius: 5,
   },
-  horizontalBox: {
-    width: 300,
+  HorizontalBox: {
+    width: 315,
     justifyContent: 'space-between',
     flexDirection: 'row-reverse',
     marginTop: 15,
   },
   lableText: {
     marginTop: 17,
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold'
   },
   //Modal

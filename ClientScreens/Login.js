@@ -211,16 +211,19 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    width: 160,
-    margin: 12,
-    borderWidth: 1,
+    width: 220,
+    margin: 14,
+    borderWidth: 2,
     borderRadius: 8,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
   button_normal: {
     alignItems: 'center',
     width: 160,
     margin: 15,
+    marginLeft: 42,
     borderRadius: 8,
     padding: 10,
     backgroundColor: "#757c94",

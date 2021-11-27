@@ -7,7 +7,7 @@ import { url } from '../Utils';
 export default function PersonalFormC({ navigation, route }) {
   console.log("PersonalFormC", route.params.route);
   const [loading, setLoading] = useState(false);
-  const [showCountriesList, setShowCountriesList] = useState(true);
+  const [showCountriesList, setShowCountriesList] = useState();
 
   const [User, setUser] = useState(route.params.route)
 
@@ -134,7 +134,7 @@ export default function PersonalFormC({ navigation, route }) {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
             <View style={styles.HorizontalBox}>
-              <Text>חבר ארגון תורמי דם?</Text>
+              <Text style={styles.lableText}>חבר ארגון תורמי דם?</Text>
               <Switch
                 trackColor={{ false: "#", true: "#" }}
                 thumbColor={confirmExamination ? "#" : "#"}
@@ -143,7 +143,7 @@ export default function PersonalFormC({ navigation, route }) {
               />
             </View>
             <View style={styles.HorizontalBox}>
-              <Text>ביטוח אישי</Text>
+              <Text style={styles.lableText}>ביטוח אישי</Text>
               <Switch
                 trackColor={{ false: "#", true: "#" }}
                 thumbColor={confirmExamination ? "#" : "#"}
@@ -152,7 +152,7 @@ export default function PersonalFormC({ navigation, route }) {
               />
             </View>
             <View style={styles.HorizontalBox}>
-              <Text>מסכים לשימוש בניסויים</Text>
+              <Text style={styles.lableText}>מסכים לשימוש בניסויים</Text>
               <Switch
                 trackColor={{ false: "#", true: "#" }}
                 thumbColor={confirmExamination ? "#" : "#"}
@@ -161,7 +161,7 @@ export default function PersonalFormC({ navigation, route }) {
               />
             </View>
             <View style={styles.HorizontalBox}>
-              <Text>מסכים לקבלת הזמנות לתרום דם בעתיד</Text>
+              <Text style={styles.lableText}>מסכים לקבלת הזמנות לתרום דם בעתיד</Text>
               <Switch
                 trackColor={{ false: "#", true: "#" }}
                 thumbColor={confirmExamination ? "#" : "#"}
@@ -256,28 +256,31 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   input: {
-    width: 140,
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
+    height: 35,
+    width: 160,
+    margin: 10,
+    borderWidth: 2,
     borderRadius: 8,
     textAlign: 'center',
+    fontWeight: 'bold',
   },
   switch: {
     alignSelf: "center",
     marginRight: 8,
   },
   HorizontalBox: {
-    width: 280,
+    width: 315,
     justifyContent: 'space-between',
     flexDirection: 'row-reverse',
-    marginTop: 12,
+    marginTop: 15,
   },
   HorizontalBoxButtons: {
     flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 50, 
   },
   lableText: {
-    marginTop: 17,
+    marginTop: 14,
     fontWeight: 'bold'
   },
   button_normal: {

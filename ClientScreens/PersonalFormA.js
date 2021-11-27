@@ -103,7 +103,7 @@ export default function PersonalFormA({ navigation, route }) {
     var UserA = { Personal_id: route.params.route.Personal_id, First_name: firstName, Last_name: lastName, Phone: phone, Gender: gender, Birthdate: date, Prev_first_name: prevFirstName, Prev_last_name: prevLastName }
     console.log("PersonalFormA ", UserA);
     setLoading(false);
-    navigation.navigate('PersonalFormB', { route: UserA , route: User })
+    navigation.navigate('PersonalFormB', { route: UserA, route: User })
   }
 
 
@@ -135,10 +135,10 @@ export default function PersonalFormA({ navigation, route }) {
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
-            <View style={styles.HorizontalBox}>
+            <View style={styles.horizontalBox}>
               <Text style={styles.lableText}>כחלק מתהליך התרומה,{"\n"}יש להזין את פרטיך האישים העדכניים על מנת לתרום דם בצורה בטוחה ומאובטחת.</Text>
             </View>
-            <View style={styles.HorizontalBox}>
+            <View style={styles.horizontalBox}>
               <Text style={styles.lableText}> שם פרטי </Text>
               <TextInput
                 style={styles.input}
@@ -148,7 +148,7 @@ export default function PersonalFormA({ navigation, route }) {
                 maxLength={15}
               />
             </View>
-            <View style={styles.HorizontalBox}>
+            <View style={styles.horizontalBox}>
               <Text style={styles.lableText}>שם משפחה</Text>
               <TextInput
                 style={styles.input}
@@ -158,7 +158,7 @@ export default function PersonalFormA({ navigation, route }) {
                 maxLength={15}
               />
             </View>
-            <View style={styles.HorizontalBox}>
+            <View style={styles.horizontalBox}>
               <Text style={styles.lableText}>מס פלאפון</Text>
               <TextInput
                 style={styles.input}
@@ -169,18 +169,18 @@ export default function PersonalFormA({ navigation, route }) {
                 maxLength={10}
               />
             </View>
-            <View style={styles.HorizontalBox}>
+            <View style={styles.horizontalBox}>
               <Text style={styles.lableText}>מין</Text>
               <RadioButtonGroup
-                containerStyle={{ margin: 15, flexDirection: 'row' }}
+                containerStyle={{ margin: 16, flexDirection: 'row',marginLeft: 30}}
                 selected={gender}
                 onSelected={setGender}
-                radioBackground="blue">
+                radioBackground="#7d91b0">
                 <RadioButtonItem value="נקבה" label="נקבה" />
                 <RadioButtonItem value="זכר" label="זכר" />
               </RadioButtonGroup>
             </View>
-            <View style={styles.HorizontalBox}>
+            <View style={styles.horizontalBox}>
               <Text style={styles.lableText}>תאריך לידה</Text>
               <TextInput onFocus={onFocus}
                 style={styles.input}
@@ -188,7 +188,7 @@ export default function PersonalFormA({ navigation, route }) {
                 placeholder="תאריך לידה"
               />
             </View>
-            <View style={styles.HorizontalBox}>
+            <View style={styles.horizontalBox}>
               <Text style={styles.lableText}>שם פרטי קודם</Text>
               <TextInput
                 style={styles.input}
@@ -198,7 +198,7 @@ export default function PersonalFormA({ navigation, route }) {
                 maxLength={15}
               />
             </View>
-            <View style={styles.HorizontalBox}>
+            <View style={styles.horizontalBox}>
               <Text style={styles.lableText}>שם משפחה קודם</Text>
               <TextInput
                 style={styles.input}
@@ -292,12 +292,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   input: {
-    width: 150,
-    height: 40,
-    margin: 8,
-    borderWidth: 1,
+    height: 35,
+    width: 160,
+    margin: 10,
+    borderWidth: 2,
     borderRadius: 8,
     textAlign: 'center',
+    fontWeight: 'bold',
   },
   button_normal: {
     alignItems: 'center',
@@ -307,22 +308,21 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#757c94",
     opacity: 0.7,
-
   },
   button_text: {
     fontSize: 18,
     color: 'white',
     fontWeight: 'bold'
   },
-  HorizontalBox: {
-    width: 280,
+  horizontalBox: {
+    width: 315,
     justifyContent: 'space-between',
     flexDirection: 'row-reverse',
     marginTop: 15,
   },
   lableText: {
     marginTop: 17,
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: 'bold'
   },
   container_btn: {
@@ -357,20 +357,16 @@ const styles = StyleSheet.create({
     padding: 15,
     elevation: 2,
   },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    width: 120,
-    backgroundColor: "#2196F3",
-    opacity: 0.8,
-
-  },
   textStyle: {
-    color: "white",
+    color: "black",
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 20
+  },
+  buttonClose: {
+    width: 120,
+    backgroundColor: "white",
+    opacity: 0.8,
   },
   modalText: {
     color: "white",
