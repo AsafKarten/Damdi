@@ -26,7 +26,7 @@ export default function Login({ navigation }) {
 
   useEffect(() => {
     const backAction = () => {
-      Alert.alert("רגע רגע", "בטוח שאת\ה רוצה לצאת מהאפליקציה?!", [
+      Alert.alert("רגע רגע", "בטוח שאת/ה רוצה לצאת מהאפליקציה?!", [
         {
           text: "ביטול",
           onPress: () => null,

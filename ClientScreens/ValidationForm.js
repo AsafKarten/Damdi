@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Spiner from '../Componentes/Spiner';
 import { View, ScrollView, StyleSheet, Text, TouchableOpacity, Alert, Switch, Modal, TouchableHighlight, Platform, Pressable } from 'react-native';
-import { borderRadius } from '@mui/system';
 
 const url = "http://proj13.ruppin-tech.co.il/"
 
@@ -245,9 +244,9 @@ export default function ValidationFrom({ navigation, route }) {
                   onPress={() => {
                     setShouldShow(!shouldShow);
                   }
-                  }>     
-                   <Text style={styles.textStyle}>סגור</Text>
-                  </Pressable>
+                  }>
+                  <Text style={styles.textStyle}>סגור</Text>
+                </Pressable>
 
               </View>
             </View>
@@ -307,11 +306,11 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   modal: {
-    marginTop:50,
-    marginLeft:15,
-    marginRight:15,
-    padding:25,
-    height:500,
+    marginTop: 50,
+    marginLeft: 15,
+    marginRight: 15,
+    padding: 25,
+    height: 500,
     fontSize: 20,
     backgroundColor: '#eee',
     //borderRadius:9
@@ -354,14 +353,14 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   button: {
-    marginTop:50,
+    marginTop: 50,
     marginLeft: 50,
     marginRight: 50,
     borderRadius: 20,
     padding: 15,
     elevation: 2,
   },
-  buttonModalOnLoad:{
+  buttonModalOnLoad: {
     marginLeft: 50,
     marginRight: 50,
     borderRadius: 20,

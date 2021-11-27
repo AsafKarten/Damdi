@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import Spiner from '../Componentes/Spiner';
 import { View, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 
 
-import Spiner from '../Componentes/Spiner';
 
 
 export default function PersonalFormB({ navigation, route }) {
@@ -11,22 +11,22 @@ export default function PersonalFormB({ navigation, route }) {
   const [showAddressList, setShowAddressList] = useState(true);
   const [User, setUser] = useState(route.params.route)
 
-  const [city, setCity] = useState();
+  const [city, setCity] = useState(route.params.route.City);
   const [cities, setCities] = useState([]);
   const [addresses, setAddresses] = useState([]);
-  const [address, setAddress] = useState();
-  const [postalCode, setPostalCode] = useState();
-  const [mailBox, setMailBox] = useState();
-  const [telephone, setTelephone] = useState();
-  const [workTelephone, setWorkTelephone] = useState();
+  const [address, setAddress] = useState(route.params.route.Address);
+  const [postalCode, setPostalCode] = useState(route.params.route.Postal_code);
+  const [mailBox, setMailBox] = useState(route.params.route.Mail_box);
+  const [telephone, setTelephone] = useState(route.params.route.Telephone);
+  const [workTelephone, setWorkTelephone] = useState(route.params.route.Work_telephone);
 
   useEffect(() => {
-    setCity(User.City)
-    setAddress(User.Address)
-    setPostalCode(User.Postal_code)
-    setMailBox(User.Postal_code)
-    setTelephone(User.Telephone)
-    setWorkTelephone(User.Work_telephone)
+    // setCity(User.City)
+    // setAddress(User.Address)
+    // setPostalCode(User.Postal_code)
+    // setMailBox(User.Postal_code)
+    // setTelephone(User.Telephone)
+    // setWorkTelephone(User.Work_telephone)
   }, [])
 
   const PostPersonalFormB = async () => {

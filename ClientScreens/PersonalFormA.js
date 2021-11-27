@@ -4,10 +4,7 @@ import Spiner from '../Componentes/Spiner';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RadioButtonGroup, { RadioButtonItem } from 'expo-radio-button';
 
-
-
 const url = "http://proj13.ruppin-tech.co.il/"
-
 
 export default function PersonalFormA({ navigation, route }) {
   console.log("route PersonalFormA", route);
@@ -111,8 +108,6 @@ export default function PersonalFormA({ navigation, route }) {
   }
 
 
-
-
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS !== 'web');
@@ -139,13 +134,6 @@ export default function PersonalFormA({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* {
-          if (Platform.OS === 'ios'){
-            <Key
-          }
-        } */}
-
-
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
@@ -319,9 +307,9 @@ const styles = StyleSheet.create({
     margin: 25,
     borderRadius: 8,
     padding: 10,
-    backgroundColor: "#757c94", 
-    opacity:0.7,
-    
+    backgroundColor: "#757c94",
+    opacity: 0.7,
+
   },
   button_text: {
     fontSize: 18,
@@ -364,7 +352,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   button: {
-    marginTop:50,
+    marginTop: 50,
     marginLeft: 20,
     marginRight: 20,
     borderRadius: 20,
@@ -375,10 +363,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#F194FF",
   },
   buttonClose: {
-    width:  120,
+    width: 120,
     backgroundColor: "#2196F3",
-    opacity:0.8,
-    
+    opacity: 0.8,
+
   },
   textStyle: {
     color: "white",
