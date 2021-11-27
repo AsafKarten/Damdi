@@ -7,6 +7,7 @@ import { url } from '../Utils';
 export default function PersonalFormC({ navigation, route }) {
   console.log("PersonalFormC", route.params.route);
   const [loading, setLoading] = useState(false);
+  const [showCountriesList, setShowCountriesList] = useState(true);
 
   const [User, setUser] = useState(route.params.route)
 
@@ -19,6 +20,8 @@ export default function PersonalFormC({ navigation, route }) {
   const [agreeFutureDonation, setAgreeFutureDonation] = useState(false);
   const toggleAgreeFutureDonation = () => setAgreeFutureDonation(previousState => !previousState);
 
+
+  const [countries, setCountries] = useState([])
   const [birthLand, setBirthLand] = useState();
   const [aliyaYear, setAliyaYear] = useState();
   const [fatherBirthLand, setFatherBirthLand] = useState();
@@ -35,6 +38,25 @@ export default function PersonalFormC({ navigation, route }) {
     setFatherBirthLand(User.Father_birth_land)
     setMotherBirthLand(User.Mother_birth_land)
   }, [navigation])
+
+
+  const serachCountry = async (q) => {
+    let url = `https://data.gov.il/api/3/action/datastore_search?resource_id=c84082e9-7d45-4853-9a95-e7eaad7f66d5&q=${q}`
+    let res = await fetch(url);
+    let data = await res.json();
+    console.log(data.result.records);
+    setCountries(data.result.records)
+  }
+
+  const onFocusCountries = () => {
+    setShowCountriesList(true);
+    setCountries([])
+  }
+
+  useEffect(() => {
+    serachCountry(birthLand)
+  }, [birthLand])
+
 
   const postDataToDB = async (UserC) => {
     console.log(UserC);
@@ -150,11 +172,25 @@ export default function PersonalFormC({ navigation, route }) {
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>ארץ לידה</Text>
               <TextInput
+                onFocus={onFocusCountries}
                 style={styles.input}
                 onChangeText={setBirthLand}
                 value={birthLand}
                 placeholder="ארץ לידה"
               />
+            </View>
+            <View style={styles.container_state_list}>
+              {countries.length > 0 ? countries.map(item =>
+                <TouchableOpacity onPress={() => {
+                  setBirthLand(item["שם_ארץ"])
+                  setShowCountriesList(false)
+                }} >
+                  {showCountriesList &&
+                    <View style={styles.button_state_list}>
+                      <Text style={styles.text_state_list}>{item["שם_ארץ"]}</Text>
+                    </View>}
+                </TouchableOpacity>)
+                : null}
             </View>
             <View style={styles.HorizontalBox}>
               <Text style={styles.lableText}>שנת עליה</Text>
@@ -220,7 +256,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   input: {
-    width: 120,
+    width: 140,
     height: 40,
     margin: 12,
     borderWidth: 1,
@@ -260,4 +296,15 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold'
   },
+  container_state_list: {
+    marginRight: 120,
+  },
+  button_state_list: {
+    borderWidth: 2
+  },
+  text_state_list: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    alignItems: 'center',
+  }
 });

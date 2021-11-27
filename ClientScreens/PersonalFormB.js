@@ -11,14 +11,14 @@ export default function PersonalFormB({ navigation, route }) {
   const [showAddressList, setShowAddressList] = useState(true);
   const [User, setUser] = useState(route.params.route)
 
-  const [city, setCity] = useState(route.params.route.City);
+  const [city, setCity] = useState();
   const [cities, setCities] = useState([]);
   const [addresses, setAddresses] = useState([]);
-  const [address, setAddress] = useState(route.params.route.Address);
-  const [postalCode, setPostalCode] = useState(route.params.route.Postal_code);
-  const [mailBox, setMailBox] = useState(route.params.route.Mail_box);
-  const [telephone, setTelephone] = useState(route.params.route.Telephone);
-  const [workTelephone, setWorkTelephone] = useState(route.params.route.Work_telephone);
+  const [address, setAddress] = useState();
+  const [postalCode, setPostalCode] = useState();
+  const [mailBox, setMailBox] = useState();
+  const [telephone, setTelephone] = useState();
+  const [workTelephone, setWorkTelephone] = useState();
 
   useEffect(() => {
     setCity(User.City)
