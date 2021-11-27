@@ -19,7 +19,7 @@ import ScheduleAppointment from '../ClientScreens/ScheduleAppointment.js';
 import MedicalForm from '../ClientScreens/MedicalForm.js';
 import ValidationForm from '../ClientScreens/ValidationForm.js';
 import PrivacyAndSecurity from '../ClientScreens/PrivacyAndSecurity.js'
-import Maps from '../ClientScreens/Maps.js'
+import Maps from '../ClientScreens/Maps.js';
 import ReminderScreen from '../ClientScreens/ReminderScreen.js';
 
 const Stack = createStackNavigator();
@@ -67,7 +67,7 @@ export default function StackNavigation() {
           }} />
         <Stack.Screen name="PersonalFormA" component={PersonalFormA}
           options={{
-            title:    'פרטים אישיים - 1/3 ',
+            title: 'פרטים אישיים - 1/3 ',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
