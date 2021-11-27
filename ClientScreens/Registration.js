@@ -15,16 +15,6 @@ export default function Registration({ navigation }) {
   const [confirmPass, onChangeCPass] = useState();
   const [loading, setLoading] = useState(false);
 
-  componentDidMount = () => {
-    this._unsubscribeFocus = this.props.navigation.addListener('focus', (payload) => {
-      console.log('will focus', payload);
-      this.setState({ stam: 'will focus ' + new Date().getSeconds() });
-    });
-  }
-  componentWillUnmount = () => {
-    this._unsubscribeFocus();
-  }
-
   const storeData = async (data) => {
     try {
       var loggedUser = JSON.stringify(data);
@@ -170,7 +160,7 @@ export default function Registration({ navigation }) {
               validationInput()
             }}>
               <View style={styles.button_normal}>
-                <Text >סיים הרשמה</Text>
+                <Text style={styles.button_text}>סיים הרשמה</Text>
               </View>
             </TouchableOpacity>
             {loading && <Spiner loading={loading} />}
@@ -194,27 +184,41 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    width: 160,
-    margin: 12,
-    borderWidth: 1,
+    width: 210,
+    margin: 14,
+    borderWidth: 2,
     borderRadius: 8,
     textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
   button_normal: {
     alignItems: 'center',
+    width: 160,
     margin: 15,
+    marginLeft: 42,
     borderRadius: 8,
     padding: 10,
-    backgroundColor: "#633689"
+    backgroundColor: "#757c94",
+    opacity: 0.8,
+    shadowColor: 'black',
+    shadowRadius: 5,
+    marginTop: 30,
+    marginLeft: 37
+  },
+  button_text: {
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold',
   },
   horizontalBox: {
-    width: 280,
+    width: 330,
     justifyContent: 'space-between',
     flexDirection: 'row-reverse',
     marginTop: 15,
   },
   lableText: {
-    marginTop: 17,
+    marginTop: 19,
     fontSize: 16,
     fontWeight: 'bold'
   },

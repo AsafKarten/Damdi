@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Text,View, SafeAreaView, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native';
+import { Text, View, SafeAreaView, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 import BG from '../assets/LOGO_ONLY_PNG.png'
 import ProgressBar from '../Componentes/ProgressBar.js'
@@ -21,7 +25,7 @@ export default function Home({ navigation, route }) {
 
       <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
         <View style={styles.button_normal}>
-
+          <FontAwesome name="user" size={28} color="white" />
           <Text style={styles.button_text} >הפרופיל שלי</Text>
         </View>
       </TouchableOpacity>
@@ -31,13 +35,15 @@ export default function Home({ navigation, route }) {
 
         <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: User })}>
           <View style={styles.button_normal}>
+            <Entypo name="text-document" size={28} color="white" />
             <Text style={styles.button_text} >התורים שלי</Text>
           </View>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('Stations', { route: User })}>
           <View style={styles.button_normal}>
-            <Text style={styles.button_text} >חיפוש תחנה קרובה</Text>
+            <FontAwesome5 name="map-marked-alt" size={28} color="white" />
+            <Text style={styles.button_text} >חיפוש תחנה</Text>
           </View>
         </TouchableOpacity>
 
@@ -55,14 +61,6 @@ const styles = StyleSheet.create({
   ButtonContainer: {
     flexDirection: 'row'
   },
-  input: {
-    height: 40,
-    width: 160,
-    margin: 12,
-    borderWidth: 1,
-    borderRadius: 8,
-    textAlign: 'center',
-  },
   button_normal: {
     alignItems: 'center',
     width: 90,
@@ -76,14 +74,15 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    fontSize: 18,
+    fontSize: 17,
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   header_img: {
     marginBottom: 40,
-    width: 260,
-    height: 75,
+    width: 270,
+    height: 90,
     alignSelf: 'center',
     resizeMode: 'stretch'
   }

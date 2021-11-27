@@ -3,6 +3,8 @@ import { Platform, View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert
 import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import Spiner from '../Componentes/Spiner';
 import { url } from '../Utils';
 
@@ -15,11 +17,10 @@ export default function Profile({ navigation, route }) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [User, setUser] = useState(route.params.route)
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(route.params.route.Profile_img);
 
   useEffect(() => {
     (async () => {
-      setImage(route.params.route.Profile_img)
       if (Platform.OS !== 'web') {
         setShouldShow(true)
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -146,7 +147,7 @@ export default function Profile({ navigation, route }) {
         {loading && <Spiner loading={loading} />}
         <Text style={styles.addText}>{User.First_name + " " + User.Last_name}</Text>
 
-        <Text style={styles.addText}>{User.Blood_type} :סוג דם</Text>
+        <Text style={styles.addText}>{User.Blood_type} : סוג דם</Text>
 
       </View>
 
@@ -154,12 +155,14 @@ export default function Profile({ navigation, route }) {
 
         <TouchableOpacity onPress={() => navigation.navigate('PersonalFormA', { route: User, modalStatus: "none" })}>
           <View style={styles.button_normal}>
+            <Entypo name="edit" size={22} color="white" />
             <Text style={styles.button_text} >עדכון פרטים אישיים</Text>
           </View>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('MedicalForm', { route: User })}>
           <View style={styles.button_normal}>
+            <Entypo name="edit" size={22} color="white" />
             <Text style={styles.button_text} >עדכון פרטים רפואים</Text>
           </View>
         </TouchableOpacity>
@@ -167,6 +170,7 @@ export default function Profile({ navigation, route }) {
       <View style={styles.ButtonContainer}>
         <TouchableOpacity onPress={() => navigation.navigate('PrivacyAndSecurity', { route: User })}>
           <View style={styles.button_normal}>
+            <MaterialIcons name="security" size={24} color="white" />
             <Text style={styles.button_text} >אבטחה ופרטיות</Text>
           </View>
         </TouchableOpacity>
@@ -220,11 +224,9 @@ const styles = StyleSheet.create({
     margin: 5
   },
   profile_image: {
-    width: 100,
-    height: 100,
-    borderRadius: 100,
-    borderWidth: 2,
-    borderRadius: 90,
+    width: 110,
+    height: 110,
+    borderRadius: 560,
     borderColor: 'red',
     resizeMode: 'stretch',
   },
@@ -247,7 +249,7 @@ const styles = StyleSheet.create({
   button_normal: {
     alignItems: 'center',
     width: 90,
-    height: 90,
+    height: 100,
     margin: 15,
     borderRadius: 8,
     padding: 10,
@@ -257,9 +259,10 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    fontSize: 18,
+    fontSize: 16,
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    textAlign: 'center'
   },
   //upload image Modal
   modalView: {

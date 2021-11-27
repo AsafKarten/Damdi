@@ -67,7 +67,7 @@ export default function StackNavigation() {
           }} />
         <Stack.Screen name="PersonalFormA" component={PersonalFormA}
           options={{
-            title:    'פרטים אישיים - 1/3 ',
+            title: 'פרטים אישיים - 1/3 ',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },

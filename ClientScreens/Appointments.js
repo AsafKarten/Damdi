@@ -13,8 +13,6 @@ export default function Appointments({ navigation, route }) {
   const [locationApp, setLocation] = useState()
   const [fullDate, setFullDate] = useState();
 
-
-
   var customDate = new Date(fullDate)
   var fDate = customDate.getDate() + '/' + (customDate.getMonth() + 1) + '/' + customDate.getFullYear()
 
@@ -361,10 +359,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#F194FF",
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "white",
   },
   textStyle: {
-    color: "white",
+    color: "black",
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 20

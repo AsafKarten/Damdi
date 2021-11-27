@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, FlatList, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { url } from '../Utils';
+import { Ionicons } from '@expo/vector-icons';
 
 
 export default function Stations({ navigation, route }) {
@@ -15,6 +16,7 @@ export default function Stations({ navigation, route }) {
   const [city, setCity] = useState();
   const [cities, setCities] = useState([]);
   const [Stations, setStations] = useState()
+
 
 
   const onChange = (event, selectedDate) => {
@@ -112,7 +114,7 @@ export default function Stations({ navigation, route }) {
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={styles.inner}>
           <View style={styles.date_container}>
-            <View style={styles.HorizontalBox}>
+            <View style={styles.horizontalBox}>
               <Text style={styles.lableText}>בחר תאריך</Text>
               <TextInput onFocus={onFocus}
                 style={styles.input}
@@ -120,7 +122,7 @@ export default function Stations({ navigation, route }) {
                 placeholder="תאריך" />
             </View>
           </View>
-          <View style={styles.HorizontalBox}>
+          <View style={styles.horizontalBox}>
             <Text style={styles.lableText}>עיר</Text>
             <TextInput
               onFocus={onFocusCity}
@@ -145,6 +147,7 @@ export default function Stations({ navigation, route }) {
           </View>
           <TouchableOpacity onPress={() => searchStation()}>
             <View style={styles.button_normal}>
+              <Ionicons name="search" size={32} color="white" />
               <Text style={styles.button_text} >חיפוש</Text>
             </View>
           </TouchableOpacity>
@@ -153,15 +156,17 @@ export default function Stations({ navigation, route }) {
             keyExtractor={(item) => item.Station_code}
             renderItem={({ item }) => (
               <View style={styles.list}>
-                <Text>{item.Station_name}</Text>
-                <Text>{item.City}</Text>
-                <Text>{item.F_address}</Text>
-                <Text>{item.Start_time + " - " + item.End_time}</Text>
-                <TouchableOpacity onPress={() => ScheduleAppointment(item)}>
-                  <View style={styles.button_normal}>
-                    <Text style={styles.button_text} >הזמן/י תור</Text>
-                  </View>
-                </TouchableOpacity>
+                <View style={styles.inner_text_list}>
+                  <Text style={styles.text_list}>{item.Station_name}</Text>
+                  <Text style={styles.text_list}>{item.City}</Text>
+                  <Text style={styles.text_list}>{item.F_address}</Text>
+                  <Text style={styles.text_list}>{item.Start_time + " - " + item.End_time}</Text>
+                  <TouchableOpacity onPress={() => ScheduleAppointment(item)}>
+                    <View style={styles.button_invite_list}>
+                      <Text style={styles.button_text} >הזמן/י תור</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
               </View>
             )} />
           {show && (
@@ -190,21 +195,27 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   input: {
-    height: 40,
+    height: 35,
     width: 160,
-    margin: 12,
-    borderWidth: 1,
+    margin: 10,
+    borderWidth: 2,
     borderRadius: 8,
     textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
-  HorizontalBox: {
-    width: 280,
+  horizontalBox: {
+    width: 315,
     justifyContent: 'space-between',
     flexDirection: 'row-reverse',
     marginTop: 15,
   },
   lableText: {
-    marginTop: 17,
+    marginTop: 13,
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  text_list: {
     fontSize: 16,
     fontWeight: 'bold'
   },
@@ -218,10 +229,12 @@ const styles = StyleSheet.create({
     flexDirection: "row-reverse"
   },
   button_normal: {
+    flexDirection: "row",
     alignItems: 'center',
     width: 160,
     margin: 15,
-    marginLeft: 50,
+    marginTop: 50,
+    marginLeft: 80,
     borderRadius: 8,
     padding: 10,
     backgroundColor: "#757c94",
@@ -232,18 +245,38 @@ const styles = StyleSheet.create({
   button_text: {
     fontSize: 18,
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    alignItems: 'center',
+    marginLeft:20
   },
   list: {
     flexWrap: 'wrap',
     alignItems: 'center',
     marginTop: 16,
     padding: 28,
-    borderWidth: 1,
+    borderWidth: 3,
     borderRadius: 9,
     borderColor: 'grey',
     backgroundColor: "#fcfff9",
-    color: "black",
+    color: "black"
+  },
+  button_invite_list:{
+    flexDirection: "row",
+    alignItems: 'center',
+    width: 160,
+    margin: 15,
+    marginTop: 50,
+    marginLeft: 20,
+    borderRadius: 8,
+    padding: 10,
+    backgroundColor: "#757c94",
+    opacity: 0.8,
+    shadowColor: 'black',
+    shadowRadius: 5,
+  },
+  inner_text_list: {
+    alignItems: 'center',
+    marginLeft: 40
   },
   container_city_list: {
     marginRight: 100,
