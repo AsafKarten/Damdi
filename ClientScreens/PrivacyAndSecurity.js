@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, SafeAreaView, Text, TextInput, View, TouchableOpacity, Modal, Pressable, Alert, Platform, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { url } from '../Utils';
 
 var bcrypt = require('bcryptjs');
-
-const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function PrivacyAndSecurity({ navigation, route }) {
   const [prevDetails, setPrev] = useState(route.params.route);

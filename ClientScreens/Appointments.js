@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Modal, Pressable, Share } from 'react-native'
 import { Card } from 'react-native-elements';
-
-//Fix card style and show it if only hae a active appintment
-const url = "http://proj13.ruppin-tech.co.il/"
+import { url } from '../Utils';
 
 export default function Appointments({ navigation, route }) {
   const [hasApp, onChangeHasApp] = useState(false);
@@ -166,7 +164,7 @@ export default function Appointments({ navigation, route }) {
       <View style={styles.buttomContainer}>
         <View style={styles.ButtonContainer}>
 
-          <TouchableOpacity onPress={() => navigation.navigate('maps', { route: User })}>
+          <TouchableOpacity onPress={() => navigation.navigate('Maps', { route: User })}>
             <View style={styles.button_normal}>
               <Text style={styles.button_text} >נווט אל התחנה</Text>
             </View>

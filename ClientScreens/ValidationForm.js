@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Spiner from '../Componentes/Spiner';
 import { View, ScrollView, StyleSheet, Text, TouchableOpacity, Alert, Switch, Modal, TouchableHighlight, Platform, Pressable } from 'react-native';
+import { url } from '../Utils';
 
-const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function ValidationFrom({ navigation, route }) {
   const [shouldShow, setShouldShow] = useState(false);

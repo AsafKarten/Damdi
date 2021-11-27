@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Modal, TouchableHighlight, Platform, StyleSheet, Text, TouchableOpacity, Alert, FlatList } from 'react-native';
-
-const url = "http://proj13.ruppin-tech.co.il/"
-
+import { url } from '../Utils';
 
 export default function ScheduleAppointment({ navigation, route }) {
 

@@ -3,8 +3,7 @@ import { Platform, ImageBackground, View, BackHandler, SafeAreaView, StyleSheet,
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spiner from '../Componentes/Spiner';
 import BG_ONLY from '../assets/BG_ONLY.jpg';
-
-const url = "http://proj13.ruppin-tech.co.il/"
+import { url } from '../Utils';
 
 var isaac = require('isaac');
 var bcrypt = require('bcryptjs');
@@ -150,8 +149,6 @@ export default function Login({ navigation }) {
       console.log(error, "בעיה בשליפת הפרטים");
     }
   }
-
-
 
   return (
     <ImageBackground source={BG_ONLY} style={styles.BGimage}>

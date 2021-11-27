@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Switch, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
+import { url } from '../Utils';
 
-const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function PersonalFormC({ navigation, route }) {
   const [loading, setLoading] = useState(false);

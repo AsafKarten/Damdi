@@ -19,7 +19,7 @@ import ScheduleAppointment from '../ClientScreens/ScheduleAppointment.js';
 import MedicalForm from '../ClientScreens/MedicalForm.js';
 import ValidationForm from '../ClientScreens/ValidationForm.js';
 import PrivacyAndSecurity from '../ClientScreens/PrivacyAndSecurity.js'
-import maps from '../ClientScreens/maps.js'
+import Maps from '../ClientScreens/Maps.js'
 import ReminderScreen from '../ClientScreens/ReminderScreen.js';
 
 const Stack = createStackNavigator();
@@ -211,7 +211,7 @@ export default function StackNavigation() {
             //   return null;
             // },
           }} />
-        <Stack.Screen name="maps" component={maps}
+        <Stack.Screen name="Maps" component={Maps}
           options={{
             title: 'מפה',
             headerStyle: {

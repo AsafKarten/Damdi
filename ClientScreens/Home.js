@@ -9,7 +9,6 @@ export default function Home({ navigation, route }) {
 
   useEffect(() => {
     navigation.addListener('focus', async () => {
-      setLoading(false);
     })
   }, [navigation])
 

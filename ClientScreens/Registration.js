@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spiner from '../Componentes/Spiner';
+import { url } from '../Utils';
 
 
-const url = "http://proj13.ruppin-tech.co.il/"
 var bcrypt = require('bcryptjs');
 
 export default function Registration({ navigation }) {

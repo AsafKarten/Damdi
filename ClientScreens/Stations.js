@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, FlatList, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { url } from '../Utils';
 
-const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function Stations({ navigation, route }) {
   const [date, setDate] = useState(new Date());

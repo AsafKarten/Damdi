@@ -3,8 +3,8 @@ import { Alert, Modal, View, Pressable, SafeAreaView, StyleSheet, Text, TextInpu
 import Spiner from '../Componentes/Spiner';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RadioButtonGroup, { RadioButtonItem } from 'expo-radio-button';
+import { url } from '../Utils';
 
-const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function PersonalFormA({ navigation, route }) {
   console.log("route PersonalFormA", route);
@@ -17,13 +17,13 @@ export default function PersonalFormA({ navigation, route }) {
   const [modalUpdate, setModalUpdate] = useState(false);
 
   const [User, setUser] = useState()
-  const [firstName, setFirstName] = useState(route.params.route.First_name);
-  const [lastName, setLastName] = useState(route.params.route.Last_name);
-  const [phone, setPhone] = useState(route.params.route.Phone);
-  const [birthdate, setBirthdate] = useState(route.params.route.Birthdate);
-  const [gender, setGender] = useState(route.params.route.Gender);
-  const [prevFirstName, setPrevFirstName] = useState(route.params.route.Prev_first_name);
-  const [prevLastName, setPrevLastName] = useState(route.params.route.Prev_last_name);
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [phone, setPhone] = useState();
+  const [birthdate, setBirthdate] = useState();
+  const [gender, setGender] = useState();
+  const [prevFirstName, setPrevFirstName] = useState();
+  const [prevLastName, setPrevLastName] = useState();
 
 
   useEffect(() => {
@@ -45,7 +45,6 @@ export default function PersonalFormA({ navigation, route }) {
     if (Platform.OS !== 'web') {
       if (route.params.modalStatus === 'info') {
         setModalInfo(true);
-        setModalInfoVisible(true);
       }
       else if (route.params.modalStatus === 'update') {
         setModalUpdate(true)
@@ -101,7 +100,7 @@ export default function PersonalFormA({ navigation, route }) {
     User.Birthdate = birthdate;
     User.Prev_first_name = prevFirstName;
     User.Prev_last_name = prevLastName;
-    var UserA = { Personal_id: route.params.route.Personal_id, First_name: firstName, Last_name: lastName, Phone: phone, Gender: gender, Birthdate: birthdate, Prev_first_name: prevFirstName, Prev_last_name: prevLastName }
+    var UserA = { Personal_id: route.params.route.Personal_id, First_name: firstName, Last_name: lastName, Phone: phone, Gender: gender, Birthdate: date, Prev_first_name: prevFirstName, Prev_last_name: prevLastName }
     console.log("PersonalFormA ", UserA);
     setLoading(false);
     navigation.navigate('PersonalFormB', { route: UserA })
@@ -121,7 +120,6 @@ export default function PersonalFormA({ navigation, route }) {
   const showMode = (currentMode) => {
     setShow(true);
     setMode(currentMode);
-    setShow(false);
   };
 
   const showDatepicker = () => {
