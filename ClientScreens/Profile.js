@@ -7,6 +7,8 @@ import Spiner from '../Componentes/Spiner';
 import { url } from '../Utils';
 
 export default function Profile({ navigation, route }) {
+  console.log(route.params.route);
+  console.log(route.params.route.Profile_img)
   const [loading, setLoading] = useState(false);
 
   const [shouldShow, setShouldShow] = useState(false);
@@ -49,10 +51,10 @@ export default function Profile({ navigation, route }) {
         if (Platform.OS !== 'web') {
           const content = await FileSystem.readAsStringAsync(result.uri, { encoding: FileSystem.EncodingType.Base64 });
           result.uri = content
-          await imageUploadAndroid(result.uri, User.Personal_Id)
+          await imageUploadAndroid(result.uri, route.params.route.Personal_Id)
         }
         else {
-          await imageUpload(result.uri, User.Personal_Id);
+          await imageUpload(result.uri, route.params.route.Personal_Id);
         }
       }
     } catch (e) {
@@ -98,7 +100,7 @@ export default function Profile({ navigation, route }) {
         body: JSON.stringify({
           uri: imgUri.split(',')[1],
           name: picName,
-          folder: User.Personal_Id,
+          folder: route.params.route.Personal_Id,
           type: 'jpg',
         })
       });
@@ -111,7 +113,7 @@ export default function Profile({ navigation, route }) {
 
   const imageUploadAndroid = async (imgUri, picName) => {
     try {
-      console.log(User.Personal_Id);
+      console.log(route.params.route.Personal_Id);
       let res = await fetch(url + "api/uploadpicture", {
         method: 'POST',
         headers: {
@@ -121,7 +123,7 @@ export default function Profile({ navigation, route }) {
         body: JSON.stringify({
           uri: imgUri,
           name: picName,
-          folder: User.Personal_Id,
+          folder: route.params.route.Personal_Id,
           type: 'jpg',
         })
       });
@@ -168,13 +170,6 @@ export default function Profile({ navigation, route }) {
             <Text style={styles.button_text} >אבטחה ופרטיות</Text>
           </View>
         </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: route })}>
-          <View style={styles.button_normal}>
-            <Text style={styles.button_text} >הגדרות</Text>
-          </View>
-        </TouchableOpacity>
-
       </View>
       {shouldShow && (
         <View>
@@ -232,7 +227,6 @@ const styles = StyleSheet.create({
     borderRadius: 90,
     borderColor: 'red',
     resizeMode: 'stretch',
-
   },
   addText: {
     textAlign: 'right',

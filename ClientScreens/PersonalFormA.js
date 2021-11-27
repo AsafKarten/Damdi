@@ -103,7 +103,7 @@ export default function PersonalFormA({ navigation, route }) {
     var UserA = { Personal_id: route.params.route.Personal_id, First_name: firstName, Last_name: lastName, Phone: phone, Gender: gender, Birthdate: date, Prev_first_name: prevFirstName, Prev_last_name: prevLastName }
     console.log("PersonalFormA ", UserA);
     setLoading(false);
-    navigation.navigate('PersonalFormB', { route: UserA })
+    navigation.navigate('PersonalFormB', { route: UserA , route: User })
   }
 
 

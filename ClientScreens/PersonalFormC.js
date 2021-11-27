@@ -5,6 +5,7 @@ import { url } from '../Utils';
 
 
 export default function PersonalFormC({ navigation, route }) {
+  console.log("PersonalFormC", route.params.route);
   const [loading, setLoading] = useState(false);
 
   const [User, setUser] = useState(route.params.route)
@@ -33,7 +34,7 @@ export default function PersonalFormC({ navigation, route }) {
     setAliyaYear(User.Aliya_year)
     setFatherBirthLand(User.Father_birth_land)
     setMotherBirthLand(User.Mother_birth_land)
-  }, [])
+  }, [navigation])
 
   const postDataToDB = async (UserC) => {
     console.log(UserC);
@@ -93,9 +94,11 @@ export default function PersonalFormC({ navigation, route }) {
     User.Aliya_year = aliyaYear
     User.Father_birth_land = fatherBirthLand
     User.Mother_birth_land = motherBirthLand
-    var UserC = {Personal_id : route.params.route.Personal_id, First_name : route.params.route.First_name, Last_name: route.params.route.Last_name,Phone:route.params.route.Phone, Gender : route.params.route.Gender, Birthdate: route.params.route.Birthdate, Prev_first_name: route.params.route.Prev_first_name, Prev_last_name: route.params.route.Prev_last_name,
+    var UserC = {
+      Personal_id: route.params.route.Personal_id, First_name: route.params.route.First_name, Last_name: route.params.route.Last_name, Phone: route.params.route.Phone, Gender: route.params.route.Gender, Birthdate: route.params.route.Birthdate, Prev_first_name: route.params.route.Prev_first_name, Prev_last_name: route.params.route.Prev_last_name,
       City: route.params.route.City, Address: route.params.route.Address, Postal_code: route.params.route.Postal_code, Mail_box: route.params.route.Mail_box, Telephone: route.params.route.Telephone, Work_telephone: route.params.route.Work_telephone,
-      Blood_group_member: bloodGroupMember, Personal_insurance: personalInsurance, Confirm_examination: confirmExamination, Agree_future_don: agreeFutureDonation, Birth_land: birthLand, Aliya_year: aliyaYear, Father_birth_land: fatherBirthLand, Mother_birth_land:motherBirthLand }
+      Blood_group_member: bloodGroupMember, Personal_insurance: personalInsurance, Confirm_examination: confirmExamination, Agree_future_don: agreeFutureDonation, Birth_land: birthLand, Aliya_year: aliyaYear, Father_birth_land: fatherBirthLand, Mother_birth_land: motherBirthLand
+    }
     await postDataToDB(UserC)
     setLoading(false)
     navigation.navigate('Welcome', { route: User })

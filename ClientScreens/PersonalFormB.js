@@ -21,12 +21,12 @@ export default function PersonalFormB({ navigation, route }) {
   const [workTelephone, setWorkTelephone] = useState(route.params.route.Work_telephone);
 
   useEffect(() => {
-    // setCity(User.City)
-    // setAddress(User.Address)
-    // setPostalCode(User.Postal_code)
-    // setMailBox(User.Postal_code)
-    // setTelephone(User.Telephone)
-    // setWorkTelephone(User.Work_telephone)
+    setCity(User.City)
+    setAddress(User.Address)
+    setPostalCode(User.Postal_code)
+    setMailBox(User.Postal_code)
+    setTelephone(User.Telephone)
+    setWorkTelephone(User.Work_telephone)
   }, [])
 
   const PostPersonalFormB = async () => {
@@ -47,7 +47,7 @@ export default function PersonalFormB({ navigation, route }) {
     }
     console.log("PersonalFormB", UserB);
     setLoading(false);
-    navigation.navigate('PersonalFormC', { route: UserB })
+    navigation.navigate('PersonalFormC', { route: UserB, route:User})
   }
 
   const searchAddress = async (q) => {

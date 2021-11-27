@@ -13,7 +13,6 @@ export default function Welcome({ navigation, route }) {
 
   useEffect(() => {
     const backAction = () => {
-
       return true;
     };
 
@@ -21,7 +20,6 @@ export default function Welcome({ navigation, route }) {
       "hardwareBackPress",
       backAction
     );
-
     return () => backHandler.remove();
   }, []);
 
