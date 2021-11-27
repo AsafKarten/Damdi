@@ -142,12 +142,12 @@ export default function Profile({ navigation, route }) {
       <View style={styles.TopContainer}>
         <Image style={styles.profile_image} source={{ uri: image }} />
         <TouchableOpacity onPress={() => checkDevice()}>
-          <Text> <AntDesign name="camera" size={24} color="grey" fontWeight={'bold'} /> </Text>
+          <Text style={styles.addText}> <AntDesign name="camera" size={24} color="grey" fontWeight={'bold'} />    הוספ\י תמונה</Text>
         </TouchableOpacity>
         {loading && <Spiner loading={loading} />}
         <Text style={styles.addText}>{User.First_name + " " + User.Last_name}</Text>
 
-        <Text style={styles.addText}>{User.Blood_type} : סוג דם</Text>
+        <Text style={styles.addText}>{User.Blood_type} סוג דם :</Text>
 
       </View>
 
@@ -295,10 +295,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#F194FF",
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "white",
   },
   textStyle: {
-    color: "white",
+    color: "black",
     fontWeight: "bold",
     textAlign: "center"
   },

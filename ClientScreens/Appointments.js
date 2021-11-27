@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Modal, Pressable, Share } from 'react-native'
 import { Card } from 'react-native-elements';
 import { url } from '../Utils';
+import { Ionicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+import { Foundation } from '@expo/vector-icons';
 
 export default function Appointments({ navigation, route }) {
   const [hasApp, onChangeHasApp] = useState(false);
@@ -143,7 +147,8 @@ export default function Appointments({ navigation, route }) {
       {hasApp && (
         <View style={styles.topContainer}>
           <Card elevation={7}>
-            <Text style={styles.paragraph} >תור פעיל{"\n"}
+            <Text style={styles.title_active_app}>תור פעיל</Text>
+            <Text style={styles.paragraph}>
               מיקום התחנה: {locationApp}{"\n"}
               בתאריך: {fDate}{"\n"}
               בשעה: {fTime}
@@ -153,6 +158,7 @@ export default function Appointments({ navigation, route }) {
           <Text style={styles.textUnderCard}>לא לשכוח למלא את הטופס הרפואי בסמוך למועד התור</Text>
           <TouchableOpacity onPress={() => navigation.navigate('MedicalForm', { route: User })}>
             <View style={styles.medical_button}>
+              <Foundation name="clipboard-pencil" size={30} color="black" />
               <Text style={styles.button_text} >מילוי שאלון רפואי</Text>
             </View>
           </TouchableOpacity>
@@ -164,12 +170,14 @@ export default function Appointments({ navigation, route }) {
 
           <TouchableOpacity onPress={() => navigation.navigate('Maps', { route: User })}>
             <View style={styles.button_normal}>
+              <Ionicons name="navigate-circle-outline" size={30} color="white" />
               <Text style={styles.button_text} >נווט אל התחנה</Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => moveToReminder()}>
             <View style={styles.button_normal}>
+              <Ionicons name="alarm-outline" size={30} color="white" />
               <Text style={styles.button_text} >הוסף תזכורת</Text>
             </View>
           </TouchableOpacity>
@@ -177,12 +185,14 @@ export default function Appointments({ navigation, route }) {
         <View style={styles.ButtonContainer}>
           <TouchableOpacity onPress={() => hasApp ? setModalDelete(true) : setModalInfo(true)}>
             <View style={styles.button_normal}>
+              <AntDesign name="delete" size={30} color="white" />
               <Text style={styles.button_text} >ביטול תור</Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => navigation.navigate('Stations', { route: User })}>
             <View style={styles.button_normal}>
+              <MaterialIcons name="update" size={30} color="white" />
               <Text style={styles.button_text} >עדכון תור</Text>
             </View>
           </TouchableOpacity>
@@ -190,6 +200,7 @@ export default function Appointments({ navigation, route }) {
         <View>
           <TouchableOpacity onPress={() => onShare()}>
             <View style={styles.button_normal}>
+              <AntDesign name="sharealt" size={30} color="white" />
               <Text style={styles.button_text}>הזמן חבר לתרום</Text>
             </View>
           </TouchableOpacity>
@@ -317,16 +328,20 @@ const styles = StyleSheet.create({
   },
   //Card
   paragraph: {
-    backgroundColor: "#87F387",
-    margin: 20,
+    margin: 5,
     padding: 10,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'black',
-
   },
 
+  title_active_app: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: "#32cd32",
+    textAlign: 'center',    
+  },
 
   modalView: {
     margin: 20,

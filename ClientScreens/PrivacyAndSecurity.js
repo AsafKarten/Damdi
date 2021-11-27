@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowRadius: 5,
   },
-  HorizontalBox: {
+  horizontalBox: {
     width: 315,
     justifyContent: 'space-between',
     flexDirection: 'row-reverse',

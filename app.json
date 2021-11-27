@@ -4,12 +4,11 @@
     "slug": "DamdiClient",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/DamdiPI.png",
+    "icon": "./assets/fix_drop.png",
     "splash": {
-      "image": "./assets/LOGO_ONLY_PNG.png",
+      "image": "./assets/fix_logo_damdi.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-      
     },
     "updates": {
       "fallbackToCacheTimeout": 0

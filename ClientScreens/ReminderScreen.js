@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, Linking, TouchableOpacity, View, Button, Platform, Alert } from 'react-native';
+import { StyleSheet, Text, Linking, TouchableOpacity, View, Alert } from 'react-native';
 import * as Calendar from 'expo-calendar';
 
 
@@ -31,7 +31,7 @@ export default function ReminderScreen({ route }) {
     let appDate = new Date(appInfo.date)
     let endTime = new Date(appInfo.date)
     try {
-      let result = await Calendar.createEventAsync(eventId, {//TODO Function to get id defult calendar
+      let result = await Calendar.createEventAsync(eventId, {
         startDate: new Date(appDate),
         endDate: new Date(endTime.setHours(endTime.getHours() + 1)),
         location: appInfo.location,
@@ -58,7 +58,7 @@ export default function ReminderScreen({ route }) {
       <Text style={styles.text_buttons}>להוספת התור ללוח השנה לחץ כאן</Text>
       <TouchableOpacity onPress={() => addEventToCalendar()}>
         <View style={styles.creat_button}>
-          <Text style={styles.button_text} >הוסף תור</Text>
+          <Text style={styles.button_text} >הזכר לי</Text>
         </View>
       </TouchableOpacity>
       <Text style={styles.text_buttons}>לעריכת התזכורת לחץ כאן</Text>
@@ -71,29 +71,6 @@ export default function ReminderScreen({ route }) {
   );
 }
 
-// async function getDefaultCalendarSource() {
-//   const defaultCalendar = await Calendar.getDefaultCalendarAsync();
-//   console.log(defaultCalendar.source);
-//   return defaultCalendar.source;
-// }
-
-// async function createCalendar() {
-//   const defaultCalendarSource =
-//     Platform.OS !== 'web'
-//       ? await getDefaultCalendarSource()
-//       : { isLocalAccount: true, name: 'Expo Calendar' };
-//   const newCalendarID = await Calendar.createCalendarAsync({
-//     title: 'Expo Calendar',
-//     color: 'blue',
-//     entityType: Calendar.EntityTypes.EVENT,
-//     sourceId: defaultCalendarSource.id,
-//     source: defaultCalendarSource,
-//     name: 'internalCalendarName',
-//     ownerAccount: 'personal',
-//     accessLevel: Calendar.CalendarAccessLevel.OWNER,
-//   });
-//   console.log(`Your new calendar ID is: ${newCalendarID}`);
-// }
 
 const styles = StyleSheet.create({
   container: {
