@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
-import Registration from '../ClientScreens/Registration'
+import Registration from '../ClientScreens/Registration';
 import Login from '../ClientScreens/Login.js'
 import PersonalFormA from '../ClientScreens/PersonalFormA';
 import PersonalFormB from '../ClientScreens/PersonalFormB';
@@ -19,7 +19,7 @@ import ScheduleAppointment from '../ClientScreens/ScheduleAppointment.js';
 import MedicalForm from '../ClientScreens/MedicalForm.js';
 import ValidationForm from '../ClientScreens/ValidationForm.js';
 import PrivacyAndSecurity from '../ClientScreens/PrivacyAndSecurity.js'
-import Maps from '../ClientScreens/Maps.js'
+import Maps from '../ClientScreens/Maps.js';
 import ReminderScreen from '../ClientScreens/ReminderScreen.js';
 
 const Stack = createStackNavigator();
