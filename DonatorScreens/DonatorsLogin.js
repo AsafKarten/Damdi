@@ -3,8 +3,7 @@ import { Image, View, ImageBackground, SafeAreaView, StyleSheet, Text, TextInput
 import Spiner from '../Componentes/Spiner';
 import BG_ONLY from '../assets/BG_ONLY.jpg';
 import BG_LOGO_ONLY from '../assets/LOGO_ONLY_PNG.png';
-
-const url = "http://proj13.ruppin-tech.co.il/"
+import {url} from '../Utils'
 
 var isaac = require('isaac');
 var bcrypt = require('bcryptjs');
@@ -81,6 +80,8 @@ export default function DonatorsLogin({ navigation }) {
         if (result === 'correct') {
           setLoading(false);
           navigation.navigate('DHome', { route: donator })
+          onChangePass("")
+          onChangeId("")
         }
         else {
           Alert.alert("שגיאת התחברות", "אחד הפרטים שגויים");
@@ -105,8 +106,8 @@ export default function DonatorsLogin({ navigation }) {
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.inner}>
               <View style={styles.container}>
+                
                 <Image source={BG_LOGO_ONLY} style={styles.header_img} />
-                <Text style={styles.title_text}>כניסת מתרימים</Text>
 
                 <TextInput
                   style={styles.input}
@@ -121,7 +122,7 @@ export default function DonatorsLogin({ navigation }) {
                   secureTextEntry={true}
                   placeholder="סיסמה"
                 />
-                <TouchableOpacity onPress={() => donatorLogin(personalId, pass)}>
+                <TouchableOpacity onPress={() => donatorLogin()}>
                   <View style={styles.button_normal}>
                     <Text style={styles.button_text}>התחבר/י</Text>
                   </View>

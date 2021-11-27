@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { View, Modal, SafeAreaView, StyleSheet, Text, TouchableOpacity, Pressable } from 'react-native';
 
 
-const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function Home({ navigation, route }) {
   const [Donator, onChangeDonator] = useState(route.params.route)
@@ -25,7 +24,6 @@ export default function Home({ navigation, route }) {
 
       <TouchableOpacity onPress={() => setRoleModal(true)}>
         <View style={styles.button_normal}>
-
           <Text style={styles.button_text} >בחירת עמדה</Text>
         </View>
       </TouchableOpacity>
@@ -51,17 +49,17 @@ export default function Home({ navigation, route }) {
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => navigation.navigate('UnitOne', { route: Donator })}>
-                <Text style={styles.textStyle}>עמדה 1</Text>
+                <Text style={styles.textStyle}>עמדה 1           קבלת תורמים ותשאול</Text>
               </Pressable>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => navigation.navigate('UnitTwo', { route: Donator })}>
-                <Text style={styles.textStyle}>עמדה 2</Text>
+                <Text style={styles.textStyle}>עמדה 2           בדיקת לחץ דם והמוגלובין</Text>
               </Pressable>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => navigation.navigate('UnitThree', { route: Donator })}>
-                <Text style={styles.textStyle}>עמדה 3</Text>
+                <Text style={styles.textStyle}>עמדה 3            לקיחת תרומות דם</Text>
               </Pressable>
             </View>
             <Pressable
@@ -86,11 +84,12 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    width: 160,
-    margin: 12,
-    borderWidth: 1,
+    width: 220,
+    margin: 14,
+    borderWidth: 2,
     borderRadius: 8,
     textAlign: 'center',
+    fontWeight: 'bold',
   },
   button_normal: {
     alignItems: 'center',
@@ -147,7 +146,7 @@ const styles = StyleSheet.create({
   modal_buttons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    margin: 10,
+    margin: 5,
   },
   button: {
     marginTop: 50,
@@ -172,7 +171,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
-    fontSize: 20
+    fontSize: 16
   },
   modalText: {
     color: "black",

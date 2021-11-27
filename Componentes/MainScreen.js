@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, BackHandler, ImageBackground, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
-import Spiner from './Spiner';
+import { View, BackHandler, Image, ImageBackground, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
 import BG_ONLY from '../assets/BG_ONLY.jpg';
+import BG_LOGO_ONLY from '../assets/LOGO_ONLY_PNG.png';
+
 
 export default function MainScreen({ navigation }) {
 
@@ -32,7 +33,9 @@ export default function MainScreen({ navigation }) {
       <SafeAreaView style={styles.container}>
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.inner}>
+            <View style={styles.container}>
+              <Image source={BG_LOGO_ONLY} style={styles.header_img} />
+
               <TouchableOpacity onPress={() => navigation.navigate('DonatorsLogin')}>
                 <View style={styles.button_normal}>
                   <Text style={styles.button_text}>כניסת מתרים</Text>
@@ -47,14 +50,14 @@ export default function MainScreen({ navigation }) {
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
       </SafeAreaView>
-    </ImageBackground>
+    </ImageBackground >
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   button_normal: {
     alignItems: 'center',
@@ -76,5 +79,12 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
     justifyContent: 'center',
+  },
+  header_img: {
+    marginBottom: 40,
+    width: 310,
+    height: 100,
+    alignSelf: 'center',
+    resizeMode: 'stretch'
   }
 });

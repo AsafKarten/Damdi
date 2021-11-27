@@ -195,7 +195,7 @@ export default function AddUser({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.top_screen}>
-        <View style={styles.HorizontalBox}>
+        <View style={styles.horizontalBox}>
           <Text>בחר סוג משתמש להוספה: </Text>
           <RadioButtonGroup
             containerStyle={{ margin: 15, flexDirection: 'row' }}
@@ -207,7 +207,7 @@ export default function AddUser({ navigation }) {
           </RadioButtonGroup>
         </View>
       </View>
-      <View style={styles.HorizontalBox}>
+      <View style={styles.horizontalBox}>
         <Text style={styles.lableText}> תעודת זהות </Text>
         <TextInput
           style={styles.input}
@@ -217,7 +217,7 @@ export default function AddUser({ navigation }) {
           keyboardType='numeric'
         />
       </View>
-      {nameInput && <View style={styles.HorizontalBox}>
+      {nameInput && <View style={styles.horizontalBox}>
         <Text style={styles.lableText}> שם פרטי </Text>
         <TextInput
           style={styles.input}
@@ -226,7 +226,7 @@ export default function AddUser({ navigation }) {
           placeholder="שם פרטי"
         />
       </View>}
-      {nameInput && <View style={styles.HorizontalBox}>
+      {nameInput && <View style={styles.horizontalBox}>
         <Text style={styles.lableText}>שם משפחה</Text>
         <TextInput
           style={styles.input}
@@ -235,7 +235,7 @@ export default function AddUser({ navigation }) {
           placeholder="שם משפחה"
         />
       </View>}
-      {emailInput && (<View style={styles.HorizontalBox}>
+      {emailInput && (<View style={styles.horizontalBox}>
         <Text style={styles.lableText}>אימייל</Text>
         <TextInput
           style={styles.input}
@@ -245,7 +245,7 @@ export default function AddUser({ navigation }) {
         />
       </View>
       )}
-      <View style={styles.HorizontalBox}>
+      <View style={styles.horizontalBox}>
         <Text style={styles.lableText}>סיסמא</Text>
         <TextInput
           style={styles.input}
@@ -255,7 +255,7 @@ export default function AddUser({ navigation }) {
           placeholder="סיסמא"
         />
       </View>
-      <View style={styles.HorizontalBox}>
+      <View style={styles.horizontalBox}>
         <Text style={styles.lableText}>אימות סיסמא</Text>
         <TextInput
           style={styles.input}
@@ -307,19 +307,20 @@ const styles = StyleSheet.create({
   top_screen: {
     flexDirection: 'row'
   },
-  HorizontalBox: {
-    width: 280,
+  horizontalBox: {
+    width: 315,
     justifyContent: 'space-between',
     flexDirection: 'row-reverse',
     marginTop: 15,
   },
   input: {
-    width: 150,
-    height: 40,
-    margin: 8,
-    borderWidth: 1,
+    height: 35,
+    width: 200,
+    margin: 10,
+    borderWidth: 2,
     borderRadius: 8,
     textAlign: 'center',
+    fontWeight: 'bold',
   },
   lableText: {
     marginTop: 17,

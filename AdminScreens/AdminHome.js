@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
   },
   button_normal: {
     alignItems: 'center',
-    width: 90,
-    height: 90,
+    width: 100,
+    height: 85,
     margin: 15,
     borderRadius: 8,
     padding: 10,
@@ -104,19 +104,20 @@ const styles = StyleSheet.create({
   },
   button_logout: {
     alignItems: 'center',
-    width: 90,
+    width: 100,
     borderRadius: 8,
     padding: 10,
+    marginBottom:80,
     backgroundColor: "#757c94",
     opacity: 0.8,
     shadowColor: 'black',
     shadowRadius: 5,
-
   },
   button_text: {
-    fontSize: 18,
+    fontSize: 16,
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    textAlign: 'center'
   },
   header_img: {
     marginBottom: 40,

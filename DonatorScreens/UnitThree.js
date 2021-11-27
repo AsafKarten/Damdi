@@ -85,11 +85,12 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    width: 160,
-    margin: 12,
-    borderWidth: 1,
+    width: 220,
+    margin: 14,
+    borderWidth: 2,
     borderRadius: 8,
     textAlign: 'center',
+    fontWeight: 'bold',
   },
   button_normal: {
     alignItems: 'center',

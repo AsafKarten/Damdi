@@ -131,11 +131,12 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    width: 160,
-    margin: 12,
-    borderWidth: 1,
+    width: 220,
+    margin: 14,
+    borderWidth: 2,
     borderRadius: 8,
     textAlign: 'center',
+    fontWeight: 'bold',
   },
   button_normal: {
     alignItems: 'center',
@@ -147,6 +148,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     shadowColor: 'black',
     shadowRadius: 5,
+    marginLeft: 44
   },
   button_text: {
     fontSize: 18,

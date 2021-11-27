@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Modal, TouchableHighlight, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
-
-
-const url = "http://proj13.ruppin-tech.co.il/"
+import { View, Modal, TouchableHighlight, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { url } from '../Utils'
 
 export default function UnitOne({ navigation, route }) {
   const [Donator, setDonator] = useState(route.params.route)
@@ -49,6 +47,10 @@ export default function UnitOne({ navigation, route }) {
     }
   }
 
+  const AppointmentsList = () => {
+    navigation.navigate('AppList')
+  }
+
   return (
     <SafeAreaView style={styles.container}>
 
@@ -62,6 +64,12 @@ export default function UnitOne({ navigation, route }) {
       <TouchableOpacity onPress={() => getDonorInfo()}>
         <View style={styles.button_normal}>
           <Text style={styles.button_text} >התחל</Text>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => AppointmentsList()}>
+        <View style={styles.button_normal}>
+          <Text style={styles.button_text} >רשימת תורים</Text>
         </View>
       </TouchableOpacity>
 
@@ -126,11 +134,12 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    width: 160,
-    margin: 12,
-    borderWidth: 1,
+    width: 220,
+    margin: 14,
+    borderWidth: 2,
     borderRadius: 8,
     textAlign: 'center',
+    fontWeight: 'bold',
   },
   button_normal: {
     alignItems: 'center',

@@ -21,6 +21,7 @@ import UnitThree from '../DonatorScreens/UnitThree.js';
 import DonorInfo from '../DonatorScreens/DonorInfo.js';
 import PersonalInfo from '../DonatorScreens/PersonalInfo.js';
 import MedicalInfo from '../DonatorScreens/MedicalInfo.js';
+import AppList from '../DonatorScreens/AppList.js';
 
 const Stack = createStackNavigator();
 
@@ -122,7 +123,7 @@ export default function StackNavigation() {
 
         <Stack.Screen name="DonatorsLogin" component={DonatorsLogin}
           options={{
-            title: 'התחברות מתרים',
+            title: 'התחברות עובדים',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
@@ -207,6 +208,18 @@ export default function StackNavigation() {
         <Stack.Screen name="PersonalInfo" component={PersonalInfo}
           options={{
             title: 'פרטים אישיים תורם',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+        <Stack.Screen name="AppList" component={AppList}
+          options={{
+            title: 'רשימת תורים',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
