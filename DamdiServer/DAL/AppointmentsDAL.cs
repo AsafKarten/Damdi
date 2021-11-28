@@ -51,9 +51,40 @@ namespace DamdiServer.DAL
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        existApp = new Appointments(Convert.ToInt32(reader["app_id"]),Convert.ToInt32(reader["station_code"]), Convert.ToString(reader["personal_id"]), Convert.ToString(reader["app_time"]));
+                        existApp = new Appointments(Convert.ToInt32(reader["app_id"]), Convert.ToInt32(reader["station_code"]), Convert.ToString(reader["personal_id"]), Convert.ToString(reader["app_time"]));
                     }
                     return existApp;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<Appointments> GetAppointmentsList()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    var appointments = new List<Appointments>();
+                    Appointments a = null;
+                    SqlCommand cmd = new SqlCommand("GetAppointments", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        a = new Appointments(
+                            Convert.ToInt32(reader["app_id"]),
+                            Convert.ToInt32(reader["station_code"]),
+                            Convert.ToString(reader["personal_id"]),
+                            Convert.ToString(reader["app_time"])
+                            );
+                        appointments.Add(a);
+                    }
+                    return appointments;
                 }
             }
             catch (Exception ex)

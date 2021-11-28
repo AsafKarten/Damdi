@@ -44,7 +44,6 @@ namespace DamdiServer.DAL
         {
             try
             {
-
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();

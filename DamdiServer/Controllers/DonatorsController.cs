@@ -1,5 +1,6 @@
 ﻿using DamdiServer.Models;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
 
@@ -45,6 +46,26 @@ namespace DamdiServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("api/all/appointments")]
+        public IHttpActionResult GetAllAppointments()
+        {
+            try
+            {
+                List<Appointments> appointments = Globals.AppointmentsDAL.GetAppointmentsList();
+                Created(new Uri(Request.RequestUri.AbsoluteUri), appointments);
+                if (appointments != null)
+                    return Ok(appointments);
+                return BadRequest("appointments not found");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
 
 
     }
