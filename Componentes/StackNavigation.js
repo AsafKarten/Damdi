@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
-import Registration from '../ClientScreens/Registration'
+import Registration from '../ClientScreens/Registration';
 import Login from '../ClientScreens/Login.js'
 import PersonalFormA from '../ClientScreens/PersonalFormA';
 import PersonalFormB from '../ClientScreens/PersonalFormB';
