@@ -127,7 +127,7 @@ export default function ScheduleAppointment({ navigation, route }) {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.list}>
-            <Text style={styles.appText}>{"בתאריך " + item.date + "            " + "בשעה: " + item.hour + ":" + item.Minutes}</Text>
+            <Text style={styles.appText}>{"בתאריך " + item.date + "                " + "בשעה: " + item.hour + ":" + item.Minutes}</Text>
             <TouchableOpacity onPress={() => ScheduleApp(item)}>
               <View style={styles.button_normal}>
                 <Text style={styles.button_text} >הזמן/י תור</Text>
@@ -213,20 +213,20 @@ const styles = StyleSheet.create({
   },
   list: {
     flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    marginTop: 16,
-    padding: 28,
-    borderWidth: 1,
+    alignItems: 'center',
+    marginTop: 14,
+    padding: 18,
+    borderWidth: 3,
     borderRadius: 9,
     borderColor: 'grey',
     backgroundColor: "#fcfff9",
-    color: "black",
+    color: "black"
   },
   appText: {
     fontSize: 20,
+    fontWeight: 'bold',
     flexDirection: 'row-reverse',
   },
-
   // Modal
   modalView: {
     margin: 20,
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
   },
   modal_butons_text: {
     fontWeight: 'bold',
-    color: "white",
+    color: "black",
     fontSize: 18,
     textAlign: "center",
   },
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F194FF",
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "white",
   },
   textStyle: {
     color: "white",

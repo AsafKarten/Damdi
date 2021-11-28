@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Modal, View, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import { BackHandler,Alert, Modal, View, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RadioButtonGroup, { RadioButtonItem } from 'expo-radio-button';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { url } from '../Utils';
 
 
@@ -40,6 +41,45 @@ export default function PersonalFormA({ navigation, route }) {
     return unsubscribe;
   }, [navigation]);
 
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert("רגע רגע", "בטוח שאת/ה רוצה להתנתק ?", [
+        {
+          text: "ביטול",
+          onPress: () => null,
+          style: "cancel"
+        },
+        {
+          text: "כן", onPress: () => logoutUser()
+        }
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  const clearAsyncStorage = async (key) => {
+    try {
+      await AsyncStorage.removeItem(key)
+      console.log("clear async storage")
+    } catch (error) {
+      console.log(error, "error with clean async storage")
+    }
+    console.log('Done.')
+  }
+
+  const logoutUser = async () => {
+    setLoading(true)
+    await clearAsyncStorage("loggedUser")
+    setLoading(false)
+    navigation.navigate("Login");
+  }
 
   const checkStatusModal = () => {
     if (Platform.OS !== 'web') {
@@ -172,7 +212,7 @@ export default function PersonalFormA({ navigation, route }) {
             <View style={styles.horizontalBox}>
               <Text style={styles.lableText}>מין</Text>
               <RadioButtonGroup
-                containerStyle={{ margin: 16, flexDirection: 'row',marginLeft: 30}}
+                containerStyle={{ margin: 16, flexDirection: 'row', marginLeft: 30 }}
                 selected={gender}
                 onSelected={setGender}
                 radioBackground="#7d91b0">

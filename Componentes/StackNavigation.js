@@ -213,14 +213,14 @@ export default function StackNavigation() {
           }} />
         <Stack.Screen name="Maps" component={Maps}
           options={{
-            title: 'מפה',
+            title: 'שיטת ניווט',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
             headerTintColor: '#fff',
-            headerLeft: () => {
-              return null;
-            },
+            // headerLeft: () => {
+            //   return null;
+            // },
           }} />
       </Stack.Navigator >
     </NavigationContainer >

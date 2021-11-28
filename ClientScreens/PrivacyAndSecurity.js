@@ -240,9 +240,10 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   lableText: {
-    marginTop: 17,
+    marginTop: 15,
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: '#7d85b0'
   },
   //Modal
   modalView: {

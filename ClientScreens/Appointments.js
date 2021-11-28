@@ -24,16 +24,16 @@ export default function Appointments({ navigation, route }) {
   var fTime = customTime.getHours() + ":" + customTime.getMinutes()
 
 
-  useEffect(() => {
-    (async () => {
-      setModalDelete(false)
-      await checkActiveAppinment()
-    })()
-  }, [navigation])
+  // useEffect(() => {
+  //   (async () => {
+  //     setModalDelete(false)
+  //     await checkActiveAppinment()
+  //   })()
+  // }, [navigation])
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      checkActiveAppinment()
+    const unsubscribe = navigation.addListener('focus', async () => {
+      await checkActiveAppinment()
       setModalDelete(false)
     });
     return unsubscribe;
@@ -76,16 +76,16 @@ export default function Appointments({ navigation, route }) {
       });
       let appintment = await result.json()
       console.log(appintment);
-      if (appintment !== "Appintment not found") {
+      if (appintment === "Appintment not found.") {
+        setModalInfo(true)
+        onChangeHasApp(false);
+        return
+      }
+      else {
         setFullDate(appintment.App_time)
         setAppintmentId(appintment.App_id)
         await getStationName(appintment.Station_code)
         onChangeHasApp(true);
-      }
-      else {
-        setModalInfo(true)
-        onChangeHasApp(false);
-        return
       }
     } catch (error) {
       Alert.alert("תקלה עם שליפת תחנות התרמה מהשרת, נסה מאוחר יותר")
@@ -168,7 +168,9 @@ export default function Appointments({ navigation, route }) {
       <View style={styles.buttomContainer}>
         <View style={styles.ButtonContainer}>
 
-          <TouchableOpacity onPress={() => navigation.navigate('Maps', { route: User })}>
+          <TouchableOpacity onPress={() => {
+            navigation.navigate('Maps', { route: User })
+          }}>
             <View style={styles.button_normal}>
               <Ionicons name="navigate-circle-outline" size={30} color="white" />
               <Text style={styles.button_text} >נווט אל התחנה</Text>
@@ -340,7 +342,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     color: "#32cd32",
-    textAlign: 'center',    
+    textAlign: 'center',
   },
 
   modalView: {

@@ -202,10 +202,11 @@ export default function ValidationFrom({ navigation, route }) {
 
         <View style={styles.container}>
           <View style={styles.textBox}>
-            <Text style={styles.text}>האם קיימות סיבות אישיות או אחרות, שבגללן לא ניתן להשתמש במנת הדם שתתרום לעירוי לחולה</Text>
+            <Text style={styles.text}>האם קיימות סיבות אישיות או אחרות,              {"\n"}
+              שבגללן לא ניתן להשתמש במנת הדם שתתרום לעירוי לחולה              {"\n"}
+              לא לעירוי !</Text>
           </View>
           <View style={styles.checkboxContainer}>
-            <Text>לא לעירוי!</Text>
             <Switch
               onValueChange={toggle6}
               value={notForUse6}
@@ -300,8 +301,11 @@ const styles = StyleSheet.create({
   textBox: {},
   text: {
     fontSize: 20,
+    fontWeight: 'bold'
   },
-  checkboxContainer: {},
+  checkboxContainer: {
+    alignSelf: 'center',
+  },
   checkbox: {
     marginRight: 5,
   },

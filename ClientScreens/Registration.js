@@ -56,120 +56,120 @@ export default function Registration({ navigation }) {
     else {
       SignUp();
     }
-
-
-    const GetUserFormDB = async () => {
-      try {
-        let result_user = await fetch(url + "api/user", {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            Personal_id: personalId,
-            Email: email
-          })
-        });
-        let user = await result_user.json();
-        await storeData(user)
-        navigation.navigate("PersonalFormA", { route: user, modalStatus: "info" })
-      } catch (error) {
-        Alert.alert("בעיה בשרת,משתמש אינו נרשם במערכת, נסה מאוחר יותר", "שגיאה")
-      }
-    }
-
-
-
-    const SignUp = async () => {
-      try {
-        let salt = bcrypt.genSaltSync(10);
-        let saltedHash = bcrypt.hashSync(pass, salt);
-        let result_register = await fetch(url + "api/add/user", {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            Personal_id: personalId,
-            Email: email,
-            Salted_hash: saltedHash,
-            Profile_img: defaultImg
-          })
-        })
-        let rsponse = await result_register.json()
-        if (rsponse == 'User created successfully') {
-          GetUserFormDB();
-        }
-      }
-      catch (error) {
-        Alert.alert("שגיאת הרשמה", "מצטערים ההרשמה נכשלה אנא נסו מאוחר יותר")
-      }
-    }
-
-
-    return (
-      <SafeAreaView style={styles.container}>
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.inner}>
-              <View style={styles.horizontalBox}>
-                <Text style={styles.lableText}> תעודת זהות </Text>
-                <TextInput
-                  style={styles.input}
-                  onChangeText={onChangeId}
-                  value={personalId}
-                  placeholder="תעודת זהות"
-                  maxLength={9}
-                />
-              </View>
-              <View style={styles.horizontalBox}>
-                <Text style={styles.lableText}> אימייל </Text>
-                <TextInput
-                  style={styles.input}
-                  onChangeText={onChangeEmail}
-                  value={email}
-                  placeholder="אימייל"
-                />
-              </View>
-              <View style={styles.horizontalBox}>
-                <Text style={styles.lableText}> סיסמה </Text>
-                <TextInput
-                  style={styles.input}
-                  onChangeText={onChangePass}
-                  value={pass}
-                  secureTextEntry={true}
-                  placeholder="סיסמה"
-                  maxLength={8}
-                />
-              </View>
-              <View style={styles.horizontalBox}>
-                <Text style={styles.lableText}> אשר סיסמה </Text>
-                <TextInput
-                  style={styles.input}
-                  onChangeText={onChangeCPass}
-                  secureTextEntry={true}
-                  value={confirmPass}
-                  placeholder="אשר סיסמה"
-                  maxLength={8}
-                />
-              </View>
-              <TouchableOpacity onPress={() => {
-                setLoading(false)
-                validationInput()
-              }}>
-                <View style={styles.button_normal}>
-                  <Text style={styles.button_text}>סיים הרשמה</Text>
-                </View>
-              </TouchableOpacity>
-              {loading && <Spiner loading={loading} />}
-            </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    );
   }
+
+
+  const GetUserFormDB = async () => {
+    try {
+      let result_user = await fetch(url + "api/user", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: personalId,
+          Email: email
+        })
+      });
+      let user = await result_user.json();
+      await storeData(user)
+      navigation.navigate("PersonalFormA", { route: user, modalStatus: "info" })
+    } catch (error) {
+      Alert.alert("בעיה בשרת,משתמש אינו נרשם במערכת, נסה מאוחר יותר", "שגיאה")
+    }
+  }
+
+
+
+  const SignUp = async () => {
+    try {
+      let salt = bcrypt.genSaltSync(10);
+      let saltedHash = bcrypt.hashSync(pass, salt);
+      let result_register = await fetch(url + "api/add/user", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: personalId,
+          Email: email,
+          Salted_hash: saltedHash,
+          Profile_img: defaultImg
+        })
+      })
+      let rsponse = await result_register.json()
+      if (rsponse == 'User created successfully') {
+        GetUserFormDB();
+      }
+    }
+    catch (error) {
+      Alert.alert("שגיאת הרשמה", "מצטערים ההרשמה נכשלה אנא נסו מאוחר יותר")
+    }
+  }
+
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.inner}>
+            <View style={styles.horizontalBox}>
+              <Text style={styles.lableText}> תעודת זהות </Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={onChangeId}
+                value={personalId}
+                placeholder="תעודת זהות"
+                maxLength={9}
+              />
+            </View>
+            <View style={styles.horizontalBox}>
+              <Text style={styles.lableText}> אימייל </Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={onChangeEmail}
+                value={email}
+                placeholder="אימייל"
+              />
+            </View>
+            <View style={styles.horizontalBox}>
+              <Text style={styles.lableText}> סיסמה </Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={onChangePass}
+                value={pass}
+                secureTextEntry={true}
+                placeholder="סיסמה"
+                maxLength={8}
+              />
+            </View>
+            <View style={styles.horizontalBox}>
+              <Text style={styles.lableText}> אשר סיסמה </Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={onChangeCPass}
+                secureTextEntry={true}
+                value={confirmPass}
+                placeholder="אשר סיסמה"
+                maxLength={8}
+              />
+            </View>
+            <TouchableOpacity onPress={() => {
+              setLoading(false)
+              validationInput()
+            }}>
+              <View style={styles.button_normal}>
+                <Text style={styles.button_text}>סיים הרשמה</Text>
+              </View>
+            </TouchableOpacity>
+            {loading && <Spiner loading={loading} />}
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
 }
 const styles = StyleSheet.create({
   container: {

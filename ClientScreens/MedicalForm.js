@@ -123,6 +123,7 @@ export default function MedicalForm({ navigation, route }) {
           <ScrollView>
             <View style={styles.inner}>
               <View style={styles.Qcontainer}>
+                <Text  style={styles.textBox}>אנא מלא בקפידה שאלון זה,     הפרטים הרפואיים חייבים לשקף את מצב בריאותך !</Text>
                 <View style={styles.HorizontalBox}>
                   <Text style={styles.textBox}>אני בריא/ה וחש בטוב היום</Text>
                   <Switch
@@ -425,7 +426,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   inner: {
-    padding: 50,
+    padding: 40,
     flex: 1,
     justifyContent: "space-between",
   },
@@ -433,10 +434,8 @@ const styles = StyleSheet.create({
 
   },
   checkbox: {
-    // alignSelf: "center",
     marginRight: 5,
     alignItems: "center",
-    //marginLeft:50,
   },
   Qcontainer: {
     borderBottomColor: 'grey',
@@ -460,7 +459,6 @@ const styles = StyleSheet.create({
   input: {
     width: 300,
     height: 40,
-    
     marginRight: 10,
     borderWidth: 2,
     borderRadius: 8,

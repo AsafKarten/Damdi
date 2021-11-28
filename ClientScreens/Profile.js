@@ -226,9 +226,10 @@ const styles = StyleSheet.create({
   profile_image: {
     width: 110,
     height: 110,
-    borderRadius: 560,
+    borderRadius: 400,
     borderColor: 'red',
     resizeMode: 'stretch',
+    marginLeft:15
   },
   addText: {
     textAlign: 'right',
