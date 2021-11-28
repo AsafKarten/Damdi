@@ -8,7 +8,7 @@ export default function PersonalInfo({ navigation, route }) {
 
   return (
     <SafeAreaView>
-<View style={styles.infoBox}>
+      <View style={styles.infoBox}>
         <Text style={styles.textStyle}>שם התורם: {route.params.route.Donor.First_name + " " + route.params.route.Donor.Last_name}</Text>
         <Text style={styles.textStyle}>ת.ז: {route.params.route.Donor.Personal_id}</Text>
         <Text style={styles.textStyle}>תאריך לידה:  {route.params.route.Donor.Birthdate}</Text>
@@ -22,27 +22,25 @@ export default function PersonalInfo({ navigation, route }) {
         <Text style={styles.textStyle}>מס' טלפון: {route.params.route.Donor.Phone}</Text>
         <Text style={styles.textStyle}>שם פרטי קודם: {route.params.route.Donor.Prev_first_name}</Text>
         <Text style={styles.textStyle}>שם משפחה קודם: {route.params.route.Donor.Prev_last_name}</Text>
-</View>
+      </View>
       <TouchableOpacity onPress={() => navigation.navigate('UnitOne', { route: Donator })}>
         <View style={styles.button_normal}>
           <Text style={styles.button_text} >אישור תורם</Text>
         </View>
       </TouchableOpacity>
-
-   
     </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
-  infoBox:{
-    height:300,
-    padding:15,
- 
-    
+  infoBox: {
+    height: 300,
+    padding: 15,
+
+
   },
-  textStyle:{
-    fontSize:20,
-    textAlign:'right',
+  textStyle: {
+    fontSize: 20,
+    textAlign: 'right',
   },
   container: {
     flex: 1,
