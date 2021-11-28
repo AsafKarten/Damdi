@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Modal, TouchableHighlight, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image, FlatList } from 'react-native';
-
+import { AntDesign } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 export default function DonorInfo({ navigation, route }) {
   console.log(route.params.route);
@@ -11,26 +15,35 @@ export default function DonorInfo({ navigation, route }) {
 
   return (
     <SafeAreaView>
-      <TouchableOpacity onPress={() => navigation.navigate('PersonalInfo', { route: Route })}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >פרטים אישים</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('MedicalInfo', { route: Route })}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >פרטים רפואים</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('UnitOne', { route: Donator })}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >אישור תורם</Text>
-        </View>
-      </TouchableOpacity>
-
+      <View style={styles.containr_btn}>
+        <TouchableOpacity onPress={() => navigation.navigate('PersonalInfo', { route: Route })}>
+          <View style={styles.button_normal}>
+            <Feather name="info" size={24} color="white" />
+            <Text style={styles.button_text} >פרטים אישים</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('MedicalInfo', { route: Route })}>
+          <View style={styles.button_normal}>
+            <FontAwesome5 name="notes-medical" size={24} color="white" />
+            <Text style={styles.button_text} >פרטים רפואים</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('UnitOne', { route: Donator })}>
+          <View style={styles.button_normal}>
+            <FontAwesome5 name="stamp" size={24} color="white" />
+            <Text style={styles.button_text} >אישור תורם</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
+  containr_btn: {
+    alignSelf: 'center',
+    marginTop: 35,
+    flexDirection: 'row'
+  },
   button_normal: {
     alignItems: 'center',
     width: 90,

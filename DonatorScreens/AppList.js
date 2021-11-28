@@ -39,7 +39,6 @@ export default function AppList({ navigation }) {
     }
   }
 
-
   const getAppointmentsList = async () => {
     try {
       let result = await fetch(url + "api/all/appointments", {
@@ -47,13 +46,17 @@ export default function AppList({ navigation }) {
       });
       let data = [...await result.json()];
       let idApp = 0
+      let arr = []
       for (let index = 0; index < data.length; index++) {
         let PID = data[index].Personal_id
         let fullname = await getUserInfo(PID)
         let timeapp = data[index].App_time
-        let appObj = { id: ++idApp, time: timeapp, name: fullname }
-        fullData.push(appObj);
+        let datetime = new Date(timeapp)
+        var fTime = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear() + " " + datetime.getHours() + ":" + datetime.getMinutes()
+        let appObj = { id: ++idApp, time: fTime, name: fullname }
+        arr.push(appObj);
       }
+      setFullData(arr)
     } catch (error) {
       console.error(error)
     }
@@ -66,7 +69,7 @@ export default function AppList({ navigation }) {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.list}>
-            <Text style={styles.text_list}>{item.time}   {item.name}</Text>
+            <Text style={styles.text_list}>{item.time}  {item.name}</Text>
           </View>
         )} />
     </View>
@@ -113,13 +116,13 @@ const styles = StyleSheet.create({
   list: {
     flexWrap: 'wrap',
     alignItems: 'center',
-    marginTop: 20,
-    padding: 28,
-    borderWidth: 2,
-    borderRadius: 5,
+    marginTop: 14,
+    padding: 18,
+    borderWidth: 3,
+    borderRadius: 9,
     borderColor: 'grey',
     backgroundColor: "#fcfff9",
-    color: "black",
+    color: "black"
   },
   text_list: {
     fontSize: 16,

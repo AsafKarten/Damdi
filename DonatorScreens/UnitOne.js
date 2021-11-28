@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Modal, TouchableHighlight, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { url } from '../Utils'
+import { AntDesign } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 
 export default function UnitOne({ navigation, route }) {
   const [Donator, setDonator] = useState(route.params.route)
@@ -63,12 +65,14 @@ export default function UnitOne({ navigation, route }) {
 
       <TouchableOpacity onPress={() => getDonorInfo()}>
         <View style={styles.button_normal}>
+          <AntDesign name="logout" size={24} color="white" />
           <Text style={styles.button_text} >התחל</Text>
         </View>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => AppointmentsList()}>
         <View style={styles.button_normal}>
+          <Feather name="list" size={24} color="white" />
           <Text style={styles.button_text} >רשימת תורים</Text>
         </View>
       </TouchableOpacity>
@@ -147,7 +151,7 @@ const styles = StyleSheet.create({
     height: 90,
     margin: 15,
     borderRadius: 8,
-    padding: 10,
+    padding: 15,
     backgroundColor: "#757c94",
     opacity: 0.8,
     shadowColor: 'black',

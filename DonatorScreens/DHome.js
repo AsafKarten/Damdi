@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Modal, SafeAreaView, StyleSheet, Text, TouchableOpacity, Pressable } from 'react-native';
-
+import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 
 export default function Home({ navigation, route }) {
@@ -21,19 +22,21 @@ export default function Home({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.containr_btn}>
+        <TouchableOpacity onPress={() => setRoleModal(true)}>
+          <View style={styles.button_normal}>
+            <AntDesign name="select1" size={24} color="white" />
+            <Text style={styles.button_text} >בחירת עמדה</Text>
+          </View>
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => setRoleModal(true)}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >בחירת עמדה</Text>
-        </View>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >שינוי אתר התרמה</Text>
-        </View>
-      </TouchableOpacity>
-
+        <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
+          <View style={styles.button_normal}>
+            <FontAwesome name="exchange" size={24} color="white" />
+            <Text style={styles.button_text} >שינוי אתר התרמה</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
       {roleModal && (
         <Modal
           animationType="slide"
@@ -69,15 +72,16 @@ export default function Home({ navigation, route }) {
             </Pressable>
           </View>
         </Modal>
-      )}
+      )
+      }
     </SafeAreaView >
   );
 }
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  containr_btn: {
+    alignSelf: 'center',
+    marginTop: 35,
+    flexDirection: 'row'
   },
   ButtonContainer: {
     flexDirection: 'row'
@@ -104,9 +108,10 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    fontSize: 18,
+    fontSize: 16,
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   header_img: {
     marginBottom: 40,
@@ -115,7 +120,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     resizeMode: 'stretch'
   },
-
   //Modal
   modalView: {
     margin: 20,
@@ -163,20 +167,21 @@ const styles = StyleSheet.create({
   },
   buttonClose: {
     width: 120,
-    backgroundColor: "#2196F3",
+    backgroundColor: "white",
     opacity: 0.8,
 
   },
   textStyle: {
-    color: "white",
+    color: "black",
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 16
   },
   modalText: {
     color: "black",
-    fontSize: 22,
+    fontSize: 20,
     marginBottom: 10,
-    textAlign: "center"
+    textAlign: "center",
+    fontWeight: "bold"
   }
 });
