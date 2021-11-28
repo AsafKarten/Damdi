@@ -39,15 +39,15 @@ export default function MedicalInfo({ navigation, route }) {
 
     return (
         <SafeAreaView>
-           
+           <View style={styles.infoBox}>
                 <Text>{donor.First_name + " " + donor.Last_name}</Text>
-                <Text>{donor.Personal_id}</Text>
-                <Text>{MedicalForm.Q3_1 ? (" כן") : " לא"} בריא וחש בטוב</Text>
-                <Text>{MedicalForm.Q3_2 ? (" כן") : " לא"} קיבלתי עירוי דם/מרכבי דם ב- 6 החודשים האחרונים</Text>
-                <Text>{MedicalForm.Q3_3 ? (" כן") : " " + " לא "}נטלתי תרופות בחודש האחרון (כולל משככי כאבים, אספירין, ברזל וויטמינים).</Text>
-                <Text>{MedicalForm.Q3_4 ? (" כן") : " לא"} קיבלתי חיסונים בחודש האחרון</Text>
-                <Text>{MedicalForm.Q3_5 ? (" כן") : " לא"} עברתי טיפול שיניים נרחב ב- 7 הימים האחרונים</Text>
-                
+                <Text style={styles.textStyle}>{donor.Personal_id}</Text>
+                <Text style={styles.textStyle}>{MedicalForm.Q3_1 ? (" כן") : " לא"} בריא וחש בטוב</Text>
+                <Text style={styles.textStyle}>{MedicalForm.Q3_2 ? (" כן") : " לא"} קיבלתי עירוי דם/מרכבי דם ב- 6 החודשים האחרונים</Text>
+                <Text style={styles.textStyle}>{MedicalForm.Q3_3 ? (" כן") : " " + " לא "}נטלתי תרופות בחודש האחרון (כולל משככי כאבים, אספירין, ברזל וויטמינים).</Text>
+                <Text style={styles.textStyle}>{MedicalForm.Q3_4 ? (" כן") : " לא"} קיבלתי חיסונים בחודש האחרון</Text>
+                <Text style={styles.textStyle}>{MedicalForm.Q3_5 ? (" כן") : " לא"} עברתי טיפול שיניים נרחב ב- 7 הימים האחרונים</Text>
+               </View> 
           
             <TouchableOpacity onPress={() => navigation.navigate('UnitOne', { route: Donator })}>
                 <View style={styles.button_normal}>
@@ -59,6 +59,16 @@ export default function MedicalInfo({ navigation, route }) {
     );
 }
 const styles = StyleSheet.create({
+    infoBox:{
+        height:300,
+        padding:15,
+     
+        
+      },
+      textStyle:{
+        fontSize:20,
+        textAlign:'right',
+      },
     container: {
         flex: 1,
         alignItems: 'center',

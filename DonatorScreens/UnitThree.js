@@ -1,56 +1,108 @@
 import React, { useState, useEffect } from 'react';
-import { View, Modal, TouchableHighlight, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image, FlatList } from 'react-native';
-
-
-const url = "http://proj13.ruppin-tech.co.il/"
+import { View, Modal, TouchableHighlight, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { url } from '../Utils'
+import { AntDesign } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 
 export default function UnitThree({ navigation, route }) {
-  const [Donator, onChangeDonator] = useState(route.params.route)
-  const [roleModal, setRoleModal] = useState(false);
+  const [Donator, setDonator] = useState(route.params.route)
+  //const [donor, setDonor] = useState();
+  const [shouldShow, setShouldShow] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
+  const [PersonalId, onChangeId] = useState();
+  //const [Route, setRoute] = useState({ Donator: Donator, Donor: donor });
 
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        setShouldShow(true)
+      }
+    })()
+  }, [])
 
+  const getDonorInfo = async () => {
+    try {
+      if (PersonalId === undefined || PersonalId === null || PersonalId === '') {
+        Alert.alert("שגיאת התחברות", "אנא מלא/י תעודת זהות תורם !")
+        console.log('====================================');
+        console.log("Error, Empty field");
+        console.log('====================================');
+        return
+      }
+      let result = await fetch(url + "api/user/info", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: PersonalId,
+        })
+      });
+      let donor = await result.json();
+      if (donor !== undefined || donor !== null) {
+        const Route = { Donator: Donator, Donor: donor }
+        navigation.navigate('DonorInfo', { route: Route })
+      }
+    } catch (error) {
+      console.error('error with retrun full user');
+    }
+  }
+
+  const AppointmentsList = () => {
+    navigation.navigate('AppList')
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-
-      <TouchableOpacity onPress={() => setRoleModal(true)}>
-        <View style={styles.button_normal}>
-
-          <Text style={styles.button_text} >בחירת עמדה</Text>
+      <View style={styles.containr_btn}>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeId}
+          value={PersonalId}
+          placeholder="תעודת זהות"
+        />
+        <TouchableOpacity onPress={() => getDonorInfo()}>
+          <View style={styles.button_start}>
+            <AntDesign name="logout" size={24} color="white" />
+            <Text style={styles.button_text} >התחל</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+      <TouchableOpacity onPress={() => AppointmentsList()}>
+        <View style={styles.button_list_app}>
+          <Feather name="list" size={24} color="white" />
+          <Text style={styles.button_text} >רשימת תורים</Text>
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
-        <View style={styles.button_normal}>
-          <Text style={styles.button_text} >שינוי אתר התרמה</Text>
-        </View>
-      </TouchableOpacity>
-
-      {roleModal ? (
+      {shouldShow ? (
         <Modal
           animationType="slide"
           transparent={true}
-          visible={roleModal}
+          visible={confirmModal}
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
           }}>
           <View >
             <View >
+
+
               <View style={styles.list}>
                 <View >
                   <Text >{Donator.First_name + " " + Donator.Last_name}</Text>
                   <Text>בחר עמדה</Text>
-                  <TouchableOpacity onPress={() => navigation.navigate('UnitOne', { route: Donator })}>
+                  <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
                     <View style={styles.button_normal}>
                       <Text style={styles.button_text} >עמדה 1</Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => navigation.navigate('UnitTwo', { route: Donator })}>
+                  <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
                     <View style={styles.button_normal}>
                       <Text style={styles.button_text} >עמדה 2</Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => navigation.navigate('UnitThree', { route: Donator })}>
+                  <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
                     <View style={styles.button_normal}>
                       <Text style={styles.button_text} >עמדה 3</Text>
                     </View>
@@ -60,7 +112,7 @@ export default function UnitThree({ navigation, route }) {
               <TouchableHighlight
                 style={{ backgroundColor: '#4d5b70' }}
                 onPress={() => {
-                  setRoleModal(!roleModal);
+                  setConfirmModal(!confirmModal);
                 }}>
                 <Text>סגור</Text>
               </TouchableHighlight>
@@ -78,7 +130,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+  containr_btn: {
+    alignSelf: 'center',
+    marginTop: 35,
+    flexDirection: 'row-reverse',
+    marginTop: 35,
   },
   ButtonContainer: {
     flexDirection: 'row'
@@ -92,13 +149,28 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
   },
-  button_normal: {
+  button_start: {
+    alignItems: 'center',
+    width: 90,
+    height: 65,
+    margin: 14,
+    borderRadius: 8,
+    padding: 15,
+    backgroundColor: "#757c94",
+    opacity: 0.8,
+    shadowColor: 'black',
+    shadowRadius: 5,
+    
+  },
+  button_list_app: {
     alignItems: 'center',
     width: 90,
     height: 90,
     margin: 15,
+    marginRight: 265,
+    marginTop: 40, 
     borderRadius: 8,
-    padding: 10,
+    padding: 15,
     backgroundColor: "#757c94",
     opacity: 0.8,
     shadowColor: 'black',
@@ -107,7 +179,8 @@ const styles = StyleSheet.create({
   button_text: {
     fontSize: 18,
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    alignItems: 'center',
   },
   header_img: {
     marginBottom: 40,
@@ -131,5 +204,11 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     backgroundColor: "#fcfff9",
     color: "black",
+  },
+  HorizontalBox: {
+    width: 280,
+    justifyContent: 'space-between',
+    flexDirection: 'row-reverse',
+    marginTop: 12,
   },
 });
