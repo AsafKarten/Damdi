@@ -16,13 +16,13 @@ export default function DonorInfo({ navigation, route }) {
   return (
     <SafeAreaView>
       <View style={styles.containr_btn}>
-        <TouchableOpacity onPress={() => navigation.navigate('PersonalInfo', { route: Route })}>
+        <TouchableOpacity onPress={() => navigation.navigate('PersonalInfo', { route: route.params.route })}>
           <View style={styles.button_normal}>
             <Feather name="info" size={24} color="white" />
             <Text style={styles.button_text} >פרטים אישים</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('MedicalInfo', { route: Route })}>
+        <TouchableOpacity onPress={() => navigation.navigate('MedicalInfo', { route: route.params.route })}>
           <View style={styles.button_normal}>
             <FontAwesome5 name="notes-medical" size={24} color="white" />
             <Text style={styles.button_text} >פרטים רפואים</Text>

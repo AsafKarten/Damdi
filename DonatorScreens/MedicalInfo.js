@@ -39,7 +39,7 @@ export default function MedicalInfo({ navigation, route }) {
 
     return (
         <SafeAreaView>
-            <View style={styles.container}>
+           
                 <Text>{donor.First_name + " " + donor.Last_name}</Text>
                 <Text>{donor.Personal_id}</Text>
                 <Text>{MedicalForm.Q3_1 ? (" כן") : " לא"} בריא וחש בטוב</Text>
@@ -48,7 +48,7 @@ export default function MedicalInfo({ navigation, route }) {
                 <Text>{MedicalForm.Q3_4 ? (" כן") : " לא"} קיבלתי חיסונים בחודש האחרון</Text>
                 <Text>{MedicalForm.Q3_5 ? (" כן") : " לא"} עברתי טיפול שיניים נרחב ב- 7 הימים האחרונים</Text>
                 
-            </View>
+          
             <TouchableOpacity onPress={() => navigation.navigate('UnitOne', { route: Donator })}>
                 <View style={styles.button_normal}>
                     <Text style={styles.button_text} >אישור תורם</Text>
