@@ -50,17 +50,6 @@ export default function AddUser({ navigation }) {
     }
   };
 
-  // //Render the screen when we return to him 
-  // componentDidMount = () => {
-  //   this._unsubscribeFocus = this.props.navigation.addListener('focus', (payload) => {
-  //     console.log('will focus', payload);
-  //     this.setState({ none: 'will focus ' + new Date().getSeconds() });
-  //   });
-  // }
-  // componentWillUnmount = () => {
-  //   this._unsubscribeFocus();
-  // }
-
   const validationInput = () => {
     var emailregex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     var pasRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
