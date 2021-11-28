@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Modal, SafeAreaView, StyleSheet, Text, TouchableOpacity, Pressable } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 
 export default function Home({ navigation, route }) {
@@ -20,8 +21,20 @@ export default function Home({ navigation, route }) {
     setRoleModal(false)
   }, [navigation]);
 
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView>
+      <View style={styles.container_top_text}>
+        <TouchableOpacity onPress={() => navigation.navigate("DonatorsLogin")}>
+          <View style={styles.button_logout}>
+            <Ionicons name="exit-outline" size={24} color="white" />
+            <Text style={styles.button_text_exit} >התנתק</Text>
+          </View>
+        </TouchableOpacity>
+        <View >
+          <Text style={styles.text_top_user}> מחובר כעת {Donator.First_name} {Donator.Last_name} (פארמדיק)</Text>
+        </View>
+      </View>
       <View style={styles.containr_btn}>
         <TouchableOpacity onPress={() => setRoleModal(true)}>
           <View style={styles.button_normal}>
@@ -84,6 +97,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   ButtonContainer: {
+    flexDirection: 'row'
+  },
+  container_top_text: {
+    marginTop: 20,
+    justifyContent: 'space-between',
     flexDirection: 'row'
   },
   input: {
@@ -175,7 +193,13 @@ const styles = StyleSheet.create({
     color: "black",
     fontWeight: "bold",
     textAlign: "center",
-    fontSize: 16
+    fontSize: 18,
+  },
+  text_top_user: {
+    color: "red",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 18,
   },
   modalText: {
     color: "black",
@@ -183,5 +207,23 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: "center",
     fontWeight: "bold"
-  }
+  },
+  button_logout: {
+    alignItems: 'center',
+    width: 100,
+    margin: 10,
+    marginTop: -10,
+    borderRadius: 8,
+    padding: 8,
+    backgroundColor: "#757c94",
+    opacity: 0.8,
+    shadowColor: 'black',
+    shadowRadius: 5,
+    flexDirection: 'row'
+  },
+  button_text_exit: {
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold'
+  },
 });

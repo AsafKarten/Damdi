@@ -139,11 +139,11 @@ export default function StackNavigation() {
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
-            headerTintColor: '#fff'
+            headerTintColor: '#fff',
             // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
-            // headerLeft: () => {
-            //   return null;
-            // },
+            headerLeft: () => {
+              return null;
+            },
           }} />
         <Stack.Screen name="UnitOne" component={UnitOne}
           options={{

@@ -55,23 +55,22 @@ export default function UnitOne({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeId}
-        value={PersonalId}
-        placeholder="תעודת זהות"
-      />
-
-      <TouchableOpacity onPress={() => getDonorInfo()}>
-        <View style={styles.button_normal}>
-          <AntDesign name="logout" size={24} color="white" />
-          <Text style={styles.button_text} >התחל</Text>
-        </View>
-      </TouchableOpacity>
-
+      <View style={styles.containr_btn}>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeId}
+          value={PersonalId}
+          placeholder="תעודת זהות"
+        />
+        <TouchableOpacity onPress={() => getDonorInfo()}>
+          <View style={styles.button_start}>
+            <AntDesign name="logout" size={24} color="white" />
+            <Text style={styles.button_text} >התחל</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
       <TouchableOpacity onPress={() => AppointmentsList()}>
-        <View style={styles.button_normal}>
+        <View style={styles.button_list_app}>
           <Feather name="list" size={24} color="white" />
           <Text style={styles.button_text} >רשימת תורים</Text>
         </View>
@@ -131,7 +130,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+  containr_btn: {
+    alignSelf: 'center',
+    marginTop: 35,
+    flexDirection: 'row-reverse',
+    marginTop: 35,
   },
   ButtonContainer: {
     flexDirection: 'row'
@@ -145,11 +149,26 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
   },
-  button_normal: {
+  button_start: {
+    alignItems: 'center',
+    width: 90,
+    height: 65,
+    margin: 14,
+    borderRadius: 8,
+    padding: 15,
+    backgroundColor: "#757c94",
+    opacity: 0.8,
+    shadowColor: 'black',
+    shadowRadius: 5,
+    
+  },
+  button_list_app: {
     alignItems: 'center',
     width: 90,
     height: 90,
     margin: 15,
+    marginRight: 265,
+    marginTop: 40, 
     borderRadius: 8,
     padding: 15,
     backgroundColor: "#757c94",
@@ -160,7 +179,8 @@ const styles = StyleSheet.create({
   button_text: {
     fontSize: 18,
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    alignItems: 'center',
   },
   header_img: {
     marginBottom: 40,
