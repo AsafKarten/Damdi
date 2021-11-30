@@ -9,15 +9,34 @@ import Spiner from '../Componentes/Spiner';
 import { url } from '../Utils';
 
 export default function Profile({ navigation, route }) {
-  console.log(route.params.route);
-  console.log(route.params.route.Profile_img)
   const [loading, setLoading] = useState(false);
 
   const [shouldShow, setShouldShow] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [User, setUser] = useState(route.params.route)
-  const [image, setImage] = useState(route.params.route.Profile_img);
+  const [User, setUser] = useState()
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [bloodType, setBloodType] = useState();
+  const [image, setImage] = useState();
+
+  useEffect(() => {
+    setUser(route.params.route === undefined ? null : route.params.route)
+  }, [])
+
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setUser(route.params.route === undefined ? null : route.params.route)
+      setFirstName(User !== undefined ? route.params.route.First_name : "")
+      setLastName(User !== undefined ? route.params.route.Last_name : "")
+      setBloodType(User !== undefined ? route.params.route.Blood_type : "")
+      setImage(User !== undefined ? route.params.route.Profile_img : null)
+      setLoading(false)
+    });
+    return unsubscribe;
+  }, [navigation]);
+
 
   useEffect(() => {
     (async () => {
@@ -106,6 +125,7 @@ export default function Profile({ navigation, route }) {
         })
       });
       let data = await res.json();
+      console.log("imageUpload", data);
       setLoading(false);
     } catch (e) {
       console.error("error with upload profile image");
@@ -145,9 +165,9 @@ export default function Profile({ navigation, route }) {
           <Text style={styles.addText}> <AntDesign name="camera" size={24} color="grey" fontWeight={'bold'} />    הוספ\י תמונה</Text>
         </TouchableOpacity>
         {loading && <Spiner loading={loading} />}
-        <Text style={styles.addText}>{User.First_name + " " + User.Last_name}</Text>
+        <Text style={styles.addText}>{firstName + " " + lastName}</Text>
 
-        <Text style={styles.addText}>{User.Blood_type} סוג דם :</Text>
+        <Text style={styles.addText}>{bloodType} : סוג דם</Text>
 
       </View>
 
@@ -229,7 +249,7 @@ const styles = StyleSheet.create({
     borderRadius: 400,
     borderColor: 'red',
     resizeMode: 'stretch',
-    marginLeft:15
+    marginLeft: 15
   },
   addText: {
     textAlign: 'right',

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BackHandler,Alert, Modal, View, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import { BackHandler, Alert, Modal, View, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import Spiner from '../Componentes/Spiner';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RadioButtonGroup, { RadioButtonItem } from 'expo-radio-button';
@@ -26,9 +26,8 @@ export default function PersonalFormA({ navigation, route }) {
   const [prevFirstName, setPrevFirstName] = useState();
   const [prevLastName, setPrevLastName] = useState();
 
-
   useEffect(() => {
-    getUserInfo()
+    checkStatusModal();
   }, [])
 
   useEffect(() => {
@@ -37,7 +36,6 @@ export default function PersonalFormA({ navigation, route }) {
       getUserInfo()
       setLoading(false)
     });
-
     return unsubscribe;
   }, [navigation]);
 
@@ -114,6 +112,9 @@ export default function PersonalFormA({ navigation, route }) {
       });
       let full_user = await result.json();
       console.log("full user : ", full_user);
+      if (full_user.First_name == null || full_user.Last_name == null) {
+        return;
+      }
       setUser(full_user);
       setFirstName(full_user.First_name)
       setLastName(full_user.Last_name)
@@ -128,22 +129,22 @@ export default function PersonalFormA({ navigation, route }) {
   }
 
   const PostPersonalForm = async () => {
-    if (firstName === "" || lastName === "" || phone === "" || gender === "" || birthdate === "" || prevFirstName === "" || prevLastName === "") {
+    if (firstName == undefined || lastName == undefined || phone == undefined || gender == undefined || birthdate == undefined || prevFirstName == undefined || prevLastName == undefined) {
       Alert.alert('אנא מלא/י את כל הפרטים בבקשה')
-      return
+      setLoading(false);
     }
-    setLoading(true);
-    User.First_name = firstName;
-    User.Last_name = lastName;
-    User.Phone = phone;
-    User.Gender = gender;
-    User.Birthdate = birthdate;
-    User.Prev_first_name = prevFirstName;
-    User.Prev_last_name = prevLastName;
-    var UserA = { Personal_id: route.params.route.Personal_id, First_name: firstName, Last_name: lastName, Phone: phone, Gender: gender, Birthdate: date, Prev_first_name: prevFirstName, Prev_last_name: prevLastName }
-    console.log("PersonalFormA ", UserA);
-    setLoading(false);
-    navigation.navigate('PersonalFormB', { route: UserA, route: User })
+    else {
+      User.First_name = firstName;
+      User.Last_name = lastName;
+      User.Phone = phone;
+      User.Gender = gender;
+      User.Birthdate = birthdate;
+      User.Prev_first_name = prevFirstName;
+      User.Prev_last_name = prevLastName;
+      var UserA = { Personal_id: route.params.route.Personal_id, First_name: firstName, Last_name: lastName, Phone: phone, Gender: gender, Birthdate: date, Prev_first_name: prevFirstName, Prev_last_name: prevLastName }
+      setLoading(false);
+      navigation.navigate('PersonalFormB', { route: UserA, route: User })
+    }
   }
 
 
@@ -286,6 +287,7 @@ export default function PersonalFormA({ navigation, route }) {
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => {
                           setLoading(false)
+                          setModalUpdate(false)
                           navigation.navigate("Welcome", { route: User });
                         }}>
                         <Text style={styles.textStyle}>לא</Text>

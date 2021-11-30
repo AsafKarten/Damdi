@@ -20,6 +20,15 @@ export default function Login({ navigation }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      onChangeId("")
+      onChangeEmail("")
+      onChangePass("")
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
     getData();
   }, [navigation])
 

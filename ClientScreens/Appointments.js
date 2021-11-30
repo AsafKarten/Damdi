@@ -23,13 +23,9 @@ export default function Appointments({ navigation, route }) {
   var customTime = new Date(fullDate)
   var fTime = customTime.getHours() + ":" + customTime.getMinutes()
 
-
-  // useEffect(() => {
-  //   (async () => {
-  //     setModalDelete(false)
-  //     await checkActiveAppinment()
-  //   })()
-  // }, [navigation])
+  useEffect(() => {
+    setModalInfo(true)
+  }, [])
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
@@ -88,8 +84,7 @@ export default function Appointments({ navigation, route }) {
         onChangeHasApp(true);
       }
     } catch (error) {
-      Alert.alert("תקלה עם שליפת תחנות התרמה מהשרת, נסה מאוחר יותר")
-      console.log("תקלה עם שליפת תחנות מהשרת");
+      console.log("אין תור פעיל בשרת");
     }
   }
 
@@ -121,6 +116,10 @@ export default function Appointments({ navigation, route }) {
 
   const onShare = async () => {
     try {
+      if (locationApp === undefined || fullDate === undefined) {
+        Alert.alert("אין לך תור פעיל, לכן אין אפשרות לשתף את תור")
+        return
+      }
       const result = await Share.share({
         message:
           `רציתי להזמין אותך לתרום דם יחד, תוריד את האפליקציה Damdi ואזמן תור בקלות ובמהירות, אזמן תור לתאריך ${fDate} בשעה ${fTime} ב${locationApp} `,
@@ -139,6 +138,16 @@ export default function Appointments({ navigation, route }) {
       alert(error.message);
     }
   };
+
+  const checkAddress = () => {
+    console.log(locationApp);
+    if (locationApp === undefined || locationApp === null) {
+      setModalInfo(true);
+      return;
+    } else {
+      navigation.navigate('Maps', { route: locationApp })
+    }
+  }
 
 
   return (
@@ -168,9 +177,7 @@ export default function Appointments({ navigation, route }) {
       <View style={styles.buttomContainer}>
         <View style={styles.ButtonContainer}>
 
-          <TouchableOpacity onPress={() => {
-            navigation.navigate('Maps', { route: User })
-          }}>
+          <TouchableOpacity onPress={() => checkAddress()}>
             <View style={styles.button_normal}>
               <Ionicons name="navigate-circle-outline" size={30} color="white" />
               <Text style={styles.button_text} >נווט אל התחנה</Text>

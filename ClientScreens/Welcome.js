@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, BackHandler, Text, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, BackHandler, Text, TouchableOpacity, Image, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spiner from '../Componentes/Spiner';
 import BG from '../assets/LOGO_ONLY_PNG.png'
@@ -8,8 +8,17 @@ import BG from '../assets/LOGO_ONLY_PNG.png'
 export default function Welcome({ navigation, route }) {
   const [loading, setLoading] = useState(false);
   const [User, setUser] = useState(route.params.route)
-  const [firstName, setFirstName] = useState(route.params.route.First_name)
+  const [firstName, setFirstName] = useState()
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      if (Platform.OS !== 'web') {
+        setLoading(false)
+        return
+      }
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(() => {
     const backAction = () => {
@@ -51,7 +60,7 @@ export default function Welcome({ navigation, route }) {
 
       <Image source={BG} style={{ width: 360, height: 150, alignSelf: 'center', resizeMode: 'stretch' }}></Image>
 
-      <Text style={styles.welcome_text}> ברוך הבא {firstName} </Text>
+      <Text style={styles.welcome_text}> ברוך הבא {firstName == null ? '' : firstName} </Text>
 
       <TouchableOpacity onPress={() => {
         setLoading(false)

@@ -3,6 +3,7 @@ import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Aler
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spiner from '../Componentes/Spiner';
 import { url } from '../Utils';
+import isIsraeliIdValid from 'israeli-id-validator';
 
 
 var bcrypt = require('bcryptjs');
@@ -25,9 +26,6 @@ export default function Registration({ navigation }) {
   }
 
   const validationInput = () => {
-    if (Platform.OS !== 'web') {
-      setLoading(true);
-    }
     var emailregex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     var pasRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
     if (personalId == null || personalId == "" || email == null || email == "" || pass == null || pass == "" || confirmPass == null || confirmPass == "") {
@@ -35,6 +33,11 @@ export default function Registration({ navigation }) {
       console.log('====================================');
       console.log("Error, Empty fields");
       console.log('====================================');
+      return
+    }
+    if (!isIsraeliIdValid(personalId)){
+      Alert.alert("התעודת זהות שהוכנסה לא חוקית")
+      onChangeId("")
       return
     }
     if (!(emailregex.test(email))) {
@@ -61,6 +64,7 @@ export default function Registration({ navigation }) {
 
   const GetUserFormDB = async () => {
     try {
+      setLoading(true);
       let result_user = await fetch(url + "api/user", {
         method: 'POST',
         headers: {
@@ -73,10 +77,17 @@ export default function Registration({ navigation }) {
         })
       });
       let user = await result_user.json();
-      await storeData(user)
-      navigation.navigate("PersonalFormA", { route: user, modalStatus: "info" })
+      if (user !== null) {
+        await storeData(user)
+        setLoading(false);
+        navigation.navigate("PersonalFormA", { route: user, modalStatus: "info" })
+      }
+      else {
+        Alert.alert("בעיה בשרת,משתמש אינו נרשם במערכת, נסה מאוחר יותר", "שגיאה")
+        setLoading(false);
+      }
     } catch (error) {
-      Alert.alert("בעיה בשרת,משתמש אינו נרשם במערכת, נסה מאוחר יותר", "שגיאה")
+      console.log(error, 'user not found or problem with the remote server');
     }
   }
 
@@ -103,9 +114,13 @@ export default function Registration({ navigation }) {
       if (rsponse == 'User created successfully') {
         GetUserFormDB();
       }
+      else {
+        Alert.alert("שגיאת הרשמה", "מצטערים ההרשמה נכשלה אחד הפרטים קיימים במערכת, נסו שוב")
+        return
+      }
     }
     catch (error) {
-      Alert.alert("שגיאת הרשמה", "מצטערים ההרשמה נכשלה אנא נסו מאוחר יותר")
+      console.log(error, 'user not created or problem with reach the remote server');
     }
   }
 
@@ -123,6 +138,7 @@ export default function Registration({ navigation }) {
                 value={personalId}
                 placeholder="תעודת זהות"
                 maxLength={9}
+                minLength={9}
               />
             </View>
             <View style={styles.horizontalBox}>
@@ -157,7 +173,6 @@ export default function Registration({ navigation }) {
               />
             </View>
             <TouchableOpacity onPress={() => {
-              setLoading(false)
               validationInput()
             }}>
               <View style={styles.button_normal}>

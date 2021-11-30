@@ -5,7 +5,7 @@ import { NavigationApps, actions, googleMapsTravelModes } from 'react-native-nav
 
 
 export default function Maps({ navigation, route }) {
-
+  console.log(route.params.route);
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
@@ -14,7 +14,7 @@ export default function Maps({ navigation, route }) {
       <NavigationApps
         iconSize={50}
         row
-        address={route.params.route.F_address} // address to navigate by for all apps 
+        address={""} // address to navigate by for all apps 
         waze={{ address: route.params.route.F_address, lat: route.params.route.Lat, lon: route.params.route.Lng, action: actions.navigateByAddress }} // specific settings for waze
         googleMaps={{ lat: route.params.route.Lat, lon: route.params.route.Lng, action: actions.navigateByAddress, travelMode: "" }} // specific settings for google maps
         maps={{ lat: route.params.route.Lat, lon: route.params.route.Lng, action: actions.navigateByAddress, travelMode: "" }} // specific settings for maps
