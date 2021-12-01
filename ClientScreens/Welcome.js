@@ -6,9 +6,11 @@ import BG from '../assets/LOGO_ONLY_PNG.png'
 
 
 export default function Welcome({ navigation, route }) {
+  console.log(route);
   const [loading, setLoading] = useState(false);
-  const [User, setUser] = useState(route.params.route)
-  const [firstName, setFirstName] = useState()
+  const [user, setUser] = useState(route.params.route)
+  const [firstName, setFirstName] = useState(user.First_name)
+
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -60,11 +62,11 @@ export default function Welcome({ navigation, route }) {
 
       <Image source={BG} style={{ width: 360, height: 150, alignSelf: 'center', resizeMode: 'stretch' }}></Image>
 
-      <Text style={styles.welcome_text}> ברוך הבא {firstName == null ? '' : firstName} </Text>
+      <Text style={styles.welcome_text}> ברוך הבא {firstName === null ? '' : firstName} </Text>
 
       <TouchableOpacity onPress={() => {
         setLoading(false)
-        navigation.navigate('Home', { route: User })
+        navigation.navigate('Home', { route: user })
       }}>
         <View style={styles.button_normal}>
           <Text style={styles.button_text} >המשך</Text>

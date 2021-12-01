@@ -9,9 +9,10 @@ import ProgressBar from '../Componentes/ProgressBar.js'
 
 export default function Home({ navigation, route }) {
   const [User, onChangeId] = useState(route.params.route)
-
+  
   useEffect(() => {
     navigation.addListener('focus', async () => {
+      console.log(route.params.route);
     })
   }, [navigation])
 

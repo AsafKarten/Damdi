@@ -9,7 +9,7 @@ import isIsraeliIdValid from 'israeli-id-validator';
 var bcrypt = require('bcryptjs');
 
 export default function Registration({ navigation }) {
-  const defaultImg = "../assets/fix_drop2.png"
+  const defaultImg = url + 'Assets/DamdiPI4.png'
   const [personalId, onChangeId] = useState();
   const [email, onChangeEmail] = useState();
   const [pass, onChangePass] = useState();
@@ -35,7 +35,7 @@ export default function Registration({ navigation }) {
       console.log('====================================');
       return
     }
-    if (!isIsraeliIdValid(personalId)){
+    if (!isIsraeliIdValid(personalId)) {
       Alert.alert("התעודת זהות שהוכנסה לא חוקית")
       onChangeId("")
       return

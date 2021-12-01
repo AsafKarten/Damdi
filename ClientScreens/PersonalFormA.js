@@ -17,7 +17,7 @@ export default function PersonalFormA({ navigation, route }) {
   const [modalInfo, setModalInfo] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
 
-  const [User, setUser] = useState()
+  const [User, setUser] = useState(route.params.route)
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [phone, setPhone] = useState();
@@ -31,9 +31,9 @@ export default function PersonalFormA({ navigation, route }) {
   }, [])
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    const unsubscribe = navigation.addListener('focus', async () => {
       checkStatusModal();
-      getUserInfo()
+      await getUserInfo()
       setLoading(false)
     });
     return unsubscribe;
@@ -112,17 +112,19 @@ export default function PersonalFormA({ navigation, route }) {
       });
       let full_user = await result.json();
       console.log("full user : ", full_user);
-      if (full_user.First_name == null || full_user.Last_name == null) {
+      if (full_user.First_name === null || full_user.Last_name === null) {
         return;
       }
-      setUser(full_user);
-      setFirstName(full_user.First_name)
-      setLastName(full_user.Last_name)
-      setPhone(full_user.Phone)
-      setGender(full_user.Gender)
-      setBirthdate(full_user.Birthdate.split(' ')[0])
-      setPrevFirstName(full_user.Prev_first_name)
-      setPrevLastName(full_user.Prev_last_name)
+      else {
+        setUser(full_user);
+        setFirstName(full_user.First_name)
+        setLastName(full_user.Last_name)
+        setPhone(full_user.Phone)
+        setGender(full_user.Gender)
+        setBirthdate(full_user.Birthdate.split(' ')[0])
+        setPrevFirstName(full_user.Prev_first_name)
+        setPrevLastName(full_user.Prev_last_name)
+      }
     } catch (error) {
       console.error('error with retrun full user');
     }

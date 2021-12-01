@@ -9,19 +9,29 @@ import Spiner from '../Componentes/Spiner';
 import { url } from '../Utils';
 
 export default function Profile({ navigation, route }) {
+  console.log("Profile", route);
   const [loading, setLoading] = useState(false);
   const [shouldShow, setShouldShow] = useState(false);
 
-  const [User, setUser] = useState()
+  const [User, setUser] = useState(route.params.route)
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [bloodType, setBloodType] = useState();
   const [image, setImage] = useState();
 
   useEffect(() => {
-    setUser(route.params.route === undefined ? null : route.params.route)
-    setShouldShow(false)
-    setLoading(false)
+    (async () => {
+      await getUserInfo()
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          Alert.alert('מצטערים אין לך הרשאה להשתמש בגלריה!');
+        }
+      }
+      setUser(route.params.route === undefined ? null : route.params.route)
+      setShouldShow(false)
+      setLoading(false)
+    })()
   }, [])
 
 
@@ -38,19 +48,6 @@ export default function Profile({ navigation, route }) {
     return unsubscribe;
   }, [navigation]);
 
-
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS !== 'web') {
-        setShouldShow(true)
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-          Alert.alert('מצטערים אין לך הרשאה להשתמש בגלריה!');
-        }
-      }
-    })()
-  }, [])
-
   const checkDevice = async () => {
     if (Platform.OS === 'web') {
       await GalleryPicture();
@@ -60,23 +57,39 @@ export default function Profile({ navigation, route }) {
     }
   }
 
+  const getUserInfo = async () => {
+    try {
+      let result = await fetch(url + "api/user/info", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: route.params.route.Personal_id
+        })
+      });
+      let full_user = await result.json();
+      setUser(full_user)
+    } catch (error) {
+      console.error('error with retrun full user');
+    }
+  }
+
+
   const takePicture = async () => {
     try {
       let result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 0.1
       });
       if (!result.cancelled) {
-        if (Platform.OS !== 'web') {
-          const content = await FileSystem.readAsStringAsync(result.uri, { encoding: FileSystem.EncodingType.Base64 });
-          result.uri = content
-          await imageUploadAndroid(result.uri, route.params.route.Personal_Id)
-        }
-        else {
-          await imageUpload(result.uri, route.params.route.Personal_Id);
-        }
+        const content = await FileSystem.readAsStringAsync(result.uri, { encoding: FileSystem.EncodingType.Base64 });
+        setImage(content)
+        result.uri = content
+        await imageUploadAndroid(result.uri)
       }
     } catch (e) {
       console.error("error with take a live picture");
@@ -97,11 +110,12 @@ export default function Profile({ navigation, route }) {
           setLoading(true);
           var content = await FileSystem.readAsStringAsync(result.uri, { encoding: FileSystem.EncodingType.Base64 });
           result.uri = content
-          await imageUploadAndroid(result.uri, User.First_name)
+          setImage(content)
+          await imageUploadAndroid(result.uri)
         }
         else {
           setLoading(true);
-          await imageUpload(result.uri, User.First_name);
+          await imageUpload(result.uri);
         }
       }
     } catch (e) {
@@ -110,7 +124,7 @@ export default function Profile({ navigation, route }) {
   }
 
 
-  const imageUpload = async (imgUri, picName) => {
+  const imageUpload = async (imgUri) => {
     try {
       let res = await fetch(url + "api/uploadpicture", {
         method: 'POST',
@@ -120,22 +134,24 @@ export default function Profile({ navigation, route }) {
         },
         body: JSON.stringify({
           uri: imgUri.split(',')[1],
-          name: picName,
-          folder: route.params.route.Personal_Id,
+          name: route.params.route.Personal_id,
+          folder: route.params.route.Personal_id,
           type: 'jpg',
         })
       });
       let data = await res.json();
-      console.log("imageUpload", data);
+      console.log(data);
+      if (data.IsOk === true) {
+        await getUserInfo()
+      }
       setLoading(false);
     } catch (e) {
       console.error("error with upload profile image");
     }
   }
 
-  const imageUploadAndroid = async (imgUri, picName) => {
+  const imageUploadAndroid = async (imgUri) => {
     try {
-      console.log(route.params.route.Personal_Id);
       let res = await fetch(url + "api/uploadpicture", {
         method: 'POST',
         headers: {
@@ -144,13 +160,17 @@ export default function Profile({ navigation, route }) {
         },
         body: JSON.stringify({
           uri: imgUri,
-          name: picName,
-          folder: route.params.route.Personal_Id,
+          name: route.params.route.Personal_id,
+          folder: route.params.route.Personal_id,
           type: 'jpg',
         })
       });
       let data = await res.json();
       console.log(data);
+      if (data.IsOk === true) {
+        await getUserInfo()
+      }
+      setShouldShow(false)
       setLoading(false);
     } catch (e) {
       console.error("error with upload profile image");

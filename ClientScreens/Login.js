@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Platform, ImageBackground, View, BackHandler, SafeAreaView, StyleSheet, TextInput, Text, TouchableOpacity, Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
+import { Image, Platform, ImageBackground, View, BackHandler, SafeAreaView, StyleSheet, TextInput, Text, TouchableOpacity, Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spiner from '../Componentes/Spiner';
 import BG_ONLY from '../assets/BG_ONLY.jpg';
+import BG_LOGO_ONLY from '../assets/LOGO_ONLY_PNG.png';
 import { url } from '../Utils';
 
 var isaac = require('isaac');
@@ -59,7 +60,6 @@ export default function Login({ navigation }) {
       let loggedUser = await AsyncStorage.getItem('loggedUser')
       if (loggedUser !== null) {
         let existUser = JSON.parse(loggedUser)
-        console.log("Login 54", existUser);
         navigation.navigate('PersonalFormA', { route: existUser, modalStatus: "update" })
       }
       else {
@@ -140,6 +140,7 @@ export default function Login({ navigation }) {
       if (updatedUser !== undefined || updatedUser !== null) {
         let result = validationInput(updatedUser)
         if (result === 'correct') {
+          console.log("updatedUser", updatedUser);
           setLoading(false);
           await storeData(updatedUser)
           navigation.navigate('PersonalFormA', { route: updatedUser, modalStatus: 'update' })
@@ -162,43 +163,47 @@ export default function Login({ navigation }) {
   return (
     <ImageBackground source={BG_ONLY} style={styles.BGimage}>
       <SafeAreaView style={styles.container}>
-
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.inner}>
-              <TextInput
-                style={styles.input}
-                onChangeText={onChangeId}
-                value={personalId}
-                placeholder="תעודת זהות"
-              />
-              <TextInput
-                style={styles.input}
-                onChangeText={onChangeEmail}
-                value={email}
-                placeholder="אימייל"
-              />
-              <TextInput
-                style={styles.input}
-                onChangeText={onChangePass}
-                value={pass}
-                secureTextEntry={true}
-                placeholder="סיסמה"
-              />
-              <TouchableOpacity onPress={() => {
-                setLoading(false);
-                clientLogin()
-              }}>
-                <View style={styles.button_normal}>
-                  <Text style={styles.button_text}>התחברות</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate('Registration')}>
-                <View style={styles.button_normal}>
-                  <Text style={styles.button_text} >הרשמה</Text>
-                </View>
-              </TouchableOpacity>
-              {loading && <Spiner loading={loading} />}
+              <View style={styles.container}>
+
+                <Image source={BG_LOGO_ONLY} style={styles.header_img} />
+
+                <TextInput
+                  style={styles.input}
+                  onChangeText={onChangeId}
+                  value={personalId}
+                  placeholder="תעודת זהות"
+                />
+                <TextInput
+                  style={styles.input}
+                  onChangeText={onChangeEmail}
+                  value={email}
+                  placeholder="אימייל"
+                />
+                <TextInput
+                  style={styles.input}
+                  onChangeText={onChangePass}
+                  value={pass}
+                  secureTextEntry={true}
+                  placeholder="סיסמה"
+                />
+                <TouchableOpacity onPress={() => {
+                  setLoading(false);
+                  clientLogin()
+                }}>
+                  <View style={styles.button_normal}>
+                    <Text style={styles.button_text}>התחברות</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Registration')}>
+                  <View style={styles.button_normal}>
+                    <Text style={styles.button_text} >הרשמה</Text>
+                  </View>
+                </TouchableOpacity>
+                {loading && <Spiner loading={loading} />}
+              </View>
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -214,9 +219,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   inner: {
-    padding: 40,
+    marginTop:35,
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-between"
   },
   input: {
     height: 40,
@@ -231,11 +236,13 @@ const styles = StyleSheet.create({
   button_normal: {
     alignItems: 'center',
     width: 160,
+    height: 45,
     margin: 15,
-    marginLeft: 42,
     borderRadius: 8,
-    padding: 10,
+    padding: 8,
     backgroundColor: "#757c94",
+    borderWidth:1,
+    borderColor:'navy',
     opacity: 0.8,
     shadowColor: 'black',
     shadowRadius: 5,
@@ -244,7 +251,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   button_text: {
-    fontSize: 16,
+    fontSize: 20,
     color: 'white',
     fontWeight: 'bold'
   },
@@ -252,5 +259,12 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
     justifyContent: 'center',
+  },
+  header_img: {
+    marginBottom: 25,
+    width: 300,
+    height: 100,
+    alignSelf: 'center',
+    resizeMode: 'stretch'
   }
 });
