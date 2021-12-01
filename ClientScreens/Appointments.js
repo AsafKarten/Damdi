@@ -110,6 +110,10 @@ export default function Appointments({ navigation, route }) {
   }
 
   const moveToReminder = () => {
+    if (locationApp === undefined || fullDate === undefined) {
+      Alert.alert("אין לך תור פעיל, לכן אין אפשרות להוסיף תזכורת ליומן")
+      return
+    }
     var data = { location: locationApp, date: fullDate }
     navigation.navigate('ReminderScreen', { route: data })
   }
@@ -146,6 +150,16 @@ export default function Appointments({ navigation, route }) {
       return;
     } else {
       navigation.navigate('Maps', { route: locationApp })
+    }
+  }
+
+  const updateExistApp = () => {
+    if (locationApp === undefined || fullDate === undefined) {
+      setModalInfo(true)
+      return
+    }
+    else {
+      navigation.navigate('Stations', { route: User })
     }
   }
 
@@ -199,7 +213,7 @@ export default function Appointments({ navigation, route }) {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => navigation.navigate('Stations', { route: User })}>
+          <TouchableOpacity onPress={() => updateExistApp()}>
             <View style={styles.button_normal}>
               <MaterialIcons name="update" size={30} color="white" />
               <Text style={styles.button_text} >עדכון תור</Text>

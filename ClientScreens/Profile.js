@@ -10,9 +10,7 @@ import { url } from '../Utils';
 
 export default function Profile({ navigation, route }) {
   const [loading, setLoading] = useState(false);
-
   const [shouldShow, setShouldShow] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
 
   const [User, setUser] = useState()
   const [firstName, setFirstName] = useState();
@@ -22,6 +20,8 @@ export default function Profile({ navigation, route }) {
 
   useEffect(() => {
     setUser(route.params.route === undefined ? null : route.params.route)
+    setShouldShow(false)
+    setLoading(false)
   }, [])
 
 
@@ -33,6 +33,7 @@ export default function Profile({ navigation, route }) {
       setBloodType(User !== undefined ? route.params.route.Blood_type : "")
       setImage(User !== undefined ? route.params.route.Profile_img : null)
       setLoading(false)
+      setShouldShow(false)
     });
     return unsubscribe;
   }, [navigation]);
@@ -44,7 +45,7 @@ export default function Profile({ navigation, route }) {
         setShouldShow(true)
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
-          Alert.alert('Sorry, we need media permissions to make this work!');
+          Alert.alert('מצטערים אין לך הרשאה להשתמש בגלריה!');
         }
       }
     })()
@@ -55,7 +56,7 @@ export default function Profile({ navigation, route }) {
       await GalleryPicture();
     }
     else {
-      setModalVisible(true);
+      setShouldShow(true);
     }
   }
 
@@ -200,7 +201,7 @@ export default function Profile({ navigation, route }) {
           <Modal
             animationType="slide"
             transparent={true}
-            visible={modalVisible}
+            visible={shouldShow}
             onRequestClose={() => {
               console.log('Modal has been closed.');
             }}>
@@ -209,7 +210,7 @@ export default function Profile({ navigation, route }) {
               <View style={styles.modal_buttons}>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}>
+                  onPress={() => setShouldShow(!shouldShow)}>
                   <Text style={styles.textStyle}>סגור</Text>
                 </Pressable>
                 <Pressable
