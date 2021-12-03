@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import Spiner from '../Componentes/Spiner';
-
+import { url } from '../Utils';
 import { View, ScrollView, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Switch, Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
-
-
-const url = "http://proj13.ruppin-tech.co.il/"
 
 export default function MedicalForm({ navigation, route }) {
   const [User, onChangeUser] = useState(route.params.route);

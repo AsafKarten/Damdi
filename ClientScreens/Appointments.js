@@ -11,11 +11,16 @@ export default function Appointments({ navigation, route }) {
   const [hasApp, onChangeHasApp] = useState(false);
   const [modalDel, setModalDelete] = useState(false)
   const [modalInfo, setModalInfo] = useState(false);
+  const [modalPassApp, setModalPassApp] = useState(false);
 
   const [User, onChangeId] = useState(route.params.route)
   const [app_id, setAppintmentId] = useState();
   const [locationApp, setLocation] = useState()
   const [fullDate, setFullDate] = useState();
+
+  var dateTime = new Date()
+  var today = dateTime.getDate() + '/' + (dateTime.getMonth() + 1) + '/' + dateTime.getFullYear()
+  console.log(today);
 
   var customDate = new Date(fullDate)
   var fDate = customDate.getDate() + '/' + (customDate.getMonth() + 1) + '/' + customDate.getFullYear()
@@ -24,6 +29,7 @@ export default function Appointments({ navigation, route }) {
   var fTime = customTime.getHours() + ":" + customTime.getMinutes()
 
   useEffect(() => {
+    checkActiveAppinment()
     setModalInfo(true)
   }, [])
 
@@ -78,10 +84,18 @@ export default function Appointments({ navigation, route }) {
         return
       }
       else {
-        setFullDate(appintment.App_time)
-        setAppintmentId(appintment.App_id)
-        await getStationName(appintment.Station_code)
-        onChangeHasApp(true);
+        let existApp = appintment.App_time.split(' ')[0]
+        if (existApp < today) {
+          hasApp(false)
+          modalPassApp(true)
+          await deleteExistAppointment();
+        }
+        else {
+          setFullDate(appintment.App_time)
+          setAppintmentId(appintment.App_id)
+          await getStationName(appintment.Station_code)
+          onChangeHasApp(true);
+        }
       }
     } catch (error) {
       console.log("אין תור פעיל בשרת");
@@ -102,8 +116,14 @@ export default function Appointments({ navigation, route }) {
       });
       let response = await result.json()
       console.log(response);
-      Alert.alert("הודעת מערכת", "תור הוסר בהצלחה,תזכרו תרומת דם מצילה חיים!")
-      onChangeHasApp(false)
+      if (modalPassApp === true) {
+        Alert.alert("פספסת את התור, הוא לא קיים במערכת, קבע/י תור חדש")
+        return;
+      }
+      else {
+        Alert.alert("הודעת מערכת", "תור הוסר בהצלחה,תזכרו תרומת דם מצילה חיים!")
+        onChangeHasApp(false)
+      }
     } catch (error) {
       console.log("Failed to delete Exist Appointment");
     }
@@ -144,7 +164,6 @@ export default function Appointments({ navigation, route }) {
   };
 
   const checkAddress = () => {
-    console.log(locationApp);
     if (locationApp === undefined || locationApp === null) {
       setModalInfo(true);
       return;
@@ -271,6 +290,31 @@ export default function Appointments({ navigation, route }) {
                   <Pressable
                     style={[styles.button, styles.buttonClose]}
                     onPress={() => setModalInfo(!modalInfo)}>
+                    <Text style={styles.textStyle}>סגור</Text>
+                  </Pressable>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => navigation.navigate("Stations", { route: User })}>
+                    <Text style={styles.textStyle}>קבע תור חדש</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </Modal>
+          </View>
+        )}
+        {modalPassApp && (
+          <View>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalPassApp}
+              onRequestClose={() => { console.log('Modal has been closed.'); }}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>אין לך תור פעיל במערכת כרגע, מועד התור חלף, אנא קבע\י תור חדש</Text>
+                <View style={styles.modal_buttons}>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => setModalPassApp(!modalPassApp)}>
                     <Text style={styles.textStyle}>סגור</Text>
                   </Pressable>
                   <Pressable
