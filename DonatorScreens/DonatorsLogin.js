@@ -168,10 +168,10 @@ const styles = StyleSheet.create({
   button_normal: {
     alignItems: 'center',
     width: 160,
-    height: 50,
+    height: 45,
     margin: 15,
     borderRadius: 8,
-    padding: 10,
+    padding: 8,
     backgroundColor: "#757c94",
     opacity: 0.8,
     shadowColor: 'black',

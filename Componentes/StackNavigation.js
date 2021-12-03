@@ -183,7 +183,7 @@ export default function StackNavigation() {
           }} />
         <Stack.Screen name="DonorInfo" component={DonorInfo}
           options={{
-            title: 'פרטים אישיים תורם',
+            title: 'אימות פרטים',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
