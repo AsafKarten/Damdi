@@ -1,10 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Modal, TouchableHighlight, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, FlatList, Modal, Pressable, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { url } from '../Utils'
 
 export default function AppList({ navigation }) {
   const [fullData, setFullData] = useState([])
+  const [modalRefuse, setModalRefuseVis] = useState(false);
 
 
   useEffect(() => {
@@ -45,16 +46,23 @@ export default function AppList({ navigation }) {
         method: 'GET'
       });
       let data = [...await result.json()];
-      let idApp = 0
-      let arr = []
-      for (let index = 0; index < data.length; index++) {
-        let PID = data[index].Personal_id
-        let fullname = await getUserInfo(PID)
-        let timeapp = data[index].App_time
-        let datetime = new Date(timeapp)
-        var fTime = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear() + " " + datetime.getHours() + ":" + datetime.getMinutes()
-        let appObj = { id: ++idApp, time: fTime, name: fullname }
-        arr.push(appObj);
+      console.log(data);
+      if (data.length === 0) {
+        setModalRefuseVis(true);
+        return;
+      }
+      else {
+        let idApp = 0
+        let arr = []
+        for (let index = 0; index < data.length; index++) {
+          let PID = data[index].Personal_id
+          let fullname = await getUserInfo(PID)
+          let timeapp = data[index].App_time
+          let datetime = new Date(timeapp)
+          var fTime = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear() + " " + datetime.getHours() + ":" + datetime.getMinutes()
+          let appObj = { id: ++idApp, time: fTime, name: fullname }
+          arr.push(appObj);
+        }
       }
       setFullData(arr)
     } catch (error) {
@@ -63,16 +71,44 @@ export default function AppList({ navigation }) {
   }
 
   return (
-    <View>
-      <FlatList
-        data={fullData}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.list}>
-            <Text style={styles.text_list}>{item.time}  {item.name}</Text>
+    <SafeAreaView>
+      <View style={styles.container}>
+        <FlatList
+          data={fullData}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.list}>
+              <Text style={styles.text_list}>{item.time}  {item.name}</Text>
+            </View>
+          )} />
+
+        {modalRefuse && (
+          <View>
+            <Modal
+              //animationType='fade'
+              animationIn='zoomIn'
+              animationOut='zoomOut'
+              transparent={true}
+              visible={modalRefuse}
+              onRequestClose={() => { console.log('Modal has been closed.'); }}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>רשימת התורים ריקה, אין תורמים כעת.</Text>
+                <View style={styles.modal_buttons}>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => {
+                      setModalRefuseVis(!modalRefuse)
+                      navigation.navigate('UnitOne')
+                    }}>
+                    <Text style={styles.textStyle}>סגור</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </Modal>
           </View>
-        )} />
-    </View>
+        )}
+      </View >
+    </SafeAreaView>
   )
 }
 
@@ -138,6 +174,52 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     alignItems: 'center',
+  },
+  //Modal buttons 
+  modalView: {
+    margin: 20,
+    backgroundColor: '#757c94',
+    borderRadius: 20,
+    padding: 25,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  modal_buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin: 10,
+  },
+  button: {
+    marginTop: 50,
+    marginLeft: 20,
+    marginRight: 20,
+    borderRadius: 20,
+    padding: 15,
+    elevation: 2,
+  },
+  textStyle: {
+    color: "black",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 20
+  },
+  buttonClose: {
+    width: 120,
+    backgroundColor: "white",
+    opacity: 0.8,
+  },
+  modalText: {
+    color: "white",
+    fontSize: 22,
+    marginBottom: 10,
+    textAlign: "center"
   }
 });
 

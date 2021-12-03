@@ -6,11 +6,9 @@ import { Feather } from '@expo/vector-icons';
 
 export default function UnitTwo({ navigation, route }) {
   const [Donator, setDonator] = useState(route.params.route)
-  //const [donor, setDonor] = useState();
   const [shouldShow, setShouldShow] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
   const [PersonalId, onChangeId] = useState();
-  //const [Route, setRoute] = useState({ Donator: Donator, Donor: donor });
 
   useEffect(() => {
     (async () => {
@@ -75,53 +73,6 @@ export default function UnitTwo({ navigation, route }) {
           <Text style={styles.button_text} >רשימת תורים</Text>
         </View>
       </TouchableOpacity>
-
-      {shouldShow ? (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={confirmModal}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-          }}>
-          <View >
-            <View >
-
-
-              <View style={styles.list}>
-                <View >
-                  <Text >{Donator.First_name + " " + Donator.Last_name}</Text>
-                  <Text>בחר עמדה</Text>
-                  <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
-                    <View style={styles.button_normal}>
-                      <Text style={styles.button_text} >עמדה 1</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
-                    <View style={styles.button_normal}>
-                      <Text style={styles.button_text} >עמדה 2</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
-                    <View style={styles.button_normal}>
-                      <Text style={styles.button_text} >עמדה 3</Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <TouchableHighlight
-                style={{ backgroundColor: '#4d5b70' }}
-                onPress={() => {
-                  setConfirmModal(!confirmModal);
-                }}>
-                <Text>סגור</Text>
-              </TouchableHighlight>
-            </View>
-          </View>
-        </Modal>
-      ) : null}
-
-
     </SafeAreaView >
 
   );
@@ -160,7 +111,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     shadowColor: 'black',
     shadowRadius: 5,
-    
+
   },
   button_list_app: {
     alignItems: 'center',
@@ -168,7 +119,7 @@ const styles = StyleSheet.create({
     height: 90,
     margin: 15,
     marginRight: 265,
-    marginTop: 40, 
+    marginTop: 40,
     borderRadius: 8,
     padding: 15,
     backgroundColor: "#757c94",

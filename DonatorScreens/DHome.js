@@ -3,11 +3,19 @@ import { View, Modal, SafeAreaView, StyleSheet, Text, TouchableOpacity, Pressabl
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { url } from '../Utils'
 
 
 export default function Home({ navigation, route }) {
   const [Donator, onChangeDonator] = useState(route.params.route)
   const [roleModal, setRoleModal] = useState(false);
+  const [siteModal, setSiteModal] = useState(false);
+  const [selectedSiteDonation, setSelectedSiteDonation] = useState("");
+  const [stations, setStations] = useState()
+
+  useEffect(() => {
+    GetStationList();
+  }, [])
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -21,6 +29,18 @@ export default function Home({ navigation, route }) {
     setRoleModal(false)
   }, [navigation]);
 
+  const GetStationList = async () => {
+    try {
+      let result = await fetch(url + "api/all/stations", {
+        method: 'GET'
+      });
+      let data = [...await result.json()];
+      setStations(data);
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
 
   return (
     <SafeAreaView>
@@ -32,6 +52,7 @@ export default function Home({ navigation, route }) {
           </View>
         </TouchableOpacity>
         <View >
+          <Text style={styles.text_top_user}>{selectedSiteDonation}אתר התרמה:  </Text>
           <Text style={styles.text_top_user}> מחובר כעת {Donator.First_name} {Donator.Last_name} (פארמדיק)</Text>
         </View>
       </View>
@@ -43,7 +64,7 @@ export default function Home({ navigation, route }) {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Appointments', { route: Donator })}>
+        <TouchableOpacity onPress={() => setSiteModal(true)}>
           <View style={styles.button_normal}>
             <FontAwesome name="exchange" size={24} color="white" />
             <Text style={styles.button_text} >שינוי אתר התרמה</Text>
@@ -85,8 +106,30 @@ export default function Home({ navigation, route }) {
             </Pressable>
           </View>
         </Modal>
-      )
-      }
+      )}
+      {siteModal && (// TODO: add a dropdown to the site modal
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={siteModal}
+          onRequestClose={() => {
+            console.log('Modal has been closed.');
+          }}>
+          <View style={styles.modalView} >
+            <View >
+              <Text style={styles.modalText} >בחר אתר התרמה {Donator.First_name + " " + Donator.Last_name} : </Text>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => {
+                  setSiteModal(!siteModal)
+                  setSiteDonation()
+                }}>
+                <Text style={styles.textStyle}>בחר</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+      )}
     </SafeAreaView >
   );
 }
