@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { View, Modal, SafeAreaView, StyleSheet, Text, TouchableOpacity, Pressable } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
 import { url } from '../Utils'
-
+import { Dropdown } from 'react-native-element-dropdown';
 
 export default function Home({ navigation, route }) {
   const [Donator, onChangeDonator] = useState(route.params.route)
   const [roleModal, setRoleModal] = useState(false);
   const [siteModal, setSiteModal] = useState(false);
   const [selectedSiteDonation, setSelectedSiteDonation] = useState("");
-  const [stations, setStations] = useState()
+  const [stations, setStations] = useState([])
+
+  const [value, setValue] = useState();
+  const [isFocus, setIsFocus] = useState(false);
 
   useEffect(() => {
     GetStationList();
@@ -36,28 +37,84 @@ export default function Home({ navigation, route }) {
       });
       let data = [...await result.json()];
       setStations(data);
+      setValue(data[0].Station_code)
     } catch (error) {
       console.error(error)
     }
   }
 
+  const DropdownComponent = () => {
+    const renderLabel = () => {
+      if (value || isFocus) {
+        return (
+          <Text style={[styles.label, isFocus && { color: 'blue' }]}>
+            שם תחנה
+          </Text>
+        );
+      }
+      return null;
+    };
+
+    return (
+      <View style={{
+        backgroundColor: 'white',
+        padding: 16,
+        borderRadius: 10,
+        width: 250,
+      }} >
+        {renderLabel()}
+        <Dropdown
+          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={stations}
+          search
+          searchPlaceholder="חפש תחנה..."
+          maxHeight={200}
+          labelField="Station_name"
+          valueField="Station_code"
+          placeholder={!isFocus ? 'בחר תחנה' : '...'}
+          value={stations}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+          onChange={item => {
+            setValue(item.Station_name);
+            setIsFocus(false);
+          }}
+          renderLeftIcon={() => (
+            <AntDesign
+              style={styles.icon}
+              color={isFocus ? 'blue' : 'black'}
+              name="Safety"
+              size={20}
+            />
+          )}
+        />
+      </View>
+    );
+  };
+
 
   return (
     <SafeAreaView>
-      <View style={styles.container_top_text}>
+      <View style={styles.container_btn_exit}>
         <TouchableOpacity onPress={() => navigation.navigate("DonatorsLogin")}>
           <View style={styles.button_logout}>
             <Ionicons name="exit-outline" size={24} color="white" />
             <Text style={styles.button_text_exit} >התנתק</Text>
           </View>
         </TouchableOpacity>
-        <View >
-          <Text style={styles.text_top_user}>{selectedSiteDonation}אתר התרמה:  </Text>
-          <Text style={styles.text_top_user}> מחובר כעת {Donator.First_name} {Donator.Last_name} (פארמדיק)</Text>
-        </View>
+      </View>
+      <View style={styles.text_container}>
+        <Text style={styles.text_top_user}>מחובר כעת {Donator.First_name} {Donator.Last_name} (פארמדיק)</Text>
+        <Text style={styles.text_top_user}>אתר התרמה:  {selectedSiteDonation}</Text>
       </View>
       <View style={styles.containr_btn}>
-        <TouchableOpacity onPress={() => setRoleModal(true)}>
+        <TouchableOpacity onPress={() => {
+          setRoleModal(true)
+        }}>
           <View style={styles.button_normal}>
             <AntDesign name="select1" size={24} color="white" />
             <Text style={styles.button_text} >בחירת עמדה</Text>
@@ -107,7 +164,7 @@ export default function Home({ navigation, route }) {
           </View>
         </Modal>
       )}
-      {siteModal && (// TODO: add a dropdown to the site modal
+      {siteModal && (
         <Modal
           animationType="slide"
           transparent={true}
@@ -118,11 +175,12 @@ export default function Home({ navigation, route }) {
           <View style={styles.modalView} >
             <View >
               <Text style={styles.modalText} >בחר אתר התרמה {Donator.First_name + " " + Donator.Last_name} : </Text>
+              {DropdownComponent()}
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
                   setSiteModal(!siteModal)
-                  setSiteDonation()
+                  setSelectedSiteDonation(value)
                 }}>
                 <Text style={styles.textStyle}>בחר</Text>
               </Pressable>
@@ -142,10 +200,12 @@ const styles = StyleSheet.create({
   ButtonContainer: {
     flexDirection: 'row'
   },
-  container_top_text: {
+  container_btn_exit: {
     marginTop: 20,
     justifyContent: 'space-between',
-    flexDirection: 'row'
+  },
+  text_container: {
+    marginRight: 15
   },
   input: {
     height: 40,
@@ -214,13 +274,12 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   button: {
-    marginTop: 50,
-    marginLeft: 20,
+    marginTop: 40,
+    marginLeft: 50,
     marginRight: 20,
     borderRadius: 20,
-    padding: 15,
+    padding: 10,
     elevation: 2,
-
   },
   buttonOpen: {
     backgroundColor: "#F194FF",
@@ -241,8 +300,8 @@ const styles = StyleSheet.create({
   text_top_user: {
     color: "red",
     fontWeight: "bold",
-    textAlign: "center",
-    fontSize: 18,
+    textAlign: "right",
+    fontSize: 17,
   },
   modalText: {
     color: "black",
@@ -268,5 +327,43 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
     fontWeight: 'bold'
+  },
+  //Dropdown
+  dropdown: {
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    fontColor: "black",
+  },
+  icon: {
+    marginRight: 5,
+  },
+  label: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 15,
+  },
+  placeholderStyle: {
+    fontSize: 15,
+    fontColor: "black",
+  },
+  selectedTextStyle: {
+    fontColor: "black",
+    fontSize: 15,
+    fontWeight: "bold",
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
   },
 });
