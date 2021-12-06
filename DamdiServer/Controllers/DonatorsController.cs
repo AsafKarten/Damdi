@@ -47,6 +47,67 @@ namespace DamdiServer.Controllers
             }
         }
 
+        //Add new donator to Donators table.
+        [HttpPost]
+        [Route("api/confirm/pos/one")]
+        public IHttpActionResult AddQuestiner([FromBody] Donators donator)
+        {
+            try
+            {
+                int res = Globals.DonatorsDAL.SetNewQuestiner(donator);
+                Created(new Uri(Request.RequestUri.AbsoluteUri + donator.Personal_id_worker), res);
+                if (res == 1)
+                {
+                    return Ok("Questiner added successfully.");
+                }
+                return BadRequest("Questiner was not added");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/confirm/pos/two")]
+        public IHttpActionResult AddHemoglobin([FromBody] MedicalInfoDonator med)
+        {
+            try
+            {
+                int res = Globals.DonatorsDAL.SetNewInfoHemoglobin(med);
+                Created(new Uri(Request.RequestUri.AbsoluteUri + med), res);
+                if (res == 1)
+                {
+                    return Ok("hemoglobin data added successfully.");
+                }
+                return BadRequest("hemoglobin was not add");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/confirm/pos/three")]
+        public IHttpActionResult AddNewRestDataDonator([FromBody] MedicalInfoDonator med)
+        {
+            try
+            {
+                int res = Globals.DonatorsDAL.SetNewRestInfoDonator(med);
+                Created(new Uri(Request.RequestUri.AbsoluteUri + med), res);
+                if (res == 1)
+                {
+                    return Ok("hemoglobin data added successfully.");
+                }
+                return BadRequest("hemoglobin was not add");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet]
         [Route("api/appointments/pos/one")]
         public IHttpActionResult GetAppointmentsPosOne()

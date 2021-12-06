@@ -13,13 +13,16 @@ namespace DamdiServer.Models
         string last_name;
         string salted_hash;
 
-        public Donators(string personal_id_worker, string first_name, string last_name, string salted_hash)
+        public Donators(int auto_worker_id, string personal_id_worker, string first_name, string last_name, string salted_hash)
         {
+            Auto_worker_id = auto_worker_id;
             Personal_id_worker = personal_id_worker;
             First_name = first_name;
             Last_name = last_name;
             Salted_hash = salted_hash;
         }
+
+
 
         public int Auto_worker_id { get => auto_worker_id; set => auto_worker_id = value; }
         public string Personal_id_worker { get => personal_id_worker; set => personal_id_worker = value; }
