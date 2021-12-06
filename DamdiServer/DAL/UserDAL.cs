@@ -60,14 +60,14 @@ namespace DamdiServer.DAL
                     {
                         ui = new User(
                             Convert.ToString(reader["personal_id"]),
+                            Convert.ToString(reader["email"]),
+                            Convert.ToString(reader["salted_hash"]),
+                            Convert.ToString(reader["profile_img"]),
                             Convert.ToString(reader["first_name"]),
                             Convert.ToString(reader["last_name"]),
                             Convert.ToString(reader["phone"]),
-                            Convert.ToString(reader["email"]),
-                            Convert.ToString(reader["salted_hash"]),
                             Convert.ToString(reader["gender"]),
                             Convert.ToString(reader["birthdate"]),
-                            Convert.ToString(reader["profile_img"]),
                             Convert.ToString(reader["prev_first_name"]),
                             Convert.ToString(reader["prev_last_name"]),
                             Convert.ToString(reader["city"]),

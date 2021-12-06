@@ -66,7 +66,6 @@ namespace DamdiServer.Models
 
         }
 
-
         public User(string personal_id, string email, string salted_hash)
         {
             Personal_id = personal_id;
@@ -74,22 +73,16 @@ namespace DamdiServer.Models
             Salted_hash = salted_hash;
         }
 
-        public User(string personal_id, string email)
-        {
-            Personal_id = personal_id;
-            Email = email;
-        }
-
         public User(
             string personal_id,
+            string email,
+            string salted_hash,
+            string profile_img,
             string first_name,
             string last_name,
             string phone,
-            string email,
-            string salted_hash,
             string gender,
             string birthdate,
-            string profile_img,
             string prev_first_name,
             string prev_last_name,
             string city,
@@ -110,14 +103,14 @@ namespace DamdiServer.Models
             )
         {
             Personal_id = personal_id;
+            Email = email;
+            Salted_hash = salted_hash;
+            Profile_img = profile_img;
             First_name = first_name;
             Last_name = last_name;
             Phone = phone;
-            Email = email;
-            Salted_hash = salted_hash;
             Gender = gender;
             Birthdate = birthdate;
-            Profile_img = profile_img;
             Prev_first_name = prev_first_name;
             Prev_last_name = prev_last_name;
             City = city;

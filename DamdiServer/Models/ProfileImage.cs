@@ -9,17 +9,17 @@ namespace DamdiServer.Models
     {
         public class Img
         {
-            public string uri { get; set; }
-            public string name { get; set; }
-            public string folder { get; set; }
-            public string type { get; set; }
+            public string Uri { get; set; }
+            public string Name { get; set; }
+            public string Folder { get; set; }
+            public string Type { get; set; }
         }
 
         public class ImgRes
         {
-            public string message { get; set; }
-            public string path { get; set; }
-            public bool isOk { get; set; }
+            public string Message { get; set; }
+            public string Path { get; set; }
+            public bool IsOk { get; set; }
         }
     }
 }

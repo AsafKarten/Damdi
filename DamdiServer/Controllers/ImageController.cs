@@ -19,30 +19,30 @@ namespace DamdiServer.Controllers
             try
             {
                 //path
-                string path = HttpContext.Current.Server.MapPath(@"~/Users/" + image.folder);
+                string path = HttpContext.Current.Server.MapPath($@"~/Users/{image.Folder}");
 
                 //create directory if not exists
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
 
                 //create the image data
-                string imageName = image.name + "." + image.type;
+                string imageName = image.Name + "." + image.Type;
                 string imagePath = Path.Combine(path, imageName);
-                byte[] imageBytes = Convert.FromBase64String(image.uri);
+                byte[] imageBytes = Convert.FromBase64String(image.Uri);
 
                 //write the image and save it
                 File.WriteAllBytes(imagePath, imageBytes);
 
                 //update the resposne object
-                res.path = $"{Server.GetServerUrl()}/Users/{image.folder}/{imageName}";
-                res.isOk = true;
-                Globals.UserDAL.SaveNewProfilePhotoToDB(res.path, image.folder);
+                res.Path = $@"{Server.GetServerUrl()}/Users/{image.Folder}/{imageName}";
+                res.IsOk = true;
+                Globals.UserDAL.SaveNewProfilePhotoToDB(res.Path, image.Folder);
                 return Ok(res);
             }
             catch (Exception e)
             {
-                res.message = e.Message;
-                res.isOk = false;
+                res.Message = e.Message;
+                res.IsOk = false;
                 return Content(HttpStatusCode.BadRequest, res);
             }
         }

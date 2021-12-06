@@ -80,7 +80,6 @@ namespace DamdiServer.Controllers
                 if (user_info != null)
                     return Ok(user_info);
                 return Content(HttpStatusCode.NotFound, $"User info {ui.Personal_id} was not found");
-
             }
             catch (Exception ex)
             {
