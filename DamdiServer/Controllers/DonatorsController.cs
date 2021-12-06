@@ -48,12 +48,12 @@ namespace DamdiServer.Controllers
         }
 
         [HttpGet]
-        [Route("api/all/appointments")]
-        public IHttpActionResult GetAllAppointments()
+        [Route("api/appointments/pos/one")]
+        public IHttpActionResult GetAppointmentsPosOne()
         {
             try
             {
-                List<Appointments> appointments = Globals.AppointmentsDAL.GetAppointmentsList();
+                List<Appointments> appointments = Globals.AppointmentsDAL.GetAppointmentsListFirstPos();
                 Created(new Uri(Request.RequestUri.AbsoluteUri), appointments);
                 if (appointments != null)
                     return Ok(appointments);
@@ -65,8 +65,40 @@ namespace DamdiServer.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/appointments/pos/two")]
+        public IHttpActionResult GetAppointmentsPosTwo()
+        {
+            try
+            {
+                List<Appointments> appointments = Globals.AppointmentsDAL.GetAppointmentsListSecondPos();
+                Created(new Uri(Request.RequestUri.AbsoluteUri), appointments);
+                if (appointments != null)
+                    return Ok(appointments);
+                return BadRequest("appointments not found");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-
-
+        [HttpGet]
+        [Route("api/appointments/pos/three")]
+        public IHttpActionResult GetAppointmentsPosThree()
+        {
+            try
+            {
+                List<Appointments> appointments = Globals.AppointmentsDAL.GetAppointmentsListThirdPos();
+                Created(new Uri(Request.RequestUri.AbsoluteUri), appointments);
+                if (appointments != null)
+                    return Ok(appointments);
+                return BadRequest("appointments not found");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

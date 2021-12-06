@@ -51,7 +51,15 @@ namespace DamdiServer.DAL
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        existApp = new Appointments(Convert.ToInt32(reader["app_id"]), Convert.ToInt32(reader["station_code"]), Convert.ToString(reader["personal_id"]), Convert.ToString(reader["app_time"]));
+                        existApp = new Appointments(
+                            Convert.ToInt32(reader["app_id"]),
+                            Convert.ToInt32(reader["station_code"]),
+                            Convert.ToString(reader["personal_id"]),
+                            Convert.ToString(reader["app_time"]),
+                            Convert.ToBoolean(reader["cinfirm_1"]),
+                            Convert.ToBoolean(reader["cinfirm_2"]),
+                            Convert.ToBoolean(reader["cinfirm_3"])
+                            );
                     }
                     return existApp;
                 }
@@ -62,7 +70,7 @@ namespace DamdiServer.DAL
             }
         }
 
-        public List<Appointments> GetAppointmentsList()
+        public List<Appointments> GetAppointmentsListFirstPos()
         {
             try
             {
@@ -71,7 +79,7 @@ namespace DamdiServer.DAL
                     con.Open();
                     var appointments = new List<Appointments>();
                     Appointments a = null;
-                    SqlCommand cmd = new SqlCommand("GetAppointments", con);
+                    SqlCommand cmd = new SqlCommand("GetAppointmentsPosOne", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -80,7 +88,78 @@ namespace DamdiServer.DAL
                             Convert.ToInt32(reader["app_id"]),
                             Convert.ToInt32(reader["station_code"]),
                             Convert.ToString(reader["personal_id"]),
-                            Convert.ToString(reader["app_time"])
+                            Convert.ToString(reader["app_time"]),
+                            Convert.ToBoolean(reader["confirm_1"]),
+                            Convert.ToBoolean(reader["confirm_2"]),
+                            Convert.ToBoolean(reader["confirm_3"])
+                            );
+                        appointments.Add(a);
+                    }
+                    return appointments;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<Appointments> GetAppointmentsListSecondPos()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    var appointments = new List<Appointments>();
+                    Appointments a = null;
+                    SqlCommand cmd = new SqlCommand("GetAppointmentsPosTwo", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        a = new Appointments(
+                            Convert.ToInt32(reader["app_id"]),
+                            Convert.ToInt32(reader["station_code"]),
+                            Convert.ToString(reader["personal_id"]),
+                            Convert.ToString(reader["app_time"]),
+                            Convert.ToBoolean(reader["confirm_1"]),
+                            Convert.ToBoolean(reader["confirm_2"]),
+                            Convert.ToBoolean(reader["confirm_3"])
+                            );
+                        appointments.Add(a);
+                    }
+                    return appointments;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<Appointments> GetAppointmentsListThirdPos()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    var appointments = new List<Appointments>();
+                    Appointments a = null;
+                    SqlCommand cmd = new SqlCommand("GetAppointmentsPosThree", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        a = new Appointments(
+                            Convert.ToInt32(reader["app_id"]),
+                            Convert.ToInt32(reader["station_code"]),
+                            Convert.ToString(reader["personal_id"]),
+                            Convert.ToString(reader["app_time"]),
+                            Convert.ToBoolean(reader["confirm_1"]),
+                            Convert.ToBoolean(reader["confirm_2"]),
+                            Convert.ToBoolean(reader["confirm_3"])
                             );
                         appointments.Add(a);
                     }
