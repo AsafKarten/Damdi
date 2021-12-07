@@ -98,9 +98,9 @@ namespace DamdiServer.Controllers
                 Created(new Uri(Request.RequestUri.AbsoluteUri + med), res);
                 if (res == 1)
                 {
-                    return Ok("hemoglobin data added successfully.");
+                    return Ok("data added successfully.");
                 }
-                return BadRequest("hemoglobin was not add");
+                return BadRequest("data was not added successfully");
             }
             catch (Exception ex)
             {
