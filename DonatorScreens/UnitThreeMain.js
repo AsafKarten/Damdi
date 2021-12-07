@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 
-export default function DonorInfo({ navigation, route }) {
+export default function UnitThreeMain({ navigation, route }) {
   console.log(route.params.route);
   const [Donator, setDonator] = useState(route.params.route.Donator)
   const [donor, setDonor] = useState(route.params.route.Donor);
@@ -14,12 +14,12 @@ export default function DonorInfo({ navigation, route }) {
   const [modalRefuse, setModalRefuseVis] = useState(false);
 
   const ApproveDonor = async()=>{
-    //here we need to save the approve and the approver so the donor can continue to part 2
-    navigation.navigate('UnitOne', { route: Donator })
+    //here we need to save the Donation info also the donator info and delete the appointment
+    navigation.navigate('UnitThree', { route: Donator })
   }
   const DeclaineDonor = async()=>{
-    //here we need to delete the diclained user appointment and probable write it some where
-    navigation.navigate('UnitOne', { route: Donator })
+    //here we need to delete the diclained user appointment if someting is wrong
+    navigation.navigate('UnitThree', { route: Donator })
   }
 
 

@@ -50,7 +50,8 @@ export default function UnitOne({ navigation, route }) {
   }
 
   const AppointmentsList = () => {
-    navigation.navigate('AppList')
+    var route = {Donator:Donator}
+    navigation.navigate('AppListOne', {route:route})
   }
 
   return (

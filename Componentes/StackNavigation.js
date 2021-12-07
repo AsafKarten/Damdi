@@ -21,8 +21,11 @@ import UnitThree from '../DonatorScreens/UnitThree.js';
 import DonorInfo from '../DonatorScreens/DonorInfo.js';
 import PersonalInfo from '../DonatorScreens/PersonalInfo.js';
 import MedicalInfo from '../DonatorScreens/MedicalInfo.js';
-import AppList from '../DonatorScreens/AppList.js';
-
+import AppListOne from '../DonatorScreens/AppListOne.js';
+import AppListTwo from '../DonatorScreens/AppListTwo.js';
+import AppListThree from '../DonatorScreens/AppListThree.js';
+import UnitTwoMain from '../DonatorScreens/UnitTwoMain';
+import UnitThreeMain from '../DonatorScreens/UnitThreeMain';
 const Stack = createStackNavigator();
 
 export default function StackNavigation() {
@@ -217,9 +220,57 @@ export default function StackNavigation() {
             //   return null;
             // },
           }} />
-        <Stack.Screen name="AppList" component={AppList}
+        <Stack.Screen name="AppListOne" component={AppListOne}
           options={{
-            title: 'רשימת תורים',
+            title: 'רשימת תורים קבלה',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+           <Stack.Screen name="AppListTwo" component={AppListTwo}
+          options={{
+            title: 'רשימת תורים 2 ',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+           <Stack.Screen name="AppListThree" component={AppListThree}
+          options={{
+            title: ' רשימת תורים 3',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+                <Stack.Screen name="UnitTwoMain" component={UnitTwoMain}
+          options={{
+            title: 'לחץ דם והמוגלובין',
+            headerStyle: {
+              backgroundColor: '#7d91b0',
+            },
+            headerTintColor: '#fff'
+            // headerRight: () => <Feather onPress={() => backPage('BloodInfo')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
+            // headerLeft: () => {
+            //   return null;
+            // },
+          }} />
+                  <Stack.Screen name="UnitThreeMain" component={UnitThreeMain}
+          options={{
+            title: 'לקיחת מנת דם',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },

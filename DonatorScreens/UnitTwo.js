@@ -10,6 +10,8 @@ export default function UnitTwo({ navigation, route }) {
   const [confirmModal, setConfirmModal] = useState(false);
   const [PersonalId, onChangeId] = useState();
 
+
+
   useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
@@ -48,7 +50,8 @@ export default function UnitTwo({ navigation, route }) {
   }
 
   const AppointmentsList = () => {
-    navigation.navigate('AppList')
+    var route = {Donator:Donator}
+    navigation.navigate('AppListTwo', {route:route})
   }
 
   return (
@@ -74,7 +77,6 @@ export default function UnitTwo({ navigation, route }) {
         </View>
       </TouchableOpacity>
     </SafeAreaView >
-
   );
 }
 const styles = StyleSheet.create({

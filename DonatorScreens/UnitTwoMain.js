@@ -6,20 +6,26 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 
-export default function DonorInfo({ navigation, route }) {
+export default function UnitTwoMain({ navigation, route }) {
   console.log(route.params.route);
   const [Donator, setDonator] = useState(route.params.route.Donator)
   const [donor, setDonor] = useState(route.params.route.Donor);
   const [Route, setRoute] = useState({ Donator: Donator, Donor: donor })
   const [modalRefuse, setModalRefuseVis] = useState(false);
 
+  //inputs consts
+  const[blood_pressure, onChangeBP] = useState("")
+  const[puls, onChangePuls] = useState("")
+  const[irregular_puls, onChangeIP] = useState("")
+  const[hemoglobine, onChangeHemo] = useState("")
+
   const ApproveDonor = async()=>{
-    //here we need to save the approve and the approver so the donor can continue to part 2
-    navigation.navigate('UnitOne', { route: Donator })
+    //here we need to save the info about blood preseur and hemoglobin also the checker info so the donor can continue to part 3
+    navigation.navigate('UnitTwo', { route: Donator })
   }
   const DeclaineDonor = async()=>{
-    //here we need to delete the diclained user appointment and probable write it some where
-    navigation.navigate('UnitOne', { route: Donator })
+    //here we need to delete the diclained user appointment if someting is wrong
+    navigation.navigate('UnitTwo', { route: Donator })
   }
 
 
@@ -27,6 +33,31 @@ export default function DonorInfo({ navigation, route }) {
 
   return (
     <SafeAreaView>
+                 <TextInput
+                  style={styles.input}
+                  onChangeText={onChangeBP}
+                  value={blood_pressure}
+                  placeholder="לחץ דם"
+                />
+                 <TextInput
+                  style={styles.input}
+                  onChangeText={onChangePuls}
+                  value={puls}
+                  placeholder="דופק"
+                />
+                 <TextInput
+                  style={styles.input}
+                  onChangeText={onChangeIP}
+                  value={irregular_puls}
+                  placeholder="סדיר-לשנות לבול"
+                />
+                 <TextInput
+                  style={styles.input}
+                  onChangeText={onChangeHemo}
+                  value={hemoglobine}
+                  placeholder="המוגלובין"
+                />
+
       <View style={styles.containr_btn}>
         <TouchableOpacity onPress={() => navigation.navigate('PersonalInfo', { route: route.params.route })}>
           <View style={styles.button_normal}>
@@ -170,5 +201,14 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginBottom: 10,
     textAlign: "center"
-  }
+  },
+  input: {
+    height: 40,
+    width: 220,
+    margin: 14,
+    borderWidth: 2,
+    borderRadius: 8,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
 })

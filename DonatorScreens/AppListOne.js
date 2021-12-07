@@ -3,18 +3,49 @@ import React, { useState, useEffect } from 'react';
 import { View, FlatList, Modal, Pressable, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { url } from '../Utils'
 
-export default function AppList({ navigation }) {
-  const [fullData, setFullData] = useState([])
+export default function AppListOne({ navigation, route }) {
+  const [fullData, setFullData] = useState([{App_id:1, Personal_id:204610624},{App_id:2, Personal_id:22},{App_id:3, Personal_id:33},])
   const [modalRefuse, setModalRefuseVis] = useState(false);
+  const [Donator, setDonator] = useState(route.params.route.Donator)
+  
 
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      getAppointmentsList();
+     // getAppointmentsList();
     });
 
     return unsubscribe;
   }, [navigation]);
+
+  const getDonorInfo = async (Personal_id) => {
+    try {
+      // if (PersonalId === undefined || PersonalId === null || PersonalId === '') {
+      //   Alert.alert("שגיאת התחברות", "אנא מלא/י תעודת זהות תורם !")
+      //   console.log('====================================');
+      //   console.log("Error, Empty field");
+      //   console.log('====================================');
+      //   return
+      // }
+      let result = await fetch(url + "api/user/info", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: Personal_id,
+        })
+      });
+      let donor = await result.json();
+      if (donor !== undefined || donor !== null) {
+        const Route = { Donator: Donator, Donor: donor }
+        navigation.navigate('DonorInfo', { route: Route })
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const getUserInfo = async (id) => {
     try {
@@ -65,20 +96,21 @@ export default function AppList({ navigation }) {
         }
       }
       setFullData(arr)
+      console.log(arr);
     } catch (error) {
       console.error(error)
     }
   }
 
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      
         <FlatList
           data={fullData}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.App_id}
           renderItem={({ item }) => (
             <View style={styles.list}>
-              <Text style={styles.text_list}>{item.time}  {item.name}</Text>
+              <Text onPress={()=>getDonorInfo(item.Personal_id) } style={styles.text_list}>{item.Personal_id}</Text>
             </View>
           )} />
 
@@ -108,7 +140,6 @@ export default function AppList({ navigation }) {
           </View>
         )}
       </View >
-    </SafeAreaView>
   )
 }
 
@@ -150,19 +181,25 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   list: {
+    width:300,
+    height:150,
+
     flexWrap: 'wrap',
-    alignItems: 'center',
-    marginTop: 14,
-    padding: 18,
-    borderWidth: 3,
-    borderRadius: 9,
-    borderColor: 'grey',
-    backgroundColor: "#fcfff9",
-    color: "black"
+   alignItems: 'center',
+   marginTop: 14,
+   padding: 18,
+   borderWidth: 3,
+   borderRadius: 9,
+   borderColor: 'grey',
+   backgroundColor: "#fcfff9",
+   color: "black"
   },
   text_list: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    padding:20,
+    //textAlign:'center',
+    fontSize: 26,
+   // fontWeight: 'bold',
+    color:'black'
   },
   container_city_list: {
     marginRight: 100,
