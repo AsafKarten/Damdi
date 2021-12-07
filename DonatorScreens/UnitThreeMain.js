@@ -43,7 +43,7 @@ export default function UnitThreeMain({ navigation, route }) {
         <TouchableOpacity onPress={() => ApproveDonor()}>
           <View style={styles.button_confirm}>
             <FontAwesome5 name="stamp" size={24} color="white" />
-            <Text style={styles.button_text} >אישור אימות פרטים</Text>
+            <Text style={styles.button_text} >לקחנו ת'דם ויאללה בוזינסס</Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => DeclaineDonor()}>
