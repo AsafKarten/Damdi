@@ -101,8 +101,9 @@ namespace DamdiServer.DAL
                     cmd.Parameters.AddWithValue("@code_questioner", SqlDbType.Int).Value = med.Code_questioner;
                     cmd.Parameters.AddWithValue("@checker_hemo", SqlDbType.NVarChar).Value = med.Checker_hemog;
                     cmd.Parameters.AddWithValue("@code_hemo", SqlDbType.Int).Value = med.Code_hemog;
-                    cmd.Parameters.AddWithValue("@blood_pressure", SqlDbType.Int).Value = med.Code_hemog;
-                    cmd.Parameters.AddWithValue("@pulse", SqlDbType.Int).Value = med.Code_hemog;
+                    cmd.Parameters.AddWithValue("@blood_pressure", SqlDbType.Int).Value = med.Blood_pressure;
+                    cmd.Parameters.AddWithValue("@noraml_pulse", SqlDbType.Bit).Value = med.Noraml_pulse;
+                    cmd.Parameters.AddWithValue("@pulse", SqlDbType.Int).Value = med.Pulse;
                     int res = cmd.ExecuteNonQuery();
                     return res;
                 }
@@ -113,7 +114,6 @@ namespace DamdiServer.DAL
             }
         }
 
-        //TODO: Continew to insert the rest of the data to MedicalInfoDonator table 
         public int SetNewRestInfoDonator(MedicalInfoDonator med)
         {
             try
@@ -124,6 +124,35 @@ namespace DamdiServer.DAL
                     SqlCommand cmd = new SqlCommand("UpdateNewRestInfoDonator", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@code_questioner", SqlDbType.Int).Value = med.Code_questioner;
+                    cmd.Parameters.AddWithValue("@bp_checker", SqlDbType.NVarChar).Value = med.Bp_checker;
+                    cmd.Parameters.AddWithValue("@checker_name", SqlDbType.NVarChar).Value = med.Checker_name;
+                    cmd.Parameters.AddWithValue("@approver", SqlDbType.NVarChar).Value = med.Approver;
+                    cmd.Parameters.AddWithValue("@abnormal_response", SqlDbType.Bit).Value = med.Abnormal_response;
+                    cmd.Parameters.AddWithValue("@which_response", SqlDbType.NVarChar).Value = med.Which_response;
+                    cmd.Parameters.AddWithValue("@went_to_hospital", SqlDbType.Bit).Value = med.Went_to_hospital;
+                    cmd.Parameters.AddWithValue("@by_mada", SqlDbType.Bit).Value = med.By_mada;
+                    cmd.Parameters.AddWithValue("@refused_evacuate", SqlDbType.Bit).Value = med.Refused_evacuate;
+                    cmd.Parameters.AddWithValue("@donator_notes", SqlDbType.Bit).Value = med.Donator_notes;
+                    cmd.Parameters.AddWithValue("@no_for_platelets", SqlDbType.Bit).Value = med.No_for_platelets;
+                    cmd.Parameters.AddWithValue("@blood_for_freeze", SqlDbType.Bit).Value = med.Blood_for_freeze;
+                    cmd.Parameters.AddWithValue("@empty_bag", SqlDbType.Bit).Value = med.Empty_bag;
+                    cmd.Parameters.AddWithValue("@no_sterile_dose", SqlDbType.Bit).Value = med.No_sterile_dose;
+                    cmd.Parameters.AddWithValue("@epmty_tubes", SqlDbType.Bit).Value = med.Epmty_tubes;
+                    cmd.Parameters.AddWithValue("@empty_nat_tube", SqlDbType.Bit).Value = med.Empty_nat_tube;
+                    cmd.Parameters.AddWithValue("@tube_for_count", SqlDbType.Bit).Value = med.Tube_for_count;
+                    cmd.Parameters.AddWithValue("@rich_in_antibodies", SqlDbType.Bit).Value = med.Rich_in_antibodies;
+                    cmd.Parameters.AddWithValue("@type_antibody", SqlDbType.NVarChar).Value = med.Type_antibody;
+                    cmd.Parameters.AddWithValue("@less_iga", SqlDbType.Bit).Value = med.Less_iga;
+                    cmd.Parameters.AddWithValue("@reported_part_b", SqlDbType.Bit).Value = med.Reported_part_b;
+                    cmd.Parameters.AddWithValue("@reported_part_c", SqlDbType.Bit).Value = med.Reported_part_c;
+                    cmd.Parameters.AddWithValue("@section_part_c", SqlDbType.NVarChar).Value = med.Section_part_c;
+                    cmd.Parameters.AddWithValue("@sort", SqlDbType.Bit).Value = med.Sort;
+                    cmd.Parameters.AddWithValue("@detail", SqlDbType.Decimal).Value = med.Detail;
+                    cmd.Parameters.AddWithValue("@type_bag", SqlDbType.NVarChar).Value = med.Type_bag;
+                    cmd.Parameters.AddWithValue("@dose_weight", SqlDbType.NVarChar).Value = med.Dose_weight;
+                    cmd.Parameters.AddWithValue("@qualificat_name", SqlDbType.NVarChar).Value = med.Qualificat_name;
+                    cmd.Parameters.AddWithValue("@code_qualificat", SqlDbType.NVarChar).Value = med.Code_qualificat;
+                    cmd.Parameters.AddWithValue("@notes", SqlDbType.NVarChar).Value = med.Notes;
                     int res = cmd.ExecuteNonQuery();
                     return res;
                 }
