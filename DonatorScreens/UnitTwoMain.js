@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Modal,Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image, FlatList } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialIcons,Feather,FontAwesome5 } from '@expo/vector-icons';
+
 
 export default function UnitTwoMain({ navigation, route }) {
   console.log(route.params.route);

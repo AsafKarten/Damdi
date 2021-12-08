@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Modal,Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image, FlatList, Switch } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { View, Modal, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Switch } from 'react-native';
+import { MaterialIcons, FontAwesome5, Feather } from '@expo/vector-icons';
+
 
 export default function UnitThreeMain({ navigation, route }) {
   console.log(route.params.route);
@@ -16,71 +13,66 @@ export default function UnitThreeMain({ navigation, route }) {
   //Toggle Switch consts
   const [notForUse1, onChangeNFU1] = useState(false);
   const toggle1 = () => onChangeNFU1(previousState => !previousState);
-  const ApproveDonor = async()=>{
+  const ApproveDonor = async () => {
     //here we need to save the Donation info also the donator info and delete the appointment
     navigation.navigate('UnitThree', { route: Donator })
   }
-  const DeclaineDonor = async()=>{
+  const DeclaineDonor = async () => {
     //here we need to delete the diclained user appointment if someting is wrong
     navigation.navigate('UnitThree', { route: Donator })
   }
 
- 
-
-
-        
-
 
   return (
     <SafeAreaView>
-        <View style={styles.container}>
-          <View style={styles.textBox}>
-            <Text style={styles.text}>תגובה חריגה?</Text>
-          </View>
-          <View style={styles.checkboxContainer}>
-            <Switch
-              onValueChange={toggle1}
-              value={notForUse1}
-            />
-          </View>
+      <View style={styles.container}>
+        <View style={styles.textBox}>
+          <Text style={styles.text}>תגובה חריגה?</Text>
         </View>
+        <View style={styles.checkboxContainer}>
+          <Switch
+            onValueChange={toggle1}
+            value={notForUse1}
+          />
+        </View>
+      </View>
 
-        <View style={styles.container}>
-          <View style={styles.textBox}>
-            <Text style={styles.text}>פונה לבית חולים?</Text>
-          </View>
-          <View style={styles.checkboxContainer}>
-            <Switch
-              onValueChange={toggle1}
-              value={notForUse1}
-            />
-          </View>
+      <View style={styles.container}>
+        <View style={styles.textBox}>
+          <Text style={styles.text}>פונה לבית חולים?</Text>
         </View>
+        <View style={styles.checkboxContainer}>
+          <Switch
+            onValueChange={toggle1}
+            value={notForUse1}
+          />
+        </View>
+      </View>
 
-        <View style={styles.container}>
-          <View style={styles.textBox}>
-            <Text style={styles.text}>על ידי מד"א?</Text>
-          </View>
-          <View style={styles.checkboxContainer}>
-            <Switch
-              onValueChange={toggle1}
-              value={notForUse1}
-            />
-          </View>
+      <View style={styles.container}>
+        <View style={styles.textBox}>
+          <Text style={styles.text}>על ידי מד"א?</Text>
         </View>
+        <View style={styles.checkboxContainer}>
+          <Switch
+            onValueChange={toggle1}
+            value={notForUse1}
+          />
+        </View>
+      </View>
 
-        <View style={styles.container}>
-          <View style={styles.textBox}>
-            <Text style={styles.text}>סירב פינוי</Text>
-          </View>
-          <View style={styles.checkboxContainer}>
-            <Switch
-              onValueChange={toggle1}
-              value={notForUse1}
-            />
-          </View>
+      <View style={styles.container}>
+        <View style={styles.textBox}>
+          <Text style={styles.text}>סירב פינוי</Text>
         </View>
-      
+        <View style={styles.checkboxContainer}>
+          <Switch
+            onValueChange={toggle1}
+            value={notForUse1}
+          />
+        </View>
+      </View>
+
       <View style={styles.containr_btn}>
         <TouchableOpacity onPress={() => navigation.navigate('PersonalInfo', { route: route.params.route })}>
           <View style={styles.button_normal}>

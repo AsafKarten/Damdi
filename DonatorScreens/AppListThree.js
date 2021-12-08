@@ -1,18 +1,17 @@
-
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Modal, Pressable, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, FlatList, Modal, Pressable, StyleSheet, Text } from 'react-native';
 import { url } from '../Utils'
 
 export default function AppListThree({ navigation, route }) {
-  const [fullData, setFullData] = useState([{App_id:1, Personal_id:204610624},{App_id:2, Personal_id:22},{App_id:3, Personal_id:33},])
+  const [fullData, setFullData] = useState([])
   const [modalRefuse, setModalRefuseVis] = useState(false);
   const [Donator, setDonator] = useState(route.params.route.Donator)
-  
+
 
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-     // getAppointmentsList();
+      getAppointmentsList();
     });
 
     return unsubscribe;
@@ -20,13 +19,6 @@ export default function AppListThree({ navigation, route }) {
 
   const getDonorInfo = async (Personal_id) => {
     try {
-      // if (PersonalId === undefined || PersonalId === null || PersonalId === '') {
-      //   Alert.alert("שגיאת התחברות", "אנא מלא/י תעודת זהות תורם !")
-      //   console.log('====================================');
-      //   console.log("Error, Empty field");
-      //   console.log('====================================');
-      //   return
-      // }
       let result = await fetch(url + "api/user/info", {
         method: 'POST',
         headers: {
@@ -73,7 +65,7 @@ export default function AppListThree({ navigation, route }) {
 
   const getAppointmentsList = async () => {
     try {
-      let result = await fetch(url + "api/all/appointments", {
+      let result = await fetch(url + "api/appointments/pos/three", {
         method: 'GET'
       });
       let data = [...await result.json()];
@@ -91,12 +83,12 @@ export default function AppListThree({ navigation, route }) {
           let timeapp = data[index].App_time
           let datetime = new Date(timeapp)
           var fTime = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear() + " " + datetime.getHours() + ":" + datetime.getMinutes()
-          let appObj = { id: ++idApp, time: fTime, name: fullname }
+          let appObj = { id: ++idApp, Personal_id: PID, time: fTime, name: fullname }
           arr.push(appObj);
         }
+        setFullData(arr)
+        console.log(arr);
       }
-      setFullData(arr)
-      console.log(arr);
     } catch (error) {
       console.error(error)
     }
@@ -104,42 +96,44 @@ export default function AppListThree({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      
-        <FlatList
-          data={fullData}
-          keyExtractor={(item) => item.App_id}
-          renderItem={({ item }) => (
-            <View style={styles.list}>
-              <Text onPress={()=>getDonorInfo(item.Personal_id) } style={styles.text_list}>{item.Personal_id}</Text>
-            </View>
-          )} />
 
-        {modalRefuse && (
-          <View>
-            <Modal
-              //animationType='fade'
-              animationIn='zoomIn'
-              animationOut='zoomOut'
-              transparent={true}
-              visible={modalRefuse}
-              onRequestClose={() => { console.log('Modal has been closed.'); }}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>רשימת התורים ריקה, אין תורמים כעת.</Text>
-                <View style={styles.modal_buttons}>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => {
-                      setModalRefuseVis(!modalRefuse)
-                      navigation.navigate('UnitOne')
-                    }}>
-                    <Text style={styles.textStyle}>סגור</Text>
-                  </Pressable>
-                </View>
-              </View>
-            </Modal>
+      <FlatList
+        data={fullData}
+        keyExtractor={(item) => item.App_id}
+        renderItem={({ item }) => (
+          <View style={styles.list}>
+            <Text>{item.name}</Text>
+            <Text>{item.time}</Text>
+            <Text onPress={() => getDonorInfo(item.Personal_id)} style={styles.text_list}>{item.Personal_id}</Text>
           </View>
-        )}
-      </View >
+        )} />
+
+      {modalRefuse && (
+        <View>
+          <Modal
+            //animationType='fade'
+            animationIn='zoomIn'
+            animationOut='zoomOut'
+            transparent={true}
+            visible={modalRefuse}
+            onRequestClose={() => { console.log('Modal has been closed.'); }}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>רשימת התורים ריקה, אין תורמים כעת.</Text>
+              <View style={styles.modal_buttons}>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => {
+                    setModalRefuseVis(!modalRefuse)
+                    navigation.navigate('UnitThree')
+                  }}>
+                  <Text style={styles.textStyle}>סגור</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      )}
+    </View >
   )
 }
 
@@ -181,25 +175,25 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   list: {
-    width:300,
-    height:150,
+    width: 300,
+    height: 150,
 
     flexWrap: 'wrap',
-   alignItems: 'center',
-   marginTop: 14,
-   padding: 18,
-   borderWidth: 3,
-   borderRadius: 9,
-   borderColor: 'grey',
-   backgroundColor: "#fcfff9",
-   color: "black"
+    alignItems: 'center',
+    marginTop: 14,
+    padding: 18,
+    borderWidth: 3,
+    borderRadius: 9,
+    borderColor: 'grey',
+    backgroundColor: "#fcfff9",
+    color: "black"
   },
   text_list: {
-    padding:20,
+    padding: 20,
     //textAlign:'center',
     fontSize: 26,
-   // fontWeight: 'bold',
-    color:'black'
+    // fontWeight: 'bold',
+    color: 'black'
   },
   container_city_list: {
     marginRight: 100,

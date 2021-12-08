@@ -8,9 +8,8 @@ export default function Home({ navigation, route }) {
   const [Donator, onChangeDonator] = useState(route.params.route)
   const [roleModal, setRoleModal] = useState(false);
   const [siteModal, setSiteModal] = useState(false);
-  const [selectedSiteDonation, setSelectedSiteDonation] = useState("");
+  const [selectedSiteDonation, setSelectedSiteDonation] = useState();
   const [stations, setStations] = useState([])
-
   const [value, setValue] = useState();
   const [isFocus, setIsFocus] = useState(false);
 
@@ -37,7 +36,6 @@ export default function Home({ navigation, route }) {
       });
       let data = [...await result.json()];
       setStations(data);
-      setValue(data[0].Station_code)
     } catch (error) {
       console.error(error)
     }
@@ -142,17 +140,26 @@ export default function Home({ navigation, route }) {
               <Text style={styles.modalText} >בחר עמדה</Text>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => navigation.navigate('UnitOne', { route: Donator })}>
+                onPress={() => {
+                  setRoleModal(false)
+                  navigation.navigate('UnitOne', { route: Donator })
+                }}>
                 <Text style={styles.textStyle}>עמדה 1           קבלת תורמים ותשאול</Text>
               </Pressable>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => navigation.navigate('UnitTwo', { route: Donator })}>
+                onPress={() => {
+                  setRoleModal(false)
+                  navigation.navigate('UnitTwo', { route: Donator })
+                }}>
                 <Text style={styles.textStyle}>עמדה 2           בדיקת לחץ דם והמוגלובין</Text>
               </Pressable>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => navigation.navigate('UnitThree', { route: Donator })}>
+                onPress={() => {
+                  setRoleModal(false)
+                  navigation.navigate('UnitThree', { route: Donator })
+                }}>
                 <Text style={styles.textStyle}>עמדה 3            לקיחת תרומות דם</Text>
               </Pressable>
             </View>
@@ -180,7 +187,7 @@ export default function Home({ navigation, route }) {
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
                   setSiteModal(!siteModal)
-                  setSelectedSiteDonation(value)
+                  setSelectedSiteDonation(value !== '...' ? value : "לא נבחר אתר התרמה")
                 }}>
                 <Text style={styles.textStyle}>בחר</Text>
               </Pressable>

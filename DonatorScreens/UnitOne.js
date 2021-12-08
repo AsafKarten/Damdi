@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Modal, TouchableHighlight, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { url } from '../Utils'
-import { AntDesign } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
+import { AntDesign,Feather } from '@expo/vector-icons';
 
 export default function UnitOne({ navigation, route }) {
   const [Donator, setDonator] = useState(route.params.route)
-  const [shouldShow, setShouldShow] = useState(false);
-  const [confirmModal, setConfirmModal] = useState(false);
   const [PersonalId, onChangeId] = useState();
-
-
 
   useEffect(() => {
     (async () => {

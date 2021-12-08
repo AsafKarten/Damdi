@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 
 export default function PersonalInfo({ navigation, route }) {
   const [Donator, setDonator] = useState(route.params.route.Donator);

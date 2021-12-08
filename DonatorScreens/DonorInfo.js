@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Modal,Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image, FlatList } from 'react-native';
+import { View, Modal, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image, FlatList } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialIcons, FontAwesome5, Feather } from '@expo/vector-icons';
 
 export default function DonorInfo({ navigation, route }) {
   console.log(route.params.route);
@@ -13,16 +11,14 @@ export default function DonorInfo({ navigation, route }) {
   const [Route, setRoute] = useState({ Donator: Donator, Donor: donor })
   const [modalRefuse, setModalRefuseVis] = useState(false);
 
-  const ApproveDonor = async()=>{
+  const ApproveDonor = async () => {
     //here we need to save the approve and the approver so the donor can continue to part 2
     navigation.navigate('UnitOne', { route: Donator })
   }
-  const DeclaineDonor = async()=>{
+  const DeclaineDonor = async () => {
     //here we need to delete the diclained user appointment and probable write it some where
     navigation.navigate('UnitOne', { route: Donator })
   }
-
-
 
 
   return (

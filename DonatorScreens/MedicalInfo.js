@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Alert, Modal, TouchableHighlight, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
+import { View, Alert, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import { FontAwesome5, AntDesign } from '@expo/vector-icons';
 
 
 export default function MedicalInfo({ navigation, route }) {
