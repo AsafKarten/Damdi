@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Modal,Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image, FlatList } from 'react-native';
+import { View, Modal,Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image, FlatList, Switch } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -13,6 +13,9 @@ export default function UnitThreeMain({ navigation, route }) {
   const [Route, setRoute] = useState({ Donator: Donator, Donor: donor })
   const [modalRefuse, setModalRefuseVis] = useState(false);
 
+  //Toggle Switch consts
+  const [notForUse1, onChangeNFU1] = useState(false);
+  const toggle1 = () => onChangeNFU1(previousState => !previousState);
   const ApproveDonor = async()=>{
     //here we need to save the Donation info also the donator info and delete the appointment
     navigation.navigate('UnitThree', { route: Donator })
@@ -22,11 +25,34 @@ export default function UnitThreeMain({ navigation, route }) {
     navigation.navigate('UnitThree', { route: Donator })
   }
 
-
+ 
+  <View style={styles.container}>
+          <View style={styles.textBox}>
+            <Text style={styles.text}>האם קיבלת טיפול בהורמון גדילה ממקור אנושי או עברת השתלת קרומי מח או קרנית, ממקור אנושי?</Text>
+          </View>
+          <View style={styles.checkboxContainer}>
+            <Switch
+              onValueChange={toggle1}
+              value={notForUse1}
+            />
+          </View>
+        </View>
 
 
   return (
     <SafeAreaView>
+        <View style={styles.container}>
+          <View style={styles.textBox}>
+            <Text style={styles.text}>תגובה חריגה?</Text>
+          </View>
+          <View style={styles.checkboxContainer}>
+            <Switch
+              onValueChange={toggle1}
+              value={notForUse1}
+            />
+          </View>
+        </View>
+      
       <View style={styles.containr_btn}>
         <TouchableOpacity onPress={() => navigation.navigate('PersonalInfo', { route: route.params.route })}>
           <View style={styles.button_normal}>
