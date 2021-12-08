@@ -26,9 +26,16 @@ export default function UnitThreeMain({ navigation, route }) {
   }
 
  
-  <View style={styles.container}>
+
+
+        
+
+
+  return (
+    <SafeAreaView>
+        <View style={styles.container}>
           <View style={styles.textBox}>
-            <Text style={styles.text}>האם קיבלת טיפול בהורמון גדילה ממקור אנושי או עברת השתלת קרומי מח או קרנית, ממקור אנושי?</Text>
+            <Text style={styles.text}>תגובה חריגה?</Text>
           </View>
           <View style={styles.checkboxContainer}>
             <Switch
@@ -38,12 +45,33 @@ export default function UnitThreeMain({ navigation, route }) {
           </View>
         </View>
 
-
-  return (
-    <SafeAreaView>
         <View style={styles.container}>
           <View style={styles.textBox}>
-            <Text style={styles.text}>תגובה חריגה?</Text>
+            <Text style={styles.text}>פונה לבית חולים?</Text>
+          </View>
+          <View style={styles.checkboxContainer}>
+            <Switch
+              onValueChange={toggle1}
+              value={notForUse1}
+            />
+          </View>
+        </View>
+
+        <View style={styles.container}>
+          <View style={styles.textBox}>
+            <Text style={styles.text}>על ידי מד"א?</Text>
+          </View>
+          <View style={styles.checkboxContainer}>
+            <Switch
+              onValueChange={toggle1}
+              value={notForUse1}
+            />
+          </View>
+        </View>
+
+        <View style={styles.container}>
+          <View style={styles.textBox}>
+            <Text style={styles.text}>סירב פינוי</Text>
           </View>
           <View style={styles.checkboxContainer}>
             <Switch
@@ -125,7 +153,7 @@ const styles = StyleSheet.create({
     width: 250,
     height: 70,
     margin: 15,
-    marginTop: 250,
+    marginTop: 15,
     borderRadius: 8,
     padding: 10,
     backgroundColor: "#66ff66",
@@ -196,5 +224,22 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginBottom: 10,
     textAlign: "center"
-  }
+  },
+  container: {
+    borderBottomColor: 'grey',
+    borderBottomWidth: 2,
+    alignSelf: 'center',
+    width: 380,
+  },
+  textBox: {},
+  text: {
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  checkboxContainer: {
+    alignSelf: 'center',
+  },
+  checkbox: {
+    marginRight: 5,
+  },
 })
