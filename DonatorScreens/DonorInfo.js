@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Modal, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image, FlatList } from 'react-native';
 import { MaterialIcons, FontAwesome5, Feather } from '@expo/vector-icons';
+import {url} from '../Utils'
 
 export default function DonorInfo({ navigation, route }) {
   console.log(route.params.route);
@@ -11,6 +12,39 @@ export default function DonorInfo({ navigation, route }) {
 
   const ApproveDonor = async () => {
     //here we need to save the approve and the approver so the donor can continue to part 2
+    //api/appointments/pos/one
+    try {
+      let result = await fetch(url + "api/confirm/pos/one", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Code_questioner: Donator.Auto_worker_id,
+          Checker_hemog: Donator.First_name + ' ' + Donator.Last_name,
+          // Code_hemog: hemoglobine,
+          // Blood_pressure: blood_pressure,
+          // Noraml_pulse: irregular_pulse,
+          // Pulse: pulse
+        })
+      });
+      let response = await result.json()
+      if (response === 'data added successfully.') {
+        navigation.navigate('UnitTwo', { route: Donator })
+        onChangeBP("")
+        onChangePuls("")
+        onChangeIP("")
+        onChangeHemo("")
+      }
+      else {
+        Alert.alert("שגיאה", "תקלה זמנית בהטמעת הפרטים במערכת, נסה שוב בבקשה..")
+      }
+    } catch (error) {
+      console.log(error);
+    }
+ 
+
     navigation.navigate('UnitOne', { route: Donator })
   }
   const DeclaineDonor = async () => {
