@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, Modal, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Image, FlatList } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons, FontAwesome5, Feather } from '@expo/vector-icons';
 
 export default function DonorInfo({ navigation, route }) {
