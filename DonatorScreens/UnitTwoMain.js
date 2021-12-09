@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Modal, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Switch } from 'react-native';
 import { MaterialIcons, Feather, FontAwesome5 } from '@expo/vector-icons';
+import {url} from '../Utils'
 
 
 export default function UnitTwoMain({ navigation, route }) {
