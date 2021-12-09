@@ -74,26 +74,26 @@ export default function AppListOne({ navigation, route }) {
       console.log(data);
       setFullData(data)
       if (data.length === 0) {
-        var list_data = [{ App_id: 1, Personal_id: 204610624, Name:"אסף קרטן", time:"14:30" }, { App_id: 1, Personal_id: 204610624, Name:"אסף קרטן" , time:"15:00" }, { App_id: 1, Personal_id: 204610624, Name:"אסף קרטן", time:"15:30" },]
-        setFullData(list_data)
-        //setModalRefuseVis(true);
-        //return;
+       // var list_data = [{ App_id: 1, Personal_id: 204610624, Name:"אסף קרטן", time:"14:30" }, { App_id: 1, Personal_id: 204610624, Name:"אסף קרטן" , time:"15:00" }, { App_id: 1, Personal_id: 204610624, Name:"אסף קרטן", time:"15:30" },]
+       // setFullData(list_data)
+        setModalRefuseVis(true);
+        return;
       }
-      // else {
-      //   let idApp = 0
-      //   let arr = []
-      //   for (let index = 0; index < data.length; index++) {
-      //     let PID = data[index].Personal_id
-      //     let fullname = await getUserInfo(PID)
-      //     let timeapp = data[index].App_time
-      //     let datetime = new Date(timeapp)
-      //     var fTime = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear() + " " + datetime.getHours() + ":" + datetime.getMinutes()
-      //     let appObj = { id: ++idApp, Personal_id: PID, time: fTime, name: fullname }
-      //     arr.push(appObj);
-      //   }
-      //   setFullData(arr)
-      //   console.log(arr);
-      // }
+      else {
+        let idApp = 0
+        let arr = []
+        for (let index = 0; index < data.length; index++) {
+          let PID = data[index].Personal_id
+          let fullname = await getUserInfo(PID)
+          let timeapp = data[index].App_time
+          let datetime = new Date(timeapp)
+          var fTime = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear() + " " + datetime.getHours() + ":" + datetime.getMinutes()
+          let appObj = { id: ++idApp, Personal_id: PID, time: fTime, name: fullname }
+          arr.push(appObj);
+        }
+        setFullData(arr)
+        console.log(arr);
+      }
     } catch (error) {
       console.error(error)
     }
