@@ -65,7 +65,7 @@ export default function AppListThree({ navigation, route }) {
 
   const getAppointmentsList = async () => {
     try {
-      let result = await fetch(url + "api/appointments/pos/three", {
+      let result = await fetch(url + `api/appointments/unit/three/${stationCode}`, {
         method: 'GET'
       });
       let data = [...await result.json()];

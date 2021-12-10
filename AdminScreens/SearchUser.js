@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, StatusBar, TouchableOpacity, Image, ScrollView, SafeAreaView, Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
-import { Icon } from 'react-native-elements';
+//import { Icon } from 'react-native-elements';
 import { url } from '../Utils'
 
 export default function SearchUser() {
@@ -16,7 +16,7 @@ export default function SearchUser() {
   }, [])
 
 
-  const GetAllDonosrs = () => {
+  const GetAllDonosrs = async () => {
     try {
       let result = await fetch(url + "api/all/donors", {
         method: 'GET'
@@ -36,7 +36,7 @@ export default function SearchUser() {
     }
   }
 
-  const GetAllDonators = () => {
+  const GetAllDonators = async () => {
     try {
       let result = await fetch(url + "api/all/donators", {
         method: 'GET'
@@ -94,7 +94,7 @@ export default function SearchUser() {
                 />
                 {searchText.length === 0 ? (
                   <TouchableOpacity>
-                    <Icon name='search' size={24} color='#333' />
+                    {/* <Icon name='search' size={24} color='#333' /> */}
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
@@ -102,7 +102,7 @@ export default function SearchUser() {
                       setSearchText('');
                     }}
                   >
-                    <Icon name='cancel' size={24} color='#333' />
+                    {/* <Icon name='cancel' size={24} color='#333' /> */}
                   </TouchableOpacity>
                 )}
               </View>

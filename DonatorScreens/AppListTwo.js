@@ -64,7 +64,7 @@ export default function AppListTwo({ navigation, route }) {
 
   const getAppointmentsList = async () => {
     try {
-      let result = await fetch(url + "api/appointments/pos/two", {
+      let result = await fetch(url + `api/appointments/unit/two/${stationCode}`, {
         method: 'GET'
       });
       let data = [...await result.json()];

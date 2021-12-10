@@ -1,16 +1,15 @@
-
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Modal, Pressable, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, FlatList, Modal, Pressable, StyleSheet, Text} from 'react-native';
 import { url } from '../Utils'
 
 export default function AppListOne({ navigation, route }) {
-  const [fullData, setFullData] = useState()
+  console.log("AppListOne", route.params.route.staionCode);
+  const [fullData, setFullData] = useState([])
   //const [fullData, setFullData] = useState([{ App_id: 1, Personal_id: 204610624 }, { App_id: 2, Personal_id: 22 }, { App_id: 3, Personal_id: 33 },])
   const [modalRefuse, setModalRefuseVis] = useState(false);
   const [Donator, setDonator] = useState(route.params.route.Donator)
-
-
-
+  const [stationCode, setStationCode] = useState(route.params.route.staionCode)
+  console.log(stationCode);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getAppointmentsList();
@@ -67,15 +66,15 @@ export default function AppListOne({ navigation, route }) {
 
   const getAppointmentsList = async () => {
     try {
-      let result = await fetch(url + "api/appointments/pos/one", {
+      let result = await fetch(url + `api/appointments/unit/one/${stationCode}`, {
         method: 'GET'
       });
       let data = [...await result.json()];
       console.log(data);
       setFullData(data)
       if (data.length === 0) {
-       // var list_data = [{ App_id: 1, Personal_id: 204610624, Name:"אסף קרטן", time:"14:30" }, { App_id: 1, Personal_id: 204610624, Name:"אסף קרטן" , time:"15:00" }, { App_id: 1, Personal_id: 204610624, Name:"אסף קרטן", time:"15:30" },]
-       // setFullData(list_data)
+        // var list_data = [{ App_id: 1, Personal_id: 204610624, Name:"אסף קרטן", time:"14:30" }, { App_id: 1, Personal_id: 204610624, Name:"אסף קרטן" , time:"15:00" }, { App_id: 1, Personal_id: 204610624, Name:"אסף קרטן", time:"15:30" },]
+        // setFullData(list_data)
         setModalRefuseVis(true);
         return;
       }
@@ -112,7 +111,6 @@ export default function AppListOne({ navigation, route }) {
             <Text onPress={() => getDonorInfo(item.Personal_id)} style={styles.text_list}>{item.Personal_id}</Text>
           </View>
         )} />
-
       {modalRefuse && (
         <View>
           <Modal
@@ -194,7 +192,7 @@ const styles = StyleSheet.create({
   },
   text_list: {
     padding: 20,
-    textAlign:'center',
+    textAlign: 'center',
     fontSize: 16,
     fontWeight: 'bold',
   },

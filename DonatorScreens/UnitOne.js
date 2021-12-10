@@ -4,9 +4,10 @@ import { url } from '../Utils'
 import { AntDesign, Feather } from '@expo/vector-icons';
 
 export default function UnitOne({ navigation, route }) {
+  console.log(route.params.siteCode);
   const [Donator, setDonator] = useState(route.params.route)
   const [PersonalId, onChangeId] = useState();
-
+  const [station_code, setStationCode] = useState(route.params.siteCode);
   useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
@@ -45,7 +46,7 @@ export default function UnitOne({ navigation, route }) {
   }
 
   const AppointmentsList = () => {
-    var route = { Donator: Donator }
+    var route = { Donator: Donator, staionCode: station_code }
     navigation.navigate('AppListOne', { route: route })
   }
 

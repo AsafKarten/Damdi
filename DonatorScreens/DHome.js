@@ -10,7 +10,8 @@ export default function Home({ navigation, route }) {
   const [siteModal, setSiteModal] = useState(false);
   const [selectedSiteDonation, setSelectedSiteDonation] = useState();
   const [stations, setStations] = useState([])
-  const [value, setValue] = useState();
+  const [value, setStationName] = useState();
+  const [stationCode, setStationCode] = useState();
   const [isFocus, setIsFocus] = useState(false);
 
   useEffect(() => {
@@ -78,7 +79,8 @@ export default function Home({ navigation, route }) {
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={item => {
-            setValue(item.Station_name);
+            setStationName(item.Station_name);
+            setStationCode(item.Station_code);
             setIsFocus(false);
           }}
           renderLeftIcon={() => (
@@ -142,7 +144,7 @@ export default function Home({ navigation, route }) {
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
                   setRoleModal(false)
-                  navigation.navigate('UnitOne', { route: Donator })
+                  navigation.navigate('UnitOne', { route: Donator, siteCode: stationCode })
                 }}>
                 <Text style={styles.textStyle}>עמדה 1           קבלת תורמים ותשאול</Text>
               </Pressable>
