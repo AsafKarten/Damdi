@@ -3,13 +3,12 @@ import { View, FlatList, Modal, Pressable, StyleSheet, Text} from 'react-native'
 import { url } from '../Utils'
 
 export default function AppListOne({ navigation, route }) {
-  console.log("AppListOne", route.params.route.staionCode);
   const [fullData, setFullData] = useState([])
   //const [fullData, setFullData] = useState([{ App_id: 1, Personal_id: 204610624 }, { App_id: 2, Personal_id: 22 }, { App_id: 3, Personal_id: 33 },])
   const [modalRefuse, setModalRefuseVis] = useState(false);
   const [Donator, setDonator] = useState(route.params.route.Donator)
   const [stationCode, setStationCode] = useState(route.params.route.staionCode)
-  console.log(stationCode);
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getAppointmentsList();
@@ -114,7 +113,6 @@ export default function AppListOne({ navigation, route }) {
       {modalRefuse && (
         <View>
           <Modal
-            //animationType='fade'
             animationIn='zoomIn'
             animationOut='zoomOut'
             transparent={true}

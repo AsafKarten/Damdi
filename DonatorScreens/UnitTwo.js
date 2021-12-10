@@ -6,8 +6,6 @@ import { Feather } from '@expo/vector-icons';
 
 export default function UnitTwo({ navigation, route }) {
   const [Donator, setDonator] = useState(route.params.route)
-  const [shouldShow, setShouldShow] = useState(false);
-  const [confirmModal, setConfirmModal] = useState(false);
   const [PersonalId, onChangeId] = useState();
 
 
@@ -50,7 +48,7 @@ export default function UnitTwo({ navigation, route }) {
   }
 
   const AppointmentsList = () => {
-    var route = { Donator: Donator }
+    var route = { Donator: Donator, staionCode: station_code }
     navigation.navigate('AppListTwo', { route: route })
   }
 

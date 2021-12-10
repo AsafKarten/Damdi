@@ -6,6 +6,7 @@ export default function AppListThree({ navigation, route }) {
   const [fullData, setFullData] = useState([])
   const [modalRefuse, setModalRefuseVis] = useState(false);
   const [Donator, setDonator] = useState(route.params.route.Donator)
+  const [stationCode, setStationCode] = useState(route.params.route.staionCode)
 
 
 

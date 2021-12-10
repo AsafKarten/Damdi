@@ -49,7 +49,7 @@ export default function UnitThree({ navigation, route }) {
   }
 
   const AppointmentsList = () => {
-    var route = { Donator: Donator }
+    var route = { Donator: Donator, staionCode: station_code }
     navigation.navigate('AppListThree', { route: route })
   }
 
