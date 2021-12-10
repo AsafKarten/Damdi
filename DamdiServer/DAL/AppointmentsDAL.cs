@@ -70,7 +70,7 @@ namespace DamdiServer.DAL
             }
         }
 
-        public List<Appointments> GetAppointmentsListFirstPos()
+        public List<Appointments> GetAppointmentsListFirstPos(int stationCode)
         {
             try
             {
@@ -79,7 +79,8 @@ namespace DamdiServer.DAL
                     con.Open();
                     var appointments = new List<Appointments>();
                     Appointments a = null;
-                    SqlCommand cmd = new SqlCommand("GetAppointmentsPosOne", con);
+                    SqlCommand cmd = new SqlCommand("GetAppointmentsUnitOne", con);
+                    cmd.Parameters.AddWithValue("@station_code", SqlDbType.Int).Value = stationCode;
                     cmd.CommandType = CommandType.StoredProcedure;
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -104,7 +105,7 @@ namespace DamdiServer.DAL
             }
         }
 
-        public List<Appointments> GetAppointmentsListSecondPos()
+        public List<Appointments> GetAppointmentsListSecondPos(int stationCode)
         {
             try
             {
@@ -113,7 +114,8 @@ namespace DamdiServer.DAL
                     con.Open();
                     var appointments = new List<Appointments>();
                     Appointments a = null;
-                    SqlCommand cmd = new SqlCommand("GetAppointmentsPosTwo", con);
+                    SqlCommand cmd = new SqlCommand("GetAppointmentsUnitTwo", con);
+                    cmd.Parameters.AddWithValue("@station_code", SqlDbType.Int).Value = stationCode;
                     cmd.CommandType = CommandType.StoredProcedure;
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -138,7 +140,7 @@ namespace DamdiServer.DAL
             }
         }
 
-        public List<Appointments> GetAppointmentsListThirdPos()
+        public List<Appointments> GetAppointmentsListThirdPos(int stationCode)
         {
             try
             {
@@ -147,7 +149,8 @@ namespace DamdiServer.DAL
                     con.Open();
                     var appointments = new List<Appointments>();
                     Appointments a = null;
-                    SqlCommand cmd = new SqlCommand("GetAppointmentsPosThree", con);
+                    SqlCommand cmd = new SqlCommand("GetAppointmentsUnitThree", con);
+                    cmd.Parameters.AddWithValue("@station_code", SqlDbType.Int).Value = stationCode;
                     cmd.CommandType = CommandType.StoredProcedure;
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())

@@ -10,7 +10,7 @@ namespace DamdiServer.Controllers
     {
         [HttpPost]
         [Route("api/donator")]
-        public IHttpActionResult GetUserFromDB([FromBody] Donators donator)
+        public IHttpActionResult GetDonatorFromDB([FromBody] Donators donator)
         {
             try
             {
@@ -19,6 +19,24 @@ namespace DamdiServer.Controllers
                 if (checked_donator != null)
                     return Ok(checked_donator);
                 return Content(HttpStatusCode.NotFound, $"User {donator.Personal_id_worker} details is incorrect");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/all/donators")]
+        public IHttpActionResult GetAllDonatorsFromDB()
+        {
+            try
+            {
+                List<Donators> donators = Globals.DonatorsDAL.GetDonatorsList();
+                Created(new Uri(Request.RequestUri.AbsoluteUri), donators);
+                if (donators != null)
+                    return Ok(donators);
+                return BadRequest("donators not found");
             }
             catch (Exception ex)
             {
@@ -50,7 +68,7 @@ namespace DamdiServer.Controllers
         //Add new donator to Donators table.
         [HttpPost]
         [Route("api/confirm/pos/one")]
-        public IHttpActionResult AddQuestiner([FromBody] Donators donator)
+        public IHttpActionResult ConfirmUnit1([FromBody] Donators donator)
         {
             try
             {
@@ -70,7 +88,7 @@ namespace DamdiServer.Controllers
 
         [HttpPost]
         [Route("api/confirm/pos/two")]
-        public IHttpActionResult AddHemoglobin([FromBody] MedicalInfoDonator med)
+        public IHttpActionResult ConfirmUnit2([FromBody] MedicalInfoDonator med)
         {
             try
             {
@@ -78,9 +96,9 @@ namespace DamdiServer.Controllers
                 Created(new Uri(Request.RequestUri.AbsoluteUri + med), res);
                 if (res == 1)
                 {
-                    return Ok("hemoglobin data added successfully.");
+                    return Ok("data added successfully.");
                 }
-                return BadRequest("hemoglobin was not add");
+                return BadRequest("data was not added successfully");
             }
             catch (Exception ex)
             {
@@ -90,7 +108,7 @@ namespace DamdiServer.Controllers
 
         [HttpPost]
         [Route("api/confirm/pos/three")]
-        public IHttpActionResult AddNewRestDataDonator([FromBody] MedicalInfoDonator med)
+        public IHttpActionResult ConfirmUnit3([FromBody] MedicalInfoDonator med)
         {
             try
             {
@@ -109,12 +127,12 @@ namespace DamdiServer.Controllers
         }
 
         [HttpGet]
-        [Route("api/appointments/pos/one")]
-        public IHttpActionResult GetAppointmentsPosOne()
+        [Route("api/appointments/unit/one/{stationCode}")]
+        public IHttpActionResult GetAppointmentsPosOne([FromUri] int stationCode)
         {
             try
             {
-                List<Appointments> appointments = Globals.AppointmentsDAL.GetAppointmentsListFirstPos();
+                List<Appointments> appointments = Globals.AppointmentsDAL.GetAppointmentsListFirstPos(stationCode);
                 Created(new Uri(Request.RequestUri.AbsoluteUri), appointments);
                 if (appointments != null)
                     return Ok(appointments);
@@ -127,12 +145,12 @@ namespace DamdiServer.Controllers
         }
 
         [HttpGet]
-        [Route("api/appointments/pos/two")]
-        public IHttpActionResult GetAppointmentsPosTwo()
+        [Route("api/appointments/unit/two/${stationCode}")]
+        public IHttpActionResult GetAppointmentsPosTwo([FromUri] int stationCode)
         {
             try
             {
-                List<Appointments> appointments = Globals.AppointmentsDAL.GetAppointmentsListSecondPos();
+                List<Appointments> appointments = Globals.AppointmentsDAL.GetAppointmentsListSecondPos(stationCode);
                 Created(new Uri(Request.RequestUri.AbsoluteUri), appointments);
                 if (appointments != null)
                     return Ok(appointments);
@@ -145,12 +163,12 @@ namespace DamdiServer.Controllers
         }
 
         [HttpGet]
-        [Route("api/appointments/pos/three")]
-        public IHttpActionResult GetAppointmentsPosThree()
+        [Route("api/appointments/unit/three/${stationCode}")]
+        public IHttpActionResult GetAppointmentsPosThree([FromUri] int stationCode)
         {
             try
             {
-                List<Appointments> appointments = Globals.AppointmentsDAL.GetAppointmentsListThirdPos();
+                List<Appointments> appointments = Globals.AppointmentsDAL.GetAppointmentsListThirdPos(stationCode);
                 Created(new Uri(Request.RequestUri.AbsoluteUri), appointments);
                 if (appointments != null)
                     return Ok(appointments);

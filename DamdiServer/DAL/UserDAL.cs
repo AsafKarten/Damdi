@@ -96,6 +96,59 @@ namespace DamdiServer.DAL
             }
         }
 
+        public List<User> GetDonorsList()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    var donors = new List<User>();
+                    User donor = null;
+                    SqlCommand cmd = new SqlCommand("GetAllDonors", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        donor = new User(
+                            Convert.ToString(reader["personal_id"]),
+                            Convert.ToString(reader["email"]),
+                            Convert.ToString(reader["salted_hash"]),
+                            Convert.ToString(reader["profile_img"]),
+                            Convert.ToString(reader["first_name"]),
+                            Convert.ToString(reader["last_name"]),
+                            Convert.ToString(reader["phone"]),
+                            Convert.ToString(reader["gender"]),
+                            Convert.ToString(reader["birthdate"]),
+                            Convert.ToString(reader["prev_first_name"]),
+                            Convert.ToString(reader["prev_last_name"]),
+                            Convert.ToString(reader["city"]),
+                            Convert.ToString(reader["address"]),
+                            Convert.ToString(reader["postal_code"]),
+                            Convert.ToString(reader["mail_box"]),
+                            Convert.ToString(reader["telephone"]),
+                            Convert.ToString(reader["work_telephone"]),
+                            Convert.ToBoolean(reader["blood_group_member"]),
+                            Convert.ToBoolean(reader["personal_insurance"]),
+                            Convert.ToBoolean(reader["confirm_examination"]),
+                            Convert.ToBoolean(reader["agree_future_don"]),
+                            Convert.ToString(reader["birth_land"]),
+                            Convert.ToString(reader["aliya_year"]),
+                            Convert.ToString(reader["father_birth_land"]),
+                            Convert.ToString(reader["mother_birth_land"]),
+                            Convert.ToString(reader["blood_type"])
+                            );
+                        donors.Add(donor);
+                    }
+                    return donors;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public int UpdateUser(User user)
         {
             try
