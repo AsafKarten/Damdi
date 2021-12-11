@@ -14,6 +14,7 @@ export default function Home({ navigation, route }) {
   const [stationCode, setStationCode] = useState();
   const [isFocus, setIsFocus] = useState(false);
 
+
   useEffect(() => {
     GetStationList();
   }, [])

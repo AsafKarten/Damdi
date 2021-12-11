@@ -9,15 +9,6 @@ export default function UnitTwo({ navigation, route }) {
   const [PersonalId, onChangeId] = useState();
 
 
-
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS !== 'web') {
-        setShouldShow(true)
-      }
-    })()
-  }, [])
-
   const getDonorInfo = async () => {
     try {
       if (PersonalId === undefined || PersonalId === null || PersonalId === '') {

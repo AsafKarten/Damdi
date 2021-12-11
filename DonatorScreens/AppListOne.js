@@ -72,8 +72,6 @@ export default function AppListOne({ navigation, route }) {
       console.log(data);
       setFullData(data)
       if (data.length === 0) {
-        // var list_data = [{ App_id: 1, Personal_id: 204610624, Name:"אסף קרטן", time:"14:30" }, { App_id: 1, Personal_id: 204610624, Name:"אסף קרטן" , time:"15:00" }, { App_id: 1, Personal_id: 204610624, Name:"אסף קרטן", time:"15:30" },]
-        // setFullData(list_data)
         setModalRefuseVis(true);
         return;
       }

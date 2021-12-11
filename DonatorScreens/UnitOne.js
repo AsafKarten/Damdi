@@ -4,17 +4,11 @@ import { url } from '../Utils'
 import { AntDesign, Feather } from '@expo/vector-icons';
 
 export default function UnitOne({ navigation, route }) {
-  console.log(route.params.siteCode);
   const [Donator, setDonator] = useState(route.params.route)
   const [PersonalId, onChangeId] = useState();
   const [station_code, setStationCode] = useState(route.params.siteCode);
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS !== 'web') {
-        setShouldShow(true)
-      }
-    })()
-  }, [])
+  console.log(Donator);
+
 
   const getDonorInfo = async () => {
     try {
