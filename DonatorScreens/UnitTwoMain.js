@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Modal, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Switch } from 'react-native';
 import { MaterialIcons, Feather, FontAwesome5 } from '@expo/vector-icons';
-import {url} from '../Utils'
 
 
 export default function UnitTwoMain({ navigation, route }) {
@@ -9,11 +8,14 @@ export default function UnitTwoMain({ navigation, route }) {
   const [Donator, setDonator] = useState(route.params.route.Donator)
   const [donor, setDonor] = useState(route.params.route.Donor);
   const [Route, setRoute] = useState({ Donator: Donator, Donor: donor })
+  const [appId, setAppintmentId] = useState()
+  const [showText, setShowText] = useState(false);
   const [modalRefuse, setModalRefuseVis] = useState(false);
+  const [notesUnitTwo, setNotesUnitTwo] = useState(notesUnitTwo === null ? 'אינו רשאי/ת לתרום' : 'רשאי/ת להמשיך לעמדה 3')
 
   //inputs consts
   const [blood_pressure, onChangeBP] = useState("")
-  const [pulse, onChangePuls] = useState("")
+  const [pulse, onChangePulse] = useState("")
   const [hemoglobine, onChangeHemo] = useState("")
   const [irregular_pulse, onChangeIP] = useState(false);
   const irregular_pulse_toggle = () => onChangeIP(previousState => !previousState);
@@ -35,8 +37,34 @@ export default function UnitTwoMain({ navigation, route }) {
     }
   }
 
-  const ApproveDonor = async () => {
-    //here we need to save the info about blood preseur and hemoglobin also the checker info so the donor can continue to part 3
+  const getAppinmentInfo = async () => {
+    try {
+      let result = await fetch(url + "api/user/app", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: route.params.route.Donor.Personal_id
+        })
+      });
+      let appintment = await result.json()
+      console.log("appintment", appintment);
+      if (appintment !== "Appintment not found.") {
+        setAppintmentId(appintment.App_id)
+        console.log(appId);
+      }
+      else {
+        Alert.alert("אין תור קיים בתאריך זה במערכת.")
+        return
+      }
+    } catch (error) {
+      console.log("אין תור פעיל בשרת");
+    }
+  }
+
+  const setDonorDataUnitTwo = async () => {
     try {
       let result = await fetch(url + "api/confirm/pos/two", {
         method: 'POST',
@@ -45,20 +73,22 @@ export default function UnitTwoMain({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Code_questioner: Donator.Auto_worker_id,
+          App_id: Donator.Auto_worker_id,
           Checker_hemog: Donator.First_name + ' ' + Donator.Last_name,
           Code_hemog: hemoglobine,
           Blood_pressure: blood_pressure,
           Noraml_pulse: irregular_pulse,
-          Pulse: pulse
+          Pulse: pulse,
+          Notes_unit_two: notesUnitTwo
         })
       });
       let response = await result.json()
       if (response === 'data added successfully.') {
+        Alert.alert("התורמ/ת רשאי/ת לעבור לעמדה מספר 3.")
         navigation.navigate('UnitTwo', { route: Donator })
         onChangeBP("")
-        onChangePuls("")
-        onChangeIP("")
+        onChangePulse("")
+        onChangeIP(false)
         onChangeHemo("")
       }
       else {
@@ -69,9 +99,45 @@ export default function UnitTwoMain({ navigation, route }) {
     }
   }
 
+  const setConfirmTwo = async () => {
+    try {
+      let result = await fetch(url + "api/confirm/unit/two", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: donor.Personal_id
+        })
+      });
+      let response = await result.json()
+      if (response === 'unit two confirm successfully.') {
+        navigation.navigate('UnitTwo', { route: Donator })
+      }
+      else {
+        Alert.alert("שגיאה", "תקלה זמנית בהטמעת הפרטים במערכת, נסה שוב בבקשה..")
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const ApproveDonor = async () => {
+    await getAppinmentInfo();
+    await setDonorDataUnitTwo();
+    await setConfirmTwo();
+  }
+
 
   const DeclaineDonor = async () => {
-    //here we need to delete the diclained user appointment if someting is wrong
+    await getAppinmentInfo();
+    await setDonorDataUnitTwo();
+    await deletetExistAppointment();
+  }
+
+  const deletetExistAppointment = async () => {
     try {
       let result = await fetch(url + "api/del/app", {
         method: 'POST',
@@ -80,13 +146,11 @@ export default function UnitTwoMain({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          App_id: donor.Personal_Id
+          App_id: appId
         })
       });
       let response = await result.json()
-      console.log(response);
       if (response === "Appointment deleted successfully") {
-        Alert.alert("אנא שלח את התורמ/ת לנוח בצד ולשתות המון מים כדי לנסות לתרום שוב")
         navigation.navigate('UnitTwo', { route: Donator })
         return
       }
@@ -105,7 +169,7 @@ export default function UnitTwoMain({ navigation, route }) {
       />
       <TextInput
         style={styles.input}
-        onChangeText={onChangePuls}
+        onChangeText={onChangePulse}
         value={pulse}
         placeholder="דופק"
       />
@@ -124,13 +188,13 @@ export default function UnitTwoMain({ navigation, route }) {
       />
 
       <View style={styles.containr_btn}>
-        <TouchableOpacity onPress={() => navigation.navigate('PersonalInfo', { route: route.params.route })}>
+        <TouchableOpacity onPress={() => navigation.navigate('PersonalInfo', { route: donor })}>
           <View style={styles.button_normal}>
             <Feather name="info" size={24} color="white" />
             <Text style={styles.button_text} >פרטים אישים</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('MedicalInfo', { route: route.params.route })}>
+        <TouchableOpacity onPress={() => navigation.navigate('MedicalInfo', { route: donor })}>
           <View style={styles.button_normal}>
             <FontAwesome5 name="notes-medical" size={24} color="white" />
             <Text style={styles.button_text} >פרטים רפואים</Text>

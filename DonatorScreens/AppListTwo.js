@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Modal, Pressable, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, FlatList, Modal, Pressable, StyleSheet, Text} from 'react-native';
 import { url } from '../Utils'
 
 export default function AppListTwo({ navigation, route }) {

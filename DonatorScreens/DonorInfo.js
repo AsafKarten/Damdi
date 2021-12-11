@@ -11,10 +11,6 @@ export default function DonorInfo({ navigation, route }) {
   const [showText, setShowText] = useState(false);
   const [notesUnitOne, setNotesUnitOne] = useState(notesUnitOne === null ? 'אינו רשאי/ת לתרום' : 'רשאי/ת להמשיך לעמדה 2')
 
-  useEffect(() => {
-    (async () => {
-    })
-  }, [navigation])
 
   const getAppinmentInfo = async () => {
     try {
@@ -62,7 +58,7 @@ export default function DonorInfo({ navigation, route }) {
       let response = await result.json()
       console.log("SetDonorDataUnitOne", response);
       if (response === 'data unit one added successfully.') {
-        Alert.alert("הפרטים נשמרו במערכת התרומות")
+        Alert.alert("התורמ/ת רשאי/ת לעבור לעמדה מספר 2.")
         return
       }
       else {
@@ -88,7 +84,7 @@ export default function DonorInfo({ navigation, route }) {
       });
       let response = await result.json()
       if (response === 'unit one confirm successfully.') {
-        navigation.navigate('UnitTwo', { route: Donator })
+        navigation.navigate('UnitOne', { route: Donator })
       }
       else {
         Alert.alert("שגיאה", "תקלה זמנית בהטמעת הפרטים במערכת, נסה שוב בבקשה..")
@@ -108,20 +104,16 @@ export default function DonorInfo({ navigation, route }) {
     }
   }
 
-  //here we need to save the approve and the approver so the donor can continue to part 2
   const ApproveDonor = async () => {
     await getAppinmentInfo();
     await setDonorDataUnitOne();
     await setConfirmOne();
-    setNotesUnitOne("")
   }
 
-  //here we need to delete the diclained user appointment and probable write it some where
   const DeclaineDonor = async () => {
     await getAppinmentInfo();
     await setDonorDataUnitOne();
     await deletetExistAppointment();
-    setNotesUnitOne("")
   }
 
   const deletetExistAppointment = async () => {
