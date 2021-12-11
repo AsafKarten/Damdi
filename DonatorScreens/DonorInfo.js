@@ -7,10 +7,14 @@ export default function DonorInfo({ navigation, route }) {
   const [Donator, setDonator] = useState(route.params.route.Donator)
   const [donor, setDonor] = useState(route.params.route.Donor);
   const [modalRefuse, setModalRefuseVis] = useState(false);
-  const [app_id, setAppintmentId] = useState()
+  const [appId, setAppintmentId] = useState()
   const [showText, setShowText] = useState(false);
-  const [notesUnitOne, setNotesUnitOne] = useState()
+  const [notesUnitOne, setNotesUnitOne] = useState(notesUnitOne === null ? 'אינו רשאי/ת לתרום' : 'רשאי/ת להמשיך לעמדה 2')
 
+  useEffect(() => {
+    (async () => {
+    })
+  }, [navigation])
 
   const getAppinmentInfo = async () => {
     try {
@@ -21,17 +25,18 @@ export default function DonorInfo({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id: donor.Personal_id
+          Personal_id: route.params.route.Donor.Personal_id
         })
       });
       let appintment = await result.json()
-      console.log(appintment);
-      if (appintment === "Appintment not found.") {
-        Alert.alert("אין תור קיים בתאריך זה במערכת.")
-        return
+      console.log("appintment", appintment);
+      if (appintment !== "Appintment not found.") {
+        setAppintmentId(appintment.App_id)
+        console.log(appId);
       }
       else {
-        setAppintmentId(appintment.App_id)
+        Alert.alert("אין תור קיים בתאריך זה במערכת.")
+        return
       }
     } catch (error) {
       console.log("אין תור פעיל בשרת");
@@ -39,7 +44,7 @@ export default function DonorInfo({ navigation, route }) {
   }
 
 
-  const SetDonorDataUnitOne = async () => {
+  const setDonorDataUnitOne = async () => {
     try {
       let result = await fetch(url + "api/data/unit/one", {
         method: 'POST',
@@ -48,7 +53,7 @@ export default function DonorInfo({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          App_id: app_id,
+          App_id: appId,
           Code_questioner: Donator.Auto_worker_id,
           Questioner_name: Donator.First_name + ' ' + Donator.Last_name,
           Notes_unit_one: notesUnitOne
@@ -57,7 +62,8 @@ export default function DonorInfo({ navigation, route }) {
       let response = await result.json()
       console.log("SetDonorDataUnitOne", response);
       if (response === 'data unit one added successfully.') {
-        setConfirmOne();
+        Alert.alert("הפרטים נשמרו במערכת התרומות")
+        return
       }
       else {
         Alert.alert("שגיאה", "תקלה זמנית בהטמעת הפרטים במערכת, נסה שוב בבקשה..")
@@ -83,10 +89,6 @@ export default function DonorInfo({ navigation, route }) {
       let response = await result.json()
       if (response === 'unit one confirm successfully.') {
         navigation.navigate('UnitTwo', { route: Donator })
-        onChangeBP("")
-        onChangePuls("")
-        onChangeIP("")
-        onChangeHemo("")
       }
       else {
         Alert.alert("שגיאה", "תקלה זמנית בהטמעת הפרטים במערכת, נסה שוב בבקשה..")
@@ -101,21 +103,48 @@ export default function DonorInfo({ navigation, route }) {
     try {
       setShowText(false)
       Alert.alert("ההערות נשמרו בהצלחה")
-      onChangeTextInput("")
     } catch (error) {
       console.log(error);
     }
   }
 
+  //here we need to save the approve and the approver so the donor can continue to part 2
   const ApproveDonor = async () => {
-    //here we need to save the approve and the approver so the donor can continue to part 2
-    await SetDonorDataUnitOne();
-  }
-  const DeclaineDonor = async () => {
-    //here we need to delete the diclained user appointment and probable write it some where
-    navigation.navigate('UnitOne', { route: Donator })
+    await getAppinmentInfo();
+    await setDonorDataUnitOne();
+    await setConfirmOne();
+    setNotesUnitOne("")
   }
 
+  //here we need to delete the diclained user appointment and probable write it some where
+  const DeclaineDonor = async () => {
+    await getAppinmentInfo();
+    await setDonorDataUnitOne();
+    await deletetExistAppointment();
+    setNotesUnitOne("")
+  }
+
+  const deletetExistAppointment = async () => {
+    try {
+      let result = await fetch(url + "api/del/app", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          App_id: appId
+        })
+      });
+      let response = await result.json()
+      if (response === "Appointment deleted successfully") {
+        navigation.navigate('UnitOne', { route: Donator })
+        return
+      }
+    } catch (error) {
+      console.log("Failed to delete Appointment from the server try later again.");
+    }
+  }
 
   return (
     <SafeAreaView>
@@ -147,7 +176,7 @@ export default function DonorInfo({ navigation, route }) {
                 <View style={styles.notes_container}>
                   <TextInput
                     style={styles.input}
-                    onChangeText={() => setNotesUnitOne}
+                    onChangeText={(text) => setNotesUnitOne(text)}
                     value={notesUnitOne}
                     placeholder="פרט/י"
                   />
