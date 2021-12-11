@@ -46,7 +46,7 @@ export default function UnitTwoMain({ navigation, route }) {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Personal_id: route.params.route.Donor.Personal_id
+          Personal_id: donor.Personal_id
         })
       });
       let appintment = await result.json()
