@@ -96,7 +96,6 @@ namespace DamdiServer.DAL
             }
         }
 
-        //Add questioner name and code questioner to first position  
         public int SetDataConfirmOne(MedicalInfoDonator donator)
         {
             try
@@ -120,7 +119,7 @@ namespace DamdiServer.DAL
             }
         }
 
-        internal int SetConfirmTwoTrue(Appointments App)
+        public int SetConfirmTwoTrue(Appointments App)
         {
             try
             {
