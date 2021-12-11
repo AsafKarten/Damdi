@@ -65,20 +65,19 @@ namespace DamdiServer.Controllers
             }
         }
 
-        //Add new donator to Donators table.
         [HttpPost]
-        [Route("api/confirm/pos/one")]
-        public IHttpActionResult ConfirmUnit1([FromBody] Donators donator)
+        [Route("api/data/unit/one")]
+        public IHttpActionResult SetDonorDataUnitOne([FromBody] MedicalInfoDonator donator)
         {
             try
             {
-                int res = Globals.DonatorsDAL.SetNewQuestiner(donator);
-                Created(new Uri(Request.RequestUri.AbsoluteUri + donator.Personal_id_worker), res);
+                int res = Globals.DonatorsDAL.SetDataConfirmOne(donator);
+                Created(new Uri(Request.RequestUri.AbsoluteUri + donator), res);
                 if (res == 1)
                 {
-                    return Ok("Questiner added successfully.");
+                    return Ok("data unit one added successfully.");
                 }
-                return BadRequest("Questiner was not added");
+                return BadRequest("data unit one was not added");
             }
             catch (Exception ex)
             {
@@ -87,12 +86,32 @@ namespace DamdiServer.Controllers
         }
 
         [HttpPost]
-        [Route("api/confirm/pos/two")]
-        public IHttpActionResult ConfirmUnit2([FromBody] MedicalInfoDonator med)
+        [Route("api/confirm/unit/one")]
+        public IHttpActionResult ConfirmUnitOne([FromBody] Appointments app)
         {
             try
             {
-                int res = Globals.DonatorsDAL.SetNewInfoHemoglobin(med);
+                int res = Globals.DonatorsDAL.SetConfirmOneTrue(app);
+                Created(new Uri(Request.RequestUri.AbsoluteUri + app.Personal_id), res);
+                if (res == 1)
+                {
+                    return Ok("unit one confirm successfully.");
+                }
+                return BadRequest("unit one confirm was not added");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/data/unit/two")]
+        public IHttpActionResult SetDonorDataUnitTwo([FromBody] MedicalInfoDonator med)
+        {
+            try
+            {
+                int res = Globals.DonatorsDAL.SetDataConfirmTwo(med);
                 Created(new Uri(Request.RequestUri.AbsoluteUri + med), res);
                 if (res == 1)
                 {
@@ -107,18 +126,58 @@ namespace DamdiServer.Controllers
         }
 
         [HttpPost]
-        [Route("api/confirm/pos/three")]
-        public IHttpActionResult ConfirmUnit3([FromBody] MedicalInfoDonator med)
+        [Route("api/confirm/unit/two")]
+        public IHttpActionResult ConfirmUnitTwo([FromBody] Appointments app)
         {
             try
             {
-                int res = Globals.DonatorsDAL.SetNewRestInfoDonator(med);
+                int res = Globals.DonatorsDAL.SetConfirmTwoTrue(app);
+                Created(new Uri(Request.RequestUri.AbsoluteUri + app.Personal_id), res);
+                if (res == 1)
+                {
+                    return Ok("unit two confirm successfully.");
+                }
+                return BadRequest("unit two confirm was not added");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/data/unit/three")]
+        public IHttpActionResult SetDonorDataUnitThree([FromBody] MedicalInfoDonator med)
+        {
+            try
+            {
+                int res = Globals.DonatorsDAL.SetDataConfirmThree(med);
                 Created(new Uri(Request.RequestUri.AbsoluteUri + med), res);
                 if (res == 1)
                 {
                     return Ok("data added successfully.");
                 }
                 return BadRequest("data was not added successfully");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/confirm/unit/three")]
+        public IHttpActionResult ConfirmUnitThree([FromBody] Appointments app)
+        {
+            try
+            {
+                int res = Globals.DonatorsDAL.SetConfirmThreeTrue(app);
+                Created(new Uri(Request.RequestUri.AbsoluteUri + app.Personal_id), res);
+                if (res == 1)
+                {
+                    return Ok("unit three confirm successfully.");
+                }
+                return BadRequest("unit three confirm was not added");
             }
             catch (Exception ex)
             {

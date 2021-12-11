@@ -46,7 +46,11 @@ namespace DamdiServer.Models
         int code_qualificat;
         string questioner_name;
         int code_questioner;
-        string notes;
+        string notes_unit_one;
+        string notes_unit_two;
+        string notes_unit_three;
+        string duration;
+        int app_id;
 
         public MedicalInfoDonator(int mi_donator_from,
             int blood_donation_id,
@@ -87,7 +91,12 @@ namespace DamdiServer.Models
             int code_qualificat,
             string questioner_name,
             int code_questioner,
-            string notes)
+            string notes_unit_one,
+            string notes_unit_two,
+            string notes_unit_three,
+            string duration,
+            int app_id
+            )
         {
             Mi_donator_from = mi_donator_from;
             Blood_donation_id = blood_donation_id;
@@ -128,7 +137,11 @@ namespace DamdiServer.Models
             Code_qualificat = code_qualificat;
             Questioner_name = questioner_name;
             Code_questioner = code_questioner;
-            Notes = notes;
+            Notes_unit_one = notes_unit_one;
+            Notes_unit_two = notes_unit_two;
+            Notes_unit_three = notes_unit_three;
+            Duration = duration;
+            App_id = app_id;
         }
 
         public int Mi_donator_from { get => mi_donator_from; set => mi_donator_from = value; }
@@ -170,6 +183,10 @@ namespace DamdiServer.Models
         public int Code_qualificat { get => code_qualificat; set => code_qualificat = value; }
         public string Questioner_name { get => questioner_name; set => questioner_name = value; }
         public int Code_questioner { get => code_questioner; set => code_questioner = value; }
-        public string Notes { get => notes; set => notes = value; }
+        public int App_id { get => app_id; set => app_id = value; }
+        public string Duration { get => duration; set => duration = value; }
+        public string Notes_unit_one { get => notes_unit_one; set => notes_unit_one = value; }
+        public string Notes_unit_two { get => notes_unit_two; set => notes_unit_two = value; }
+        public string Notes_unit_three { get => notes_unit_three; set => notes_unit_three = value; }
     }
 }

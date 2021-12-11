@@ -28,7 +28,7 @@ namespace DamdiServer.DAL
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        d = new Donators(Convert.ToInt32(reader["personal_id_worker"]), Convert.ToString(reader["personal_id_worker"]), Convert.ToString(reader["first_name"]), Convert.ToString(reader["last_name"]), Convert.ToString(reader["salted_hash"]));
+                        d = new Donators(Convert.ToInt32(reader["auto_worker_id"]), Convert.ToString(reader["personal_id_worker"]), Convert.ToString(reader["first_name"]), Convert.ToString(reader["last_name"]), Convert.ToString(reader["salted_hash"]));
                     }
                     return d;
                 }
@@ -97,18 +97,82 @@ namespace DamdiServer.DAL
         }
 
         //Add questioner name and code questioner to first position  
-        public int SetNewQuestiner(Donators donator)
+        public int SetDataConfirmOne(MedicalInfoDonator donator)
         {
             try
             {
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
-                    SqlCommand cmd = new SqlCommand("InsertNewQuestiner", con);
-                    string fullNameDonator = donator.First_name + " " + donator.Last_name;
+                    SqlCommand cmd = new SqlCommand("InsertDataDonatorUnitOne", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@questioner_name", SqlDbType.NVarChar).Value = fullNameDonator;
-                    cmd.Parameters.AddWithValue("@code_questioner", SqlDbType.Int).Value = donator.Auto_worker_id;
+                    cmd.Parameters.AddWithValue("@questioner_name", SqlDbType.NVarChar).Value = donator.Questioner_name;
+                    cmd.Parameters.AddWithValue("@code_questioner", SqlDbType.Int).Value = donator.Code_questioner;
+                    cmd.Parameters.AddWithValue("@notes_unit_one", SqlDbType.NVarChar).Value = donator.Notes_unit_one;
+                    cmd.Parameters.AddWithValue("@app_id", SqlDbType.Int).Value = donator.App_id;
+                    int res = cmd.ExecuteNonQuery();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        internal int SetConfirmTwoTrue(Appointments App)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("SetConfirmTwoTrue", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = App.Personal_id;
+                    cmd.Parameters.AddWithValue("@confirm_2", SqlDbType.Bit).Value = true;
+                    int res = cmd.ExecuteNonQuery();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public int SetConfirmOneTrue(Appointments App)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("SetConfirmOneTrue", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = App.Personal_id;
+                    cmd.Parameters.AddWithValue("@confirm_1", SqlDbType.Bit).Value = true;
+                    int res = cmd.ExecuteNonQuery();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public int SetConfirmThreeTrue(Appointments App)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("SetConfirmTwoTrue", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = App.Personal_id;
+                    cmd.Parameters.AddWithValue("@confirm_3", SqlDbType.Bit).Value = true;
                     int res = cmd.ExecuteNonQuery();
                     return res;
                 }
@@ -120,21 +184,22 @@ namespace DamdiServer.DAL
         }
 
         //Add checker name hemoglobin, code hemoglobin, blood pressure and pulse to second position  
-        public int SetNewInfoHemoglobin(MedicalInfoDonator med)
+        public int SetDataConfirmTwo(MedicalInfoDonator med)
         {
             try
             {
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
-                    SqlCommand cmd = new SqlCommand("UpdateNewInfoHemoglobin", con);
+                    SqlCommand cmd = new SqlCommand("InsertDataDonatorUnitTwo", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@code_questioner", SqlDbType.Int).Value = med.Code_questioner;
+                    cmd.Parameters.AddWithValue("@app_id", SqlDbType.Int).Value = med.Code_questioner;
                     cmd.Parameters.AddWithValue("@checker_hemo", SqlDbType.NVarChar).Value = med.Checker_hemog;
                     cmd.Parameters.AddWithValue("@code_hemo", SqlDbType.Int).Value = med.Code_hemog;
                     cmd.Parameters.AddWithValue("@blood_pressure", SqlDbType.Int).Value = med.Blood_pressure;
                     cmd.Parameters.AddWithValue("@noraml_pulse", SqlDbType.Bit).Value = med.Noraml_pulse;
                     cmd.Parameters.AddWithValue("@pulse", SqlDbType.Int).Value = med.Pulse;
+                    cmd.Parameters.AddWithValue("@notes_unit_two", SqlDbType.NVarChar).Value = med.Notes_unit_two;
                     int res = cmd.ExecuteNonQuery();
                     return res;
                 }
@@ -145,16 +210,16 @@ namespace DamdiServer.DAL
             }
         }
 
-        public int SetNewRestInfoDonator(MedicalInfoDonator med)
+        public int SetDataConfirmThree(MedicalInfoDonator med)
         {
             try
             {
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
                     con.Open();
-                    SqlCommand cmd = new SqlCommand("UpdateNewRestInfoDonator", con);
+                    SqlCommand cmd = new SqlCommand("InsertDataDonatorUnitThree", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@code_questioner", SqlDbType.Int).Value = med.Code_questioner;
+                    cmd.Parameters.AddWithValue("@app_id", SqlDbType.Int).Value = med.Code_questioner;
                     cmd.Parameters.AddWithValue("@bp_checker", SqlDbType.NVarChar).Value = med.Bp_checker;
                     cmd.Parameters.AddWithValue("@checker_name", SqlDbType.NVarChar).Value = med.Checker_name;
                     cmd.Parameters.AddWithValue("@approver", SqlDbType.NVarChar).Value = med.Approver;
@@ -183,7 +248,8 @@ namespace DamdiServer.DAL
                     cmd.Parameters.AddWithValue("@dose_weight", SqlDbType.NVarChar).Value = med.Dose_weight;
                     cmd.Parameters.AddWithValue("@qualificat_name", SqlDbType.NVarChar).Value = med.Qualificat_name;
                     cmd.Parameters.AddWithValue("@code_qualificat", SqlDbType.NVarChar).Value = med.Code_qualificat;
-                    cmd.Parameters.AddWithValue("@notes", SqlDbType.NVarChar).Value = med.Notes;
+                    cmd.Parameters.AddWithValue("@notes_unit_three", SqlDbType.NVarChar).Value = med.Notes_unit_three;
+                    cmd.Parameters.AddWithValue("@duration", SqlDbType.NVarChar).Value = med.Duration;
                     int res = cmd.ExecuteNonQuery();
                     return res;
                 }
