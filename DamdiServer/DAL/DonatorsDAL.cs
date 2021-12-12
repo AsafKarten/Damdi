@@ -28,7 +28,14 @@ namespace DamdiServer.DAL
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        d = new Donators(Convert.ToInt32(reader["auto_worker_id"]), Convert.ToString(reader["personal_id_worker"]), Convert.ToString(reader["first_name"]), Convert.ToString(reader["last_name"]), Convert.ToString(reader["salted_hash"]));
+                        d = new Donators(
+                            Convert.ToInt32(reader["auto_worker_id"]),
+                            Convert.ToString(reader["personal_id_worker"]),
+                            Convert.ToString(reader["type_employee"]),
+                            Convert.ToString(reader["first_name"]),
+                            Convert.ToString(reader["last_name"]),
+                            Convert.ToString(reader["salted_hash"])
+                            );
                     }
                     return d;
                 }
@@ -57,6 +64,7 @@ namespace DamdiServer.DAL
                         donator = new Donators(
                            Convert.ToInt32(reader["personal_id_worker"]),
                            Convert.ToString(reader["personal_id_worker"]),
+                           Convert.ToString(reader["type_employee"]),
                            Convert.ToString(reader["first_name"]),
                            Convert.ToString(reader["last_name"]),
                            Convert.ToString(reader["salted_hash"])
@@ -218,7 +226,7 @@ namespace DamdiServer.DAL
                     con.Open();
                     SqlCommand cmd = new SqlCommand("InsertDataDonatorUnitThree", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@app_id", SqlDbType.Int).Value = med.Code_questioner;
+                    cmd.Parameters.AddWithValue("@app_id", SqlDbType.Int).Value = med.App_id;
                     cmd.Parameters.AddWithValue("@bp_checker", SqlDbType.NVarChar).Value = med.Bp_checker;
                     cmd.Parameters.AddWithValue("@checker_name", SqlDbType.NVarChar).Value = med.Checker_name;
                     cmd.Parameters.AddWithValue("@approver", SqlDbType.NVarChar).Value = med.Approver;
@@ -227,7 +235,6 @@ namespace DamdiServer.DAL
                     cmd.Parameters.AddWithValue("@went_to_hospital", SqlDbType.Bit).Value = med.Went_to_hospital;
                     cmd.Parameters.AddWithValue("@by_mada", SqlDbType.Bit).Value = med.By_mada;
                     cmd.Parameters.AddWithValue("@refused_evacuate", SqlDbType.Bit).Value = med.Refused_evacuate;
-                    cmd.Parameters.AddWithValue("@donator_notes", SqlDbType.Bit).Value = med.Donator_notes;
                     cmd.Parameters.AddWithValue("@no_for_platelets", SqlDbType.Bit).Value = med.No_for_platelets;
                     cmd.Parameters.AddWithValue("@blood_for_freeze", SqlDbType.Bit).Value = med.Blood_for_freeze;
                     cmd.Parameters.AddWithValue("@empty_bag", SqlDbType.Bit).Value = med.Empty_bag;
@@ -242,7 +249,7 @@ namespace DamdiServer.DAL
                     cmd.Parameters.AddWithValue("@reported_part_c", SqlDbType.Bit).Value = med.Reported_part_c;
                     cmd.Parameters.AddWithValue("@section_part_c", SqlDbType.NVarChar).Value = med.Section_part_c;
                     cmd.Parameters.AddWithValue("@sort", SqlDbType.Bit).Value = med.Sort;
-                    cmd.Parameters.AddWithValue("@detail", SqlDbType.Decimal).Value = med.Detail;
+                    cmd.Parameters.AddWithValue("@detail", SqlDbType.Decimal).Value = med.Detail_Iga;
                     cmd.Parameters.AddWithValue("@type_bag", SqlDbType.NVarChar).Value = med.Type_bag;
                     cmd.Parameters.AddWithValue("@dose_weight", SqlDbType.NVarChar).Value = med.Dose_weight;
                     cmd.Parameters.AddWithValue("@qualificat_name", SqlDbType.NVarChar).Value = med.Qualificat_name;

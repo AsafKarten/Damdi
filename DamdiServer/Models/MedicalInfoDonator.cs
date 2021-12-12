@@ -37,7 +37,7 @@ namespace DamdiServer.Models
         bool reported_part_c;
         string section_part_c;
         bool sort;
-        string detail;
+        string detail_iga;
         string type_bag;
         float dose_weight;
         string checker_hemog;
@@ -82,7 +82,7 @@ namespace DamdiServer.Models
             bool reported_part_c,
             string section_part_c,
             bool sort,
-            string detail,
+            string detail_iga,
             string type_bag,
             float dose_weight,
             string checker_hemog,
@@ -128,7 +128,7 @@ namespace DamdiServer.Models
             Reported_part_c = reported_part_c;
             Section_part_c = section_part_c;
             Sort = sort;
-            Detail = detail;
+            Detail_Iga = detail_iga;
             Type_bag = type_bag;
             Dose_weight = dose_weight;
             Checker_hemog = checker_hemog;
@@ -174,7 +174,7 @@ namespace DamdiServer.Models
         public bool Reported_part_c { get => reported_part_c; set => reported_part_c = value; }
         public string Section_part_c { get => section_part_c; set => section_part_c = value; }
         public bool Sort { get => sort; set => sort = value; }
-        public string Detail { get => detail; set => detail = value; }
+        public string Detail_Iga { get => detail_iga; set => detail_iga = value; }
         public string Type_bag { get => type_bag; set => type_bag = value; }
         public float Dose_weight { get => dose_weight; set => dose_weight = value; }
         public string Checker_hemog { get => checker_hemog; set => checker_hemog = value; }

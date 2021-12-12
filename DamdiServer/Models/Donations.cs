@@ -12,7 +12,6 @@ namespace DamdiServer.Models
         int station_code;
         string site_name;
         string donation_type;
-        string duration;
         bool age_approve;
         int auto_worker_id;
         DateTime donation_date;
@@ -25,7 +24,6 @@ namespace DamdiServer.Models
             int station_code,
             string site_name,
             string donation_type,
-            string duration,
             bool age_approve,
             int auto_worker_id,
             DateTime donation_date,
@@ -38,7 +36,6 @@ namespace DamdiServer.Models
             Station_code = station_code;
             Site_name = site_name;
             Donation_type = donation_type;
-            Duration = duration;
             Age_approve = age_approve;
             Auto_worker_id = auto_worker_id;
             Donation_date = donation_date;
@@ -51,7 +48,6 @@ namespace DamdiServer.Models
         public int Station_code { get => station_code; set => station_code = value; }
         public string Site_name { get => site_name; set => site_name = value; }
         public string Donation_type { get => donation_type; set => donation_type = value; }
-        public string Duration { get => duration; set => duration = value; }
         public bool Age_approve { get => age_approve; set => age_approve = value; }
         public int Auto_worker_id { get => auto_worker_id; set => auto_worker_id = value; }
         public DateTime Donation_date { get => donation_date; set => donation_date = value; }
