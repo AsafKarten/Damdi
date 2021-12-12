@@ -20,7 +20,7 @@ export default function UnitTwoMain({ navigation, route }) {
   const [irregular_pulse, onChangeIP] = useState(false);
   const irregular_pulse_toggle = () => onChangeIP(previousState => !previousState);
 
-  const validationData = () => {
+  const ValidationData = async () => {
     if (
       blood_pressure === null ||
       blood_pressure === "" ||
@@ -33,11 +33,11 @@ export default function UnitTwoMain({ navigation, route }) {
       Alert.alert("אנא מלא/י את כל השדות");
       return
     } else {
-      ApproveDonor();
+      await ApproveDonor();
     }
   }
 
-  const getAppinmentInfo = async () => {
+  const GetAppinmentInfo = async () => {
     try {
       let result = await fetch(url + "api/user/app", {
         method: 'POST',
@@ -64,7 +64,7 @@ export default function UnitTwoMain({ navigation, route }) {
     }
   }
 
-  const setDonorDataUnitTwo = async () => {
+  const SetDonatorDataInfoUnitTwo = async () => {
     try {
       let result = await fetch(url + "api/confirm/pos/two", {
         method: 'POST',
@@ -99,7 +99,7 @@ export default function UnitTwoMain({ navigation, route }) {
     }
   }
 
-  const setConfirmTwo = async () => {
+  const SetConfirmTwo = async () => {
     try {
       let result = await fetch(url + "api/confirm/unit/two", {
         method: 'POST',
@@ -125,19 +125,19 @@ export default function UnitTwoMain({ navigation, route }) {
   }
 
   const ApproveDonor = async () => {
-    await getAppinmentInfo();
-    await setDonorDataUnitTwo();
-    await setConfirmTwo();
+    await GetAppinmentInfo();
+    await SetDonatorDataInfoUnitTwo();
+    await SetConfirmTwo();
   }
 
 
   const DeclaineDonor = async () => {
-    await getAppinmentInfo();
-    await setDonorDataUnitTwo();
-    await deletetExistAppointment();
+    await GetAppinmentInfo();
+    await SetDonatorDataInfoUnitTwo();
+    await DeleteAppointmentUnitTwo();
   }
 
-  const deletetExistAppointment = async () => {
+  const DeleteAppointmentUnitTwo = async () => {
     try {
       let result = await fetch(url + "api/del/app", {
         method: 'POST',
@@ -156,6 +156,15 @@ export default function UnitTwoMain({ navigation, route }) {
       }
     } catch (error) {
       console.log("Failed to delete Appointment from the server try later again.");
+    }
+  }
+
+  const SaveNotesUnitTwo = async () => {
+    try {
+      setShowText(false)
+      Alert.alert("ההערות נשמרו בהצלחה.")
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -200,7 +209,30 @@ export default function UnitTwoMain({ navigation, route }) {
             <Text style={styles.button_text} >פרטים רפואים</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => validationData()}>
+        <View style={styles.notes_container}>
+          <TouchableOpacity onPress={() => setShowText(true)}>
+            <View style={styles.button_normal}>
+              <FontAwesome5 name="notes-medical" size={26} color="white" />
+              <Text style={styles.button_text} >הוספת הערות</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        {showText &&
+          <View style={styles.notes_container}>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => setNotesUnitTwo(text)}
+              value={notesUnitTwo}
+              placeholder="פרט/י"
+            />
+            <TouchableOpacity onPress={() => SaveNotesUnitTwo()}>
+              <View style={styles.button_save_note}>
+                <AntDesign name="addfile" size={26} color="white" />
+                <Text style={styles.button_text} >שמור הערות</Text>
+              </View>
+            </TouchableOpacity>
+          </View>}
+        <TouchableOpacity onPress={() => ValidationData()}>
           <View style={styles.button_confirm}>
             <FontAwesome5 name="stamp" size={24} color="white" />
             <Text style={styles.button_text} >אישור אימות פרטים</Text>
@@ -282,6 +314,33 @@ const styles = StyleSheet.create({
   button_text: {
     fontSize: 18,
     color: 'white',
+    fontWeight: 'bold'
+  },
+  notes_container: {
+    alignItems: 'center',
+    flexDirection: 'row'
+  },
+  button_save_note: {
+    alignItems: 'center',
+    width: 100,
+    height: 70,
+    margin: 10,
+    borderRadius: 8,
+    padding: 10,
+    backgroundColor: "#757c94",
+    opacity: 0.8,
+    shadowColor: 'black',
+    shadowRadius: 5,
+    flexDirection: 'row'
+  },
+  input: {
+    width: 300,
+    height: 50,
+    marginRight: 10,
+    borderWidth: 2,
+    borderRadius: 8,
+    textAlign: 'center',
+    alignItems: 'center',
     fontWeight: 'bold'
   },
 

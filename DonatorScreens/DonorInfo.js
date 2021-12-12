@@ -12,7 +12,7 @@ export default function DonorInfo({ navigation, route }) {
   const [notesUnitOne, setNotesUnitOne] = useState(notesUnitOne === null ? 'אינו רשאי/ת לתרום' : 'רשאי/ת להמשיך לעמדה 2')
 
 
-  const getAppinmentInfo = async () => {
+  const GetAppinmentInfo = async () => {
     try {
       let result = await fetch(url + "api/user/app", {
         method: 'POST',
@@ -40,7 +40,7 @@ export default function DonorInfo({ navigation, route }) {
   }
 
 
-  const setDonorDataUnitOne = async () => {
+  const SetDonatorDataInfoUnitOne = async () => {
     try {
       let result = await fetch(url + "api/data/unit/one", {
         method: 'POST',
@@ -70,7 +70,7 @@ export default function DonorInfo({ navigation, route }) {
     }
   }
 
-  const setConfirmOne = async () => {
+  const SetConfirmOne = async () => {
     try {
       let result = await fetch(url + "api/confirm/unit/one", {
         method: 'POST',
@@ -95,7 +95,7 @@ export default function DonorInfo({ navigation, route }) {
     }
   }
 
-  const saveNotesUnitOne = async () => {
+  const SaveNotesUnitOne = async () => {
     try {
       setShowText(false)
       Alert.alert("ההערות נשמרו בהצלחה")
@@ -105,18 +105,18 @@ export default function DonorInfo({ navigation, route }) {
   }
 
   const ApproveDonor = async () => {
-    await getAppinmentInfo();
-    await setDonorDataUnitOne();
-    await setConfirmOne();
+    await GetAppinmentInfo();
+    await SetDonatorDataInfoUnitOne();
+    await SetConfirmOne();
   }
 
   const DeclaineDonor = async () => {
-    await getAppinmentInfo();
-    await setDonorDataUnitOne();
-    await deletetExistAppointment();
+    await GetAppinmentInfo();
+    await SetDonatorDataInfoUnitOne();
+    await DeleteAppointmentUnitOne();
   }
 
-  const deletetExistAppointment = async () => {
+  const DeleteAppointmentUnitOne = async () => {
     try {
       let result = await fetch(url + "api/del/app", {
         method: 'POST',
@@ -172,7 +172,7 @@ export default function DonorInfo({ navigation, route }) {
                     value={notesUnitOne}
                     placeholder="פרט/י"
                   />
-                  <TouchableOpacity onPress={() => saveNotesUnitOne()}>
+                  <TouchableOpacity onPress={() => SaveNotesUnitOne()}>
                     <View style={styles.button_save_note}>
                       <AntDesign name="addfile" size={26} color="white" />
                       <Text style={styles.button_text} >שמור הערות</Text>

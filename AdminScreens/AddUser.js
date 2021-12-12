@@ -18,14 +18,15 @@ export default function AddUser({ navigation }) {
   const [personalId, setPersonalId] = useState(null)
   const [firstName, setFirstName] = useState(null)
   const [lastName, setLastName] = useState(null)
+  const [typeEmployee, setTypeEmployee] = useState(null)
   const [email, setEmail] = useState(null)
   const [pass, setPassword] = useState(null)
   const [cPassword, setCPassword] = useState(null)
 
-  const [emailInput, setEmailTextInput] = useState()
-  const [nameInput, setNameTextInput] = useState()
-
-
+  //Bool properties
+  const [emailInput, setEmailTextInput] = useState(false)
+  const [nameInput, setNameTextInput] = useState(false)
+  const [typeEmpInput, setTypeEmpInputTextInput] = useState(false)
   const [modalInfoVisible, setModalInfoVisible] = useState(false);
 
   useEffect(() => {
@@ -46,6 +47,7 @@ export default function AddUser({ navigation }) {
       return
     } else {
       setNameTextInput(true)
+      setTypeEmpInputTextInput(true)
       setEmailTextInput(false)
     }
   };
@@ -167,6 +169,7 @@ export default function AddUser({ navigation }) {
         setEmail("")
         setPassword("")
         setCPassword("")
+        setTypeEmployee("")
         setLoading(false);
       }
       else {
@@ -221,6 +224,15 @@ export default function AddUser({ navigation }) {
           style={styles.input}
           onChangeText={(text) => setLastName(text)}
           value={lastName}
+          placeholder="שם משפחה"
+        />
+      </View>}
+      {typeEmpInput && <View style={styles.horizontalBox}>
+        <Text style={styles.lableText}>תפקיד העובד</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) => setTypeEmployee(text)}
+          value={typeEmployee}
           placeholder="שם משפחה"
         />
       </View>}
