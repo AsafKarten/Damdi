@@ -169,6 +169,8 @@ namespace DamdiServer.DAL
             }
         }
 
+
+
         public int SetConfirmThreeTrue(Appointments App)
         {
             try
@@ -256,6 +258,31 @@ namespace DamdiServer.DAL
                     cmd.Parameters.AddWithValue("@code_qualificat", SqlDbType.NVarChar).Value = med.Code_qualificat;
                     cmd.Parameters.AddWithValue("@notes_unit_three", SqlDbType.NVarChar).Value = med.Notes_unit_three;
                     cmd.Parameters.AddWithValue("@duration", SqlDbType.NVarChar).Value = med.Duration;
+                    int res = cmd.ExecuteNonQuery();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public int SetSummeryDataToDB(Donations donation)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("InsertSummeryData", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = donation.Personal_id;
+                    cmd.Parameters.AddWithValue("@station_code", SqlDbType.Int).Value = donation.Station_code;
+                    cmd.Parameters.AddWithValue("@station_name", SqlDbType.NVarChar).Value = donation.Station_name;
+                    cmd.Parameters.AddWithValue("@donation_type", SqlDbType.NVarChar).Value = donation.Donation_type;
+                    cmd.Parameters.AddWithValue("@donation_date", SqlDbType.DateTime).Value = donation.Donation_date;
+                    cmd.Parameters.AddWithValue("@age_approve", SqlDbType.Bit).Value = donation.Age_approve;
+                    cmd.Parameters.AddWithValue("@auto_worker_id", SqlDbType.Int).Value = donation.Auto_worker_id;
                     int res = cmd.ExecuteNonQuery();
                     return res;
                 }

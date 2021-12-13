@@ -70,7 +70,7 @@ namespace DamdiServer.Controllers
             try
             {
                 Stations station = null;
-                station = Globals.StationsDAL.getStationCode(s);
+                station = Globals.StationsDAL.GetStationCode(s);
                 if (station != null)
                     return Ok(station);
                 return Content(HttpStatusCode.NotFound, "Station name not found");

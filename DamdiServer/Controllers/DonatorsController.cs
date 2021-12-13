@@ -67,7 +67,7 @@ namespace DamdiServer.Controllers
 
         [HttpPost]
         [Route("api/data/unit/one")]
-        public IHttpActionResult SetDonorDataUnitOne([FromBody] MedicalInfoDonator donator)
+        public IHttpActionResult SetDonatorDataInfoUnitOne([FromBody] MedicalInfoDonator donator)
         {
             try
             {
@@ -107,7 +107,7 @@ namespace DamdiServer.Controllers
 
         [HttpPost]
         [Route("api/data/unit/two")]
-        public IHttpActionResult SetDonorDataUnitTwo([FromBody] MedicalInfoDonator med)
+        public IHttpActionResult SetDonatorDataInfoUnitTwo([FromBody] MedicalInfoDonator med)
         {
             try
             {
@@ -147,7 +147,7 @@ namespace DamdiServer.Controllers
 
         [HttpPost]
         [Route("api/data/unit/three")]
-        public IHttpActionResult SetDonorDataUnitThree([FromBody] MedicalInfoDonator med)
+        public IHttpActionResult SetDonatorDataInfoUnitThree([FromBody] MedicalInfoDonator med)
         {
             try
             {
@@ -178,6 +178,26 @@ namespace DamdiServer.Controllers
                     return Ok("unit three confirm successfully.");
                 }
                 return BadRequest("unit three confirm was not added");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/summery/donation")]
+        public IHttpActionResult SetSummeryDonation([FromBody] Donations donation)
+        {
+            try
+            {
+                int res = Globals.DonatorsDAL.SetSummeryDataToDB(donation);
+                Created(new Uri(Request.RequestUri.AbsoluteUri + donation.Personal_id), res);
+                if (res == 1)
+                {
+                    return Ok("data added successfully.");
+                }
+                return BadRequest("data was not added.");
             }
             catch (Exception ex)
             {

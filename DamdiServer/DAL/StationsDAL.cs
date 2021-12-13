@@ -115,7 +115,7 @@ namespace DamdiServer.DAL
         }
 
 
-        public Stations getStationCode(Stations s)
+        public Stations GetStationCode(Stations s)
         {
             try
             {
