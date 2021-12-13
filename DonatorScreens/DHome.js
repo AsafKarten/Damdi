@@ -10,7 +10,7 @@ export default function Home({ navigation, route }) {
   const [siteModal, setSiteModal] = useState(false);
   const [selectedSiteDonation, setSelectedSiteDonation] = useState();
   const [stations, setStations] = useState([])
-  const [value, setStationName] = useState();
+  const [stationName, setStationName] = useState();
   const [stationCode, setStationCode] = useState();
   const [isFocus, setIsFocus] = useState(false);
 
@@ -45,7 +45,7 @@ export default function Home({ navigation, route }) {
 
   const DropdownComponent = () => {
     const renderLabel = () => {
-      if (value || isFocus) {
+      if (stationName || isFocus) {
         return (
           <Text style={[styles.label, isFocus && { color: 'blue' }]}>
             שם תחנה
@@ -145,7 +145,7 @@ export default function Home({ navigation, route }) {
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
                   setRoleModal(false)
-                  navigation.navigate('UnitOne', { route: Donator, siteCode: stationCode })
+                  navigation.navigate('UnitOne', { route: Donator, siteCode: stationCode})
                 }}>
                 <Text style={styles.textStyle}>עמדה 1           קבלת תורמים ותשאול</Text>
               </Pressable>
@@ -161,7 +161,7 @@ export default function Home({ navigation, route }) {
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
                   setRoleModal(false)
-                  navigation.navigate('UnitThree', { route: Donator })
+                  navigation.navigate('UnitThree', { route: Donator, siteName: stationName})
                 }}>
                 <Text style={styles.textStyle}>עמדה 3            לקיחת תרומות דם</Text>
               </Pressable>
@@ -190,7 +190,7 @@ export default function Home({ navigation, route }) {
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
                   setSiteModal(!siteModal)
-                  setSelectedSiteDonation(value !== '...' ? value : "לא נבחר אתר התרמה")
+                  setSelectedSiteDonation(stationName !== '...' ? stationName : "לא נבחר אתר התרמה")
                 }}>
                 <Text style={styles.textStyle}>בחר</Text>
               </Pressable>

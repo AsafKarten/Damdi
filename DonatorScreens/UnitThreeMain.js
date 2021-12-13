@@ -7,7 +7,7 @@ import { url } from '../Utils'
 export default function UnitThreeMain({ navigation, route }) {
   const [Donator, setDonator] = useState(route.params.route.Donator)
   const [donor, setDonor] = useState(route.params.route.Donor);
-  const [Route, setRoute] = useState({ Donator: Donator, Donor: donor })
+  const [stationName, setStationName] = useState(route.params.route.siteName)
   const [modalRefuse, setModalRefuseVis] = useState(false);
   const [showText, setShowText] = useState(false);
   const [appId, setAppintmentId] = useState()
@@ -134,13 +134,11 @@ export default function UnitThreeMain({ navigation, route }) {
         body: JSON.stringify({
           Personal_id: donor.Personal_id,
           Station_code: staionCode,
-          Station_name: stationName,//TODO:function to Get station name by station code
+          Station_name: stationName,
           Donation_type: donationType, //TODO: dropdown donationType
           Age_approve: ageApp,//TODO: Switch yes or no
           Auto_worker_id: Donator.Auto_worker_id,
-          Donation_date: dateDonation,
-          Mi_donation_from: miDonationFrom, //TODO: function to Get  miDonationFrom
-          Mi_donator_from: miDonatorFrom // TODO: function to Get  miDonatorFrom
+          Donation_date: dateDonation
         })
       });
       let response = await result.json()
@@ -162,7 +160,7 @@ export default function UnitThreeMain({ navigation, route }) {
   const ApproveDonor = async () => {
     await GetAppinmentInfo();
     await SetDonatorDataInfoUnitThree();
-    
+
     //if the donator do mistake or decide to pass current donor, the system will check it anyway
     if (!notForUse1) {
       await SetConfirmThree();

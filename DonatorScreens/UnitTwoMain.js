@@ -134,30 +134,8 @@ export default function UnitTwoMain({ navigation, route }) {
   const DeclaineDonor = async () => {
     await GetAppinmentInfo();
     await SetDonatorDataInfoUnitTwo();
-    await DeleteAppointmentUnitTwo();
   }
 
-  const DeleteAppointmentUnitTwo = async () => {
-    try {
-      let result = await fetch(url + "api/del/app", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          App_id: appId
-        })
-      });
-      let response = await result.json()
-      if (response === "Appointment deleted successfully") {
-        navigation.navigate('UnitTwo', { route: Donator })
-        return
-      }
-    } catch (error) {
-      console.log("Failed to delete Appointment from the server try later again.");
-    }
-  }
 
   const SaveNotesUnitTwo = async () => {
     try {
