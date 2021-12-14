@@ -234,7 +234,7 @@ export default function StackNavigation() {
           }} />
            <Stack.Screen name="AppListTwo" component={AppListTwo}
           options={{
-            title: 'רשימת תורים 2 ',
+            title: 'רשימת תורים בדיקה רפואית ',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },
@@ -246,7 +246,7 @@ export default function StackNavigation() {
           }} />
            <Stack.Screen name="AppListThree" component={AppListThree}
           options={{
-            title: ' רשימת תורים 3',
+            title: 'רשימת תורים ביצוע תרומה',
             headerStyle: {
               backgroundColor: '#7d91b0',
             },

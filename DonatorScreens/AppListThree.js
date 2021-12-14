@@ -6,7 +6,8 @@ export default function AppListThree({ navigation, route }) {
   const [fullData, setFullData] = useState([])
   const [modalRefuse, setModalRefuseVis] = useState(false);
   const [Donator, setDonator] = useState(route.params.route.Donator)
-  const [stationCode, setStationCode] = useState(route.params.route.staionCode)
+  const [stationCode, setStationCode] = useState(route.params.route.stationCode)
+  const [stationName, setStationName] = useState(route.params.route.siteName)
 
 
 
@@ -32,7 +33,7 @@ export default function AppListThree({ navigation, route }) {
       });
       let donor = await result.json();
       if (donor !== undefined || donor !== null) {
-        const Route = { Donator: Donator, Donor: donor }
+        const Route = { Donator: Donator, Donor: donor, siteName: stationName }
         navigation.navigate('UnitThreeMain', { route: Route })
       }
     } catch (error) {
@@ -56,7 +57,6 @@ export default function AppListThree({ navigation, route }) {
       console.log(user);
       if (user !== undefined || user !== null) {
         let fullname = user.First_name + ' ' + user.Last_name
-        console.log(fullname);
         return fullname
       }
     } catch (error) {
@@ -70,7 +70,6 @@ export default function AppListThree({ navigation, route }) {
         method: 'GET'
       });
       let data = [...await result.json()];
-      console.log(data);
       if (data.length === 0) {
         setModalRefuseVis(true);
         return;
@@ -88,7 +87,6 @@ export default function AppListThree({ navigation, route }) {
           arr.push(appObj);
         }
         setFullData(arr)
-        console.log(arr);
       }
     } catch (error) {
       console.error(error)
@@ -103,16 +101,15 @@ export default function AppListThree({ navigation, route }) {
         keyExtractor={(item) => item.App_id}
         renderItem={({ item }) => (
           <View style={styles.list}>
-            <Text>{item.name}</Text>
-            <Text>{item.time}</Text>
-            <Text onPress={() => getDonorInfo(item.Personal_id)} style={styles.text_list}>{item.Personal_id}</Text>
+            <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)} >ת.ז.:  {item.Personal_id}</Text>
+            <Text style={styles.text_list}>שם:  {item.name}</Text>
+            <Text style={styles.text_list}>מועד התור:  {item.time}</Text>
           </View>
         )} />
 
       {modalRefuse && (
         <View>
           <Modal
-            //animationType='fade'
             animationIn='zoomIn'
             animationOut='zoomOut'
             transparent={true}
@@ -190,11 +187,11 @@ const styles = StyleSheet.create({
     color: "black"
   },
   text_list: {
-    padding: 20,
-    //textAlign:'center',
-    fontSize: 26,
-    // fontWeight: 'bold',
-    color: 'black'
+    padding: 5,
+    textAlign: 'right',
+    fontSize: 16,
+    fontWeight: 'bold',
+    flexDirection: 'column',
   },
   container_city_list: {
     marginRight: 100,

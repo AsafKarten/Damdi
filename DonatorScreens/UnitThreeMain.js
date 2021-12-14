@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Modal, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Switch, Alert } from 'react-native';
 import { MaterialIcons, FontAwesome5, Feather } from '@expo/vector-icons';
 import { url } from '../Utils'
+import { Dropdown } from 'react-native-element-dropdown';
 
 
 export default function UnitThreeMain({ navigation, route }) {
@@ -13,10 +14,141 @@ export default function UnitThreeMain({ navigation, route }) {
   const [appId, setAppintmentId] = useState()
   const [staionCode, setStationCode] = useState()
   const [dateDonation, setDateDonation] = useState(new Date())
+  const [ageApp, setAgeApp] = useState(false);
+  const toggleAgeApp = () => onChangeAge(previousState => !previousState)
   const [notesUnitThree, setNotesUnitThree] = useState(notesUnitThree === null ? 'אינו רשאי/ת לתרום' : '.תרומה בוצעה')
+
   //Toggle Switch consts
   const [notForUse1, onChangeNFU1] = useState(false);
   const toggle1 = () => onChangeNFU1(previousState => !previousState);
+
+  //Dropdown properties
+  const [donationType, setDonationType] = useState()
+  const [isFocusType, setIsFocusType] = useState(false);
+
+  const [durationDonation, setDurationDonation] = useState()
+  const [isFocusDuration, setIsFocusDuration] = useState(false);
+
+  const typesDonations = [
+    { label: 'מתרים', value: '1' },
+    { label: 'אחות', value: '2' },
+    { label: 'חובש', value: '3' },
+    { label: 'מתנדב', value: '4' },
+    { label: 'ש"ל', value: '5' },
+    { label: 'פרמדיק', value: '6' },
+    { label: 'רופא', value: '7' }
+  ];
+
+  const durationDonations = [
+    { label: 'until 12 min', value: '1' },
+    { label: 'over 12 min', value: '2' },
+    { label: 'over 15 min', value: '3' }
+  ];
+
+
+  const DropdownDonationType = () => {
+    const renderLabel = () => {
+      if (donationType || isFocus) {
+        return (
+          <Text style={[styles.label, isFocus && { color: 'blue' }]}>
+            סוג התרומה
+          </Text>
+        );
+      }
+      return null;
+    };
+
+    return (
+      <View style={{
+        backgroundColor: 'white',
+        padding: 16,
+        borderRadius: 10,
+        width: 250,
+      }} >
+        {renderLabel()}
+        <Dropdown
+          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={typesDonations}
+          search
+          searchPlaceholder="חפש סוג תרומה..."
+          maxHeight={200}
+          labelField="label"
+          valueField="value"
+          placeholder={!isFocus ? 'בחר סוג' : '...'}
+          value={donationType}
+          onFocus={() => setIsFocusType(true)}
+          onBlur={() => setIsFocusType(false)}
+          onChange={item => {
+            setDonationType(item.value);
+            setIsFocusType(false);
+          }}
+          renderLeftIcon={() => (
+            <AntDesign
+              style={styles.icon}
+              color={isFocus ? 'blue' : 'black'}
+              name="Safety"
+              size={20}
+            />
+          )}
+        />
+      </View>
+    );
+  };
+
+  const DropdownDurationDonation = () => {
+    const renderLabel = () => {
+      if (durationDonation || isFocusDuration) {
+        return (
+          <Text style={[styles.label, isFocus && { color: 'blue' }]}>
+            משך זמן התרמה
+          </Text>
+        );
+      }
+      return null;
+    };
+
+    return (
+      <View style={{
+        backgroundColor: 'white',
+        padding: 16,
+        borderRadius: 10,
+        width: 250,
+      }} >
+        {renderLabel()}
+        <Dropdown
+          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={durationDonations}
+          maxHeight={200}
+          labelField="label"
+          valueField="value"
+          placeholder={!isFocus ? 'בחר סוג' : '...'}
+          value={durationDonation}
+          onFocus={() => setIsFocusDuration(true)}
+          onBlur={() => setIsFocusDuration(false)}
+          onChange={item => {
+            setDurationDonation(item.value);
+            setIsFocusDuration(false);
+          }}
+          renderLeftIcon={() => (
+            <AntDesign
+              style={styles.icon}
+              color={isFocus ? 'blue' : 'black'}
+              name="Safety"
+              size={20}
+            />
+          )}
+        />
+      </View>
+    );
+  };
 
   const GetAppinmentInfo = async () => {
     try {
@@ -135,8 +267,8 @@ export default function UnitThreeMain({ navigation, route }) {
           Personal_id: donor.Personal_id,
           Station_code: staionCode,
           Station_name: stationName,
-          Donation_type: donationType, //TODO: dropdown donationType
-          Age_approve: ageApp,//TODO: Switch yes or no
+          Donation_type: donationType,
+          Age_approve: ageApp,
           Auto_worker_id: Donator.Auto_worker_id,
           Donation_date: dateDonation
         })
@@ -166,7 +298,7 @@ export default function UnitThreeMain({ navigation, route }) {
       await SetConfirmThree();
       await DeleteAppointmentUnitThree();
     }
-    else{
+    else {
       await DeleteAppointmentUnitThree();
       Alert.alert("המשתמש אינו רשאי לתרום מכיוון שמצבו הבריאותי לא מאפשר זאת.")
       return;
@@ -217,6 +349,17 @@ export default function UnitThreeMain({ navigation, route }) {
     <SafeAreaView>
       <View style={styles.container}>
         <View style={styles.textBox}>
+          <Text style={styles.text}>אישור בכתב בשל גיל:</Text>
+        </View>
+        <View style={styles.checkboxContainer}>
+          <Switch
+            onValueChange={toggleAgeApp}
+            value={ageApp}
+          />
+        </View>
+      </View>
+      <View style={styles.container}>
+        <View style={styles.textBox}>
           <Text style={styles.text}>תגובה חריגה?</Text>
         </View>
         <View style={styles.checkboxContainer}>
@@ -260,6 +403,18 @@ export default function UnitThreeMain({ navigation, route }) {
             value={notForUse1}
           />
         </View>
+      </View>
+      <View style={styles.container_type}>
+        <View style={styles.textBox}>
+          <Text style={styles.text}>סוג התרמה:</Text>
+        </View>
+        {DropdownDonationType()}
+      </View>
+      <View style={styles.container_type}>
+        <View style={styles.textBox}>
+          <Text style={styles.text}>משך ההתרמה:</Text>
+        </View>
+        {DropdownDurationDonation()}
       </View>
       <View style={styles.containr_btn}>
         <TouchableOpacity onPress={() => navigation.navigate('PersonalInfo', { route: route.params.route })}>
@@ -330,7 +485,7 @@ export default function UnitThreeMain({ navigation, route }) {
           </View>
         )}
       </View>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 }
 const styles = StyleSheet.create({
@@ -433,6 +588,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     alignSelf: 'center',
     width: 380,
+  },
+  container_type: {
+    borderBottomColor: 'grey',
+    borderBottomWidth: 2,
+    alignSelf: 'center',
+    width: 350,
+    flexDirection: 'row'
   },
   textBox: {},
   text: {

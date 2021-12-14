@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Modal, Pressable, StyleSheet, Text} from 'react-native';
+import { View, FlatList, Modal, Pressable, StyleSheet, Text } from 'react-native';
 import { url } from '../Utils'
 
 export default function AppListTwo({ navigation, route }) {
@@ -69,7 +68,6 @@ export default function AppListTwo({ navigation, route }) {
         method: 'GET'
       });
       let data = [...await result.json()];
-      console.log(data);
       if (data.length === 0) {
         setModalRefuseVis(true);
         return;
@@ -102,16 +100,15 @@ export default function AppListTwo({ navigation, route }) {
         keyExtractor={(item) => item.App_id}
         renderItem={({ item }) => (
           <View style={styles.list}>
-            <Text>{item.name}</Text>
-            <Text>{item.time}</Text>
-            <Text onPress={() => getDonorInfo(item.Personal_id)} style={styles.text_list}>{item.Personal_id}</Text>
+            <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)} >ת.ז.:  {item.Personal_id}</Text>
+            <Text style={styles.text_list}>שם:  {item.name}</Text>
+            <Text style={styles.text_list}>מועד התור:  {item.time}</Text>
           </View>
         )} />
 
       {modalRefuse && (
         <View>
           <Modal
-            //animationType='fade'
             animationIn='zoomIn'
             animationOut='zoomOut'
             transparent={true}
@@ -177,7 +174,6 @@ const styles = StyleSheet.create({
   list: {
     width: 300,
     height: 150,
-
     flexWrap: 'wrap',
     alignItems: 'center',
     marginTop: 14,
@@ -188,10 +184,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfff9",
   },
   text_list: {
-    padding: 20,
-    textAlign:'center',
+    padding: 5,
+    textAlign: 'right',
     fontSize: 16,
     fontWeight: 'bold',
+    flexDirection: 'column',
   },
   container_city_list: {
     marginRight: 100,

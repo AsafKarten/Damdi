@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Modal, TouchableHighlight, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { url } from '../Utils'
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -7,6 +7,7 @@ import { Feather } from '@expo/vector-icons';
 export default function UnitTwo({ navigation, route }) {
   const [Donator, setDonator] = useState(route.params.route)
   const [PersonalId, onChangeId] = useState();
+  const [station_code, setStationCode] = useState(route.params.siteCode);
 
 
   const getDonorInfo = async () => {

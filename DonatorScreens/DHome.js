@@ -8,12 +8,13 @@ export default function Home({ navigation, route }) {
   const [Donator, onChangeDonator] = useState(route.params.route)
   const [roleModal, setRoleModal] = useState(false);
   const [siteModal, setSiteModal] = useState(false);
-  const [selectedSiteDonation, setSelectedSiteDonation] = useState();
-  const [stations, setStations] = useState([])
+
   const [stationName, setStationName] = useState();
   const [stationCode, setStationCode] = useState();
+  //Dropdown properties
+  const [selectedSiteDonation, setSelectedSiteDonation] = useState();
+  const [stations, setStations] = useState([])
   const [isFocus, setIsFocus] = useState(false);
-
 
   useEffect(() => {
     GetStationList();
@@ -109,7 +110,7 @@ export default function Home({ navigation, route }) {
         </TouchableOpacity>
       </View>
       <View style={styles.text_container}>
-        <Text style={styles.text_top_user}>מחובר כעת {Donator.First_name} {Donator.Last_name} (פארמדיק)</Text>
+        <Text style={styles.text_top_user}>מחובר כעת:  {Donator.First_name} {Donator.Last_name} {Donator.Type_employee}</Text>
         <Text style={styles.text_top_user}>אתר התרמה:  {selectedSiteDonation}</Text>
       </View>
       <View style={styles.containr_btn}>
@@ -145,7 +146,7 @@ export default function Home({ navigation, route }) {
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
                   setRoleModal(false)
-                  navigation.navigate('UnitOne', { route: Donator, siteCode: stationCode})
+                  navigation.navigate('UnitOne', { route: Donator, siteCode: stationCode })
                 }}>
                 <Text style={styles.textStyle}>עמדה 1           קבלת תורמים ותשאול</Text>
               </Pressable>
@@ -161,7 +162,7 @@ export default function Home({ navigation, route }) {
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
                   setRoleModal(false)
-                  navigation.navigate('UnitThree', { route: Donator, siteName: stationName})
+                  navigation.navigate('UnitThree', { route: Donator, siteName: stationName })
                 }}>
                 <Text style={styles.textStyle}>עמדה 3            לקיחת תרומות דם</Text>
               </Pressable>

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Modal, Pressable, StyleSheet, Text} from 'react-native';
+import { View, FlatList, Modal, Pressable, StyleSheet, Text } from 'react-native';
 import { url } from '../Utils'
 
 export default function AppListOne({ navigation, route }) {
   const [fullData, setFullData] = useState([])
-  //const [fullData, setFullData] = useState([{ App_id: 1, Personal_id: 204610624 }, { App_id: 2, Personal_id: 22 }, { App_id: 3, Personal_id: 33 },])
   const [modalRefuse, setModalRefuseVis] = useState(false);
   const [Donator, setDonator] = useState(route.params.route.Donator)
   const [stationCode, setStationCode] = useState(route.params.route.staionCode)
@@ -69,7 +68,6 @@ export default function AppListOne({ navigation, route }) {
         method: 'GET'
       });
       let data = [...await result.json()];
-      console.log(data);
       setFullData(data)
       if (data.length === 0) {
         setModalRefuseVis(true);
@@ -103,11 +101,12 @@ export default function AppListOne({ navigation, route }) {
         keyExtractor={(item) => item.App_id}
         renderItem={({ item }) => (
           <View style={styles.list}>
-            <Text>{item.Name}</Text>
-            <Text>{item.time}</Text>
-            <Text onPress={() => getDonorInfo(item.Personal_id)} style={styles.text_list}>{item.Personal_id}</Text>
+            <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)} >ת.ז.:  {item.Personal_id}</Text>
+            <Text style={styles.text_list}>שם:  {item.name}</Text>
+            <Text style={styles.text_list}>מועד התור:  {item.time}</Text>
           </View>
         )} />
+
       {modalRefuse && (
         <View>
           <Modal
@@ -187,10 +186,11 @@ const styles = StyleSheet.create({
     color: "black"
   },
   text_list: {
-    padding: 20,
-    textAlign: 'center',
+    padding: 5,
+    textAlign: 'right',
     fontSize: 16,
     fontWeight: 'bold',
+    flexDirection: 'column',
   },
   container_city_list: {
     marginRight: 100,

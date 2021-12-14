@@ -5,9 +5,9 @@ import { AntDesign, Feather } from '@expo/vector-icons';
 
 export default function UnitThree({ navigation, route }) {
   const [Donator, setDonator] = useState(route.params.route)
-  const [shouldShow, setShouldShow] = useState(false);
-  const [confirmModal, setConfirmModal] = useState(false);
   const [PersonalId, onChangeId] = useState();
+  const [stationName, setStationName] = useState(route.params.siteName)
+  const [station_code, setStationCode] = useState(route.params.siteCode);
 
 
 
@@ -49,7 +49,7 @@ export default function UnitThree({ navigation, route }) {
   }
 
   const AppointmentsList = () => {
-    var route = { Donator: Donator, staionCode: station_code }
+    var route = { Donator: Donator, stationCode: station_code, siteName: stationName }
     navigation.navigate('AppListThree', { route: route })
   }
 
