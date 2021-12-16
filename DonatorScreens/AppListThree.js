@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Modal, Pressable, StyleSheet, Text } from 'react-native';
+import { View, FlatList, Modal, Pressable, StyleSheet, Text, ScrollView } from 'react-native';
 import { url } from '../Utils'
 
 export default function AppListThree({ navigation, route }) {
   const [fullData, setFullData] = useState([])
   const [modalRefuse, setModalRefuseVis] = useState(false);
   const [Donator, setDonator] = useState(route.params.route.Donator)
-  const [stationCode, setStationCode] = useState(route.params.route.stationCode)
+  const [stationCode, setStationCode] = useState(route.params.route.staionCode)
   const [stationName, setStationName] = useState(route.params.route.siteName)
 
 
@@ -70,6 +70,7 @@ export default function AppListThree({ navigation, route }) {
         method: 'GET'
       });
       let data = [...await result.json()];
+      console.log(data);
       if (data.length === 0) {
         setModalRefuseVis(true);
         return;
@@ -95,18 +96,18 @@ export default function AppListThree({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-
-      <FlatList
-        data={fullData}
-        keyExtractor={(item) => item.App_id}
-        renderItem={({ item }) => (
-          <View style={styles.list}>
-            <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)} >ת.ז.:  {item.Personal_id}</Text>
-            <Text style={styles.text_list}>שם:  {item.name}</Text>
-            <Text style={styles.text_list}>מועד התור:  {item.time}</Text>
-          </View>
-        )} />
-
+      <ScrollView>
+        <FlatList
+          data={fullData}
+          keyExtractor={(item) => item.App_id}
+          renderItem={({ item }) => (
+            <View style={styles.list}>
+              <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)} >ת.ז.:  {item.Personal_id}</Text>
+              <Text style={styles.text_list}>שם:  {item.name}</Text>
+              <Text style={styles.text_list}>מועד התור:  {item.time}</Text>
+            </View>
+          )} />
+      </ScrollView>
       {modalRefuse && (
         <View>
           <Modal
@@ -188,6 +189,8 @@ const styles = StyleSheet.create({
   },
   text_list: {
     padding: 5,
+    paddingTop: 8,
+    paddingLeft: 25,
     textAlign: 'right',
     fontSize: 16,
     fontWeight: 'bold',

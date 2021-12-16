@@ -8,6 +8,7 @@ export default function Home({ navigation, route }) {
   const [Donator, onChangeDonator] = useState(route.params.route)
   const [roleModal, setRoleModal] = useState(false);
   const [siteModal, setSiteModal] = useState(false);
+  const [modalInfo, setModalInfo] = useState(false);
 
   const [stationName, setStationName] = useState();
   const [stationCode, setStationCode] = useState();
@@ -18,6 +19,9 @@ export default function Home({ navigation, route }) {
 
   useEffect(() => {
     GetStationList();
+    if (selectedSiteDonation == null) {
+      setModalInfo(true)
+    }
   }, [])
 
   useEffect(() => {
@@ -199,6 +203,26 @@ export default function Home({ navigation, route }) {
           </View>
         </Modal>
       )}
+      {modalInfo && (
+        <View>
+          <Modal
+            animationType="none"
+            transparent={true}
+            visible={modalInfo}
+            onRequestClose={() => { console.log('Modal has been closed.'); }}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>אנא בחר/י אתר התרמה והמשכ/י בעבודה !</Text>
+              <View style={styles.modal_buttons}>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalInfo(!modalInfo)}>
+                  <Text style={styles.textStyle}>סגור</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      )}
     </SafeAreaView >
   );
 }
@@ -300,7 +324,7 @@ const styles = StyleSheet.create({
     width: 120,
     backgroundColor: "white",
     opacity: 0.8,
-
+    marginLeft: 65
   },
   textStyle: {
     color: "black",
@@ -346,7 +370,6 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
-    fontColor: "black",
   },
   icon: {
     marginRight: 5,

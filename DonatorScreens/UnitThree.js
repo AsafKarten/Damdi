@@ -9,16 +9,6 @@ export default function UnitThree({ navigation, route }) {
   const [stationName, setStationName] = useState(route.params.siteName)
   const [station_code, setStationCode] = useState(route.params.siteCode);
 
-
-
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS !== 'web') {
-        setShouldShow(true)
-      }
-    })()
-  }, [])
-
   const getDonorInfo = async () => {
     try {
       if (PersonalId === undefined || PersonalId === null || PersonalId === '') {
@@ -41,7 +31,7 @@ export default function UnitThree({ navigation, route }) {
       let donor = await result.json();
       if (donor !== undefined || donor !== null) {
         const Route = { Donator: Donator, Donor: donor }
-        navigation.navigate('DonorInfo', { route: Route })
+        navigation.navigate('UnitThreeMain', { route: Route })
       }
     } catch (error) {
       console.error('error with retrun full user');

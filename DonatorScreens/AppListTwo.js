@@ -85,7 +85,6 @@ export default function AppListTwo({ navigation, route }) {
           arr.push(appObj);
         }
         setFullData(arr)
-        console.log(arr);
       }
     } catch (error) {
       console.error(error)
@@ -93,14 +92,16 @@ export default function AppListTwo({ navigation, route }) {
   }
 
   return (
-    <View style={styles.container}>
+   
+   
+   <View style={styles.container}>
 
       <FlatList
         data={fullData}
         keyExtractor={(item) => item.App_id}
         renderItem={({ item }) => (
           <View style={styles.list}>
-            <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)} >ת.ז.:  {item.Personal_id}</Text>
+            <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)} >ת.ז. :  {item.Personal_id}</Text>
             <Text style={styles.text_list}>שם:  {item.name}</Text>
             <Text style={styles.text_list}>מועד התור:  {item.time}</Text>
           </View>
@@ -130,7 +131,7 @@ export default function AppListTwo({ navigation, route }) {
           </Modal>
         </View>
       )}
-    </View >
+    </View>
   )
 }
 
@@ -185,6 +186,8 @@ const styles = StyleSheet.create({
   },
   text_list: {
     padding: 5,
+    paddingTop:8,
+    paddingLeft: 25,
     textAlign: 'right',
     fontSize: 16,
     fontWeight: 'bold',

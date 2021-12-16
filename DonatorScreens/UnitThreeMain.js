@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Modal, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Switch, Alert } from 'react-native';
-import { MaterialIcons, FontAwesome5, Feather } from '@expo/vector-icons';
+import { MaterialIcons, FontAwesome5, Feather, AntDesign } from '@expo/vector-icons';
 import { url } from '../Utils'
 import { Dropdown } from 'react-native-element-dropdown';
+import * as SMS from 'expo-sms';
 
 
 export default function UnitThreeMain({ navigation, route }) {
@@ -30,6 +31,12 @@ export default function UnitThreeMain({ navigation, route }) {
   const [isFocusDuration, setIsFocusDuration] = useState(false);
 
   const typesDonations = [
+    { label: 'דם מלא', value: '1' },
+    { label: 'פרזיס', value: '2' },
+    { label: 'עצמית', value: '3' },
+  ];
+
+  const typesDonators = [
     { label: 'מתרים', value: '1' },
     { label: 'אחות', value: '2' },
     { label: 'חובש', value: '3' },
@@ -40,17 +47,17 @@ export default function UnitThreeMain({ navigation, route }) {
   ];
 
   const durationDonations = [
-    { label: 'until 12 min', value: '1' },
-    { label: 'over 12 min', value: '2' },
-    { label: 'over 15 min', value: '3' }
+    { label: 'עד 12 דקות', value: '1' },
+    { label: 'מעל 12 דקות', value: '2' },
+    { label: 'מעל 15 דקות', value: '3' }
   ];
 
 
   const DropdownDonationType = () => {
     const renderLabel = () => {
-      if (donationType || isFocus) {
+      if (donationType || isFocusType) {
         return (
-          <Text style={[styles.label, isFocus && { color: 'blue' }]}>
+          <Text style={[styles.label, isFocusType && { color: 'blue' }]}>
             סוג התרומה
           </Text>
         );
@@ -60,25 +67,22 @@ export default function UnitThreeMain({ navigation, route }) {
 
     return (
       <View style={{
-        backgroundColor: 'white',
+        fontWeight: 'bold',
         padding: 16,
         borderRadius: 10,
-        width: 250,
+        width: 200,
       }} >
         {renderLabel()}
         <Dropdown
-          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+          style={[styles.dropdown, isFocusType && { borderColor: 'blue' }]}
           placeholderStyle={styles.placeholderStyle}
           selectedTextStyle={styles.selectedTextStyle}
           inputSearchStyle={styles.inputSearchStyle}
-          iconStyle={styles.iconStyle}
           data={typesDonations}
-          search
-          searchPlaceholder="חפש סוג תרומה..."
-          maxHeight={200}
+          maxHeight={100}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? 'בחר סוג' : '...'}
+          placeholder={!isFocusType ? 'בחר סוג' : '...'}
           value={donationType}
           onFocus={() => setIsFocusType(true)}
           onBlur={() => setIsFocusType(false)}
@@ -86,14 +90,6 @@ export default function UnitThreeMain({ navigation, route }) {
             setDonationType(item.value);
             setIsFocusType(false);
           }}
-          renderLeftIcon={() => (
-            <AntDesign
-              style={styles.icon}
-              color={isFocus ? 'blue' : 'black'}
-              name="Safety"
-              size={20}
-            />
-          )}
         />
       </View>
     );
@@ -103,7 +99,7 @@ export default function UnitThreeMain({ navigation, route }) {
     const renderLabel = () => {
       if (durationDonation || isFocusDuration) {
         return (
-          <Text style={[styles.label, isFocus && { color: 'blue' }]}>
+          <Text style={[styles.label, isFocusDuration && { color: 'blue' }]}>
             משך זמן התרמה
           </Text>
         );
@@ -113,23 +109,22 @@ export default function UnitThreeMain({ navigation, route }) {
 
     return (
       <View style={{
-        backgroundColor: 'white',
-        padding: 16,
+        padding: 10,
         borderRadius: 10,
-        width: 250,
+        width: 200,
       }} >
         {renderLabel()}
         <Dropdown
-          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+          style={[styles.dropdown, isFocusDuration && { borderColor: 'blue' }]}
           placeholderStyle={styles.placeholderStyle}
           selectedTextStyle={styles.selectedTextStyle}
           inputSearchStyle={styles.inputSearchStyle}
           iconStyle={styles.iconStyle}
           data={durationDonations}
-          maxHeight={200}
+          maxHeight={100}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? 'בחר סוג' : '...'}
+          placeholder={!isFocusDuration ? 'בחר' : '...'}
           value={durationDonation}
           onFocus={() => setIsFocusDuration(true)}
           onBlur={() => setIsFocusDuration(false)}
@@ -137,14 +132,6 @@ export default function UnitThreeMain({ navigation, route }) {
             setDurationDonation(item.value);
             setIsFocusDuration(false);
           }}
-          renderLeftIcon={() => (
-            <AntDesign
-              style={styles.icon}
-              color={isFocus ? 'blue' : 'black'}
-              name="Safety"
-              size={20}
-            />
-          )}
         />
       </View>
     );
@@ -217,7 +204,7 @@ export default function UnitThreeMain({ navigation, route }) {
           Checker_name: Donator.First_name + ' ' + Donator.Last_name,
           Approver: Donator.First_name + ' ' + Donator.Last_name,
           Abnormal_response: notForUse1,
-          Which_response: typeResponse,//TODO: dropdown typeResponse
+          Which_response: "typeResponse",//TODO: dropdown typeResponse
           Went_to_hospital: notForUse1,
           By_mada: notForUse1,
           Refused_evacuate: notForUse1,
@@ -232,14 +219,14 @@ export default function UnitThreeMain({ navigation, route }) {
           Less_iga: notForUse1,
           Reported_part_b: notForUse1,
           Reported_part_c: notForUse1,
-          Section_part_c: moreDataText,//TODO: cretae text input moreDataText
+          Section_part_c: "moreDataText",//TODO: cretae text input moreDataText
           Sort: isSort,
-          Detail_Iga: detailIgaText, //TODO: cretae text input detailIgaText
-          Type_bag: typeBag,  //TODO: dropdown typeBag
-          Dose_weight: weight, //TODO: cretae text input weight
+          Detail_Iga: "detailIgaText", //TODO: cretae text input detailIgaText
+          Type_bag: "typeBag",  //TODO: dropdown typeBag
+          Dose_weight: 10, //TODO: cretae text input weight
           Qualificat_name: Donator.First_name + ' ' + Donator.Last_name,
           Code_qualificat: Donator.Auto_worker_id,
-          Duration: duration, //TODO: dropdown duration until 12 min over 12 min and over 15 min
+          Duration: "duration", //TODO: dropdown duration until 12 min over 12 min and over 15 min
           Notes_unit_three: notesUnitThree
         })
       });
@@ -292,17 +279,16 @@ export default function UnitThreeMain({ navigation, route }) {
   const ApproveDonor = async () => {
     await GetAppinmentInfo();
     await SetDonatorDataInfoUnitThree();
-
     //if the donator do mistake or decide to pass current donor, the system will check it anyway
     if (!notForUse1) {
       await SetConfirmThree();
+      await sentSMS();
       await DeleteAppointmentUnitThree();
     }
     else {
       await DeleteAppointmentUnitThree();
       Alert.alert("המשתמש אינו רשאי לתרום מכיוון שמצבו הבריאותי לא מאפשר זאת.")
       return;
-      //TODO: Modal or Alert המשתמש אינו רשאי לתרום מכיוון שמצבו הבריאותי לא מאפשר זאת.
     }
   }
 
@@ -345,13 +331,32 @@ export default function UnitThreeMain({ navigation, route }) {
     }
   }
 
+  const sentSMS = async () => {
+    const isAvailable = await SMS.isAvailableAsync();
+    if (isAvailable) {
+      const { result } = await SMS.sendSMSAsync(
+        donor.Phone,
+        'תודה שתרמת, אל תשכח/י לבוא שוב בעוד שלושה חודשים.'
+      );
+      if (result === 'sent') {
+        Alert.alert("ההודעה נשלחה ללקוח בהצלחה.")
+        return
+      }
+    } else {
+      Alert.alert("SMS function not available")
+    }
+  }
+
+
+
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <View style={styles.textBox}>
           <Text style={styles.text}>אישור בכתב בשל גיל:</Text>
         </View>
-        <View style={styles.checkboxContainer}>
+        <View style={styles.switchContainer}>
           <Switch
             onValueChange={toggleAgeApp}
             value={ageApp}
@@ -362,7 +367,7 @@ export default function UnitThreeMain({ navigation, route }) {
         <View style={styles.textBox}>
           <Text style={styles.text}>תגובה חריגה?</Text>
         </View>
-        <View style={styles.checkboxContainer}>
+        <View style={styles.switchContainer}>
           <Switch
             onValueChange={toggle1}
             value={notForUse1}
@@ -374,7 +379,7 @@ export default function UnitThreeMain({ navigation, route }) {
         <View style={styles.textBox}>
           <Text style={styles.text}>פונה לבית חולים?</Text>
         </View>
-        <View style={styles.checkboxContainer}>
+        <View style={styles.switchContainer}>
           <Switch
             onValueChange={toggle1}
             value={notForUse1}
@@ -386,7 +391,7 @@ export default function UnitThreeMain({ navigation, route }) {
         <View style={styles.textBox}>
           <Text style={styles.text}>על ידי מד"א?</Text>
         </View>
-        <View style={styles.checkboxContainer}>
+        <View style={styles.switchContainer}>
           <Switch
             onValueChange={toggle1}
             value={notForUse1}
@@ -397,123 +402,115 @@ export default function UnitThreeMain({ navigation, route }) {
         <View style={styles.textBox}>
           <Text style={styles.text}>סירב פינוי</Text>
         </View>
-        <View style={styles.checkboxContainer}>
+        <View style={styles.switchContainer}>
           <Switch
             onValueChange={toggle1}
             value={notForUse1}
           />
         </View>
       </View>
-      <View style={styles.container_type}>
+      <View style={styles.container}>
         <View style={styles.textBox}>
           <Text style={styles.text}>סוג התרמה:</Text>
         </View>
         {DropdownDonationType()}
       </View>
-      <View style={styles.container_type}>
+      <View style={styles.container}>
         <View style={styles.textBox}>
-          <Text style={styles.text}>משך ההתרמה:</Text>
+          <Text style={styles.text}>משך זמן התרמה:</Text>
         </View>
         {DropdownDurationDonation()}
       </View>
-      <View style={styles.containr_btn}>
-        <TouchableOpacity onPress={() => navigation.navigate('PersonalInfo', { route: route.params.route })}>
+      <View style={styles.notes_container}>
+        <TouchableOpacity onPress={() => setShowText(true)}>
           <View style={styles.button_normal}>
-            <Feather name="info" size={24} color="white" />
-            <Text style={styles.button_text} >פרטים אישים</Text>
+            <FontAwesome5 name="notes-medical" size={26} color="white" />
+            <Text style={styles.button_text} >הוספת הערות</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('MedicalInfo', { route: route.params.route })}>
-          <View style={styles.button_normal}>
-            <FontAwesome5 name="notes-medical" size={24} color="white" />
-            <Text style={styles.button_text} >פרטים רפואים</Text>
-          </View>
-        </TouchableOpacity>
-        <View style={styles.notes_container}>
-          <TouchableOpacity onPress={() => setShowText(true)}>
-            <View style={styles.button_normal}>
-              <FontAwesome5 name="notes-medical" size={26} color="white" />
-              <Text style={styles.button_text} >הוספת הערות</Text>
-            </View>
-          </TouchableOpacity>
-          {showText &&
-            <View style={styles.notes_container}>
-              <TextInput
-                style={styles.input}
-                onChangeText={(text) => setNotesUnitThree(text)}
-                value={notesUnitThree}
-                placeholder="פרט/י"
-              />
-              <TouchableOpacity onPress={() => SaveNotesUnitThree()}>
-                <View style={styles.button_save_note}>
-                  <AntDesign name="addfile" size={26} color="white" />
-                  <Text style={styles.button_text} >שמור הערות</Text>
-                </View>
-              </TouchableOpacity>
-            </View>}
-          <TouchableOpacity onPress={() => ApproveDonor()}>
-            <View style={styles.button_confirm}>
-              <FontAwesome5 name="stamp" size={24} color="white" />
-              <Text style={styles.button_text} >סיום תרומה</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+        {showText &&
+          <View style={styles.notes_container}>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => setNotesUnitThree(text)}
+              value={notesUnitThree}
+              placeholder="פרט/י"
+            />
+            <TouchableOpacity onPress={() => SaveNotesUnitThree()}>
+              <View style={styles.button_save_note}>
+                <AntDesign name="addfile" size={18} color="white" />
+                <Text style={styles.button_text} >שמור הערות</Text>
+              </View>
+            </TouchableOpacity>
+          </View>}
+      </View>
+      <View style={styles.buttons_container}>
         <TouchableOpacity onPress={() => DeclaineDonor()}>
           <View style={styles.button_refuse}>
             <MaterialIcons name="block" size={24} color="white" />
             <Text style={styles.button_text} >ביטול תרומה</Text>
           </View>
         </TouchableOpacity>
-        {modalRefuse && (
-          <View>
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalRefuse}
-              onRequestClose={() => { console.log('Modal has been closed.'); }}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>לצערנו אינך יכול\ה לתרום דם, אנא פנה לרופא משפחה כדי לבצע בדיקות תקינות גופנית</Text>
-                <View style={styles.modal_buttons}>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => setModalRefuseVis(!modalRefuse)}>
-                    <Text style={styles.textStyle}>סגור</Text>
-                  </Pressable>
-                </View>
-              </View>
-            </Modal>
+        <TouchableOpacity onPress={() => ApproveDonor()}>
+          <View style={styles.button_confirm}>
+            <FontAwesome5 name="stamp" size={24} color="white" />
+            <Text style={styles.button_text} >סיום תרומה</Text>
           </View>
-        )}
+        </TouchableOpacity>
       </View>
+      {modalRefuse && (
+        <View>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalRefuse}
+            onRequestClose={() => { console.log('Modal has been closed.'); }}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>לצערנו אינך יכול\ה לתרום דם, אנא פנה לרופא משפחה כדי לבצע בדיקות תקינות גופנית</Text>
+              <View style={styles.modal_buttons}>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalRefuseVis(!modalRefuse)}>
+                  <Text style={styles.textStyle}>סגור</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      )}
     </SafeAreaView >
   );
 }
 const styles = StyleSheet.create({
   containr_btn: {
-    alignSelf: 'center',
-    marginTop: 35,
+    alignItems: 'center',
+    marginRight: 20,
     flexDirection: 'column',
   },
   button_normal: {
     alignItems: 'center',
-    width: 250,
-    height: 70,
-    margin: 15,
+    width: 120,
+    height: 55,
+    margin: 5,
     borderRadius: 8,
-    padding: 10,
+    padding: 3,
     backgroundColor: "#757c94",
     opacity: 0.8,
     shadowColor: 'black',
     shadowRadius: 5,
   },
+  buttons_container: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginLeft: 50
+  },
   button_confirm: {
     alignItems: 'center',
-    width: 250,
-    height: 70,
-    margin: 15,
-    marginTop: 15,
+    width: 115,
+    height: 52,
+    marginLeft: 20,
     borderRadius: 8,
-    padding: 10,
+    padding: 4,
     backgroundColor: "#66ff66",
     opacity: 0.8,
     shadowColor: 'black',
@@ -521,22 +518,50 @@ const styles = StyleSheet.create({
   },
   button_refuse: {
     alignItems: 'center',
-    width: 250,
-    height: 70,
-    margin: 15,
+    width: 120,
+    height: 52,
+    margin: 5,
     borderRadius: 8,
-    padding: 10,
+    padding: 5,
     backgroundColor: "#ff6766",
     opacity: 0.8,
     shadowColor: 'black',
     shadowRadius: 5,
   },
   button_text: {
-    fontSize: 18,
+    fontSize: 16,
     color: 'white',
+    fontWeight: 'bold',
+    marginLeft: 10,
+  },
+  notes_container: {
+    marginTop: 10,
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  button_save_note: {
+    alignItems: 'center',
+    width: 140,
+    height: 40,
+    margin: 10,
+    borderRadius: 8,
+    padding: 10,
+    backgroundColor: "#757c94",
+    opacity: 0.8,
+    shadowColor: 'black',
+    shadowRadius: 5,
+    flexDirection: 'row'
+  },
+  input: {
+    width: 300,
+    height: 35,
+    marginRight: 10,
+    borderWidth: 2,
+    borderRadius: 8,
+    textAlign: 'center',
+    alignItems: 'center',
     fontWeight: 'bold'
   },
-
   //Modal buttons 
   modalView: {
     margin: 20,
@@ -586,25 +611,36 @@ const styles = StyleSheet.create({
   container: {
     borderBottomColor: 'grey',
     borderBottomWidth: 2,
-    alignSelf: 'center',
     width: 380,
+    height:60,
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
   },
-  container_type: {
-    borderBottomColor: 'grey',
-    borderBottomWidth: 2,
-    alignSelf: 'center',
-    width: 350,
-    flexDirection: 'row'
-  },
-  textBox: {},
+
   text: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold'
   },
-  checkboxContainer: {
-    alignSelf: 'center',
+  switchContainer: {
+    flexDirection: 'row',
   },
-  checkbox: {
-    marginRight: 5,
+  //dropdown
+  dropdown: {
+    height: 35,
+    width: 150,
+    borderColor: 'black',
+    borderWidth: 2,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    marginBottom: 15
+  },
+  placeholderStyle: {
+    fontSize: 15,
+    fontColor: "black",
+  },
+  selectedTextStyle: {
+    fontColor: "black",
+    fontSize: 15,
+    fontWeight: "bold",
   },
 })

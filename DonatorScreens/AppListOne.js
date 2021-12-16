@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Modal, Pressable, StyleSheet, Text } from 'react-native';
+import { View, FlatList, Modal, Pressable, StyleSheet, Text, ScrollView } from 'react-native';
 import { url } from '../Utils'
 
 export default function AppListOne({ navigation, route }) {
@@ -68,6 +68,7 @@ export default function AppListOne({ navigation, route }) {
         method: 'GET'
       });
       let data = [...await result.json()];
+      console.log(data);
       setFullData(data)
       if (data.length === 0) {
         setModalRefuseVis(true);
@@ -81,7 +82,7 @@ export default function AppListOne({ navigation, route }) {
           let fullname = await getUserInfo(PID)
           let timeapp = data[index].App_time
           let datetime = new Date(timeapp)
-          var fTime = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear() + " " + datetime.getHours() + ":" + datetime.getMinutes()
+          var fTime = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear() + " " + datetime.getHours() + ":" + datetime.getMinutes();
           let appObj = { id: ++idApp, Personal_id: PID, time: fTime, name: fullname }
           arr.push(appObj);
         }
@@ -95,18 +96,18 @@ export default function AppListOne({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-
-      <FlatList
-        data={fullData}
-        keyExtractor={(item) => item.App_id}
-        renderItem={({ item }) => (
-          <View style={styles.list}>
-            <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)} >ת.ז.:  {item.Personal_id}</Text>
-            <Text style={styles.text_list}>שם:  {item.name}</Text>
-            <Text style={styles.text_list}>מועד התור:  {item.time}</Text>
-          </View>
-        )} />
-
+      <ScrollView>
+        <FlatList
+          data={fullData}
+          keyExtractor={(item) => item.App_id}
+          renderItem={({ item }) => (
+            <View style={styles.list}>
+              <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)} >ת.ז. :  {item.Personal_id}</Text>
+              <Text style={styles.text_list}>שם  :  {item.name}</Text>
+              <Text style={styles.text_list}>מועד התור :  {item.time}</Text>
+            </View>
+          )} />
+      </ScrollView>
       {modalRefuse && (
         <View>
           <Modal
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
     height: 150,
     flexWrap: 'wrap',
     alignItems: 'center',
-    marginTop: 14,
+    marginTop: 30,
     padding: 18,
     borderWidth: 3,
     borderRadius: 9,
@@ -187,6 +188,8 @@ const styles = StyleSheet.create({
   },
   text_list: {
     padding: 5,
+    paddingTop: 8,
+    paddingLeft: 10,
     textAlign: 'right',
     fontSize: 16,
     fontWeight: 'bold',
