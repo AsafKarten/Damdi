@@ -24,6 +24,7 @@
     "expo-cli": "^4.13.0",
     "expo-file-system": "~13.0.3",
     "expo-image-picker": "~11.0.3",
+    "expo-linking": "^2.4.2",
     "expo-radio-button": "^1.0.8",
     "expo-status-bar": "~1.1.0",
     "expo-updates": "^0.10.15",

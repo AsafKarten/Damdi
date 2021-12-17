@@ -9,7 +9,6 @@ import Spiner from '../Componentes/Spiner';
 import { url } from '../Utils';
 
 export default function Profile({ navigation, route }) {
-  console.log("Profile", route);
   const [loading, setLoading] = useState(false);
   const [shouldShow, setShouldShow] = useState(false);
 
@@ -18,10 +17,15 @@ export default function Profile({ navigation, route }) {
   const [lastName, setLastName] = useState();
   const [bloodType, setBloodType] = useState();
   const [image, setImage] = useState();
+  const [donationDate, setDonationDate] = useState();
+
+  var customDate = new Date(donationDate)
+  var fDate = customDate.getDate() + '/' + (customDate.getMonth() + 1) + '/' + customDate.getFullYear()
 
   useEffect(() => {
     (async () => {
       await getUserInfo()
+      await getLastDonationDate();
       if (Platform.OS !== 'web') {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
@@ -70,7 +74,34 @@ export default function Profile({ navigation, route }) {
         })
       });
       let full_user = await result.json();
-      setUser(full_user)
+      if (full_user !== undefined || full_user !== null) {
+        setUser(full_user)
+      }
+      else {
+        console.log('user not found', full_user);
+        return;
+      }
+    } catch (error) {
+      console.error('error with retrun full user');
+    }
+  }
+
+  const getLastDonationDate = async () => {
+    try {
+      let result = await fetch(url + "api/last/donation/date", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Personal_id: route.params.route.Personal_id
+        })
+      });
+      let donation_data = await result.json();
+      if (donation_data !== null || donation_data !== undefined) {
+        setDonationDate(donation_data.Donation_date)
+      }
     } catch (error) {
       console.error('error with retrun full user');
     }
@@ -181,7 +212,7 @@ export default function Profile({ navigation, route }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.TopContainer}>
-        <Image style={styles.profile_image} source={{ uri: image }} />
+        <Image style={styles.profile_image} source={{ uri: image != null ? `${image}?t=${Date.now()}` : '' }} />
         <TouchableOpacity onPress={() => checkDevice()}>
           <Text style={styles.addText}> <AntDesign name="camera" size={24} color="grey" fontWeight={'bold'} />    הוספ\י תמונה</Text>
         </TouchableOpacity>
@@ -190,11 +221,14 @@ export default function Profile({ navigation, route }) {
 
         <Text style={styles.addText}>{bloodType} : סוג דם</Text>
 
+        <Text style={styles.last_date_text}>תאריך תרומה אחרונה</Text>
+        <Text style={styles.last_date_text}>{fDate == null ? '' : fDate}</Text>
+
       </View>
 
       <View style={styles.ButtonContainer}>
 
-        <TouchableOpacity onPress={() => navigation.navigate('PersonalFormA', { route: User, modalStatus: "none" })}>
+        <TouchableOpacity onPress={() => navigation.navigate('PersonalFormA', { route: User, modalStatus: 'none' })}>
           <View style={styles.button_normal}>
             <Entypo name="edit" size={22} color="white" />
             <Text style={styles.button_text} >עדכון פרטים אישיים</Text>
@@ -270,10 +304,16 @@ const styles = StyleSheet.create({
     borderRadius: 400,
     borderColor: 'red',
     resizeMode: 'stretch',
-    marginLeft: 15
+    marginLeft: 30
   },
   addText: {
     textAlign: 'right',
+    fontSize: 16,
+    fontWeight: 'bold',
+    paddingBottom: 5
+  },
+  last_date_text:{
+    textAlign: "center",
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -349,5 +389,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginBottom: 10,
     textAlign: "center"
-  }
+  },
+
 });

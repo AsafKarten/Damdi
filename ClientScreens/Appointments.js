@@ -2,15 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Alert, Modal, Pressable, Share } from 'react-native'
 import { Card } from 'react-native-elements';
 import { url } from '../Utils';
-import { Ionicons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { Foundation } from '@expo/vector-icons';
+import { Ionicons, AntDesign, MaterialIcons, Foundation } from '@expo/vector-icons';
 
 export default function Appointments({ navigation, route }) {
   const [hasApp, onChangeHasApp] = useState(false);
   const [modalDel, setModalDelete] = useState(false)
-  const [modalInfo, setModalInfo] = useState(false);
   const [modalPassApp, setModalPassApp] = useState(false);
 
   const [User, onChangeId] = useState(route.params.route)
@@ -19,19 +15,13 @@ export default function Appointments({ navigation, route }) {
   const [fullDate, setFullDate] = useState();
 
   var dateTime = new Date()
-  var today = dateTime.getDate() + '/' + (dateTime.getMonth() + 1) + '/' + dateTime.getFullYear()
-  console.log(today);
+  var today = dateTime.getDate() + '/' + (dateTime.getMonth() + 1) + '/' + dateTime.getFullYear() + ' ' + dateTime.getHours() + ':' + dateTime.getMinutes();
 
   var customDate = new Date(fullDate)
   var fDate = customDate.getDate() + '/' + (customDate.getMonth() + 1) + '/' + customDate.getFullYear()
 
   var customTime = new Date(fullDate)
-  var fTime = customTime.getHours() + ":" + customTime.getMinutes()
-
-  useEffect(() => {
-    checkActiveAppinment()
-    setModalInfo(true)
-  }, [])
+  var fTime = customTime.getUTCHours() + ":" + customTime.getUTCMinutes()
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
@@ -54,7 +44,6 @@ export default function Appointments({ navigation, route }) {
         })
       });
       let stationData = await result.json()
-      console.log(stationData);
       if (stationData !== null) {
         setLocation(stationData.Station_name)
       }
@@ -79,25 +68,22 @@ export default function Appointments({ navigation, route }) {
       let appintment = await result.json()
       console.log(appintment);
       if (appintment === "Appintment not found.") {
-        setModalInfo(true)
+        setModalPassApp(true)
         onChangeHasApp(false);
         return
       }
-      else {
-        let existApp = appintment.App_time.split(' ')[0]
-        if (existApp < today) {
-          hasApp(false)
-          modalPassApp(true)
-          await deleteExistAppointment();
-        }
-        else {
-          setFullDate(appintment.App_time)
-          setAppintmentId(appintment.App_id)
-          await getStationName(appintment.Station_code)
-          onChangeHasApp(true);
-        }
+      else if (appintment.App_time < today) {
+        onChangeHasApp(false)
+        return
       }
-    } catch (error) {
+      else {
+        onChangeHasApp(true);
+        setFullDate(appintment.App_time)
+        setAppintmentId(appintment.App_id)
+        await getStationName(appintment.Station_code)
+      }
+    }
+    catch (error) {
       console.log("אין תור פעיל בשרת");
     }
   }
@@ -165,16 +151,17 @@ export default function Appointments({ navigation, route }) {
 
   const checkAddress = () => {
     if (locationApp === undefined || locationApp === null) {
-      setModalInfo(true);
+      setModalPassApp(true);
       return;
     } else {
-      navigation.navigate('Maps', { route: locationApp })
+      let location = { stationName: locationApp };
+      navigation.navigate('Maps', { route: location })
     }
   }
 
   const updateExistApp = () => {
     if (locationApp === undefined || fullDate === undefined) {
-      setModalInfo(true)
+      setModalPassApp(true)
       return
     }
     else {
@@ -225,7 +212,7 @@ export default function Appointments({ navigation, route }) {
           </TouchableOpacity>
         </View>
         <View style={styles.ButtonContainer}>
-          <TouchableOpacity onPress={() => hasApp ? setModalDelete(true) : setModalInfo(true)}>
+          <TouchableOpacity onPress={() => hasApp ? setModalDelete(true) : setModalPassApp(true)}>
             <View style={styles.button_normal}>
               <AntDesign name="delete" size={30} color="white" />
               <Text style={styles.button_text} >ביטול תור</Text>
@@ -277,31 +264,6 @@ export default function Appointments({ navigation, route }) {
             </Modal>
           </View>
         )}
-        {modalInfo && (
-          <View>
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalInfo}
-              onRequestClose={() => { console.log('Modal has been closed.'); }}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>אין לך תור פעיל במערכת כרגע, אם חלפו 3 חודשים מהתרומה האחרונה, קבע\י תור חדש</Text>
-                <View style={styles.modal_buttons}>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => setModalInfo(!modalInfo)}>
-                    <Text style={styles.textStyle}>סגור</Text>
-                  </Pressable>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => navigation.navigate("Stations", { route: User })}>
-                    <Text style={styles.textStyle}>קבע תור חדש</Text>
-                  </Pressable>
-                </View>
-              </View>
-            </Modal>
-          </View>
-        )}
         {modalPassApp && (
           <View>
             <Modal
@@ -310,7 +272,7 @@ export default function Appointments({ navigation, route }) {
               visible={modalPassApp}
               onRequestClose={() => { console.log('Modal has been closed.'); }}>
               <View style={styles.modalView}>
-                <Text style={styles.modalText}>אין לך תור פעיל במערכת כרגע, מועד התור חלף, אנא קבע\י תור חדש</Text>
+                <Text style={styles.modalText}>אין לך תור פעיל במערכת כרגע, אנא קבע\י תור חדש</Text>
                 <View style={styles.modal_buttons}>
                   <Pressable
                     style={[styles.button, styles.buttonClose]}

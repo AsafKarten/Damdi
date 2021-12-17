@@ -1,24 +1,31 @@
 import * as React from 'react';
-//import MapView from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import { NavigationApps, actions, googleMapsTravelModes } from 'react-native-navigation-apps';
+import * as Linking from 'expo-linking';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import Waze from '../assets/waze.png'
+import GooglMaps from '../assets/google_maps.png'
 
+export default function Maps({ route }) {
+  const address = route.params.route.stationName
 
-export default function Maps({ navigation, route }) {
-  console.log(route.params.route);
   return (
-    <View style={styles.container}>
+    <View style={styles.topContainer}>
       <View style={styles.topContainer}>
         <Text style={styles.textUnderCard}>בחר באפליקציה ונווט אל התחנה בקלות</Text>
       </View>
-      <NavigationApps
-        iconSize={50}
-        row
-        address={""} // address to navigate by for all apps 
-        waze={{ address: route.params.route.F_address, lat: route.params.route.Lat, lon: route.params.route.Lng, action: actions.navigateByAddress }} // specific settings for waze
-        googleMaps={{ lat: route.params.route.Lat, lon: route.params.route.Lng, action: actions.navigateByAddress, travelMode: "" }} // specific settings for google maps
-        maps={{ lat: route.params.route.Lat, lon: route.params.route.Lng, action: actions.navigateByAddress, travelMode: "" }} // specific settings for maps
-      />
+      <View style={styles.icons_container}>
+        <TouchableOpacity onPress={() => Linking.openURL(`https://waze.com/ul?q=${address}`)}>
+          <View>
+            <Text style={styles.textUnderCard}>Waze</Text>
+            <Image style={styles.icon} source={Waze}></Image>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${address}`)}>
+          <View >
+            <Text style={styles.textUnderCard}>Google Maps</Text>
+            <Image style={styles.icon} source={GooglMaps}></Image>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -31,12 +38,22 @@ const styles = StyleSheet.create({
 
   },
   topContainer: {
-    marginBottom:10,
+    marginBottom: 10,
   },
   textUnderCard: {
     marginTop: 40,
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
+
   },
+  icons_container:{
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-evenly'
+  },
+  icon: {
+    alignSelf: 'center',
+    width: 85,
+    height: 85,
+  }
 });

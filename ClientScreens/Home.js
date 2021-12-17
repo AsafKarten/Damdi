@@ -1,27 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, SafeAreaView, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native';
+import ProgressBar from 'react-native-progress/Bar'
+
 import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 
 import BG from '../assets/LOGO_ONLY_PNG.png'
-import ProgressBar from '../Componentes/ProgressBar.js'
 
 export default function Home({ navigation, route }) {
   const [User, onChangeId] = useState(route.params.route)
-  
+  const [numberDon, setNumberDonation] = useState()
+
+  useEffect(() => {
+    getNumberOfDonationsPerYear();
+  },[])
+
+
   useEffect(() => {
     navigation.addListener('focus', async () => {
-      console.log(route.params.route);
+      await getNumberOfDonationsPerYear();
     })
   }, [navigation])
+
+
+
+  //TODO: fix this return number of donations
+  const getNumberOfDonationsPerYear = async () => {
+    try {
+      let result = await fetch(url + "api/number/donation", {
+        method: 'GET'
+      });
+      let data = await result.json();
+      setNumberDonation(data.Blood_donation_id)
+    } catch (error) {
+      console.error('error with retrun full user');
+    }
+  }
 
 
   return (
     <SafeAreaView style={styles.container}>
       <Image source={BG} style={styles.header_img} />
 
-      <ProgressBar />
+      <View style={styles.container_progress_bar} >
+        <ProgressBar color='red' progress={0.3} width={250} height={25} borderColor="navy" borderWidth={1.5} />
+        <Text style={styles.textProgress}>{numberDon}/10000</Text>
+        <Text style={styles.textProgress}>מנות דם שנתרמו השנה</Text>
+      </View>
 
       <TouchableOpacity onPress={() => navigation.navigate('Profile', { route: User })}>
         <View style={styles.button_normal}>
@@ -85,5 +111,13 @@ const styles = StyleSheet.create({
     height: 90,
     alignSelf: 'center',
     resizeMode: 'stretch'
+  },
+  container_progress_bar: {
+    alignItems: 'center',
+  },
+  textProgress: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: 'navy'
   }
 });

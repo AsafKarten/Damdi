@@ -32,7 +32,6 @@ export default function PersonalFormA({ navigation, route }) {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
-      checkStatusModal();
       await getUserInfo()
       setLoading(false)
     });
@@ -90,8 +89,7 @@ export default function PersonalFormA({ navigation, route }) {
           setModalUpdate(true)
         }, 500);
       }
-      else {
-        console.log("no modals shows");
+      else if (route.params.modalStatus === 'none') {
         setModalInfo(false);
         setModalUpdate(false);
       }
