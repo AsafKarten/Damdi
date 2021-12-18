@@ -122,9 +122,9 @@ export default function StackNavigation() {
             },
             headerTintColor: '#fff',
             // headerRight: () => <Feather onPress={() => backPage('Home')} name="arrow-right-circle" size={32} color="grey" style={styles.arrow} />,
-            headerLeft: () => {
-              return null;
-            },
+            // headerLeft: () => {
+            //   return null;
+            // },
           }} />
         < Stack.Screen name="Stations" component={Stations}
           options={{

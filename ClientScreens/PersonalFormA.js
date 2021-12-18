@@ -8,7 +8,6 @@ import { url } from '../Utils';
 
 
 export default function PersonalFormA({ navigation, route }) {
-  console.log("route PersonalFormA", route);
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);

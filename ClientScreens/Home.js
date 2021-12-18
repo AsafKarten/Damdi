@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, SafeAreaView, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native';
+import { url } from '../Utils';
 import ProgressBar from 'react-native-progress/Bar'
-
-import { FontAwesome } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
-
+import { FontAwesome,Entypo,FontAwesome5 } from '@expo/vector-icons';
 import BG from '../assets/LOGO_ONLY_PNG.png'
 
 export default function Home({ navigation, route }) {
@@ -13,17 +10,10 @@ export default function Home({ navigation, route }) {
   const [numberDon, setNumberDonation] = useState()
 
   useEffect(() => {
-    getNumberOfDonationsPerYear();
-  },[])
-
-
-  useEffect(() => {
     navigation.addListener('focus', async () => {
       await getNumberOfDonationsPerYear();
     })
   }, [navigation])
-
-
 
   //TODO: fix this return number of donations
   const getNumberOfDonationsPerYear = async () => {

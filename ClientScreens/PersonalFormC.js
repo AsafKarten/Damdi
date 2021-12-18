@@ -5,7 +5,6 @@ import { url } from '../Utils';
 
 
 export default function PersonalFormC({ navigation, route }) {
-  console.log("PersonalFormC", route.params.route);
   const [loading, setLoading] = useState(false);
   const [showCountriesList, setShowCountriesList] = useState();
 
@@ -44,7 +43,6 @@ export default function PersonalFormC({ navigation, route }) {
     let url = `https://data.gov.il/api/3/action/datastore_search?resource_id=c84082e9-7d45-4853-9a95-e7eaad7f66d5&q=${q}`
     let res = await fetch(url);
     let data = await res.json();
-    console.log(data.result.records);
     setCountries(data.result.records)
   }
 
