@@ -5,7 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 
 export default function UnitTwo({ navigation, route }) {
-  const [Donator, setDonator] = useState(route.params.route)
+  const [Donator, setDonator] = useState(route.params.route.Donator);
   const [PersonalId, onChangeId] = useState();
   const [station_code, setStationCode] = useState(route.params.siteCode);
 

@@ -94,6 +94,9 @@ export default function AppListThree({ navigation, route }) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.text_container}>
+        <Text style={styles.textStyle}>לחץ על שם התורם הרצוי כדי להתחיל בביצוע הבדיקות</Text>
+      </View>
       <ScrollView>
         <FlatList
           data={fullData}
@@ -140,6 +143,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  text_container: {
+    marginTop: 10,
+  },
+  textStyle: {
+    fontSize: 20,
+    textAlign: 'right',
+    fontWeight: 'bold'
+  },
   lableText: {
     marginTop: 17,
     fontSize: 16,
@@ -174,10 +185,9 @@ const styles = StyleSheet.create({
   list: {
     width: 300,
     height: 150,
-
     flexWrap: 'wrap',
     alignItems: 'center',
-    marginTop: 14,
+    marginTop: 30,
     padding: 18,
     borderWidth: 3,
     borderRadius: 9,
@@ -186,11 +196,10 @@ const styles = StyleSheet.create({
     color: "black"
   },
   text_list: {
-    padding: 5,
-    paddingTop: 8,
-    paddingLeft: 25,
-    textAlign: 'right',
-    fontSize: 16,
+    paddingTop: 10,
+    paddingLeft: 10,
+    textAlign: 'center',
+    fontSize: 18,
     fontWeight: 'bold',
     flexDirection: 'column',
   },

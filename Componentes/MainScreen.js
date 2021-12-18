@@ -38,12 +38,12 @@ export default function MainScreen({ navigation }) {
 
               <TouchableOpacity onPress={() => navigation.navigate('DonatorsLogin')}>
                 <View style={styles.button_normal}>
-                  <Text style={styles.button_text}>כניסת מתרים</Text>
+                  <Text style={styles.button_text}>התחברות עובדים</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => navigation.navigate('AdminLogin')}>
                 <View style={styles.button_normal}>
-                  <Text style={styles.button_text}>כניסת מנהל מערכת</Text>
+                  <Text style={styles.button_text}>התחברות מנהל מערכת</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   button_normal: {
     alignItems: 'center',
-    width: 160,
+    width: 240,
     margin: 15,
     borderRadius: 8,
     padding: 10,
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   button_text: {
-    fontSize: 15,
+    fontSize: 20,
     color: 'white',
     fontWeight: 'bold'
   },

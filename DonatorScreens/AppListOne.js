@@ -3,11 +3,11 @@ import { View, FlatList, Modal, Pressable, StyleSheet, Text, ScrollView } from '
 import { url } from '../Utils'
 
 export default function AppListOne({ navigation, route }) {
+  console.log("AppListOne 1:", route);
   const [fullData, setFullData] = useState([])
   const [modalRefuse, setModalRefuseVis] = useState(false);
   const [Donator, setDonator] = useState(route.params.route.Donator)
   const [stationCode, setStationCode] = useState(route.params.route.staionCode)
-  console.log(stationCode);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -31,8 +31,7 @@ export default function AppListOne({ navigation, route }) {
       });
       let donor = await result.json();
       if (donor !== undefined || donor !== null) {
-        const Route = { Donator: Donator, Donor: donor }
-        navigation.navigate('DonorInfo', { route: Route })
+        navigation.navigate('DonorInfo', { Donator: Donator, Donor: donor})
       }
     } catch (error) {
       console.error(error);
@@ -95,14 +94,17 @@ export default function AppListOne({ navigation, route }) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.text_container}>
+        <Text style={styles.textStyle}>לחץ על שם התורם הרצוי כדי להתחיל בביצוע תהליך אימות הפרטים</Text>
+      </View>
       <ScrollView>
         <FlatList
           data={fullData}
           keyExtractor={(item) => item.App_id}
           renderItem={({ item }) => (
             <View style={styles.list}>
-              <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)} >ת.ז. :  {item.Personal_id}</Text>
-              <Text style={styles.text_list}>שם  :  {item.name}</Text>
+              <Text style={styles.text_list}>ת.ז. :  {item.Personal_id}</Text>
+              <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)}>שם  :  {item.name}</Text>
               <Text style={styles.text_list}>מועד התור :  {item.time}</Text>
             </View>
           )} />
@@ -146,6 +148,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold'
   },
+  text_container: {
+    marginTop: 10,
+  },
+  textStyle: {
+    fontSize: 20,
+    textAlign: 'right',
+    fontWeight: 'bold'
+  },
   text: {
     borderBottomColor: 'black',
     width: 200,
@@ -186,11 +196,10 @@ const styles = StyleSheet.create({
     color: "black"
   },
   text_list: {
-    padding: 5,
-    paddingTop: 8,
+    paddingTop: 10,
     paddingLeft: 10,
-    textAlign: 'right',
-    fontSize: 16,
+    textAlign: 'center',
+    fontSize: 18,
     fontWeight: 'bold',
     flexDirection: 'column',
   },

@@ -4,6 +4,7 @@ import { url } from '../Utils'
 import { AntDesign, Feather } from '@expo/vector-icons';
 
 export default function UnitOne({ navigation, route }) {
+  console.log("unit 1:", route);
   const [Donator, setDonator] = useState(route.params.route)
   const [PersonalId, onChangeId] = useState();
   const [station_code, setStationCode] = useState(route.params.siteCode);

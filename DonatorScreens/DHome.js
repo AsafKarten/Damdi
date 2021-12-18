@@ -5,7 +5,7 @@ import { url } from '../Utils'
 import { Dropdown } from 'react-native-element-dropdown';
 
 export default function Home({ navigation, route }) {
-  const [Donator, onChangeDonator] = useState(route.params.route)
+  const [Donator, onChangeDonator] = useState(route.params.Donator)
   const [roleModal, setRoleModal] = useState(false);
   const [siteModal, setSiteModal] = useState(false);
   const [modalInfo, setModalInfo] = useState(false);

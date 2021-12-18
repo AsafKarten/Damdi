@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { View, Modal, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Switch } from 'react-native';
-import { MaterialIcons, Feather, FontAwesome5 } from '@expo/vector-icons';
+import { MaterialIcons, FontAwesome5, Feather, AntDesign } from '@expo/vector-icons';
+import { url } from '../Utils'
 
 
 export default function UnitTwoMain({ navigation, route }) {
-  console.log(route.params.route);
   const [Donator, setDonator] = useState(route.params.route.Donator)
   const [donor, setDonor] = useState(route.params.route.Donor);
-  const [Route, setRoute] = useState({ Donator: Donator, Donor: donor })
   const [appId, setAppintmentId] = useState()
   const [showText, setShowText] = useState(false);
   const [modalRefuse, setModalRefuseVis] = useState(false);
@@ -19,6 +18,7 @@ export default function UnitTwoMain({ navigation, route }) {
   const [hemoglobine, onChangeHemo] = useState("")
   const [irregular_pulse, onChangeIP] = useState(false);
   const irregular_pulse_toggle = () => onChangeIP(previousState => !previousState);
+
 
   const ValidationData = async () => {
     if (
@@ -66,14 +66,14 @@ export default function UnitTwoMain({ navigation, route }) {
 
   const SetDonatorDataInfoUnitTwo = async () => {
     try {
-      let result = await fetch(url + "api/confirm/pos/two", {
+      let result = await fetch(url + "api/data/unit/two", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          App_id: Donator.Auto_worker_id,
+          App_id: appId,
           Checker_hemog: Donator.First_name + ' ' + Donator.Last_name,
           Code_hemog: hemoglobine,
           Blood_pressure: blood_pressure,
@@ -148,108 +148,148 @@ export default function UnitTwoMain({ navigation, route }) {
 
   return (
     <SafeAreaView>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeBP}
-        value={blood_pressure}
-        placeholder="לחץ דם"
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangePulse}
-        value={pulse}
-        placeholder="דופק"
-      />
-      <View style={styles.checkboxContainer}>
-        <Text>דופק סדיר: </Text>
-        <Switch
-          onValueChange={irregular_pulse_toggle}
-          value={irregular_pulse}
-        />
-      </View>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeHemo}
-        value={hemoglobine}
-        placeholder="המוגלובין"
-      />
-
-      <View style={styles.containr_btn}>
-        <TouchableOpacity onPress={() => navigation.navigate('PersonalInfo', { route: donor })}>
-          <View style={styles.button_normal}>
-            <Feather name="info" size={24} color="white" />
-            <Text style={styles.button_text} >פרטים אישים</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('MedicalInfo', { route: donor })}>
-          <View style={styles.button_normal}>
-            <FontAwesome5 name="notes-medical" size={24} color="white" />
-            <Text style={styles.button_text} >פרטים רפואים</Text>
-          </View>
-        </TouchableOpacity>
-        <View style={styles.notes_container}>
-          <TouchableOpacity onPress={() => setShowText(true)}>
-            <View style={styles.button_normal}>
-              <FontAwesome5 name="notes-medical" size={26} color="white" />
-              <Text style={styles.button_text} >הוספת הערות</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        {showText &&
-          <View style={styles.notes_container}>
+      <View style={styles.container}>
+        <View style={styles.container_data}>
+          <Text style={styles.text}>לחץ דם :</Text>
+          <View style={styles.input_container}>
             <TextInput
               style={styles.input}
-              onChangeText={(text) => setNotesUnitTwo(text)}
-              value={notesUnitTwo}
-              placeholder="פרט/י"
+              onChangeText={onChangeBP}
+              value={blood_pressure}
+              placeholder="לחץ דם"
             />
-            <TouchableOpacity onPress={() => SaveNotesUnitTwo()}>
-              <View style={styles.button_save_note}>
-                <AntDesign name="addfile" size={26} color="white" />
-                <Text style={styles.button_text} >שמור הערות</Text>
+          </View>
+        </View>
+        <View style={styles.container_data}>
+          <Text style={styles.text}>דופק :</Text>
+          <View style={styles.input_container}>
+            <TextInput
+              style={styles.input}
+              onChangeText={onChangePulse}
+              value={pulse}
+              placeholder="דופק"
+            />
+          </View>
+        </View>
+        <View style={styles.container_data}>
+          <Text style={styles.text}>דופק סדיר :</Text>
+          <View style={styles.switch_container}>
+            <Switch
+              onValueChange={irregular_pulse_toggle}
+              value={irregular_pulse}
+            />
+          </View>
+        </View>
+        <View style={styles.container_data}>
+          <Text style={styles.text}>המוגלובין :</Text>
+          <View style={styles.input_container}>
+            <TextInput
+              style={styles.input}
+              onChangeText={onChangeHemo}
+              value={hemoglobine}
+              placeholder="המוגלובין"
+            />
+          </View>
+        </View>
+
+        <View style={styles.containr_btn}>
+
+          <View style={styles.notes_container}>
+            <TouchableOpacity onPress={() => setShowText(true)}>
+              <View style={styles.button_normal}>
+                <FontAwesome5 name="notes-medical" size={26} color="white" />
+                <Text style={styles.button_text} >הוספת הערות</Text>
               </View>
             </TouchableOpacity>
-          </View>}
-        <TouchableOpacity onPress={() => ValidationData()}>
-          <View style={styles.button_confirm}>
-            <FontAwesome5 name="stamp" size={24} color="white" />
-            <Text style={styles.button_text} >אישור אימות פרטים</Text>
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => DeclaineDonor()}>
-          <View style={styles.button_refuse}>
-            <MaterialIcons name="block" size={24} color="white" />
-            <Text style={styles.button_text} >לא רשאי\ת לתרום</Text>
-          </View>
-        </TouchableOpacity>
-        {modalRefuse && (
-          <View>
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalRefuse}
-              onRequestClose={() => { console.log('Modal has been closed.'); }}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>לצערנו אינך יכול\ה לתרום דם, אנא פנה לרופא משפחה כדי לבצע בדיקות תקינות גופנית</Text>
-                <View style={styles.modal_buttons}>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => setModalRefuseVis(!modalRefuse)}>
-                    <Text style={styles.textStyle}>סגור</Text>
-                  </Pressable>
+          {showText &&
+            <View style={styles.notes_container}>
+              <TextInput
+                style={styles.input}
+                onChangeText={(text) => setNotesUnitTwo(text)}
+                value={notesUnitTwo}
+                placeholder="פרט/י"
+              />
+              <TouchableOpacity onPress={() => SaveNotesUnitTwo()}>
+                <View style={styles.button_save_note}>
+                  <AntDesign name="addfile" size={26} color="white" />
+                  <Text style={styles.button_text} >שמור הערות</Text>
                 </View>
-              </View>
-            </Modal>
-          </View>
-        )}
+              </TouchableOpacity>
+            </View>}
+          <TouchableOpacity onPress={() => ValidationData()}>
+            <View style={styles.button_confirm}>
+              <FontAwesome5 name="stamp" size={24} color="white" />
+              <Text style={styles.button_text} >אישור בדיקות רפואיות</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => DeclaineDonor()}>
+            <View style={styles.button_refuse}>
+              <MaterialIcons name="block" size={24} color="white" />
+              <Text style={styles.button_text} >לא רשאי\ת לתרום</Text>
+            </View>
+          </TouchableOpacity>
+          {modalRefuse && (
+            <View>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalRefuse}
+                onRequestClose={() => { console.log('Modal has been closed.'); }}>
+                <View style={styles.modalView}>
+                  <Text style={styles.modalText}>לצערנו אינך יכול\ה לתרום דם, אנא פנה לרופא משפחה כדי לבצע בדיקות תקינות גופנית</Text>
+                  <View style={styles.modal_buttons}>
+                    <Pressable
+                      style={[styles.button, styles.buttonClose]}
+                      onPress={() => setModalRefuseVis(!modalRefuse)}>
+                      <Text style={styles.textStyle}>סגור</Text>
+                    </Pressable>
+                  </View>
+                </View>
+              </Modal>
+            </View>
+          )}
+        </View>
       </View>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 }
 const styles = StyleSheet.create({
+  container: {
+    marginTop:15
+  },
+  container_data: {
+    justifyContent: 'space-between',
+    borderBottomColor: 'grey',
+    borderBottomWidth: 2,
+    width: 380,
+    height: 60,
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+    paddingRight: 25,
+  },
+  input_container: {
+    flexDirection: 'row',
+  },
+  switch_container: {
+    flexDirection: 'row',
+    paddingLeft: 100
+  },
+  input: {
+    height: 35,
+    width: 100,
+    margin: 10,
+    borderWidth: 2,
+    borderRadius: 8,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  text: {
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
   containr_btn: {
-    alignSelf: 'center',
-    marginTop: 35,
+    alignItems: 'center',
     flexDirection: 'column',
   },
   button_normal: {
@@ -296,7 +336,7 @@ const styles = StyleSheet.create({
   },
   notes_container: {
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row-reverse'
   },
   button_save_note: {
     alignItems: 'center',
@@ -310,16 +350,6 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowRadius: 5,
     flexDirection: 'row'
-  },
-  input: {
-    width: 300,
-    height: 50,
-    marginRight: 10,
-    borderWidth: 2,
-    borderRadius: 8,
-    textAlign: 'center',
-    alignItems: 'center',
-    fontWeight: 'bold'
   },
 
   //Modal buttons 
@@ -376,9 +406,5 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     textAlign: 'center',
     fontWeight: 'bold',
-  },
-  checkboxContainer: {
-    alignSelf: 'center',
-    flexDirection: 'row'
-  },
+  }
 })

@@ -79,7 +79,7 @@ export default function DonatorsLogin({ navigation }) {
         let result = validationInput(donator);
         if (result === 'correct') {
           setLoading(false);
-          navigation.navigate('DHome', { route: donator })
+          navigation.navigate('DHome', { Donator: donator })
           onChangePass("")
           onChangeId("")
         }

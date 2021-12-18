@@ -4,13 +4,19 @@ import { MaterialIcons, FontAwesome5, Feather, AntDesign } from '@expo/vector-ic
 import { url } from '../Utils'
 
 export default function DonorInfo({ navigation, route }) {
+  console.log("DonorInfo :", route);
+
   const [donator, setDonator] = useState(route.params.Donator)
   const [donor, setDonor] = useState(route.params.Donor);
   const [modalRefuse, setModalRefuseVis] = useState(false);
   const [appId, setAppintmentId] = useState()
   const [showText, setShowText] = useState(false);
   const [notesUnitOne, setNotesUnitOne] = useState(notesUnitOne === null ? 'אינו רשאי/ת לתרום' : 'רשאי/ת להמשיך לעמדה 2')
+  console.log(donor);
 
+  useEffect(() => {
+    GetAppinmentInfo();
+  }, [])
 
   const GetAppinmentInfo = async () => {
     try {
@@ -28,7 +34,7 @@ export default function DonorInfo({ navigation, route }) {
       console.log("appintment", appintment);
       if (appintment !== "Appintment not found.") {
         setAppintmentId(appintment.App_id)
-        console.log(appId);
+        return appId;
       }
       else {
         Alert.alert("אין תור קיים בתאריך זה במערכת.")
@@ -55,14 +61,9 @@ export default function DonorInfo({ navigation, route }) {
         })
       });
       let response = await result.json()
-      console.log("SetDonorDataUnitOne", response);
+      console.log("SetDonatorDataInfoUnitOne", response);
       if (response === 'data unit one added successfully.') {
-        Alert.alert("התורמ/ת רשאי/ת לעבור לעמדה מספר 2.")
-        return
-      }
-      else {
-        Alert.alert("שגיאה", "תקלה זמנית בהטמעת הפרטים במערכת, נסה שוב בבקשה..")
-        return;
+        await SetConfirmOne()
       }
     } catch (error) {
       console.log(error);
@@ -82,12 +83,10 @@ export default function DonorInfo({ navigation, route }) {
         })
       });
       let response = await result.json()
+      console.log("SetConfirmOne", response);
       if (response === 'unit one confirm successfully.') {
         navigation.navigate('UnitOne', { route: donator })
-      }
-      else {
-        Alert.alert("שגיאה", "תקלה זמנית בהטמעת הפרטים במערכת, נסה שוב בבקשה..")
-        return;
+        Alert.alert("התורמ/ת רשאי/ת לעבור לעמדה מספר 2.")
       }
     } catch (error) {
       console.log(error);
@@ -104,9 +103,7 @@ export default function DonorInfo({ navigation, route }) {
   }
 
   const ApproveDonor = async () => {
-    await GetAppinmentInfo();
     await SetDonatorDataInfoUnitOne();
-    await SetConfirmOne();
   }
 
   const DeclaineDonor = async () => {

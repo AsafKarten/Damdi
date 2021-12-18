@@ -545,7 +545,6 @@ export default function UnitThreeMain({ navigation, route }) {
 const styles = StyleSheet.create({
   containr_btn: {
     alignItems: 'center',
-    marginRight: 20,
     flexDirection: 'column',
   },
   button_normal: {
@@ -689,7 +688,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingRight: 20
   },
-
   text: {
     fontSize: 18,
     fontWeight: 'bold'

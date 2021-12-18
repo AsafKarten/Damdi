@@ -7,7 +7,7 @@ export default function AppListTwo({ navigation, route }) {
   const [modalRefuse, setModalRefuseVis] = useState(false);
   const [Donator, setDonator] = useState(route.params.route.Donator)
   const [stationCode, setStationCode] = useState(route.params.route.staionCode)
-  console.log(stationCode);
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getAppointmentsList();
@@ -92,14 +92,17 @@ export default function AppListTwo({ navigation, route }) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.text_container}>
+        <Text style={styles.textStyle}>לחץ על שם התורם הרצוי כדי להתחיל בביצוע הבדיקות</Text>
+      </View>
       <ScrollView>
         <FlatList
           data={fullData}
           keyExtractor={(item) => item.App_id}
           renderItem={({ item }) => (
             <View style={styles.list}>
-              <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)} >ת.ז. :  {item.Personal_id}</Text>
-              <Text style={styles.text_list}>שם:  {item.name}</Text>
+              <Text style={styles.text_list}> ת.ז. :  {item.Personal_id}</Text>
+              <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)} >שם:  {item.name}</Text>
               <Text style={styles.text_list}>מועד התור:  {item.time}</Text>
             </View>
           )} />
@@ -138,6 +141,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  text_container: {
+    marginTop: 10,
+  },
+  textStyle: {
+    fontSize: 20,
+    textAlign: 'right',
+    fontWeight: 'bold'
+  },
   lableText: {
     marginTop: 17,
     fontSize: 16,
@@ -174,19 +185,19 @@ const styles = StyleSheet.create({
     height: 150,
     flexWrap: 'wrap',
     alignItems: 'center',
-    marginTop: 14,
+    marginTop: 30,
     padding: 18,
     borderWidth: 3,
     borderRadius: 9,
     borderColor: 'grey',
     backgroundColor: "#fcfff9",
+    color: "black"
   },
   text_list: {
-    padding: 5,
-    paddingTop: 8,
-    paddingLeft: 25,
-    textAlign: 'right',
-    fontSize: 16,
+    paddingTop: 10,
+    paddingLeft: 10,
+    textAlign: 'center',
+    fontSize: 18,
     fontWeight: 'bold',
     flexDirection: 'column',
   },
