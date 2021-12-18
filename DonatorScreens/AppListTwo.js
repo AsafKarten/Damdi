@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Modal, Pressable, StyleSheet, Text } from 'react-native';
+import { View, FlatList, Modal, Pressable, StyleSheet, Text, ScrollView } from 'react-native';
 import { url } from '../Utils'
 
 export default function AppListTwo({ navigation, route }) {
-  const [fullData, setFullData] = useState([])
+  const [fullData, setFullData] = useState()
   const [modalRefuse, setModalRefuseVis] = useState(false);
   const [Donator, setDonator] = useState(route.params.route.Donator)
   const [stationCode, setStationCode] = useState(route.params.route.staionCode)
-
+  console.log(stationCode);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getAppointmentsList();
     });
-
     return unsubscribe;
   }, [navigation]);
 
@@ -67,7 +66,7 @@ export default function AppListTwo({ navigation, route }) {
       let result = await fetch(url + `api/appointments/unit/two/${stationCode}`, {
         method: 'GET'
       });
-      let data = [...await result.json()];
+      let data = await result.json();
       if (data.length === 0) {
         setModalRefuseVis(true);
         return;
@@ -92,21 +91,19 @@ export default function AppListTwo({ navigation, route }) {
   }
 
   return (
-   
-   
-   <View style={styles.container}>
-
-      <FlatList
-        data={fullData}
-        keyExtractor={(item) => item.App_id}
-        renderItem={({ item }) => (
-          <View style={styles.list}>
-            <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)} >ת.ז. :  {item.Personal_id}</Text>
-            <Text style={styles.text_list}>שם:  {item.name}</Text>
-            <Text style={styles.text_list}>מועד התור:  {item.time}</Text>
-          </View>
-        )} />
-
+    <View style={styles.container}>
+      <ScrollView>
+        <FlatList
+          data={fullData}
+          keyExtractor={(item) => item.App_id}
+          renderItem={({ item }) => (
+            <View style={styles.list}>
+              <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)} >ת.ז. :  {item.Personal_id}</Text>
+              <Text style={styles.text_list}>שם:  {item.name}</Text>
+              <Text style={styles.text_list}>מועד התור:  {item.time}</Text>
+            </View>
+          )} />
+      </ScrollView>
       {modalRefuse && (
         <View>
           <Modal
@@ -122,7 +119,7 @@ export default function AppListTwo({ navigation, route }) {
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => {
                     setModalRefuseVis(!modalRefuse)
-                    navigation.navigate('UnitTwo')
+                    navigation.navigate('UnitOne')
                   }}>
                   <Text style={styles.textStyle}>סגור</Text>
                 </Pressable>
@@ -186,7 +183,7 @@ const styles = StyleSheet.create({
   },
   text_list: {
     padding: 5,
-    paddingTop:8,
+    paddingTop: 8,
     paddingLeft: 25,
     textAlign: 'right',
     fontSize: 16,

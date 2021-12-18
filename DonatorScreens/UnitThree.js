@@ -39,32 +39,35 @@ export default function UnitThree({ navigation, route }) {
   }
 
   const AppointmentsList = () => {
-    var route = { Donator: Donator, stationCode: station_code, siteName: stationName }
+    var route = { Donator: Donator, staionCode: station_code, siteName: stationName }
     navigation.navigate('AppListThree', { route: route })
   }
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.text_container}>
+        <Text style={styles.textStyle}>הזן ת.ז. תורם</Text>
+      </View>
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeId}
+        value={PersonalId}
+        placeholder="תעודת זהות"
+      />
       <View style={styles.containr_btn}>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeId}
-          value={PersonalId}
-          placeholder="תעודת זהות"
-        />
         <TouchableOpacity onPress={() => getDonorInfo()}>
           <View style={styles.button_start}>
             <AntDesign name="logout" size={24} color="white" />
             <Text style={styles.button_text} >התחל</Text>
           </View>
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => AppointmentsList()}>
+          <View style={styles.button_list_app}>
+            <Feather name="list" size={24} color="white" />
+            <Text style={styles.button_text} >רשימת תורים</Text>
+          </View>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={() => AppointmentsList()}>
-        <View style={styles.button_list_app}>
-          <Feather name="list" size={24} color="white" />
-          <Text style={styles.button_text} >רשימת תורים</Text>
-        </View>
-      </TouchableOpacity>
     </SafeAreaView >
   );
 }
@@ -74,13 +77,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   containr_btn: {
-    alignSelf: 'center',
-    marginTop: 35,
-    flexDirection: 'row-reverse',
-    marginTop: 35,
+    alignItems: 'center',
+    flexDirection: 'column',
   },
-  ButtonContainer: {
-    flexDirection: 'row'
+  text_container: {
+    marginTop: 10,
+  },
+  textStyle: {
+    fontSize: 20,
+    textAlign: 'right',
+    fontWeight: 'bold'
   },
   input: {
     height: 40,
@@ -94,29 +100,26 @@ const styles = StyleSheet.create({
   button_start: {
     alignItems: 'center',
     width: 90,
-    height: 65,
+    height: 60,
     margin: 14,
     borderRadius: 8,
-    padding: 15,
+    padding: 10,
     backgroundColor: "#757c94",
     opacity: 0.8,
     shadowColor: 'black',
-    shadowRadius: 5,
-
+    shadowRadius: 5
   },
   button_list_app: {
     alignItems: 'center',
-    width: 90,
-    height: 90,
-    margin: 15,
-    marginRight: 265,
-    marginTop: 40,
+    width: 120,
+    height: 60,
+    margin: 14,
     borderRadius: 8,
-    padding: 15,
+    padding: 5,
     backgroundColor: "#757c94",
     opacity: 0.8,
     shadowColor: 'black',
-    shadowRadius: 5,
+    shadowRadius: 5
   },
   button_text: {
     fontSize: 18,

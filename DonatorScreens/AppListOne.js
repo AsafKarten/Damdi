@@ -7,6 +7,7 @@ export default function AppListOne({ navigation, route }) {
   const [modalRefuse, setModalRefuseVis] = useState(false);
   const [Donator, setDonator] = useState(route.params.route.Donator)
   const [stationCode, setStationCode] = useState(route.params.route.staionCode)
+  console.log(stationCode);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -67,9 +68,8 @@ export default function AppListOne({ navigation, route }) {
       let result = await fetch(url + `api/appointments/unit/one/${stationCode}`, {
         method: 'GET'
       });
-      let data = [...await result.json()];
+      let data = await result.json();
       console.log(data);
-      setFullData(data)
       if (data.length === 0) {
         setModalRefuseVis(true);
         return;
@@ -87,7 +87,6 @@ export default function AppListOne({ navigation, route }) {
           arr.push(appObj);
         }
         setFullData(arr)
-        console.log(arr);
       }
     } catch (error) {
       console.error(error)

@@ -9,8 +9,6 @@ export default function AppListThree({ navigation, route }) {
   const [stationCode, setStationCode] = useState(route.params.route.staionCode)
   const [stationName, setStationName] = useState(route.params.route.siteName)
 
-
-
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getAppointmentsList();

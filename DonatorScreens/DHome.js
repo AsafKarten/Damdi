@@ -158,7 +158,7 @@ export default function Home({ navigation, route }) {
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
                   setRoleModal(false)
-                  navigation.navigate('UnitTwo', { route: Donator })
+                  navigation.navigate('UnitTwo', { route: Donator, siteCode: stationCode })
                 }}>
                 <Text style={styles.textStyle}>עמדה 2           בדיקת לחץ דם והמוגלובין</Text>
               </Pressable>
@@ -166,7 +166,7 @@ export default function Home({ navigation, route }) {
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
                   setRoleModal(false)
-                  navigation.navigate('UnitThree', { route: Donator, siteName: stationName })
+                  navigation.navigate('UnitThree', { route: Donator, siteCode: stationCode, siteName: stationName })
                 }}>
                 <Text style={styles.textStyle}>עמדה 3            לקיחת תרומות דם</Text>
               </Pressable>
