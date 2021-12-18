@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon-of-padlock-coloured-in-red02.png",
     "splash": {
-      "image": "./assets/icon-of-padlock-coloured-in-red02.png",
+      "image": "./assets/icon-of-padlock-coloured-in-red04.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

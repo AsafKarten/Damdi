@@ -130,7 +130,7 @@ export default function Home({ navigation, route }) {
         <TouchableOpacity onPress={() => setSiteModal(true)}>
           <View style={styles.button_normal}>
             <FontAwesome name="exchange" size={24} color="white" />
-            <Text style={styles.button_text} >שינוי אתר התרמה</Text>
+            <Text style={styles.button_text} >בחירת אתר התרמה</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -253,13 +253,13 @@ const styles = StyleSheet.create({
   },
   button_normal: {
     alignItems: 'center',
-    width: 90,
-    height: 90,
+    width: 100,
+    height: 85,
     margin: 15,
     borderRadius: 8,
-    padding: 10,
+    padding: 8,
     backgroundColor: "#757c94",
-    opacity: 0.8,
+    opacity: 0.9,
     shadowColor: 'black',
     shadowRadius: 5,
   },
@@ -278,11 +278,11 @@ const styles = StyleSheet.create({
   },
   //Modal
   modalView: {
-    margin: 20,
+    margin: 10,
     backgroundColor: '#757c94',
     borderRadius: 20,
     padding: 25,
-    alignItems: "center",
+    alignSelf: 'center',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -306,19 +306,19 @@ const styles = StyleSheet.create({
   modal_buttons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    margin: 5,
+    margin: 10,
   },
   button: {
-    marginTop: 40,
-    marginLeft: 50,
-    marginRight: 20,
+    alignSelf: 'center',
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 60,
     borderRadius: 20,
     padding: 10,
     elevation: 2,
   },
   buttonOpen: {
     backgroundColor: "#F194FF",
-
   },
   buttonClose: {
     width: 120,
@@ -353,7 +353,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 8,
     backgroundColor: "#757c94",
-    opacity: 0.8,
+    opacity: 0.9,
     shadowColor: 'black',
     shadowRadius: 5,
     flexDirection: 'row'

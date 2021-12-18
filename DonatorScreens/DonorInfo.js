@@ -4,8 +4,8 @@ import { MaterialIcons, FontAwesome5, Feather, AntDesign } from '@expo/vector-ic
 import { url } from '../Utils'
 
 export default function DonorInfo({ navigation, route }) {
-  const [Donator, setDonator] = useState(route.params.route.Donator)
-  const [donor, setDonor] = useState(route.params.route.Donor);
+  const [donator, setDonator] = useState(route.params.Donator)
+  const [donor, setDonor] = useState(route.params.Donor);
   const [modalRefuse, setModalRefuseVis] = useState(false);
   const [appId, setAppintmentId] = useState()
   const [showText, setShowText] = useState(false);
@@ -49,8 +49,8 @@ export default function DonorInfo({ navigation, route }) {
         },
         body: JSON.stringify({
           App_id: appId,
-          Code_questioner: Donator.Auto_worker_id,
-          Questioner_name: Donator.First_name + ' ' + Donator.Last_name,
+          Code_questioner: donator.Auto_worker_id,
+          Questioner_name: donator.First_name + ' ' + donator.Last_name,
           Notes_unit_one: notesUnitOne
         })
       });
@@ -83,7 +83,7 @@ export default function DonorInfo({ navigation, route }) {
       });
       let response = await result.json()
       if (response === 'unit one confirm successfully.') {
-        navigation.navigate('UnitOne', { route: Donator })
+        navigation.navigate('UnitOne', { route: donator })
       }
       else {
         Alert.alert("שגיאה", "תקלה זמנית בהטמעת הפרטים במערכת, נסה שוב בבקשה..")
@@ -121,13 +121,13 @@ export default function DonorInfo({ navigation, route }) {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
             <View style={styles.containr_btn}>
-              <TouchableOpacity onPress={() => navigation.navigate('PersonalInfo', { route: route.params.route })}>
+              <TouchableOpacity onPress={() => navigation.navigate('PersonalInfo', { route: donor })}>
                 <View style={styles.button_normal}>
                   <Feather name="info" size={24} color="white" />
                   <Text style={styles.button_text} >פרטים אישים</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate('MedicalInfo', { route: route.params.route })}>
+              <TouchableOpacity onPress={() => navigation.navigate('MedicalInfo', { route: donor })}>
                 <View style={styles.button_normal}>
                   <FontAwesome5 name="notes-medical" size={24} color="white" />
                   <Text style={styles.button_text} >פרטים רפואים</Text>
@@ -151,7 +151,7 @@ export default function DonorInfo({ navigation, route }) {
                   />
                   <TouchableOpacity onPress={() => SaveNotesUnitOne()}>
                     <View style={styles.button_save_note}>
-                      <AntDesign name="addfile" size={26} color="white" />
+                      <AntDesign name="addfile" size={24} color="white" />
                       <Text style={styles.button_text} >שמור הערות</Text>
                     </View>
                   </TouchableOpacity>
@@ -252,11 +252,11 @@ const styles = StyleSheet.create({
   },
   button_save_note: {
     alignItems: 'center',
-    width: 100,
-    height: 70,
-    margin: 10,
+    width: 135,
+    height: 50,
+    margin: 15,
     borderRadius: 8,
-    padding: 10,
+    padding: 5,
     backgroundColor: "#757c94",
     opacity: 0.8,
     shadowColor: 'black',

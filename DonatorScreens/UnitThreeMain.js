@@ -15,14 +15,14 @@ export default function UnitThreeMain({ navigation, route }) {
   const [appId, setAppintmentId] = useState()
   const [staionCode, setStationCode] = useState()
   const [dateDonation, setDateDonation] = useState(new Date())
-  const [ageApp, setAgeApp] = useState(false);
-  const toggleAgeApp = () => onChangeAge(previousState => !previousState)
   const [notesUnitThree, setNotesUnitThree] = useState(notesUnitThree === null ? 'אינו רשאי/ת לתרום' : '.תרומה בוצעה')
 
   //Toggle Switch consts
   const [notForUse1, onChangeNFU1] = useState(false);
   const toggle1 = () => onChangeNFU1(previousState => !previousState);
 
+  const [ageApp, setAgeApp] = useState(false);
+  const toggleAgeApp = () => onChangeAge(previousState => !previousState)
   //Dropdown properties
   const [donationType, setDonationType] = useState()
   const [isFocusType, setIsFocusType] = useState(false);
@@ -30,20 +30,16 @@ export default function UnitThreeMain({ navigation, route }) {
   const [durationDonation, setDurationDonation] = useState()
   const [isFocusDuration, setIsFocusDuration] = useState(false);
 
+  const [typeResponse, setTypeResponse] = useState()
+  const [isFocusTypeResponse, setIsFocusResponse] = useState(false);
+
+  const [typeBag, setTypeBag] = useState()
+  const [isFocusTypeBag, setIsFocusTypeBag] = useState(false);
+
   const typesDonations = [
     { label: 'דם מלא', value: '1' },
     { label: 'פרזיס', value: '2' },
-    { label: 'עצמית', value: '3' },
-  ];
-
-  const typesDonators = [
-    { label: 'מתרים', value: '1' },
-    { label: 'אחות', value: '2' },
-    { label: 'חובש', value: '3' },
-    { label: 'מתנדב', value: '4' },
-    { label: 'ש"ל', value: '5' },
-    { label: 'פרמדיק', value: '6' },
-    { label: 'רופא', value: '7' }
+    { label: 'עצמית', value: '3' }
   ];
 
   const durationDonations = [
@@ -52,19 +48,24 @@ export default function UnitThreeMain({ navigation, route }) {
     { label: 'מעל 15 דקות', value: '3' }
   ];
 
+  const typeResponses = [
+    { label: 'הרגשה לא טובה', value: '1' },
+    { label: 'התעלפות', value: '2' },
+    { label: 'חבלה', value: '3' },
+    { label: 'המטומה', value: '4' },
+    { label: 'הפסקת זרימה', value: '5' },
+    { label: 'אחר', value: '5' }
+  ];
+
+  const typesBag = [
+    { label: 'משולשת', value: '1' },
+    { label: 'פלסמהפרזיס', value: '2' },
+    { label: 'טרמובופרזיס', value: '3' },
+    { label: 'כפולה ב-SAGM + פילטר', value: '4' }
+  ];
+
 
   const DropdownDonationType = () => {
-    const renderLabel = () => {
-      if (donationType || isFocusType) {
-        return (
-          <Text style={[styles.label, isFocusType && { color: 'blue' }]}>
-            סוג התרומה
-          </Text>
-        );
-      }
-      return null;
-    };
-
     return (
       <View style={{
         fontWeight: 'bold',
@@ -72,7 +73,6 @@ export default function UnitThreeMain({ navigation, route }) {
         borderRadius: 10,
         width: 200,
       }} >
-        {renderLabel()}
         <Dropdown
           style={[styles.dropdown, isFocusType && { borderColor: 'blue' }]}
           placeholderStyle={styles.placeholderStyle}
@@ -82,12 +82,12 @@ export default function UnitThreeMain({ navigation, route }) {
           maxHeight={100}
           labelField="label"
           valueField="value"
-          placeholder={!isFocusType ? 'בחר סוג' : '...'}
+          placeholder={!isFocusType ? 'סוג' : '...'}
           value={donationType}
           onFocus={() => setIsFocusType(true)}
           onBlur={() => setIsFocusType(false)}
           onChange={item => {
-            setDonationType(item.value);
+            setDonationType(item.label);
             setIsFocusType(false);
           }}
         />
@@ -96,24 +96,12 @@ export default function UnitThreeMain({ navigation, route }) {
   };
 
   const DropdownDurationDonation = () => {
-    const renderLabel = () => {
-      if (durationDonation || isFocusDuration) {
-        return (
-          <Text style={[styles.label, isFocusDuration && { color: 'blue' }]}>
-            משך זמן התרמה
-          </Text>
-        );
-      }
-      return null;
-    };
-
     return (
       <View style={{
         padding: 10,
         borderRadius: 10,
         width: 200,
       }} >
-        {renderLabel()}
         <Dropdown
           style={[styles.dropdown, isFocusDuration && { borderColor: 'blue' }]}
           placeholderStyle={styles.placeholderStyle}
@@ -124,18 +112,79 @@ export default function UnitThreeMain({ navigation, route }) {
           maxHeight={100}
           labelField="label"
           valueField="value"
-          placeholder={!isFocusDuration ? 'בחר' : '...'}
+          placeholder={!isFocusDuration ? 'זמן' : '...'}
           value={durationDonation}
           onFocus={() => setIsFocusDuration(true)}
           onBlur={() => setIsFocusDuration(false)}
           onChange={item => {
-            setDurationDonation(item.value);
+            setDurationDonation(item.label);
             setIsFocusDuration(false);
           }}
         />
       </View>
     );
   };
+
+  const DropdownTypeResponse = () => {
+    return (
+      <View style={{
+        padding: 10,
+        borderRadius: 10,
+        width: 200,
+      }} >
+        <Dropdown
+          style={[styles.dropdown, isFocusTypeResponse && { borderColor: 'blue' }]}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          iconStyle={styles.iconStyle}
+          data={typeResponses}
+          maxHeight={100}
+          labelField="label"
+          valueField="value"
+          placeholder={!isFocusTypeResponse ? 'תגובה' : '...'}
+          value={typeResponse}
+          onFocus={() => setIsFocusResponse(true)}
+          onBlur={() => setIsFocusResponse(false)}
+          onChange={item => {
+            setTypeResponse(item.label);
+            setIsFocusResponse(false);
+          }}
+        />
+      </View>
+    );
+  };
+
+  const DropdownTypeBag = () => {
+
+    return (
+      <View style={{
+        padding: 10,
+        borderRadius: 10,
+        width: 200,
+      }} >
+        <Dropdown
+          style={[styles.dropdown, isFocusTypeBag && { borderColor: 'blue' }]}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={typesBag}
+          maxHeight={100}
+          labelField="label"
+          valueField="value"
+          placeholder={!isFocusTypeBag ? 'סוג' : '...'}
+          value={typeBag}
+          onFocus={() => setIsFocusTypeBag(true)}
+          onBlur={() => setIsFocusTypeBag(false)}
+          onChange={item => {
+            setTypeBag(item.label);
+            setIsFocusTypeBag(false);
+          }}
+        />
+      </View>
+    );
+  };
+
 
   const GetAppinmentInfo = async () => {
     try {
@@ -204,7 +253,7 @@ export default function UnitThreeMain({ navigation, route }) {
           Checker_name: Donator.First_name + ' ' + Donator.Last_name,
           Approver: Donator.First_name + ' ' + Donator.Last_name,
           Abnormal_response: notForUse1,
-          Which_response: "typeResponse",//TODO: dropdown typeResponse
+          Which_response: typeResponse,
           Went_to_hospital: notForUse1,
           By_mada: notForUse1,
           Refused_evacuate: notForUse1,
@@ -222,11 +271,11 @@ export default function UnitThreeMain({ navigation, route }) {
           Section_part_c: "moreDataText",//TODO: cretae text input moreDataText
           Sort: isSort,
           Detail_Iga: "detailIgaText", //TODO: cretae text input detailIgaText
-          Type_bag: "typeBag",  //TODO: dropdown typeBag
+          Type_bag: typeBag,  //TODO: dropdown typeBag
           Dose_weight: 10, //TODO: cretae text input weight
           Qualificat_name: Donator.First_name + ' ' + Donator.Last_name,
           Code_qualificat: Donator.Auto_worker_id,
-          Duration: "duration", //TODO: dropdown duration until 12 min over 12 min and over 15 min
+          Duration: durationDonation,
           Notes_unit_three: notesUnitThree
         })
       });
@@ -331,6 +380,7 @@ export default function UnitThreeMain({ navigation, route }) {
     }
   }
 
+  
   const sentSMS = async () => {
     const isAvailable = await SMS.isAvailableAsync();
     if (isAvailable) {
@@ -354,18 +404,18 @@ export default function UnitThreeMain({ navigation, route }) {
     <SafeAreaView>
       <View style={styles.container}>
         <View style={styles.textBox}>
-          <Text style={styles.text}>אישור בכתב בשל גיל:</Text>
+          <Text style={styles.text}>אישור בכתב בשל גיל :</Text>
         </View>
         <View style={styles.switchContainer}>
           <Switch
-            onValueChange={toggleAgeApp}
+            onValueChange={setAgeApp}
             value={ageApp}
           />
         </View>
       </View>
       <View style={styles.container}>
         <View style={styles.textBox}>
-          <Text style={styles.text}>תגובה חריגה?</Text>
+          <Text style={styles.text}>פונה לבית חולים :</Text>
         </View>
         <View style={styles.switchContainer}>
           <Switch
@@ -377,19 +427,7 @@ export default function UnitThreeMain({ navigation, route }) {
 
       <View style={styles.container}>
         <View style={styles.textBox}>
-          <Text style={styles.text}>פונה לבית חולים?</Text>
-        </View>
-        <View style={styles.switchContainer}>
-          <Switch
-            onValueChange={toggle1}
-            value={notForUse1}
-          />
-        </View>
-      </View>
-
-      <View style={styles.container}>
-        <View style={styles.textBox}>
-          <Text style={styles.text}>על ידי מד"א?</Text>
+          <Text style={styles.text}>על ידי מד"א :</Text>
         </View>
         <View style={styles.switchContainer}>
           <Switch
@@ -400,7 +438,7 @@ export default function UnitThreeMain({ navigation, route }) {
       </View>
       <View style={styles.container}>
         <View style={styles.textBox}>
-          <Text style={styles.text}>סירב פינוי</Text>
+          <Text style={styles.text}>סירב פינוי :</Text>
         </View>
         <View style={styles.switchContainer}>
           <Switch
@@ -411,13 +449,36 @@ export default function UnitThreeMain({ navigation, route }) {
       </View>
       <View style={styles.container}>
         <View style={styles.textBox}>
-          <Text style={styles.text}>סוג התרמה:</Text>
+          <Text style={styles.text}>תגובה חריגה :</Text>
+        </View>
+        <View style={styles.switchContainer}>
+          <Switch
+            onValueChange={toggle1}
+            value={notForUse1}
+          />
+        </View>
+      </View>
+      <View style={styles.container_dropdown}>
+        <View style={styles.textBox}>
+          <Text style={styles.text}>תגובה חריגה :</Text>
+        </View>
+        {DropdownTypeResponse()}
+      </View>
+      <View style={styles.container_dropdown}>
+        <View style={styles.textBox}>
+          <Text style={styles.text}>סוג התרמה :</Text>
         </View>
         {DropdownDonationType()}
       </View>
-      <View style={styles.container}>
+      <View style={styles.container_dropdown}>
         <View style={styles.textBox}>
-          <Text style={styles.text}>משך זמן התרמה:</Text>
+          <Text style={styles.text}>סוג השקית :</Text>
+        </View>
+        {DropdownTypeBag()}
+      </View>
+      <View style={styles.container_dropdown}>
+        <View style={styles.textBox}>
+          <Text style={styles.text}>משך זמן התרמה :</Text>
         </View>
         {DropdownDurationDonation()}
       </View>
@@ -609,12 +670,24 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   container: {
+    justifyContent: 'space-between',
     borderBottomColor: 'grey',
     borderBottomWidth: 2,
     width: 380,
-    height:60,
+    height: 60,
     flexDirection: 'row-reverse',
     alignItems: 'center',
+    paddingRight: 40
+  },
+  container_dropdown: {
+    justifyContent: 'space-between',
+    borderBottomColor: 'grey',
+    borderBottomWidth: 2,
+    width: 380,
+    height: 60,
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+    paddingRight: 20
   },
 
   text: {
@@ -627,12 +700,12 @@ const styles = StyleSheet.create({
   //dropdown
   dropdown: {
     height: 35,
-    width: 150,
+    width: 220,
     borderColor: 'black',
     borderWidth: 2,
     borderRadius: 8,
-    paddingHorizontal: 8,
-    marginBottom: 15
+    paddingHorizontal: 15,
+    alignSelf: 'center',
   },
   placeholderStyle: {
     fontSize: 15,
@@ -642,5 +715,5 @@ const styles = StyleSheet.create({
     fontColor: "black",
     fontSize: 15,
     fontWeight: "bold",
-  },
+  }
 })

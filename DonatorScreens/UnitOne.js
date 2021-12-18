@@ -31,8 +31,7 @@ export default function UnitOne({ navigation, route }) {
       });
       let donor = await result.json();
       if (donor !== undefined || donor !== null) {
-        const Route = { Donator: Donator, Donor: donor }
-        navigation.navigate('DonorInfo', { route: Route })
+        navigation.navigate('DonorInfo', { Donator: Donator, Donor: donor})
       }
     } catch (error) {
       console.error('error with retrun full user');

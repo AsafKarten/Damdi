@@ -69,7 +69,7 @@ export default function AppListThree({ navigation, route }) {
       let result = await fetch(url + `api/appointments/unit/three/${stationCode}`, {
         method: 'GET'
       });
-      let data = [...await result.json()];
+      let data = await result.json();
       console.log(data);
       if (data.length === 0) {
         setModalRefuseVis(true);
