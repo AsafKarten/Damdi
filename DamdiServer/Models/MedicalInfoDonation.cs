@@ -5,7 +5,7 @@ using System.Web;
 
 namespace DamdiServer.Models
 {
-    public class MedicalInfoDonation
+    public class MedicalInfoDonor
     {
         int mi_donation_from;
         string personal_id;
@@ -16,7 +16,7 @@ namespace DamdiServer.Models
         bool q3_20; bool q3_21;
         string notes;
 
-        public MedicalInfoDonation(int mi_donation_from,
+        public MedicalInfoDonor(int mi_donation_from,
             string personal_id,
             DateTime answer_date,
             bool q3_1, bool q3_2,

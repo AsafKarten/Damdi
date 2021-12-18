@@ -13,7 +13,7 @@ namespace DamdiServer.Controllers
         {
             try
             {
-                MedicalInfoDonation existMedicalInfo = null;
+                MedicalInfoDonor existMedicalInfo = null;
                 existMedicalInfo = Globals.MedicalInfoDAL.GetMedicalInfo(user);
                 if (existMedicalInfo != null)
                     return Ok(existMedicalInfo);
@@ -27,7 +27,7 @@ namespace DamdiServer.Controllers
         //Add new mdical info donation to MedicalInfoDonation table.
         [HttpPost]
         [Route("api/post/info/medical")]
-        public IHttpActionResult AddNewInfoDonation([FromBody] MedicalInfoDonation medInfo)
+        public IHttpActionResult AddNewInfoDonation([FromBody] MedicalInfoDonor medInfo)
         {
             try
             {

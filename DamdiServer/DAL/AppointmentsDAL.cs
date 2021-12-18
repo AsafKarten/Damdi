@@ -55,7 +55,7 @@ namespace DamdiServer.DAL
                             Convert.ToInt32(reader["app_id"]),
                             Convert.ToInt32(reader["station_code"]),
                             Convert.ToString(reader["personal_id"]),
-                            Convert.ToString(reader["app_time"]),
+                            Convert.ToDateTime(reader["app_time"]),
                             Convert.ToBoolean(reader["confirm_1"]),
                             Convert.ToBoolean(reader["confirm_2"]),
                             Convert.ToBoolean(reader["confirm_3"])
@@ -89,7 +89,7 @@ namespace DamdiServer.DAL
                             Convert.ToInt32(reader["app_id"]),
                             Convert.ToInt32(reader["station_code"]),
                             Convert.ToString(reader["personal_id"]),
-                            Convert.ToString(reader["app_time"]),
+                            Convert.ToDateTime(reader["app_time"]),
                             Convert.ToBoolean(reader["confirm_1"]),
                             Convert.ToBoolean(reader["confirm_2"]),
                             Convert.ToBoolean(reader["confirm_3"])
@@ -124,7 +124,7 @@ namespace DamdiServer.DAL
                             Convert.ToInt32(reader["app_id"]),
                             Convert.ToInt32(reader["station_code"]),
                             Convert.ToString(reader["personal_id"]),
-                            Convert.ToString(reader["app_time"]),
+                            Convert.ToDateTime(reader["app_time"]),
                             Convert.ToBoolean(reader["confirm_1"]),
                             Convert.ToBoolean(reader["confirm_2"]),
                             Convert.ToBoolean(reader["confirm_3"])
@@ -159,7 +159,7 @@ namespace DamdiServer.DAL
                             Convert.ToInt32(reader["app_id"]),
                             Convert.ToInt32(reader["station_code"]),
                             Convert.ToString(reader["personal_id"]),
-                            Convert.ToString(reader["app_time"]),
+                            Convert.ToDateTime(reader["app_time"]),
                             Convert.ToBoolean(reader["confirm_1"]),
                             Convert.ToBoolean(reader["confirm_2"]),
                             Convert.ToBoolean(reader["confirm_3"])

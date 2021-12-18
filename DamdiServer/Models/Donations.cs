@@ -16,15 +16,25 @@ namespace DamdiServer.Models
         int auto_worker_id;
         DateTime donation_date;
 
+        public Donations(int blood_donation_id)
+        {
+            Blood_donation_id = blood_donation_id;
+        }
+
+        public Donations(DateTime donation_date)
+        {
+            Donation_date = donation_date;
+        }
+
         public Donations(
             int blood_donation_id,
             string personal_id,
             int station_code,
             string station_name,
             string donation_type,
-            bool age_approve,
             int auto_worker_id,
-            DateTime donation_date
+            DateTime donation_date,
+            bool age_approve
             )
         {
             Blood_donation_id = blood_donation_id;
@@ -32,9 +42,9 @@ namespace DamdiServer.Models
             Station_code = station_code;
             Station_name = station_name;
             Donation_type = donation_type;
-            Age_approve = age_approve;
             Auto_worker_id = auto_worker_id;
             Donation_date = donation_date;
+            Age_approve = age_approve;
         }
 
         public int Blood_donation_id { get => blood_donation_id; set => blood_donation_id = value; }

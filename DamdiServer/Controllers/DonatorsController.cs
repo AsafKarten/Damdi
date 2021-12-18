@@ -224,7 +224,7 @@ namespace DamdiServer.Controllers
         }
 
         [HttpGet]
-        [Route("api/appointments/unit/two/${stationCode}")]
+        [Route("api/appointments/unit/two/{stationCode}")]
         public IHttpActionResult GetAppointmentsPosTwo([FromUri] int stationCode)
         {
             try
@@ -242,7 +242,7 @@ namespace DamdiServer.Controllers
         }
 
         [HttpGet]
-        [Route("api/appointments/unit/three/${stationCode}")]
+        [Route("api/appointments/unit/three/{stationCode}")]
         public IHttpActionResult GetAppointmentsPosThree([FromUri] int stationCode)
         {
             try

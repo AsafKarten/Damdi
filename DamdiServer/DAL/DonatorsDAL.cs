@@ -62,7 +62,7 @@ namespace DamdiServer.DAL
                     while (reader.Read())
                     {
                         donator = new Donators(
-                           Convert.ToInt32(reader["personal_id_worker"]),
+                           Convert.ToInt32(reader["auto_worker_id"]),
                            Convert.ToString(reader["personal_id_worker"]),
                            Convert.ToString(reader["type_employee"]),
                            Convert.ToString(reader["first_name"]),
