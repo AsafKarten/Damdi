@@ -29,6 +29,7 @@ export default function UnitOne({ navigation, route }) {
           Personal_id: PersonalId,
         })
       });
+      
       let donor = await result.json();
       if (donor !== undefined || donor !== null) {
         navigation.navigate('DonorInfo', { Donator: Donator, Donor: donor })

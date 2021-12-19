@@ -5,10 +5,12 @@ import { url } from '../Utils'
 export default function AppListTwo({ navigation, route }) {
   const [fullData, setFullData] = useState()
   const [modalRefuse, setModalRefuseVis] = useState(false);
-  const [Donator, setDonator] = useState(route.params.route.Donator)
-  const [stationCode, setStationCode] = useState(route.params.route.staionCode)
+  const [Donator, setDonator] = useState(route.params.Donator)
+  const [stationCode, setStationCode] = useState(route.params.staionCode)
 
   useEffect(() => {
+    console.log(Donator);
+    console.log(stationCode);
     const unsubscribe = navigation.addListener('focus', () => {
       getAppointmentsList();
     });
@@ -16,6 +18,7 @@ export default function AppListTwo({ navigation, route }) {
   }, [navigation]);
 
   const getDonorInfo = async (Personal_id) => {
+   
     try {
       let result = await fetch(url + "api/user/info", {
         method: 'POST',
@@ -30,7 +33,7 @@ export default function AppListTwo({ navigation, route }) {
       let donor = await result.json();
       if (donor !== undefined || donor !== null) {
         const Route = { Donator: Donator, Donor: donor }
-        navigation.navigate('UnitTwoMain', { route: Route })
+        navigation.navigate('UnitTwoMain', { Donator: Donator, Donor: donor, staionCode:stationCode })
       }
     } catch (error) {
       console.error(error);
@@ -79,7 +82,7 @@ export default function AppListTwo({ navigation, route }) {
           let fullname = await getUserInfo(PID)
           let timeapp = data[index].App_time
           let datetime = new Date(timeapp)
-          var fTime = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear() + " " + datetime.getHours() + ":" + datetime.getMinutes()
+          var fTime = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear() + " " + datetime.getUTCHours() + ":" + datetime.getUTCMinutes()
           let appObj = { id: ++idApp, Personal_id: PID, time: fTime, name: fullname }
           arr.push(appObj);
         }
@@ -95,10 +98,10 @@ export default function AppListTwo({ navigation, route }) {
       <View style={styles.text_container}>
         <Text style={styles.textStyle}>לחץ על שם התורם הרצוי כדי להתחיל בביצוע הבדיקות</Text>
       </View>
-      <ScrollView>
+     
         <FlatList
           data={fullData}
-          keyExtractor={(item) => item.App_id}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={styles.list}>
               <Text style={styles.text_list}> ת.ז. :  {item.Personal_id}</Text>
@@ -106,7 +109,7 @@ export default function AppListTwo({ navigation, route }) {
               <Text style={styles.text_list}>מועד התור:  {item.time}</Text>
             </View>
           )} />
-      </ScrollView>
+     
       {modalRefuse && (
         <View>
           <Modal
@@ -122,7 +125,7 @@ export default function AppListTwo({ navigation, route }) {
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => {
                     setModalRefuseVis(!modalRefuse)
-                    navigation.navigate('UnitOne')
+                    navigation.navigate('UnitTwo')
                   }}>
                   <Text style={styles.textStyle}>סגור</Text>
                 </Pressable>
@@ -181,7 +184,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   list: {
-    width: 300,
+    width: 350,
     height: 150,
     flexWrap: 'wrap',
     alignItems: 'center',

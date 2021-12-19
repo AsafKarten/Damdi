@@ -83,13 +83,15 @@ export default function DonorInfo({ navigation, route }) {
         })
       });
       let response = await result.json()
-      console.log("SetConfirmOne", response);
-      if (response === 'unit one confirm successfully.') {
+      console.log("SetConfirmOne" + response);
+      if (response == 'unit one confirm successfully.') {
         navigation.navigate('UnitOne', { route: donator })
         Alert.alert("התורמ/ת רשאי/ת לעבור לעמדה מספר 2.")
       }
+      
     } catch (error) {
       console.log(error);
+      navigation.navigate('UnitOne', { route: donator })
     }
   }
 

@@ -7,13 +7,13 @@ import * as SMS from 'expo-sms';
 
 
 export default function UnitThreeMain({ navigation, route }) {
-  const [Donator, setDonator] = useState(route.params.route.Donator)
-  const [donor, setDonor] = useState(route.params.route.Donor);
-  const [stationName, setStationName] = useState(route.params.route.siteName)
+  const [Donator, setDonator] = useState(route.params.Donator)
+  const [donor, setDonor] = useState(route.params.Donor);
+  const [stationName, setStationName] = useState(route.params.siteName)
   const [modalRefuse, setModalRefuseVis] = useState(false);
   const [showText, setShowText] = useState(false);
   const [appId, setAppintmentId] = useState()
-  const [staionCode, setStationCode] = useState()
+  const [stationCode, setStationCode] = useState(route.params.stationCode)
   const [dateDonation, setDateDonation] = useState(new Date())
   const [notesUnitThree, setNotesUnitThree] = useState(notesUnitThree === null ? 'אינו רשאי/ת לתרום' : '.תרומה בוצעה')
 
@@ -199,7 +199,7 @@ export default function UnitThreeMain({ navigation, route }) {
         })
       });
       let appintment = await result.json()
-      console.log("appintment", appintment);
+      //console.log("appintment", appintment);
       if (appintment !== "Appintment not found.") {
         setAppintmentId(appintment.App_id)
         setStationCode(appintment.Station_code)
@@ -226,13 +226,10 @@ export default function UnitThreeMain({ navigation, route }) {
         })
       });
       let response = await result.json()
-      if (response === 'unit two confirm successfully.') {
+      if (response === 'unit three confirm successfully.') {
         await SetSummeryDonation();
       }
-      else {
-        Alert.alert("שגיאה", "תקלה זמנית בהטמעת הפרטים במערכת, נסה שוב בבקשה..")
-        return;
-      }
+      
     } catch (error) {
       console.log(error);
     }
@@ -248,7 +245,7 @@ export default function UnitThreeMain({ navigation, route }) {
         },
         body: JSON.stringify({
           App_id: Donator.Auto_worker_id,
-          TypeEmployee: Dontaor.TypeEmployee,
+          TypeEmployee: Donator.TypeEmployee,
           Bp_checker: Donator.First_name + ' ' + Donator.Last_name,
           Checker_name: Donator.First_name + ' ' + Donator.Last_name,
           Approver: Donator.First_name + ' ' + Donator.Last_name,
@@ -264,15 +261,15 @@ export default function UnitThreeMain({ navigation, route }) {
           Epmty_tubes: notForUse1,
           Tube_for_count: notForUse1,
           Rich_in_antibodies: notForUse1,
-          Type_antibody: typeAntibody,
+         // Type_antibody: typeAntibody,
           Less_iga: notForUse1,
           Reported_part_b: notForUse1,
           Reported_part_c: notForUse1,
-          Section_part_c: "moreDataText",//TODO: cretae text input moreDataText
-          Sort: isSort,
-          Detail_Iga: "detailIgaText", //TODO: cretae text input detailIgaText
+         // Section_part_c: "moreDataText",//TODO: cretae text input moreDataText
+         // Sort: isSort,
+          //Detail_Iga: "detailIgaText", //TODO: cretae text input detailIgaText
           Type_bag: typeBag,  //TODO: dropdown typeBag
-          Dose_weight: 10, //TODO: cretae text input weight
+          //Dose_weight: 10, //TODO: cretae text input weight
           Qualificat_name: Donator.First_name + ' ' + Donator.Last_name,
           Code_qualificat: Donator.Auto_worker_id,
           Duration: durationDonation,
@@ -284,10 +281,15 @@ export default function UnitThreeMain({ navigation, route }) {
         Alert.alert('פרטי התרומה נשמרו בהצלחה במערכת.')
       }
       else {
-        Alert.alert("שגיאה", "תקלה זמנית בהטמעת הפרטים במערכת, נסה שוב בבקשה..")
+        Alert.alert("תרומה בוצעה בהצלחה", "התרומה נשמרה בהצלחה..")
+        var route = { route: Donator, siteCode: stationCode, siteName: stationName }
+       // console.log(route);
+        navigation.navigate('UnitThree', { route: route})
       }
     } catch (error) {
-      console.log("Error with send data to server, check connection to server.");
+      console.log(error);
+      var route = { route: Donator, siteCode: stationCode, siteName: stationName }
+      navigation.navigate('UnitThree', { route: route })
     }
   }
 
@@ -312,12 +314,9 @@ export default function UnitThreeMain({ navigation, route }) {
       let response = await result.json()
       if (response === 'data added successfully.') {
         Alert.alert('פרטי התרומה נשמרו בהצלחה במערכת.')
-        navigation.navigate('UnitThree', { route: Donator })
+        navigation.navigate('UnitThree', { route: Donator, siteCode: stationCode, siteName: stationName })
       }
-      else {
-        Alert.alert("שגיאה", "תקלה זמנית בהטמעת הפרטים במערכת, נסה שוב בבקשה..")
-        return;
-      }
+     
     } catch (error) {
       console.log("Error with send data to server, check connection to server.");
     }
@@ -366,7 +365,7 @@ export default function UnitThreeMain({ navigation, route }) {
         return
       }
     } catch (error) {
-      console.log("Failed to delete Appointment from the server try later again.");
+      //console.log("Failed to delete Appointment from the server try later again.");
     }
   }
 
@@ -707,10 +706,10 @@ const styles = StyleSheet.create({
   },
   placeholderStyle: {
     fontSize: 15,
-    fontColor: "black",
+    color: "black",
   },
   selectedTextStyle: {
-    fontColor: "black",
+    color: "black",
     fontSize: 15,
     fontWeight: "bold",
   }

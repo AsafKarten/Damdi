@@ -5,7 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 
 export default function UnitTwo({ navigation, route }) {
-  const [Donator, setDonator] = useState(route.params.route.Donator);
+  const [Donator, setDonator] = useState(route.params.route);
   const [PersonalId, onChangeId] = useState();
   const [station_code, setStationCode] = useState(route.params.siteCode);
 
@@ -40,7 +40,8 @@ export default function UnitTwo({ navigation, route }) {
 
   const AppointmentsList = () => {
     var route = { Donator: Donator, staionCode: station_code }
-    navigation.navigate('AppListTwo', { route: route })
+    console.log(route);
+    navigation.navigate('AppListTwo', { Donator: Donator, staionCode: station_code })
   }
 
   return (

@@ -385,10 +385,10 @@ const styles = StyleSheet.create({
   },
   placeholderStyle: {
     fontSize: 15,
-    fontColor: "black",
+    color: "black",
   },
   selectedTextStyle: {
-    fontColor: "black",
+    color: "black",
     fontSize: 15,
     fontWeight: "bold",
   },

@@ -81,7 +81,7 @@ export default function AppListOne({ navigation, route }) {
           let fullname = await getUserInfo(PID)
           let timeapp = data[index].App_time
           let datetime = new Date(timeapp)
-          var fTime = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear() + " " + datetime.getHours() + ":" + datetime.getMinutes();
+          var fTime = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear() + " " + datetime.getUTCHours() + ":" + datetime.getUTCMinutes();
           let appObj = { id: ++idApp, Personal_id: PID, time: fTime, name: fullname }
           arr.push(appObj);
         }
@@ -97,10 +97,10 @@ export default function AppListOne({ navigation, route }) {
       <View style={styles.text_container}>
         <Text style={styles.textStyle}>לחץ על שם התורם הרצוי כדי להתחיל בביצוע תהליך אימות הפרטים</Text>
       </View>
-      <ScrollView>
+      
         <FlatList
           data={fullData}
-          keyExtractor={(item) => item.App_id}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={styles.list}>
               <Text style={styles.text_list}>ת.ז. :  {item.Personal_id}</Text>
@@ -108,7 +108,7 @@ export default function AppListOne({ navigation, route }) {
               <Text style={styles.text_list}>מועד התור :  {item.time}</Text>
             </View>
           )} />
-      </ScrollView>
+    
       {modalRefuse && (
         <View>
           <Modal
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   list: {
-    width: 300,
+    width: 350,
     height: 150,
     flexWrap: 'wrap',
     alignItems: 'center',

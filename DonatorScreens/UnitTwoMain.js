@@ -5,8 +5,9 @@ import { url } from '../Utils'
 
 
 export default function UnitTwoMain({ navigation, route }) {
-  const [Donator, setDonator] = useState(route.params.route.Donator)
-  const [donor, setDonor] = useState(route.params.route.Donor);
+  const [Donator, setDonator] = useState(route.params.Donator)
+  const [donor, setDonor] = useState(route.params.Donor);
+  const [stationCode, setStationCode] = useState(route.params.staionCode)
   const [appId, setAppintmentId] = useState()
   const [showText, setShowText] = useState(false);
   const [modalRefuse, setModalRefuseVis] = useState(false);
@@ -83,7 +84,7 @@ export default function UnitTwoMain({ navigation, route }) {
         })
       });
       let response = await result.json()
-      if (response === 'data added successfully.') {
+      if (response == 'data added successfully.') {
         Alert.alert("התורמ/ת רשאי/ת לעבור לעמדה מספר 3.")
         navigation.navigate('UnitTwo', { route: Donator })
         onChangeBP("")
@@ -91,11 +92,11 @@ export default function UnitTwoMain({ navigation, route }) {
         onChangeIP(false)
         onChangeHemo("")
       }
-      else {
-        Alert.alert("שגיאה", "תקלה זמנית בהטמעת הפרטים במערכת, נסה שוב בבקשה..")
-      }
+      navigation.navigate('UnitTwo', { route: Donator, stationCode:stationCode })
     } catch (error) {
-      console.log("Error with send data to server, check connection to server.");
+      console.log(error);
+      navigation.navigate('UnitTwo', { route: Donator, stationCode:stationCode })
+
     }
   }
 
@@ -115,10 +116,10 @@ export default function UnitTwoMain({ navigation, route }) {
       if (response === 'unit two confirm successfully.') {
         navigation.navigate('UnitTwo', { route: Donator })
       }
-      else {
-        Alert.alert("שגיאה", "תקלה זמנית בהטמעת הפרטים במערכת, נסה שוב בבקשה..")
-        return;
-      }
+      // else {
+      //   Alert.alert("שגיאה", "תקלה זמנית בהטמעת הפרטים במערכת, נסה שוב בבקשה..")
+      //   return;
+      // }
     } catch (error) {
       console.log(error);
     }

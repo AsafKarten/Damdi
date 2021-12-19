@@ -31,8 +31,9 @@ export default function AppListThree({ navigation, route }) {
       });
       let donor = await result.json();
       if (donor !== undefined || donor !== null) {
-        const Route = { Donator: Donator, Donor: donor, siteName: stationName }
-        navigation.navigate('UnitThreeMain', { route: Route })
+        const Route = { Donator: Donator, Donor: donor, siteName: stationName, staionCode: stationCode }
+        console.log(Route);
+        navigation.navigate('UnitThreeMain', { Donator: Donator, Donor: donor, siteName: stationName, stationCode: stationCode })
       }
     } catch (error) {
       console.error(error);
@@ -81,7 +82,7 @@ export default function AppListThree({ navigation, route }) {
           let fullname = await getUserInfo(PID)
           let timeapp = data[index].App_time
           let datetime = new Date(timeapp)
-          var fTime = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear() + " " + datetime.getHours() + ":" + datetime.getMinutes()
+          var fTime = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear() + " " + datetime.getUTCHours() + ":" + datetime.getUTCMinutes()
           let appObj = { id: ++idApp, Personal_id: PID, time: fTime, name: fullname }
           arr.push(appObj);
         }
@@ -97,18 +98,18 @@ export default function AppListThree({ navigation, route }) {
       <View style={styles.text_container}>
         <Text style={styles.textStyle}>לחץ על שם התורם הרצוי כדי להתחיל בביצוע הבדיקות</Text>
       </View>
-      <ScrollView>
+     
         <FlatList
           data={fullData}
-          keyExtractor={(item) => item.App_id}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={styles.list}>
               <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)} >ת.ז.:  {item.Personal_id}</Text>
-              <Text style={styles.text_list}>שם:  {item.name}</Text>
-              <Text style={styles.text_list}>מועד התור:  {item.time}</Text>
+              <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)}>שם:  {item.name}</Text>
+              <Text style={styles.text_list} onPress={() => getDonorInfo(item.Personal_id)}>מועד התור:  {item.time}</Text>
             </View>
           )} />
-      </ScrollView>
+    
       {modalRefuse && (
         <View>
           <Modal
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   list: {
-    width: 300,
+    width: 350,
     height: 150,
     flexWrap: 'wrap',
     alignItems: 'center',
