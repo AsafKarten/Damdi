@@ -136,7 +136,8 @@ export default function Home({ navigation, route }) {
       </View>
       {roleModal && (
         <Modal
-          animationType="slide"
+          animationIn='zoomIn'
+          animationOut='zoomOut'
           transparent={true}
           visible={roleModal}
           onRequestClose={() => {
@@ -181,7 +182,8 @@ export default function Home({ navigation, route }) {
       )}
       {siteModal && (
         <Modal
-          animationType="slide"
+          animationIn='zoomIn'
+          animationOut='zoomOut'
           transparent={true}
           visible={siteModal}
           onRequestClose={() => {
