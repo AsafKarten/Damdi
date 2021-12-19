@@ -20,6 +20,32 @@ export default function UnitThreeMain({ navigation, route }) {
   //Toggle Switch consts
   const [notForUse1, onChangeNFU1] = useState(false);
   const toggle1 = () => onChangeNFU1(previousState => !previousState);
+  const [notForUse2, onChangeNFU2] = useState(false);
+  const toggle2 = () => onChangeNFU2(previousState => !previousState);
+  const [notForUse3, onChangeNFU3] = useState(false);
+  const toggle3 = () => onChangeNFU3(previousState => !previousState);
+  const [notForUse4, onChangeNFU4] = useState(false);
+  const toggle4 = () => onChangeNFU4(previousState => !previousState);
+  const [notForUse5, onChangeNFU5] = useState(false);
+  // const toggle5 = () => onChangeNFU5(previousState => !previousState);
+  // const [notForUse6, onChangeNFU6] = useState(false);
+  // const toggle6 = () => onChangeNFU6(previousState => !previousState);
+  // const [notForUse7, onChangeNFU7] = useState(false);
+  // const toggle7 = () => onChangeNFU7(previousState => !previousState);
+  // const [notForUse8, onChangeNFU8] = useState(false);
+  // const toggle8 = () => onChangeNFU8(previousState => !previousState);
+  // const [notForUse9, onChangeNFU9] = useState(false);
+  // const toggle9 = () => onChangeNFU9(previousState => !previousState);
+  // const [notForUse10, onChangeNFU10] = useState(false);
+  // const toggle10 = () => onChangeNFU10(previousState => !previousState);
+  // const [notForUse11, onChangeNFU11] = useState(false);
+  // const toggle11 = () => onChangeNFU11(previousState => !previousState);
+  // const [notForUse11, onChangeNFU11] = useState(false);
+  // const toggle12 = () => onChangeNFU12(previousState => !previousState);
+  // const [notForUse12, onChangeNFU12] = useState(false);
+  // const toggle12 = () => onChangeNFU12(previousState => !previousState);
+  // const [notForUse13, onChangeNFU13] = useState(false);
+  // const toggle13 = () => onChangeNFU13(previousState => !previousState);
 
   const [ageApp, setAgeApp] = useState(false);
   const toggleAgeApp = () => onChangeAge(previousState => !previousState)
@@ -35,6 +61,10 @@ export default function UnitThreeMain({ navigation, route }) {
 
   const [typeBag, setTypeBag] = useState()
   const [isFocusTypeBag, setIsFocusTypeBag] = useState(false);
+
+  useEffect(() => {
+    GetAppinmentInfo()
+  }, [])
 
   const typesDonations = [
     { label: 'דם מלא', value: '1' },
@@ -229,7 +259,7 @@ export default function UnitThreeMain({ navigation, route }) {
       if (response === 'unit three confirm successfully.') {
         await SetSummeryDonation();
       }
-      
+
     } catch (error) {
       console.log(error);
     }
@@ -251,22 +281,22 @@ export default function UnitThreeMain({ navigation, route }) {
           Approver: Donator.First_name + ' ' + Donator.Last_name,
           Abnormal_response: notForUse1,
           Which_response: typeResponse,
-          Went_to_hospital: notForUse1,
-          By_mada: notForUse1,
-          Refused_evacuate: notForUse1,
-          No_for_platelets: notForUse1,
-          Blood_for_freeze: notForUse1,
-          Empty_bag: notForUse1,
-          No_sterile_dose: notForUse1,
-          Epmty_tubes: notForUse1,
-          Tube_for_count: notForUse1,
-          Rich_in_antibodies: notForUse1,
-         // Type_antibody: typeAntibody,
-          Less_iga: notForUse1,
-          Reported_part_b: notForUse1,
-          Reported_part_c: notForUse1,
-         // Section_part_c: "moreDataText",//TODO: cretae text input moreDataText
-         // Sort: isSort,
+          Went_to_hospital: notForUse2,
+          By_mada: notForUse3,
+          Refused_evacuate: notForUse4,
+          // No_for_platelets: notForUse5,
+          //Blood_for_freeze: notForUse6,
+          //Empty_bag: notForUse7,
+          //No_sterile_dose: notForUse8,
+          //Epmty_tubes: notForUse9,
+          //Tube_for_count: notForUse10,
+          //Rich_in_antibodies: notForUse11,
+          // Type_antibody: typeAntibody,
+          //Less_iga: notForUse11,
+          //Reported_part_b: notForUse12,
+          // Reported_part_c: notForUse13,
+          // Section_part_c: "moreDataText",//TODO: cretae text input moreDataText
+          // Sort: isSort,
           //Detail_Iga: "detailIgaText", //TODO: cretae text input detailIgaText
           Type_bag: typeBag,  //TODO: dropdown typeBag
           //Dose_weight: 10, //TODO: cretae text input weight
@@ -283,8 +313,8 @@ export default function UnitThreeMain({ navigation, route }) {
       else {
         Alert.alert("תרומה בוצעה בהצלחה", "התרומה נשמרה בהצלחה..")
         var route = { route: Donator, siteCode: stationCode, siteName: stationName }
-       // console.log(route);
-        navigation.navigate('UnitThree', { route: route})
+        // console.log(route);
+        navigation.navigate('UnitThree', { route: route })
       }
     } catch (error) {
       console.log(error);
@@ -303,7 +333,7 @@ export default function UnitThreeMain({ navigation, route }) {
         },
         body: JSON.stringify({
           Personal_id: donor.Personal_id,
-          Station_code: staionCode,
+          Station_code: stationCode,
           Station_name: stationName,
           Donation_type: donationType,
           Age_approve: ageApp,
@@ -316,21 +346,18 @@ export default function UnitThreeMain({ navigation, route }) {
         Alert.alert('פרטי התרומה נשמרו בהצלחה במערכת.')
         navigation.navigate('UnitThree', { route: Donator, siteCode: stationCode, siteName: stationName })
       }
-     
+
     } catch (error) {
       console.log("Error with send data to server, check connection to server.");
     }
   }
 
-
-  //here we need to save the Donation info also the donator info and delete the appointment
   const ApproveDonor = async () => {
-    await GetAppinmentInfo();
     await SetDonatorDataInfoUnitThree();
     //if the donator do mistake or decide to pass current donor, the system will check it anyway
     if (!notForUse1) {
       await SetConfirmThree();
-      await sentSMS();
+      await SentSMS();
       await DeleteAppointmentUnitThree();
     }
     else {
@@ -342,7 +369,6 @@ export default function UnitThreeMain({ navigation, route }) {
 
   //here we need to delete the diclained user appointment if someting is wrong
   const DeclaineDonor = async () => {
-    await GetAppinmentInfo();
     await SetDonatorDataInfoUnitThree();
     await DeleteAppointmentUnitThree();
   }
@@ -379,8 +405,8 @@ export default function UnitThreeMain({ navigation, route }) {
     }
   }
 
-  
-  const sentSMS = async () => {
+
+  const SentSMS = async () => {
     const isAvailable = await SMS.isAvailableAsync();
     if (isAvailable) {
       const { result } = await SMS.sendSMSAsync(
@@ -396,15 +422,10 @@ export default function UnitThreeMain({ navigation, route }) {
     }
   }
 
-
-
-
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <View style={styles.textBox}>
-          <Text style={styles.text}>אישור בכתב בשל גיל :</Text>
-        </View>
+        <Text style={styles.text}>אישור בכתב בשל גיל :</Text>
         <View style={styles.switchContainer}>
           <Switch
             onValueChange={setAgeApp}
@@ -413,9 +434,7 @@ export default function UnitThreeMain({ navigation, route }) {
         </View>
       </View>
       <View style={styles.container}>
-        <View style={styles.textBox}>
-          <Text style={styles.text}>פונה לבית חולים :</Text>
-        </View>
+        <Text style={styles.text}>פונה לבית חולים :</Text>
         <View style={styles.switchContainer}>
           <Switch
             onValueChange={toggle1}
@@ -425,60 +444,46 @@ export default function UnitThreeMain({ navigation, route }) {
       </View>
 
       <View style={styles.container}>
-        <View style={styles.textBox}>
-          <Text style={styles.text}>על ידי מד"א :</Text>
-        </View>
+        <Text style={styles.text}>על ידי מד"א :</Text>
         <View style={styles.switchContainer}>
           <Switch
-            onValueChange={toggle1}
-            value={notForUse1}
+            onValueChange={toggle2}
+            value={notForUse2}
           />
         </View>
       </View>
       <View style={styles.container}>
-        <View style={styles.textBox}>
-          <Text style={styles.text}>סירב פינוי :</Text>
-        </View>
+        <Text style={styles.text}>סירב פינוי :</Text>
         <View style={styles.switchContainer}>
           <Switch
-            onValueChange={toggle1}
-            value={notForUse1}
+            onValueChange={toggle3}
+            value={notForUse3}
           />
         </View>
       </View>
       <View style={styles.container}>
-        <View style={styles.textBox}>
-          <Text style={styles.text}>תגובה חריגה :</Text>
-        </View>
+        <Text style={styles.text}>תגובה חריגה :</Text>
         <View style={styles.switchContainer}>
           <Switch
-            onValueChange={toggle1}
-            value={notForUse1}
+            onValueChange={toggle4}
+            value={notForUse4}
           />
         </View>
       </View>
       <View style={styles.container_dropdown}>
-        <View style={styles.textBox}>
-          <Text style={styles.text}>תגובה חריגה :</Text>
-        </View>
+        <Text style={styles.text}>תגובה חריגה :</Text>
         {DropdownTypeResponse()}
       </View>
       <View style={styles.container_dropdown}>
-        <View style={styles.textBox}>
-          <Text style={styles.text}>סוג התרמה :</Text>
-        </View>
+        <Text style={styles.text}>סוג התרמה :</Text>
         {DropdownDonationType()}
       </View>
       <View style={styles.container_dropdown}>
-        <View style={styles.textBox}>
-          <Text style={styles.text}>סוג השקית :</Text>
-        </View>
+        <Text style={styles.text}>סוג השקית :</Text>
         {DropdownTypeBag()}
       </View>
       <View style={styles.container_dropdown}>
-        <View style={styles.textBox}>
-          <Text style={styles.text}>משך זמן התרמה :</Text>
-        </View>
+        <Text style={styles.text}>משך זמן התרמה :</Text>
         {DropdownDurationDonation()}
       </View>
       <View style={styles.notes_container}>

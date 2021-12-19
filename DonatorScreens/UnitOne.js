@@ -29,10 +29,13 @@ export default function UnitOne({ navigation, route }) {
           Personal_id: PersonalId,
         })
       });
-      
       let donor = await result.json();
-      if (donor !== undefined || donor !== null) {
+      if (donor !== `User info ${PersonalId} was not found`) {
         navigation.navigate('DonorInfo', { Donator: Donator, Donor: donor })
+      }
+      else{
+        Alert.alert("מצטערים","לא קיים לקוח עם ת.ז. זו במערכת התרומות")
+        return
       }
     } catch (error) {
       console.error('error with retrun full user');

@@ -29,9 +29,12 @@ export default function UnitThree({ navigation, route }) {
         })
       });
       let donor = await result.json();
-      if (donor !== undefined || donor !== null) {
-        const Route = { Donator: Donator, Donor: donor }
-        navigation.navigate('UnitThreeMain', { route: Route })
+      if (donor !== `User info ${PersonalId} was not found`) {
+        navigation.navigate('UnitThreeMain', { Donator: Donator, Donor: donor })
+      }
+      else {
+        Alert.alert("מצטערים","לא קיים לקוח עם ת.ז. זו במערכת התרומות")
+        return
       }
     } catch (error) {
       console.error('error with retrun full user');

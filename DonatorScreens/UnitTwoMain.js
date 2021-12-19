@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, Modal, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Alert, Switch } from 'react-native';
 import { MaterialIcons, FontAwesome5, Feather, AntDesign } from '@expo/vector-icons';
 import { url } from '../Utils'
@@ -20,6 +20,9 @@ export default function UnitTwoMain({ navigation, route }) {
   const [irregular_pulse, onChangeIP] = useState(false);
   const irregular_pulse_toggle = () => onChangeIP(previousState => !previousState);
 
+  useEffect(() => {
+    GetAppinmentInfo();
+  }, [])
 
   const ValidationData = async () => {
     if (
@@ -92,11 +95,10 @@ export default function UnitTwoMain({ navigation, route }) {
         onChangeIP(false)
         onChangeHemo("")
       }
-      navigation.navigate('UnitTwo', { route: Donator, stationCode:stationCode })
+      navigation.navigate('UnitTwo', { route: Donator, stationCode: stationCode })
     } catch (error) {
       console.log(error);
-      navigation.navigate('UnitTwo', { route: Donator, stationCode:stationCode })
-
+      navigation.navigate('UnitTwo', { route: Donator, stationCode: stationCode })
     }
   }
 
@@ -116,24 +118,18 @@ export default function UnitTwoMain({ navigation, route }) {
       if (response === 'unit two confirm successfully.') {
         navigation.navigate('UnitTwo', { route: Donator })
       }
-      // else {
-      //   Alert.alert("שגיאה", "תקלה זמנית בהטמעת הפרטים במערכת, נסה שוב בבקשה..")
-      //   return;
-      // }
     } catch (error) {
       console.log(error);
     }
   }
 
   const ApproveDonor = async () => {
-    await GetAppinmentInfo();
     await SetDonatorDataInfoUnitTwo();
     await SetConfirmTwo();
   }
 
 
   const DeclaineDonor = async () => {
-    await GetAppinmentInfo();
     await SetDonatorDataInfoUnitTwo();
   }
 
@@ -257,7 +253,7 @@ export default function UnitTwoMain({ navigation, route }) {
 }
 const styles = StyleSheet.create({
   container: {
-    marginTop:15
+    marginTop: 15
   },
   container_data: {
     justifyContent: 'space-between',
