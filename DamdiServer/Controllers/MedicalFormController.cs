@@ -9,7 +9,7 @@ namespace DamdiServer.Controllers
     {
         [HttpPost]
         [Route("api/get/medical/info")]
-        public IHttpActionResult GetMedicalInfoDonation([FromBody] User user)
+        public IHttpActionResult GetMedicalInfoDonation([FromBody] MedicalInfoDonor user)
         {
             try
             {

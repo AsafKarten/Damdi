@@ -127,28 +127,7 @@ namespace DamdiServer.DAL
             }
         }
 
-        public int SetConfirmTwoTrue(Appointments App)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(conStr))
-                {
-                    con.Open();
-                    SqlCommand cmd = new SqlCommand("SetConfirmTwoTrue", con);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = App.Personal_id;
-                    cmd.Parameters.AddWithValue("@confirm_2", SqlDbType.Bit).Value = true;
-                    int res = cmd.ExecuteNonQuery();
-                    return res;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public int SetConfirmOneTrue(Appointments App)
+        public int SetConfirmOneTrue(Appointments app)
         {
             try
             {
@@ -157,31 +136,7 @@ namespace DamdiServer.DAL
                     con.Open();
                     SqlCommand cmd = new SqlCommand("SetConfirmOneTrue", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = App.Personal_id;
-                    cmd.Parameters.AddWithValue("@confirm_1", SqlDbType.Bit).Value = true;
-                    int res = cmd.ExecuteNonQuery();
-                    return res;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-
-
-        public int SetConfirmThreeTrue(Appointments App)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(conStr))
-                {
-                    con.Open();
-                    SqlCommand cmd = new SqlCommand("SetConfirmTwoTrue", con);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = App.Personal_id;
-                    cmd.Parameters.AddWithValue("@confirm_3", SqlDbType.Bit).Value = true;
+                    cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = app.Personal_id;
                     int res = cmd.ExecuteNonQuery();
                     return res;
                 }
@@ -202,7 +157,7 @@ namespace DamdiServer.DAL
                     con.Open();
                     SqlCommand cmd = new SqlCommand("InsertDataDonatorUnitTwo", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@app_id", SqlDbType.Int).Value = med.Code_questioner;
+                    cmd.Parameters.AddWithValue("@app_id", SqlDbType.Int).Value = med.App_id;
                     cmd.Parameters.AddWithValue("@checker_hemo", SqlDbType.NVarChar).Value = med.Checker_hemog;
                     cmd.Parameters.AddWithValue("@code_hemo", SqlDbType.Int).Value = med.Code_hemog;
                     cmd.Parameters.AddWithValue("@blood_pressure", SqlDbType.Int).Value = med.Blood_pressure;
@@ -218,6 +173,48 @@ namespace DamdiServer.DAL
                 throw new Exception(ex.Message);
             }
         }
+
+        public int SetConfirmTwoTrue(Appointments App)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("SetConfirmTwoTrue", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = App.Personal_id;
+                    int res = cmd.ExecuteNonQuery();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public int SetConfirmThreeTrue(Appointments App)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("SetConfirmThreeTrue", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@personal_id", SqlDbType.NVarChar).Value = App.Personal_id;
+                    int res = cmd.ExecuteNonQuery();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
 
         public int SetDataConfirmThree(MedicalInfoDonator med)
         {

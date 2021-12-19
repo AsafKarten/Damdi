@@ -280,7 +280,7 @@
     <Compile Include="Models\Donators.cs" />
     <Compile Include="Models\ProfileImage.cs" />
     <Compile Include="Models\Admin.cs" />
-    <Compile Include="Models\MedicalInfoDonation.cs" />
+    <Compile Include="Models\MedicalInfoDonor.cs" />
     <Compile Include="Models\MedicalInfoDonator.cs" />
     <Compile Include="Models\Server.cs" />
     <Compile Include="Models\Stations.cs" />

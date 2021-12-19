@@ -92,7 +92,7 @@ namespace DamdiServer.Controllers
             try
             {
                 int res = Globals.DonatorsDAL.SetConfirmOneTrue(app);
-                Created(new Uri(Request.RequestUri.AbsoluteUri + app.Personal_id), res);
+                Created(new Uri(Request.RequestUri.AbsoluteUri + app), res);
                 if (res == 1)
                 {
                     return Ok("unit one confirm successfully.");

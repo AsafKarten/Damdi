@@ -17,7 +17,7 @@ namespace DamdiServer.DAL
         }
 
         /*Get medical user info from database - Not working well object */
-        public MedicalInfoDonor GetMedicalInfo(User user)
+        public MedicalInfoDonor GetMedicalInfo(MedicalInfoDonor data)
         {
             try
             {
@@ -27,16 +27,11 @@ namespace DamdiServer.DAL
                     MedicalInfoDonor mid = null;
                     SqlCommand cmd = new SqlCommand("GetMedicalInfoUser", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@personal_id", user.Personal_id);
+                    cmd.Parameters.AddWithValue("@personal_id", data.Personal_id);
                     SqlDataReader reader = cmd.ExecuteReader();
-                    if (!reader.Read())
-                    {
-                        return null;
-                    }
                     while (reader.Read())
                     {
                         mid = new MedicalInfoDonor(
-                            Convert.ToInt32(reader["mi_donation_from"]),
                             Convert.ToString(reader["personal_id"]),
                             Convert.ToDateTime(reader["answer_date"]),
                             Convert.ToBoolean(reader["Q3_1"]),

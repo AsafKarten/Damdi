@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace DamdiServer.Models
 {
@@ -16,7 +13,7 @@ namespace DamdiServer.Models
         bool q3_20; bool q3_21;
         string notes;
 
-        public MedicalInfoDonor(int mi_donation_from,
+        public MedicalInfoDonor(
             string personal_id,
             DateTime answer_date,
             bool q3_1, bool q3_2,
@@ -31,7 +28,6 @@ namespace DamdiServer.Models
             bool q3_19, bool q3_20,
             bool q3_21, string notes)
         {
-            Mi_donation_from = mi_donation_from;
             Personal_id = personal_id;
             Answer_date = answer_date;
             Q3_1 = q3_1;
